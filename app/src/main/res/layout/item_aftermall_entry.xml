@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/fn_ll_hor_2"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="120dp"
+    android:padding="5dp"
+    android:orientation="horizontal"
+    android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/is_img_shop"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/view_square_bg"
+            android:scaleType="fitXY"
+            android:padding="5dp"
+            android:src="@mipmap/ic_nor_srcpic" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/fn_tv_shopname_hor_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="耐克同款2017童鞋夏季辛苦大网眼透气减震镂空休闲鞋运动"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/ias_tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="8辆车+全套狗狗"
+                android:padding="5dp"
+                android:textColor="@color/grayfont_1"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/fn_tv_shopprice_hor_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="5dp"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/content_text_s12"
+                android:layout_alignParentRight="true"
+                android:id="@+id/iae_tv_numb"
+                android:layout_alignBaseline="@+id/fn_tv_shopprice_hor_2"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+</LinearLayout>
+

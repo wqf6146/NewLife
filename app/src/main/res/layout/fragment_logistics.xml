@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@+id/ald_view_line"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/graybg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ald_ll_topbar"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/ald_img_shop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/stroke_square_gray"
+                        android:padding="2dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_nor_srcpic" />
+
+                    <TextView
+                        android:id="@+id/ald_tv_shopnumb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/grayfont_2"
+                        android:gravity="center_horizontal"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/content_text_s12" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ald_ll_loginfo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="物流状态："
+                            android:textColor="@color/grayfont"
+                            android:textSize="@dimen/content_text_s12" />
+
+                        <TextView
+                            android:id="@+id/ald_tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="已发货"
+                            android:textColor="@color/theme_bule"
+                            android:textSize="@dimen/content_text_s12" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/ald_tv_logisticsname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/grayfont"
+                        android:textSize="@dimen/content_text_s12" />
+
+                    <TextView
+                        android:id="@+id/ald_tv_logisticsnumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/grayfont"
+                        android:textSize="@dimen/content_text_s12" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="官方电话："
+                            android:textColor="@color/grayfont"
+                            android:textSize="@dimen/content_text_s12" />
+
+                        <TextView
+                            android:id="@+id/ald_tv_logisticsphone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/theme_bule"
+                            android:textSize="@dimen/content_text_s12" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/al_ll_logdata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ald_ll_topbar"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="物流跟踪"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/suggestion_line" />
+
+                <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                    android:id="@+id/ald_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.percent.PercentRelativeLayout>

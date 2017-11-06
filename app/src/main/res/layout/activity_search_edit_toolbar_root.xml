@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View android:layout_height="0dp"
+        android:id="@+id/ftr_dead_statusbg"
+        android:layout_width="match_parent"/>
+
+    <include layout="@layout/view_search_edit_toolbar" android:id="@+id/ftr_rl_toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/ftr_fl_container"
+            android:layout_height="match_parent"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/ftr_fl_customview"
+            android:visibility="gone"
+            android:layout_height="match_parent"/>
+        <RelativeLayout
+            android:id="@+id/ftr_rl_nodata"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:clickable="true"
+            android:visibility="visible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/atr_ll_nodatatab"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@mipmap/suggestion_line"
+                    android:layout_height="0.1dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ftr_ll_nonetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/vrr_img_nodata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_nor_nonetwork" />
+
+                <TextView
+                    android:id="@+id/vrr_tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="连接失败"
+                    android:gravity="center"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/vrr_tv_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/stroke_circle_blue"
+                    android:padding="10dp"
+                    android:text="重新加载"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+            </LinearLayout>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:id="@+id/atr_progrssbar"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_heightPercent="25%"
+        app:layout_widthPercent="100%">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/stroke_square_gray_1"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="余额："
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/ar_tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="0.00元"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="3"
+            android:background="@drawable/bg_white_square_gray"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="充值方式:"
+                    android:textColor="@color/grayfont_1"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <Spinner
+                    android:id="@+id/ar_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:entries="@array/recharge">
+
+                </Spinner>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="1px"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@mipmap/suggestion_line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:background="@mipmap/suggestion_line"
+                android:layout_height="1px"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="@mipmap/suggestion_line"
+                android:layout_height="1px"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="充值金额:"
+                    android:textColor="@color/grayfont_1"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <EditText
+                    android:id="@+id/ar_et_price"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入充值金额"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/grayfont_1"
+                    android:textColorHint="@color/grayfont_2"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/redfont"
+                    android:textSize="@dimen/title_text_s12"
+                    android:id="@+id/aa_tv_tip"
+                    android:visibility="gone"
+                    android:text="金额超过可提现余额"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ar_tv_apply"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tv_bg_circle_deepblue"
+        android:gravity="center"
+        android:text="充值"
+        android:textColor="@color/white"
+        android:textSize="@dimen/content_text_s14"
+        app:layout_heightPercent="7%"
+        app:layout_widthPercent="95%" />
+
+</com.yhkj.yymall.view.PercentLinearLayout >

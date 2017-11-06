@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.SearchActivity"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:id="@+id/as_rl_recent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/as_tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="最近搜索"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/as_img_rubbish"
+            android:src="@mipmap/rubbish"
+            android:layout_height="20dp" />
+    </RelativeLayout>
+
+    <com.yhkj.yymall.view.flowlayout.TagFlowLayout
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:id="@+id/as_recentflowlayout"
+        android:layout_height="wrap_content">
+
+    </com.yhkj.yymall.view.flowlayout.TagFlowLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="热门搜索"
+            android:layout_centerVertical="true"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="换一换"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <com.yhkj.yymall.view.flowlayout.TagFlowLayout
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:id="@+id/as_allflowlayout"
+        android:layout_height="wrap_content">
+
+    </com.yhkj.yymall.view.flowlayout.TagFlowLayout>
+
+</LinearLayout>

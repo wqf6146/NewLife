@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_above="@+id/as_tv_commit"
+        android:id="@+id/as_recycleview"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/as_tv_commit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/theme_bule"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:text="发表评论"
+        android:textColor="@color/white"
+        android:textSize="@dimen/content_text_s14"
+        app:layout_heightPercent="7%"
+        app:layout_widthPercent="100%" />
+
+</android.support.percent.PercentRelativeLayout>

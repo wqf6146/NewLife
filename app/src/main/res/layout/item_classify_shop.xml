@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:id="@+id/ics_ll_bg"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:id="@+id/ics_img_shop"
+        android:src="@mipmap/test"
+        android:layout_weight="1"
+        android:layout_height="100dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:text="四轮推车"
+        android:textColor="@color/grayfont"
+        android:gravity="center"
+        android:textSize="@dimen/content_text_s12"
+        android:maxLines="1"
+        android:id="@+id/ics_tv_shopname"
+        android:layout_height="wrap_content" />
+</LinearLayout>

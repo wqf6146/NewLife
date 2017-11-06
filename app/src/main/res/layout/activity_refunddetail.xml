@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@+id/ar_ll_bottombar"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/redfont"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:orientation="vertical"
+                android:layout_height="100dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:id="@+id/ar_tv_refundstatus"
+                    android:textSize="@dimen/content_text_s14"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/ar_tv_refundtime"
+                    android:textSize="@dimen/content_text_s14"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/suggestion_line"
+                android:layout_height="1px"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="订单金额"
+                    android:textColor="@color/blackfont_1"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/ar_tv_orderprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/redfont"
+                    android:textSize="@dimen/content_text_s12" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/content_text_s12"
+                    android:textColor="@color/blackfont_1"
+                    android:layout_centerVertical="true"
+                    android:text="订单编号"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/ar_tv_orderno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s12" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/suggestion_line"
+                android:layout_height="1px"/>
+
+            <RelativeLayout
+                android:id="@+id/ar_rl_refundprice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/ar_tv_servicemoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="退货金额"
+                    android:textColor="@color/blackfont_1"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/ar_tv_refundprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/redfont"
+                    android:textSize="@dimen/content_text_s12" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/aa_rl_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/graybg"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true">
+
+                            <ImageView
+                                android:id="@+id/il_img_circle_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:src="@mipmap/ic_nor_bluenike" />
+
+                            <View
+                                android:id="@+id/il_view_line_bottom_1"
+                                android:layout_width="0.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/il_img_circle_1"
+                                android:layout_centerHorizontal="true"
+                                android:background="@color/theme_bule"
+                                android:visibility="visible" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/aa_tv_applyprogress_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="买家申请退货"
+                                android:textColor="@color/theme_bule"
+                                android:textSize="@dimen/content_text_s12" />
+
+                            <TextView
+                                android:id="@+id/il_tv_time_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="10dp"
+                                android:text="2017-06-29 05:20:30"
+                                android:textColor="@color/grayfont_1"
+                                android:textSize="@dimen/content_text_s12" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/aa_ll_progress_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true">
+
+                            <ImageView
+                                android:id="@+id/il_img_circle_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ic_nor_bluenike" />
+
+                            <View
+                                android:id="@+id/il_view_line_bottom_2"
+                                android:layout_width="0.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/il_img_circle_2"
+                                android:layout_centerHorizontal="true"
+                                android:background="@color/theme_bule"
+                                android:visibility="visible" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/aa_tv_applyprogress_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="10dp"
+                                android:paddingLeft="10dp"
+                                android:text="YiYiYaYa受理"
+                                android:textColor="@color/theme_bule"
+                                android:textSize="@dimen/content_text_s12" />
+
+                            <TextView
+                                android:id="@+id/il_tv_time_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="10dp"
+                                android:text="2017-06-29 05:20:30"
+                                android:textColor="@color/grayfont_1"
+                                android:textSize="@dimen/content_text_s12" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/aa_ll_progress_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true">
+
+                            <ImageView
+                                android:id="@+id/il_img_circle_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ic_nor_bluenike" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/aa_tv_applyprogress_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="10dp"
+                                android:paddingLeft="10dp"
+                                android:text="退货成功"
+                                android:textColor="@color/theme_bule"
+                                android:textSize="@dimen/content_text_s12" />
+
+                            <TextView
+                                android:id="@+id/il_tv_time_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="10dp"
+                                android:text="2017-06-29 05:20:30"
+                                android:textColor="@color/grayfont_1"
+                                android:textSize="@dimen/content_text_s12" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ar_tv_serviceinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="退货信息"
+                android:textColor="@color/blackfont_1"
+                android:textSize="@dimen/content_text_s12" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/suggestion_line"
+                android:layout_height="1px"/>
+            <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/ar_listview"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/ar_tv_refundreson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="退货原因："
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/ar_tv_refundnores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="退货驳回原因："
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_above="@+id/ar_ll_bottombar"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:id="@id/ar_ll_bottombar"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:id="@+id/ar_ll_lineserver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_nor_greenqq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="在线客服"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:background="@color/graybg"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ar_ll_phoneserver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_nor_phone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="客服热线"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

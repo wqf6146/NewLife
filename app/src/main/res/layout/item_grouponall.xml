@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_grouponall_head"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img_grouponall_head"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_grouponall_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackfont_1"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/tv_grouponall_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_grouponall_offered"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bt_yuan_blue_groupon"
+            android:gravity="center"
+            android:text="参团"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s14" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_grouponall_offered"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="仅差"
+                android:textColor="@color/blackfont_1"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/ig_tv_groupsum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人成团"
+                android:textColor="@color/blackfont_1"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

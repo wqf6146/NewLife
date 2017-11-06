@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/popup_contianer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_triangle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_circle"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/vpm_ll_yidu"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_menu_popup"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@mipmap/message_read"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="全部标为已读"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_s14" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#6c6c6c" />
+
+            <LinearLayout
+                android:id="@+id/vpm_ll_del"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_menu_popup"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@mipmap/message_del"
+                    android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="全部删除"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_s14" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

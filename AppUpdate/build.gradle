@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        consumerProguardFiles 'consumer-proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    provided 'com.android.support:support-core-utils:25.2.0'
+    provided 'io.reactivex:rxjava:1.2.2'
+    provided 'io.reactivex:rxandroid:1.2.1'
+    provided 'com.squareup.retrofit2:retrofit:2.3.0'
+    provided 'com.squareup.retrofit2:converter-gson:2.3.0'
+    provided 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile files('libs/patcher.jar')
+}
+
+// gradle uploadArchives
+//apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/central-publish.gradle'

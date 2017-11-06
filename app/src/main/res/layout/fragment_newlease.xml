@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/fn_ll_toolbar"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/fl_view_status"
+            android:background="@color/theme_bule"
+            android:layout_height="25dp"/>
+
+    </LinearLayout>
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fn_ll_toolbar"
+        android:background="@android:color/background_light">
+
+        <LinearLayout
+            android:id="@+id/id_lease_header"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_behavior="@string/behavior_lease_header">
+
+            <include layout="@layout/view_search_toolbar"
+                android:id="@+id/fy_toolbar"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fn_recyclerView_hot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fn_ll_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/behavior_lease_content">
+
+            <com.yhkj.yymall.view.NestedLinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/fn_img_back"
+                            android:padding="10dp"
+                            android:layout_width="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/ic_nor_gray_arrowleft"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/as_tv_synthesize"
+                                android:layout_width="0dp"
+                                android:textSize="@dimen/content_text_s14"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:textColor="@color/theme_bule"
+                                android:gravity="center"
+                                android:text="综合" />
+
+
+                            <TextView
+                                android:id="@+id/as_tv_sales"
+                                android:layout_width="0dp"
+                                android:textSize="@dimen/content_text_s14"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="销量" />
+
+                            <LinearLayout
+                                android:id="@+id/as_ll_price"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/as_tv_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="价格"
+                                    android:textColor="@color/grayfont"
+                                    android:textSize="@dimen/content_text_s14" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/as_arrow_up"
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:src="@mipmap/arraw_top" />
+
+                                    <ImageView
+                                        android:id="@+id/as_arrow_down"
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:src="@mipmap/arraw_bottom" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <ImageView
+                            android:padding="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:visibility="invisible"
+                            android:src="@mipmap/ic_nor_gray_arrowleft"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@mipmap/suggestion_line"
+                        android:layout_height="1px"/>
+
+                    <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/fn_flowlistview"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.yhkj.yymall.view.NestFullListView.NestFullListView>
+
+                </LinearLayout>
+            </com.yhkj.yymall.view.NestedLinearLayout>
+
+
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/fn_refreshview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/fn_recycleview_content"
+                    android:background="@color/graybg"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+                <com.yhkj.yymall.view.ClassicsFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srlClassicsSpinnerStyle="FixedBehind"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/aa_recycleview"
+        android:layout_height="match_parent"
+        android:background="@color/graybg"
+        android:layout_above="@+id/aa_ll_addplace"
+        android:layout_alignParentTop="true">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/aa_ll_addplace"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@color/theme_bule"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_nor_plus"
+            android:padding="5dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="新增收货地址"
+            android:textSize="@dimen/content_text_s16"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/aa_rl_none"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/graybg"-->
+        <!--android:visibility="gone">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/ic_nor_noaddress" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:text="暂未设置"-->
+                <!--android:textColor="@color/grayfont"-->
+                <!--android:textSize="@dimen/content_text_s14" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="没有收货地址寄不了快递哦"-->
+                <!--android:textColor="@color/grayfont_2"-->
+                <!--android:textSize="@dimen/content_text_s14" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/aa_tv_addaddress"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:background="@drawable/stroke_circle_blue"-->
+                <!--android:padding="5dp"-->
+                <!--android:text="新增地址"-->
+                <!--android:textColor="@color/theme_bule"-->
+                <!--android:textSize="@dimen/content_text_s16" />-->
+        <!--</LinearLayout>-->
+    <!--</RelativeLayout>-->
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/igh_img_head"
+        android:src="@mipmap/ic_nor_srcheadimg"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/content_text_s12"
+        android:textColor="@color/white"
+        android:text="团长"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/igh_tv_master"
+        android:padding="5dp"
+        android:background="@drawable/tv_bg_circle_deepblue"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ic_img_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_nor_srcheadimg" />
+
+        <TextView
+            android:id="@+id/ic_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="v**5"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/ic_tv_timespec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="颜色分类：全鹏 山酒红"
+        android:textColor="@color/grayfont_1"
+        android:textSize="@dimen/content_text_s12" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s12"
+        android:id="@+id/ic_tv_content"
+        android:padding="10dp"
+        android:text="为了给宝宝买到一辆合适的推车，在网上找了好几天，发现这家的推车是最物美价廉的，无论是做工还是车子的性能，。。"
+        android:layout_height="wrap_content" />
+
+    <com.yhkj.yymall.view.PercentLinearLayout
+        android:id="@+id/ime_ll_piccontainer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/as_rl_upload_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
+            android:layout_marginRight="1dp"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="19.5%" />
+
+        <ImageView
+            android:id="@+id/as_rl_upload_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
+            app:layout_heightPercent="100%"
+            android:layout_marginRight="1dp"
+            app:layout_widthPercent="19.5%">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/as_rl_upload_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="1dp"
+            android:visibility="visible"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="19.5%">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/as_rl_upload_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="1dp"
+            android:visibility="visible"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="19.5%">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/as_rl_upload_5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="19.5%">
+
+        </ImageView>
+    </com.yhkj.yymall.view.PercentLinearLayout>
+
+    <TextView
+        android:id="@+id/ic_tv_reply"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="9.5dp"
+        android:background="@drawable/ic_nor_commentarrow"
+        android:gravity="bottom"
+        android:paddingLeft="10dp"
+        android:text="掌柜回复：。谢谢您的评价谢谢您的评价谢谢您的评价谢谢您的评价谢谢您的评价"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s14" />
+
+    <LinearLayout
+        android:id="@+id/ioe_ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/graybg"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+            <ImageView
+                android:id="@+id/ioe_img_shopimg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/view_square_bg"
+                android:padding="1dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_nor_srcpic" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/ioe_img_tagshop"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ioc_tv_shopname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="全套8款狗狗巡逻队滑行车停车场变形汪汪队立大功玩具儿童玩具"
+                    android:textSize="@dimen/content_text_s12" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ioc_tv_shopdesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ioc_tv_shopprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_bg"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1px"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/ioe_tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="3dp"
+                    android:text="已好评"
+                    android:textColor="@color/redfont"
+                    android:textSize="@dimen/content_text_s12"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="5dp"/>
+
+</LinearLayout>

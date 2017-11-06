@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/aa_rl_setpaypwd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:layout_toRightOf="@+id/as_img_userdata"
+            android:text="修改密码"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:id="@+id/aa_ll_updatephone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_userdata"
+            android:padding="10dp"
+            android:text="修改登录手机号码"
+            android:textSize="@dimen/content_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/aa_tv_updatephone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="182****3085"
+            android:textSize="@dimen/content_text_s14" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_height="1px"/>
+
+    <RelativeLayout
+        android:id="@+id/aa_rl_payset"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:layout_toRightOf="@+id/as_img_userdata"
+            android:text="支付设置"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/aa_ll_bindzfb"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_userdata"
+            android:padding="10dp"
+            android:text="绑定支付宝"
+            android:textSize="@dimen/content_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/aa_tv_bindphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="182****3085"
+            android:textSize="@dimen/content_text_s14" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+
+</com.yhkj.yymall.view.PercentLinearLayout>

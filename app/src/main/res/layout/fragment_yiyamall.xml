@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/fy_view_status"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/theme_bule" />
+
+    <include
+        android:id="@+id/fy_toolbar"
+        layout="@layout/view_search_toolbar" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fsc_refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/ll_shopcar"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnablePreviewInEditMode="true"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_yiyamall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F4F4F4" />
+
+        <com.yhkj.yymall.view.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="FixedBehind"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

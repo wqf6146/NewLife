@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:text="热门领用"
+    android:textColor="@color/grayfont"
+    android:textSize="@dimen/content_text_s16"
+    android:background="@color/white"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+</TextView>

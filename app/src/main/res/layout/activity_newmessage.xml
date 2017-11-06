@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/an_ll_sysmes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_messystem" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统通知"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/an_tv_mescount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/icon_red_point"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:id="@+id/an_ll_sysprice"
+        android:layout_width="0dp"
+        android:background="@color/white"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_mesprice" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的资产"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/an_tv_pricecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/icon_red_point"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s12" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:id="@+id/an_ll_syslogist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_meslogits" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="物流通知"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/an_tv_logitcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/icon_red_point"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+
+
+</com.yhkj.yymall.view.PercentLinearLayout>

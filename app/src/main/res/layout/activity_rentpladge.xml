@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:id="@+id/ar_ll_topbar"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ar_img_allselect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:src="@mipmap/ic_nor_graycicle"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="我的押金"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/ar_ll_topbar"
+        android:id="@+id/ar_view_line"
+        android:layout_height="1px"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/ar_view_line"
+        android:layout_above="@+id/ar_ll_bottombar"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                android:layout_width="match_parent"
+                android:id="@+id/ar_listview"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+            </com.yhkj.yymall.view.NestFullListView.NestFullListView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:background="@mipmap/suggestion_line"
+                        android:layout_height="1px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="置换须知"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:background="@mipmap/suggestion_line"
+                        android:layout_height="1px"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:textColor="@color/grayfont"-->
+                <!--android:padding="10dp"-->
+                <!--android:text="1.您好，我们的座椅品牌均有3C认证，我们的每一个座椅从出厂就有产品质量监控，确保每台座椅都是新的-->
+<!--1.您好，我们的座椅品牌均有3C认证，我们的每一个座椅从出厂就有产品质量监控，确保每台座椅都是新的1.您好，我们的座椅品牌均有3C认证，我们的每一个座椅从出厂就有产品质量监控，确保每台座椅都是新的1.您好，我们的座椅品牌均有3C认证，我们的每一个座椅从出厂就有产品质量监控，确保每台座椅都是新的"-->
+                <!--android:layout_height="wrap_content" />-->
+            <WebView
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:id="@+id/ar_webview"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/ar_ll_bottombar"
+        android:layout_alignParentBottom="true"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/ar_tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/redfont"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s14" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/content_text_s14"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:id="@+id/ar_tv_commit"
+            android:text="确认置换"
+            android:background="@color/theme_bule"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/vrr_rl_nodata"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/vrr_img_nodata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_nor_orderbg" />
+
+            <TextView
+                android:id="@+id/vrr_tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="您暂无订单"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/vrr_tv_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_circle_blue"
+                android:padding="10dp"
+                android:text="逛逛特卖"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

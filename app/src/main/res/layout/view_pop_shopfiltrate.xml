@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/vps_ll_bg"
+    android:layout_width="match_parent"
+    android:background="@color/pop_bg_translucent_half"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        app:layout_widthPercent="70%"
+        app:layout_heightPercent="100%"
+        android:layout_width="0dp"
+        android:id="@+id/vp_pop_view"
+        android:layout_alignParentRight="true"
+        android:background="@color/white"
+        android:layout_height="0dp">
+        <ScrollView
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/vps_line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价格区间"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/title_text_s14" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/vps_et_lowprice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/tv_bg_circle_gray"
+                        android:gravity="center"
+                        android:hint="低价格"
+                        android:inputType="number"
+                        android:padding="5dp"
+                        android:textColor="@color/grayfont"
+                        android:textColorHint="@color/grayfont_2"
+                        android:textSize="@dimen/content_text_s12" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/grayfont"
+                        android:text="-"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/vps_et_hightprice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:background="@drawable/tv_bg_circle_gray"
+                        android:gravity="center"
+                        android:hint="高价格"
+                        android:padding="5dp"
+                        android:textColor="@color/grayfont"
+                        android:textColorHint="@color/grayfont_2"
+                        android:textSize="@dimen/content_text_s12" />
+                </LinearLayout>
+                <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                    android:layout_width="match_parent"
+                    android:id="@+id/vps_listview"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                </com.yhkj.yymall.view.NestFullListView.NestFullListView>
+            </LinearLayout>
+        </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_alignParentRight="true"
+            android:id="@+id/vps_line"
+            android:layout_above="@+id/vps_ll_bottom"
+            android:background="@mipmap/suggestion_line"
+            android:layout_height="0.1dp"/>
+        <LinearLayout
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="7%"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/vps_ll_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/vps_tv_reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="重置"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s16" />
+
+            <TextView
+                android:id="@+id/vps_tv_commit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/theme_bule"
+                android:gravity="center"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s16" />
+        </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
+
+
+
+</android.support.percent.PercentRelativeLayout>

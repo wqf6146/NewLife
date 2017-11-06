@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/it_ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/is_img_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_nor_srcpic" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/it_img_tag"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/it_tv_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="耐克同款2017童鞋夏季辛苦大网眼透气减震镂空休闲鞋运动"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12" />
+
+        <TextView
+            android:id="@+id/it_tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/it_tv_shopname"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:background="@drawable/tv_bg_square_purple"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="1折"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s12" />
+
+        <TextView
+            android:id="@+id/it_tv_sales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/it_tv_tag"
+            android:layout_marginRight="10dp"
+            android:text="2.1万人已抢"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12" />
+
+        <TextView
+            android:id="@+id/it_tv_shopprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/it_tv_shopsrcprice"
+            android:paddingLeft="5dp"
+            android:text="¥127"
+            android:textColor="@color/redfont"
+            android:textSize="@dimen/content_text_s16" />
+
+        <TextView
+            android:id="@+id/it_tv_shopsrcprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/is_view_line"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="5dp"
+            android:text="¥127"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s10" />
+
+        <TextView
+            android:id="@+id/it_shopbuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/tv_bg_circle_deepblue"
+            android:padding="7dp"
+            android:text="立即抢购"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s12" />
+
+        <View
+            android:id="@+id/is_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/suggestion_line" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/shop_tag_normal_bg"
+    android:layout_width="0dp"
+    android:layout_margin="6dp"
+    android:id="@+id/ifi_ll_bg"
+    android:clickable="true"
+    android:gravity="center"
+    android:layout_weight="1"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ifi_tv_tag"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="@dimen/content_text_s12"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/ifi_img_arrow"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:src="@mipmap/arraw_bottom" />
+
+</LinearLayout>

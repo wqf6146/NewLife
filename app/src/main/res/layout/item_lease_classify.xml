@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_height="100dp">
+        <LinearLayout
+            android:id="@+id/ilc_ll_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ilc_img_1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_nor_lease_1" />
+
+            <TextView
+                android:id="@+id/ilc_tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="租赁须知"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ilc_ll_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ilc_img_2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_nor_lease_2" />
+
+            <TextView
+                android:id="@+id/ilc_tv_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="租赁协议"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ilc_ll_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ilc_img_3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_nor_lease_3" />
+
+            <TextView
+                android:id="@+id/ilc_tv_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="服务保障"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ilc_ll_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ilc_img_4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_nor_lease_4" />
+
+            <TextView
+                android:id="@+id/ilc_tv_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="养护须知"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/graybg"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:id="@+id/ilc_tv_hottag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="热门领用"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s16"
+        android:visibility="visible"></TextView>
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+</LinearLayout>

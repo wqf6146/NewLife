@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/ac_ll_topbar"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ac_img_allselect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:src="@mipmap/ic_nor_graycicle"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/ac_tv_allshop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="全部商品"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/title_text_s14" />
+
+        <ImageView
+            android:id="@+id/ac_img_classify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/arraw_bottom" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/ac_ll_topbar"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/ac_refreshview"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/ac_ll_topbar"
+        android:layout_above="@+id/ac_ll_bottombar"
+        android:background="@color/white"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnablePreviewInEditMode="true"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/ac_recycleview"
+            android:background="@color/white"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+        <com.yhkj.yymall.view.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="FixedBehind"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/ac_ll_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/redfont"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ac_tv_cancelcollect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消收藏"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s14" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ac_rl_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ac_ll_topbar"
+        android:background="@color/white"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_nor_nocollect" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="暂未收藏"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="喜欢就收藏，万一降价了呢"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/ac_tv_totaymall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/stroke_circle_blue"
+                android:padding="5dp"
+                android:text="逛逛今日特卖"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s16" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

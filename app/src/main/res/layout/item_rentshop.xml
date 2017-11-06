@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/fn_ll_hor_2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_nor_bluenike"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:id="@+id/ir_img_select"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/is_img_shop"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:padding="5dp"
+                android:background="@drawable/stroke_square_gray"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_nor_srcpic" />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_weight="1.5">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_nor_losteffe"
+                android:id="@+id/irs_lostimg"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/fn_tv_shopname_hor_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:gravity="center_vertical"
+                android:layout_toLeftOf="@+id/irs_lostimg"
+                android:text="耐克同款2017童鞋夏季辛苦大网眼透气减震镂空休闲鞋运动"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_above="@+id/ir_tv_yy"
+                    android:id="@+id/irs_ll_mid"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/is_shop_rent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="押金"
+                        android:textColor="@color/theme_bule"
+                        android:textSize="@dimen/content_text_s14" />
+                    <TextView
+                        android:id="@+id/fn_tv_shopprice_hor_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="3000.00"
+                        android:textColor="@color/theme_bule"
+                        android:textSize="@dimen/content_text_s16" />
+
+                    <TextView
+                        android:id="@+id/is_shop_rentNumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="(共1件)"
+                        android:textColor="@color/grayfont_2"
+                        android:textSize="@dimen/content_text_s12"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ir_tv_yy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="3000押金可置换3000丫丫"
+                    android:textColor="@color/grayfont_1"
+                    android:textSize="@dimen/content_text_s12"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/irs_img_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/irs_ll_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="商品置换"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+        <com.yhkj.yymall.view.NumberPickerView
+            android:id="@+id/iva_addview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:addBackground="@color/graybg_2"
+            app:backgroud="@color/graybg_2"
+            app:buttonWidth="40dp"
+            app:editable="true"
+            app:editextWidth="40dp"
+            app:individer="@drawable/divider_horizontal2"
+            app:subBackground="@color/graybg_2"
+            app:textColor="@color/grayfont"
+            app:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:id="@+id/ir_line"
+        android:background="@mipmap/suggestion_line"
+        android:layout_below="@+id/fn_ll_hor_2"
+        android:layout_height="1px"/>
+
+</LinearLayout>

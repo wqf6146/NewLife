@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="30%"
+        android:padding="10dp"
+        android:layout_width="0dp"
+        android:background="@color/white"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_nor_wallet"
+                android:padding="10dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="我的余额"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/am_tv_myprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s28" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="元"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s12"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/am_ll_recharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_recharge" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/content_text_s16" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/suggestion_line"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/am_ll_apply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_withdrawto" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提现"
+                android:textColor="@color/greenfont"
+                android:textSize="@dimen/content_text_s16" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.yhkj.yymall.view.PercentLinearLayout>
