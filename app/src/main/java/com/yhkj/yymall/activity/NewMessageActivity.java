@@ -218,10 +218,15 @@ public class NewMessageActivity extends BaseToolBarActivity {
             @Override
             public void onClick(View v) {
                 //联系官方客服
-                if (CommonUtil.isQQClientAvailable(NewMessageActivity.this) && mDataBean!=null && mDataBean.getInfo()!=null)
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + mDataBean.getInfo().getQq() + "")));
-                else
-                    showToast("请先安装QQ");
+//                if (CommonUtil.isQQClientAvailable(NewMessageActivity.this) && mDataBean!=null && mDataBean.getInfo()!=null)
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + mDataBean.getInfo().getQq() + "")));
+//                else
+//                    showToast("请先安装QQ");
+                Intent intent = new Intent();
+//                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY, index);
+//                intent.putExtra(Constant.MESSAGE_TO_INTENT_EXTRA, Constant.MESSAGE_TO_AFTER_SALES);
+                intent.setClass(NewMessageActivity.this, ChatLoginActivity.class);
+                startActivity(intent);
             }
         });
         headerAndFooterWrapper.addFootView(view);

@@ -233,4 +233,27 @@ public interface Constant {
         int LOGIN = 0x1;
         int PAY = 0x2;
     }
+
+    String INTENT_CODE_IMG_SELECTED_KEY = "img_selected";
+    int INTENT_CODE_IMG_SELECTED_DEFAULT = 0;
+    int INTENT_CODE_IMG_SELECTED_1 = 1;
+    int INTENT_CODE_IMG_SELECTED_2 = 2;
+    int INTENT_CODE_IMG_SELECTED_3 = 3;
+    int INTENT_CODE_IMG_SELECTED_4 = 4;
+
+    int MESSAGE_TO_DEFAULT = 0;
+    int MESSAGE_TO_PRE_SALES = 1;
+    int MESSAGE_TO_AFTER_SALES = 2;
+    String MESSAGE_TO_INTENT_EXTRA = "message_to";
+
+
+    /**
+     * 容云
+     */
+    String LyImServiceNum = "kefuchannelimid_318694";
+    String LYAppKey = "1487171102068217#kefuchannelapp49323";
+    String LYTenanId = "49323";
+
+
+
 }

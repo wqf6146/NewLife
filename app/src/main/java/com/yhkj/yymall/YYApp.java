@@ -3,10 +3,14 @@ package com.yhkj.yymall;
 import android.support.multidex.MultiDexApplication;
 import android.util.SparseArray;
 
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
+import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.util.NetStateReceiver;
 
@@ -105,10 +109,12 @@ public class YYApp extends MultiDexApplication {
         PlatformConfig.setQQZone("1106319912", "znVjPvZAwQQrxXaB");
         PlatformConfig.setSinaWeibo("3789899951", "862a78fd0ff2dfad350a4fa02f9e9184", "http://www.yiyiyaya.cc");
         UMShareAPI.get(this);
-        Config.DEBUG = true;
+//        Config.DEBUG = true;
         Config.isNeedAuth = true;
 
         NetStateReceiver.registerNetworkStateReceiver(this);
+
+        HxHelper.getInstance().init(this);
     }
 
     @Override

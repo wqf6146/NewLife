@@ -26,10 +26,19 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!-- for union pay -->
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc.hce"/>
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="com.yhkj.yymall.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.yhkj.yymall.permission.C2D_MESSAGE" />
+
+
     <application
         android:name=".YYApp"
         android:allowBackup="true"
@@ -41,6 +50,29 @@
         <meta-data
             android:name="com.yhkj.yymall.util.GlideConfiguration"
             android:value="GlideModule" />
+
+        <receiver
+            android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.yhkj.yymall" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.hyphenate.chat.EMGCMListenerService"
+            android:exported="false" >
+        </service>
+
+        <receiver
+            android:name="com.yhkj.yymall.receiver.GCMPushBroadCast"
+            android:exported="false">
+            <intent-filter >
+                <action android:name="com.hyphenate.sdk.push"/>
+                <category android:name="com.yhkj.yymall"/>
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -60,6 +92,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.ChatLoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity android:name=".activity.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <activity android:name=".activity.RecommenActivity"
             android:launchMode="singleTask"

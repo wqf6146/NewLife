@@ -8,13 +8,18 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.Error;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
@@ -203,6 +208,8 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 //                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //                            startActivity(intent);
 //                            finish();
+
+                            registerLx(ed_register_phone.getText().toString());
                             AppManager.getInstance().finishActivity(LoginActivity.class);
                             AppManager.getInstance().finishActivity(RegisterActivity.class);
                         }
@@ -280,6 +287,79 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
         }
     }
 
+    private void registerLx(final String phone) {
+        ChatClient.getInstance().register(phone, "123456", new Callback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //登录环信服务器
+                        loginHx(phone);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final int errorCode, final String error) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (errorCode == Error.NETWORK_ERROR){
+                            Log.e("registerHx","网络连接不可用，请检查网络");
+//                            Toast.makeText(getApplicationContext(), "网络连接不可用，请检查网络", Toast.LENGTH_SHORT).show();
+                        }else if (errorCode == Error.USER_ALREADY_EXIST){
+                            Log.e("registerHx","账户已存在");
+                        }else if(errorCode == Error.USER_AUTHENTICATION_FAILED){
+                            Log.e("registerHx","无开放注册权限");
+//                            Toast.makeText(getApplicationContext(), "无开放注册权限", Toast.LENGTH_SHORT).show();
+                        } else if (errorCode == Error.USER_ILLEGAL_ARGUMENT){
+                            Log.e("registerHx","用户名不合法");
+//                            Toast.makeText(getApplicationContext(), "用户名不合法", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Log.e("registerHx","error");
+//                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
+    private void loginHx(final String phone) {
+        ChatClient.getInstance().login(phone, "123456", new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d(RegisterActivity.class.toString(), "Hx login success!");
+//                                if (!progressShow) {
+//                                    return;
+//                                }
+//                                toChatActivity();
+            }
+
+            @Override
+            public void onError(int code, String error) {
+                Log.e(RegisterActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
+//                                runOnUiThread(new Runnable() {
+//                                    public void run() {
+////                                        progressDialog.dismiss();
+////                                        Toast.makeText(ChatLoginActivity.this,
+////                                                "联系客服失败",
+////                                                Toast.LENGTH_SHORT).show();
+////                                        finish();
+//                                    }
+//                                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
     Runnable sendable = new Runnable() {
         @Override
         public void run() {

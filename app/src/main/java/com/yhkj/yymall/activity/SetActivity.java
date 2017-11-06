@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.ChatClient;
 import com.vise.xsnow.manager.AppManager;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
@@ -127,6 +128,7 @@ public class SetActivity extends BaseToolBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             YYApp.getInstance().setToken(null);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                            ChatClient.getInstance().logout(true, null);
                             AppManager.getInstance().finishActivity(SetActivity.this);
                         }
                     });

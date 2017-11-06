@@ -189,8 +189,9 @@ public abstract class BaseToolBarFragment extends SupportFragment {
     protected void initView(View contentView){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
             mDeadStatusView.setVisibility(GONE);
+        }else{
+            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(_mActivity);
         }
-        mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(_mActivity);
         setToolBarColor(getResources().getColor(R.color.white));
         setStatusColor(getResources().getColor(R.color.white));
     }
