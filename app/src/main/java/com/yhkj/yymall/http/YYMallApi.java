@@ -119,6 +119,17 @@ public class YYMallApi {
     }
 
     /**
+     * 可选规格
+     */
+    public static <T> void getEnableSpec(Context context,String goodsId, String spec, ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        HashMap hashMap = new HashMap<>();
+        hashMap.put("goodsId",goodsId);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), spec);
+        api.apiPost(ApiService.ENABLESPEC,YYApp.getInstance().getToken(),body,hashMap,true, callback);
+    }
+
+    /**
      * 添加宝宝信息
      */
     public static <T> void addBaByInfo(Context context,int sex, String brithday,int type,ApiCallback<T> callback){

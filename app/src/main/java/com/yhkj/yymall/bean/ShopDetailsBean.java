@@ -88,6 +88,15 @@ public class ShopDetailsBean implements Parcelable {
         private IntegralBean integral;
         private DiscountBean discount;
         private DailyBean daily;
+        private DefaultSpecBean defaultSpec;
+
+        public void setDefaultSpec(DefaultSpecBean defaultSpec) {
+            this.defaultSpec = defaultSpec;
+        }
+
+        public DefaultSpecBean getDefaultSpec() {
+            return defaultSpec;
+        }
 
         public void setDaily(DailyBean daily) {
             this.daily = daily;
@@ -889,6 +898,15 @@ public class ShopDetailsBean implements Parcelable {
 
                 private String id;
                 private String name;
+                private int enable;
+
+                public void setEnable(int enable) {
+                    this.enable = enable;
+                }
+
+                public int getEnable() {
+                    return enable;
+                }
 
                 public String getId() {
                     return id;
@@ -915,6 +933,7 @@ public class ShopDetailsBean implements Parcelable {
                 public void writeToParcel(Parcel dest, int flags) {
                     dest.writeString(this.id);
                     dest.writeString(this.name);
+                    dest.writeInt(this.enable);
                 }
 
                 public ValueBean() {
@@ -923,6 +942,7 @@ public class ShopDetailsBean implements Parcelable {
                 protected ValueBean(Parcel in) {
                     this.id = in.readString();
                     this.name = in.readString();
+                    this.enable = in.readInt();
                 }
 
                 public static final Creator<ValueBean> CREATOR = new Creator<ValueBean>() {
@@ -1033,6 +1053,69 @@ public class ShopDetailsBean implements Parcelable {
             };
         }
 
+        public static class DefaultSpecBean implements Parcelable {
+
+            private String minPrice;
+            private String maxPrice;
+            private String img;
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public void setMaxPrice(String maxPrice) {
+                this.maxPrice = maxPrice;
+            }
+
+            public String getImg() {
+                return img;
+            }
+
+            public String getMaxPrice() {
+                return maxPrice;
+            }
+
+            public void setMinPrice(String minPrice) {
+                this.minPrice = minPrice;
+            }
+
+            public String getMinPrice() {
+                return minPrice;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.minPrice);
+                dest.writeString(this.maxPrice);
+                dest.writeString(this.img);
+            }
+
+            public DefaultSpecBean() {
+            }
+
+            protected DefaultSpecBean(Parcel in) {
+                this.minPrice = in.readString();
+                this.maxPrice = in.readString();
+                this.img = in.readString();
+            }
+
+            public static final Creator<DefaultSpecBean> CREATOR = new Creator<DefaultSpecBean>() {
+                @Override
+                public DefaultSpecBean createFromParcel(Parcel source) {
+                    return new DefaultSpecBean(source);
+                }
+
+                @Override
+                public DefaultSpecBean[] newArray(int size) {
+                    return new DefaultSpecBean[size];
+                }
+            };
+        }
         public static class DailyBean implements Parcelable {
 
             /**
@@ -1190,6 +1273,7 @@ public class ShopDetailsBean implements Parcelable {
             dest.writeParcelable(this.integral, flags);
             dest.writeParcelable(this.discount, flags);
             dest.writeParcelable(this.daily, flags);
+            dest.writeParcelable(this.defaultSpec,flags);
             dest.writeTypedList(this.spec);
             dest.writeStringList(this.promotions);
             dest.writeStringList(this.photo);
@@ -1217,6 +1301,7 @@ public class ShopDetailsBean implements Parcelable {
             this.integral = in.readParcelable(IntegralBean.class.getClassLoader());
             this.discount = in.readParcelable(DiscountBean.class.getClassLoader());
             this.daily = in.readParcelable(DailyBean.class.getClassLoader());
+            this.defaultSpec = in.readParcelable(DefaultSpecBean.class.getClassLoader());
             this.spec = in.createTypedArrayList(SpecBean.CREATOR);
             this.promotions = in.createStringArrayList();
             this.photo = in.createStringArrayList();

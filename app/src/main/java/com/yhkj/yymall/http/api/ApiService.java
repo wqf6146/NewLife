@@ -56,6 +56,8 @@ public interface ApiService {
 
     String LEASELISTS = HOST + "/rent/lists"; //租X分类筛选列表
 
+    String ENABLESPEC = HOST + "/goods/goodsSpec";//可选规格
+
     String RECHARGEDETAIL = HOST + "/recharge/rechargeContent";//充值详情
 
     String MINEINFO = HOST + "/ucenter/memberInfo";//我的页面

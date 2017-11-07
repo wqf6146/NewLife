@@ -43,25 +43,21 @@
                     <TextView
                         android:id="@+id/vps_tv_shopprice"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/blackfont_1"
+                        android:textSize="@dimen/content_text_s16" />
 
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:visibility="visible" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/content_text_s12"
-                        android:textColor="@color/grayfont"
                         android:id="@+id/vps_tv_inventory"
-                        android:layout_marginTop="5dp"
-                        android:text="库存" />
-                    <View
-                        android:layout_width="1px"
+                        android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/grayfont"
+                        android:textSize="@dimen/content_text_s12"
                         android:visibility="visible" />
 
                     <TextView
@@ -74,10 +70,6 @@
                         android:textSize="@dimen/content_text_s12"
                         android:visibility="gone" />
 
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
 
                 </LinearLayout>
 
