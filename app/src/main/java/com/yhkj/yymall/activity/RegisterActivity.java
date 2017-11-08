@@ -109,7 +109,28 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
         super.initView();
         setNetWorkErrShow(GONE);
     }
+    private void createAccountThenLoginChatServer(final String phone) {
+        final String account = "yiyiyaya_"+phone;
+        final String userPwd = "123456";
+        // createAccount to huanxin server
+        // if you have a account, this step will ignore
+        ChatClient.getInstance().register(account, userPwd, new Callback() {
+            @Override
+            public void onSuccess() {
+                loginHx(phone);
+            }
 
+            @Override
+            public void onError(final int errorCode, final String error) {
+                Log.e(LoginActivity.class.toString(),error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
     @Override
     protected void bindEvent() {
         super.bindEvent();
@@ -163,11 +184,12 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
                 //完成注册
                 String pwd = ed_register_psw.getText().toString();
                 String pwd2 = mEditPwdComfim.getText().toString();
+                final String phone = ed_register_phone.getText().toString();
                 if (!ofYhxy) {
                     showToast("请勾选同意【服务协议】！");
-                } else if (ed_register_phone.getText().equals("") || ed_register_phone.getText() == null || ed_register_phone.getText().toString().equals("")) {
+                } else if (TextUtils.isEmpty(phone)) {
                     showToast("请输入11位手机号");
-                } else if (ed_register_phone.getText().toString().length() < 11) {
+                } else if (phone.length() < 11) {
                     showToast("手机号码格式错误");
                 } else if (pwd.length() < 6 || TextUtils.isEmpty(pwd)) {
                     showToast("请输入6~12位密码");
@@ -177,8 +199,8 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
                     showToast("请输入6位短信验证码");
                 } else {
                     hashMap = new HashMap<>();
-                    hashMap.put("phone", ed_register_phone.getText().toString());
-                    hashMap.put("password", ed_register_psw.getText().toString());
+                    hashMap.put("phone", phone);
+                    hashMap.put("password", pwd);
                     hashMap.put("msgcode", ed_register_yzm.getText().toString());
                     YYMallApi.getRegister(RegisterActivity.this, hashMap, new ApiCallback<RegisterBean.DataBean>() {
                         @Override
@@ -199,8 +221,10 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
+                            createAccountThenLoginChatServer(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
+                            userConfig.setPhone(phone);
                             userConfig.setToken(dataBean.getToken());
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
@@ -208,8 +232,6 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 //                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //                            startActivity(intent);
 //                            finish();
-
-                            registerLx(ed_register_phone.getText().toString());
                             AppManager.getInstance().finishActivity(LoginActivity.class);
                             AppManager.getInstance().finishActivity(RegisterActivity.class);
                         }
@@ -287,48 +309,7 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
         }
     }
 
-    private void registerLx(final String phone) {
-        ChatClient.getInstance().register(phone, "123456", new Callback() {
-            @Override
-            public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //登录环信服务器
-                        loginHx(phone);
-                    }
-                });
-            }
 
-            @Override
-            public void onError(final int errorCode, final String error) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        if (errorCode == Error.NETWORK_ERROR){
-                            Log.e("registerHx","网络连接不可用，请检查网络");
-//                            Toast.makeText(getApplicationContext(), "网络连接不可用，请检查网络", Toast.LENGTH_SHORT).show();
-                        }else if (errorCode == Error.USER_ALREADY_EXIST){
-                            Log.e("registerHx","账户已存在");
-                        }else if(errorCode == Error.USER_AUTHENTICATION_FAILED){
-                            Log.e("registerHx","无开放注册权限");
-//                            Toast.makeText(getApplicationContext(), "无开放注册权限", Toast.LENGTH_SHORT).show();
-                        } else if (errorCode == Error.USER_ILLEGAL_ARGUMENT){
-                            Log.e("registerHx","用户名不合法");
-//                            Toast.makeText(getApplicationContext(), "用户名不合法", Toast.LENGTH_SHORT).show();
-                        }else {
-                            Log.e("registerHx","error");
-//                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-
-            }
-        });
-    }
     private void loginHx(final String phone) {
         ChatClient.getInstance().login(phone, "123456", new Callback() {
             @Override

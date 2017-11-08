@@ -6,11 +6,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.Error;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
@@ -187,10 +191,12 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                                 @Override
                                 public void onNext(RegisterBean.DataBean dataBean) {
                                     showToast("修改成功");
+                                    createAccountThenLoginChatServer(ed_forget_phone.getText().toString());
                                     DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                                     UserConfig userConfig = new UserConfig();
                                     userConfig.setToken(dataBean.getToken());
                                     userConfig.setState(false);
+                                    userConfig.setPhone(ed_forget_phone.getText().toString());
                                     DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                                     YYApp.getInstance().setToken(dataBean.getToken());
                                     startActivity(MainActivity.class);
@@ -213,7 +219,53 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
 
         }
     }
+    private void createAccountThenLoginChatServer(String phone) {
+        final String account = "yiyiyaya_"+phone;
+        final String userPwd = "123456";
+        // createAccount to huanxin server
+        // if you have a account, this step will ignore
+        ChatClient.getInstance().register(account, userPwd, new Callback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
 
+            @Override
+            public void onError(final int errorCode, final String error) {
+                Log.e(LoginActivity.class.toString(),error);
+                if (errorCode == Error.USER_ALREADY_EXIST)
+                    loginHx(account);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
+
+    private void loginHx(final String phone) {
+        ChatClient.getInstance().login(phone, "123456", new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d(LoginActivity.class.toString(), "Hx login success!");
+            }
+
+            @Override
+            public void onError(int code, String error) {
+                Log.e(LoginActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
     Runnable sendable = new Runnable() {
         @Override
         public void run() {

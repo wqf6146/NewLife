@@ -60,6 +60,8 @@ public interface ApiService {
 
     String RECHARGEDETAIL = HOST + "/recharge/rechargeContent";//充值详情
 
+//    String GETUSER
+
     String MINEINFO = HOST + "/ucenter/memberInfo";//我的页面
 
     String PERSONINFO = HOST + "/ucenter/memberData"; //"个人资料"

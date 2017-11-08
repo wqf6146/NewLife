@@ -90,7 +90,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
     private Integer mType; // null 0-左边 1-右边
     private java.text.DecimalFormat mTwoPointDf =new java.text.DecimalFormat("#0.00");
     private final int COLOR_SELECT = Color.parseColor("#ffffff");
-    private final int COLOR_ENABLE = Color.parseColor("#727070");
+    private final int COLOR_ENABLE = Color.parseColor("#525050");
     private final int COLOR_UNENABLE = Color.parseColor("#a1a1a1");
     public LeaseShopCarPopupView(Activity context,OnShopCarResLisiten onShopCarResLisiten,ShopDetailsBean.DataBean dataBean,Integer type) {
         this(context,onShopCarResLisiten,dataBean,null,null,null,type);
@@ -162,19 +162,40 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                 if (mEnableSpecList!=null){
                     for (int i=0;i<mEnableSpecList.size();i++){
                         EnableSpecBean.DataBean.ListBean enableBean = mEnableSpecList.get(i);
-                        if (bean.getId().equals(enableBean.getId()) && bean.getValue().size() == enableBean.getValue().size()){
-                            for (int p=0;p<bean.getValue().size();p++){
-                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(p);
-                                EnableSpecBean.DataBean.ListBean.ValueBean valueBean = enableBean.getValue().get(p);
-                                if (tagBean.getName().equals(valueBean.getName())){
-                                    tagBean.setEnable(1);
-                                }else {
-                                    tagBean.setEnable(-1);
+                        if (bean.getId().equals(enableBean.getId())){
+//                            bean.setSelectdone(1);
+                            for (int j=0;j<bean.getValue().size();j++){
+                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(j);
+                                //先置状态灰色、确认有库存再点亮
+                                tagBean.setEnable(-1);
+                                for (int p=0;p<enableBean.getValue().size();p++){
+                                    EnableSpecBean.DataBean.ListBean.ValueBean valueBean = enableBean.getValue().get(p);
+                                    if (tagBean.getName().equals(valueBean.getName())){
+                                        tagBean.setEnable(1);
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
+                    //检查是否是特殊情况
+                    if (mEnableSpecList.size() +1 == mDataBean.getSpec().size()){
+                        String mHealtheworld = null;
+                        Iterator iter = mSelectSpecs.entrySet().iterator();
+                        while (iter.hasNext()) {
+                            Map.Entry entry = (Map.Entry) iter.next();
+                            mHealtheworld = String.valueOf(entry.getKey());
+                        }
+                        if (bean.getId().equals(mHealtheworld)){
+                            for (int j=0;j<bean.getValue().size();j++){
+                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(j);
+                                //先置状态灰色、确认有库存再点亮
+                                tagBean.setEnable(1);
+                            }
+                        }
+                    }
                 }
+
 
 
                 tagFlowLayout.setAdapter(new TagAdapter<ShopDetailsBean.DataBean.SpecBean.ValueBean>(bean.getValue()) {
@@ -184,11 +205,8 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                         tv.setText(bean.getName());
 
                         //找到是否在可选择列表里 找到则置可选状态
-//                        tv.setTag(true);
-
-//                        setTvStatus(parent,tv,bean);
-
                         if (bean.getEnable() != -1){
+                            tv.setTag(true);
                             if (parent.getTag(R.id.item_attr_select) != null && (Integer)parent.getTag(R.id.item_attr_select) == pos) {
                                 tv.setTextColor(COLOR_SELECT);
                                 tv.setBackgroundResource(R.drawable.tag_checked_bg);
@@ -198,6 +216,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                             }
                         }else{
                             tv.setTextColor(COLOR_UNENABLE);
+                            tv.setTag(false);
                             tv.setBackgroundResource(R.drawable.tag_normal_bg);
                         }
 
@@ -211,13 +230,23 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                                 }
 //                                if (parent.getTag(R.id.item_attr_select)!=null && (Integer)parent.getTag(R.id.item_attr_select) == pos)
 //                                        return;
-                                parent.setTag(R.id.item_attr_select,pos);
-                                mSelectSpecs.put(parent.getTag(),bean.getName());
+                                Integer curPos = (Integer) parent.getTag(R.id.item_attr_select);
                                 if (mSelectPosHashMap == null) mSelectPosHashMap = new HashMap();
-                                mSelectPosHashMap.put(parent.getTag(),pos);
+                                if (mSelectSpecs.get(parent.getTag()) != null){
+                                    mSelectSpecs.remove(parent.getTag());
+                                    parent.setTag(R.id.item_attr_select,null);
+                                    mSelectPosHashMap.remove(parent.getTag());
+                                }
+                                if (curPos == null || pos != curPos) {
+                                    mSelectSpecs.put(parent.getTag(),bean.getName());
+                                    parent.setTag(R.id.item_attr_select,pos);
+                                    mSelectPosHashMap.put(parent.getTag(),pos);
+                                }
+
+
 //                                mSelectNumb = String.valueOf(mNumbPickerView.getNumText());
 
-                                selectOneSpec((String) parent.getTag(),bean.getName());
+                                selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
                                     notifyDataChanged();
@@ -242,7 +271,11 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         }else{
             mFlLoding.setVisibility(GONE);
             Glide.with(getContext()).load(mDataBean.getDefaultSpec().getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(mImgShop);
-            mTvShopPrice.setText(mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice());
+            if (mDataBean.getDefaultSpec().getMaxPrice().equals(mDataBean.getDefaultSpec().getMinPrice())){
+                mTvShopPrice.setText(mDataBean.getDefaultSpec().getMinPrice());
+            }else{
+                mTvShopPrice.setText(mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice());
+            }
             mNumbPickerView.setMaxValue(1) //界面上最小显示1
                     .setCurrentInventory(1) //租赁限制购买数量
                     .setMinDefaultNum(1)
@@ -418,22 +451,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         }else{
             mSpecHashMap = new HashMap();
             mSelectPosHashMap = new HashMap();
-//            String curSelecst = "已选择 ";
-//            for (int i=0;i<mDataBean.getSpec().size();i++){
-//                final ShopDetailsBean.DataBean.SpecBean specBean = mDataBean.getSpec().get(i);
-//                for (int j=0;i<specBean.getValue().size();j++){
-//                    ShopDetailsBean.DataBean.SpecBean.ValueBean valueBean = specBean.getValue().get(j);
-//                    mSelectSpecs.put(specBean.getId(),valueBean.getName());
-//                    curSelecst += valueBean.getName() + " ";
-//                    break;
-//                }
-//            }
-//            mSpecHashMap.put("spec",mSelectSpecs);
-////            mTvCurSelect.setText(curSelecst);
-//            if (mOnShopCarResLisiten != null){
-//                mOnShopCarResLisiten.onShopCarResLisiten(mSpecHashMap);
-//                mOnShopCarResLisiten.onShopCarSelectString(curSelecst);
-//            }
         }
     }
 
@@ -447,12 +464,10 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         return selectString;
     }
 
-    private void selectOneSpec(String id,String name){
-        mLastSelectSpecId = id;
-        HashMap value = new HashMap();
-        value.put(id,name);
+    private void selectOneSpec(){
+//        mLastSelectSpecId = id;
         HashMap args = new HashMap();
-        args.put("spec",value);
+        args.put("spec",mSelectSpecs);
         YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),new Gson().toJson(args),new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
@@ -466,7 +481,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
             @Override
             public void onNext(EnableSpecBean.DataBean dataBean) {
-                mPreEnableSpecList = mEnableSpecList;
                 mEnableSpecList = dataBean.getList();
                 mHeaderAndFooterWrapper.notifyDataSetChanged();
             }
@@ -479,7 +493,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
     }
 
     private List<EnableSpecBean.DataBean.ListBean> mEnableSpecList;
-    private List<EnableSpecBean.DataBean.ListBean> mPreEnableSpecList;
     private void updateShopSpec(boolean loadView){
         mSpecHashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(mSpecHashMap);

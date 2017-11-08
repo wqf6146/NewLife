@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -102,7 +103,32 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
         name = intent.getStringExtra("name");
         type = intent.getStringExtra("type");
     }
+    private void createAccountThenLoginChatServer(String phone) {
+        final String account = "yiyiyaya_"+phone;
+        final String userPwd = "123456";
+        // createAccount to huanxin server
+        // if you have a account, this step will ignore
+        ChatClient.getInstance().register(account, userPwd, new Callback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
 
+            @Override
+            public void onError(final int errorCode, final String error) {
+                Log.e(LoginActivity.class.toString(),error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -138,16 +164,18 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
                 }
                 break;
             case R.id.bt_binding_next:
+                final String phone = ed_binding_phone.getText().toString();
                 if (!ofYhxy) {
                     showToast("请勾选同意【服务协议】！");
-                } else if (ed_binding_phone.getText().equals("") || ed_binding_phone.getText() == null || ed_binding_phone.getText().toString().equals("")) {
+                } else if (TextUtils.isEmpty(phone)) {
                     showToast("请输入11位手机号");
-                } else if (ed_binding_phone.getText().toString().length() < 11) {
+                } else if (phone.length() < 11) {
                     showToast("手机号码格式错误");
-                } else if (ed_binding_yzm.getText().equals("") || ed_binding_yzm == null || ed_binding_yzm.getText().length() < 6) {
+                } else if (TextUtils.isEmpty(ed_binding_yzm.getText().toString()) || ed_binding_yzm.getText().length() < 6) {
                     showToast("请输入6位短信验证码");
                 } else {
-                    YYMallApi.getAuthThdBind(BindingPhoneActivity.this, ed_binding_phone.getText().toString(), uid, name, iconurl, type, ed_binding_yzm.getText().toString(), new ApiCallback<RegisterBean.DataBean>() {
+
+                    YYMallApi.getAuthThdBind(BindingPhoneActivity.this, phone, uid, name, iconurl, type, ed_binding_yzm.getText().toString(), new ApiCallback<RegisterBean.DataBean>() {
                         @Override
                         public void onStart() {
 
@@ -165,9 +193,11 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
 
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
+                            createAccountThenLoginChatServer(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setToken(dataBean.getToken());
+                            userConfig.setPhone(phone);
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                             YYApp.getInstance().setToken(dataBean.getToken());

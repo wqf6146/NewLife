@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.Error;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -53,7 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.img_login_eye)
     ImageView img_login_eye;
 
-
     @Bind(R.id.img_login_weibo)
     ImageView img_login_weibo;
 
@@ -62,7 +65,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Bind(R.id.img_login_qq)
     ImageView img_login_qq;
-
 
     @Bind(R.id.img_login_gou)
     ImageView img_login_gou;
@@ -79,7 +81,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.bt_login_zc)
     Button bt_login_zc;
 
-
     private Boolean boolxs = true;
     private Boolean boolzddl = true;
     private Boolean zddl = true;
@@ -87,44 +88,55 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String uid, iconurl, name;
     private HashMap<String, String> hashMap;
     private String type;
-    private ApiCallback apiCallback = new ApiCallback<RegisterBean.DataBean>() {
 
-        @Override
-        public void onStart() {
 
-        }
-
-        @Override
-        public void onError(ApiException e) {
-            showToast(e.getMessage());
-            if (e.getCode() == 1005) {
-                Intent intent = new Intent(LoginActivity.this, BindingPhoneActivity.class);
-                intent.putExtra("type", type);
-                intent.putExtra("iconurl", iconurl);
-                intent.putExtra("name", name);
-                intent.putExtra("uid", uid);
-                startActivity(intent);
+    private void createAccountThenLoginChatServer(String phone) {
+        final String account = "yiyiyaya_"+phone;
+        final String userPwd = "123456";
+        // createAccount to huanxin server
+        // if you have a account, this step will ignore
+        ChatClient.getInstance().register(account, userPwd, new Callback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
             }
-        }
 
-        @Override
-        public void onCompleted() {
+            @Override
+            public void onError(final int errorCode, final String error) {
+                Log.e(LoginActivity.class.toString(),error);
+                if (errorCode == Error.USER_ALREADY_EXIST)
+                    loginHx(account);
+            }
 
-        }
+            @Override
+            public void onProgress(int progress, String status) {
 
-        @Override
-        public void onNext(RegisterBean.DataBean dataBean) {
-            DbHelper.getInstance().userConfigLongDBManager().deleteAll();
-            UserConfig userConfig = new UserConfig();
-            userConfig.setToken(dataBean.getToken());
-            userConfig.setState(zddl);
-            DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
-            YYApp.getInstance().setToken(dataBean.getToken());
-            AppManager.getInstance().finishActivity(LoginActivity.this);
-        }
-    };
+            }
+        });
+    }
 
+    private void loginHx(final String phone) {
+        ChatClient.getInstance().login(phone, "123456", new Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d(LoginActivity.class.toString(), "Hx login success!");
+            }
 
+            @Override
+            public void onError(int code, String error) {
+                Log.e(LoginActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
+    }
     @Override
     protected void bindEvent() {
 
@@ -147,7 +159,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             uid = map.get("uid");
             iconurl = map.get("iconurl");
             name = map.get("name");
-            YYMallApi.getAuthThdsignIn(LoginActivity.this, uid, type, apiCallback);
+            YYMallApi.getAuthThdsignIn(LoginActivity.this, uid, type, new ApiCallback<RegisterBean.DataBean>() {
+                @Override
+                public void onStart() {
+
+                }
+                @Override
+                public void onError(ApiException e) {
+                    showToast(e.getMessage());
+                    if (e.getCode() == 1005) {
+                        Intent intent = new Intent(LoginActivity.this, BindingPhoneActivity.class);
+                        intent.putExtra("type", type);
+                        intent.putExtra("iconurl", iconurl);
+                        intent.putExtra("name", name);
+                        intent.putExtra("uid", uid);
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onCompleted() {
+
+                }
+                @Override
+                public void onNext(RegisterBean.DataBean dataBean) {
+                    DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                    UserConfig userConfig = new UserConfig();
+                    userConfig.setToken(dataBean.getToken());
+                    userConfig.setState(zddl);
+                    DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
+                    YYApp.getInstance().setToken(dataBean.getToken());
+                    AppManager.getInstance().finishActivity(LoginActivity.this);
+                }
+            });
         }
 
         @Override
@@ -183,7 +226,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         img_login_weibo.setOnClickListener(this);
         img_login_weixin.setOnClickListener(this);
         img_login_qq.setOnClickListener(this);
-
 //        setStatusColor(getResources().getColor(R.color.theme_bule));
     }
 
@@ -221,17 +263,52 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //登录
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
-                if (ed_login_phone.getText().length() == 0 || ed_login_phone.getText().toString() == null) {
+                final String phone = ed_login_phone.getText().toString();
+                String psw = ed_login_psw.getText().toString();
+                if (phone.length() == 0 || phone.toString() == null) {
                     showToast("请输入11位手机号码");
-                } else if (ed_login_phone.getText().length() < 11) {
+                } else if (phone.length() < 11) {
                     showToast("手机号码格式错误");
-                } else if (ed_login_psw.getText().length() < 6 || ed_login_psw.getText().length() > 12) {
+                } else if (psw.length() < 6 || psw.length() > 12) {
                     showToast("请输入6~12位密码");
                 } else {
                     hashMap = new HashMap<>();
-                    hashMap.put("phone", ed_login_phone.getText().toString());
-                    hashMap.put("password", ed_login_psw.getText().toString());
-                    YYMallApi.getLogin(LoginActivity.this, hashMap, apiCallback);
+                    hashMap.put("phone", phone);
+                    hashMap.put("password", psw);
+                    YYMallApi.getLogin(LoginActivity.this, hashMap, new ApiCallback<RegisterBean.DataBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+                        @Override
+                        public void onError(ApiException e) {
+                            showToast(e.getMessage());
+                            if (e.getCode() == 1005) {
+                                Intent intent = new Intent(LoginActivity.this, BindingPhoneActivity.class);
+                                intent.putExtra("type", type);
+                                intent.putExtra("iconurl", iconurl);
+                                intent.putExtra("name", name);
+                                intent.putExtra("uid", uid);
+                                startActivity(intent);
+                            }
+                        }
+                        @Override
+                        public void onCompleted() {
+
+                        }
+                        @Override
+                        public void onNext(RegisterBean.DataBean dataBean) {
+                            createAccountThenLoginChatServer(phone);
+                            DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                            UserConfig userConfig = new UserConfig();
+                            userConfig.setPhone(phone);
+                            userConfig.setToken(dataBean.getToken());
+                            userConfig.setState(zddl);
+                            DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
+                            YYApp.getInstance().setToken(dataBean.getToken());
+                            AppManager.getInstance().finishActivity(LoginActivity.this);
+                        }
+                    });
                 }
                 break;
             case R.id.bt_login_zc:

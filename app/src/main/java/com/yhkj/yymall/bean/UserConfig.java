@@ -14,6 +14,15 @@ public class UserConfig {
     Long id;
     String token;
     Boolean state;
+    String phone;
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 
     public Boolean getState() {
         return state;
@@ -39,11 +48,12 @@ public class UserConfig {
         this.id = id;
     }
 
-    @Generated(hash = 1099987791)
-    public UserConfig(Long id, String token, Boolean state) {
+    @Generated(hash = 1560594449)
+    public UserConfig(Long id, String token, Boolean state, String phone) {
         this.id = id;
         this.token = token;
         this.state = state;
+        this.phone = phone;
     }
 
     @Generated(hash = 523434660)

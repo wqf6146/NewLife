@@ -856,6 +856,15 @@ public class ShopDetailsBean implements Parcelable {
             private String name;
             private String type;
             private List<ValueBean> value;
+            private int selectdone;
+
+            public void setSelectdone(int selectdone) {
+                this.selectdone = selectdone;
+            }
+
+            public int getSelectdone() {
+                return selectdone;
+            }
 
             public String getId() {
                 return id;
@@ -968,6 +977,7 @@ public class ShopDetailsBean implements Parcelable {
                 dest.writeString(this.id);
                 dest.writeString(this.name);
                 dest.writeString(this.type);
+                dest.writeInt(this.selectdone);
                 dest.writeList(this.value);
             }
 
@@ -978,6 +988,7 @@ public class ShopDetailsBean implements Parcelable {
                 this.id = in.readString();
                 this.name = in.readString();
                 this.type = in.readString();
+                this.selectdone = in.readInt();
                 this.value = new ArrayList<ValueBean>();
                 in.readList(this.value, ValueBean.class.getClassLoader());
             }

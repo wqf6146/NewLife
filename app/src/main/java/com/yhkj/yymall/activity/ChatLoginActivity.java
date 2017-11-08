@@ -37,18 +37,16 @@ public class ChatLoginActivity extends AppCompatActivity {
         selectedIndex = intent.getIntExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,
                 Constant.INTENT_CODE_IMG_SELECTED_DEFAULT);
         messageToIndex = intent.getIntExtra(Constant.MESSAGE_TO_INTENT_EXTRA, Constant.MESSAGE_TO_DEFAULT);
-
         //ChatClient.getInstance().isLoggedInBefore() 可以检测是否已经登录过环信，如果登录过则环信SDK会自动登录，不需要再次调用登录操作
-        toChatActivity();
-//        if (ChatClient.getInstance().isLoggedInBefore()) {
-//            progressDialog = getProgressDialog();
-//            progressDialog.setMessage("正在加载，请稍后...");
-//            progressDialog.show();
-//            toChatActivity();
-//        } else {
-//            //随机创建一个用户并登录环信服务器
-//            createAccountThenLoginChatServer();
-//        }
+
+        if (ChatClient.getInstance().isLoggedInBefore()) {
+            progressDialog = getProgressDialog();
+            progressDialog.setMessage("正在加载，请稍后...");
+            progressDialog.show();
+            toChatActivity();
+        } else {
+            createAccountThenLoginChatServer();
+        }
     }
 
     @Override
@@ -177,7 +175,6 @@ public class ChatLoginActivity extends AppCompatActivity {
                 if (!ChatLoginActivity.this.isFinishing())
                     if (progressDialog!=null && progressDialog.isShowing())
                         progressDialog.dismiss();
-
                 //此处演示设置技能组,如果后台设置的技能组名称为[shouqian|shouhou],这样指定即分配到技能组中.
                 //为null则不按照技能组分配,同理可以设置直接指定客服scheduleAgent
                 String queueName = null;
