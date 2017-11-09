@@ -135,7 +135,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
     private TextView mTvLimiteNumb;
     private CommonAdapter mCommonAdapter;
     private HeaderAndFooterWrapper mHeaderAndFooterWrapper;
-    private String mLastSelectSpecId;
     private List<ShopDetailsBean.DataBean.SpecBean> mAllSpecBean;
     private void init() {
 //        mFlLoding.setVisibility(GONE);
@@ -154,10 +153,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                     tagFlowLayout.setTag(R.id.item_attr_select,object);
                 }
                 tagFlowLayout.setMaxSelectCount(1);
-
-                if (!bean.getId().equals(mLastSelectSpecId)){
-
-                }
 
                 if (mEnableSpecList!=null){
                     for (int i=0;i<mEnableSpecList.size();i++){
@@ -178,22 +173,22 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                             }
                         }
                     }
-                    //检查是否是特殊情况
-                    if (mEnableSpecList.size() +1 == mDataBean.getSpec().size()){
-                        String mHealtheworld = null;
-                        Iterator iter = mSelectSpecs.entrySet().iterator();
-                        while (iter.hasNext()) {
-                            Map.Entry entry = (Map.Entry) iter.next();
-                            mHealtheworld = String.valueOf(entry.getKey());
-                        }
-                        if (bean.getId().equals(mHealtheworld)){
-                            for (int j=0;j<bean.getValue().size();j++){
-                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(j);
-                                //先置状态灰色、确认有库存再点亮
-                                tagBean.setEnable(1);
-                            }
-                        }
-                    }
+//                    //检查是否是特殊情况
+//                    if (mEnableSpecList.size() +1 == mDataBean.getSpec().size()){
+//                        String mHealtheworld = null;
+//                        Iterator iter = mSelectSpecs.entrySet().iterator();
+//                        while (iter.hasNext()) {
+//                            Map.Entry entry = (Map.Entry) iter.next();
+//                            mHealtheworld = String.valueOf(entry.getKey());
+//                        }
+//                        if (bean.getId().equals(mHealtheworld)){
+//                            for (int j=0;j<bean.getValue().size();j++){
+//                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(j);
+//                                //先置状态灰色、确认有库存再点亮
+//                                tagBean.setEnable(1);
+//                            }
+//                        }
+//                    }
                 }
 
 
@@ -242,10 +237,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                                     parent.setTag(R.id.item_attr_select,pos);
                                     mSelectPosHashMap.put(parent.getTag(),pos);
                                 }
-
-
-//                                mSelectNumb = String.valueOf(mNumbPickerView.getNumText());
-
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
@@ -272,9 +263,9 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
             mFlLoding.setVisibility(GONE);
             Glide.with(getContext()).load(mDataBean.getDefaultSpec().getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(mImgShop);
             if (mDataBean.getDefaultSpec().getMaxPrice().equals(mDataBean.getDefaultSpec().getMinPrice())){
-                mTvShopPrice.setText(mDataBean.getDefaultSpec().getMinPrice());
+                mTvShopPrice.setText("¥"+mDataBean.getDefaultSpec().getMinPrice());
             }else{
-                mTvShopPrice.setText(mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice());
+                mTvShopPrice.setText("¥"+mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice());
             }
             mNumbPickerView.setMaxValue(1) //界面上最小显示1
                     .setCurrentInventory(1) //租赁限制购买数量
