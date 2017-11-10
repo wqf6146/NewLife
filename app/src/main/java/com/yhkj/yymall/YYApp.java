@@ -1,17 +1,24 @@
 package com.yhkj.yymall;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.util.SparseArray;
+import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.vise.log.ViseLog;
+import com.vise.log.common.LogConvert;
+import com.wanjian.cockroach.Cockroach;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.UserConfig;
+import com.yhkj.yymall.util.AECHFileWriter;
 import com.yhkj.yymall.util.NetStateReceiver;
 
 import cn.beecloud.BeeCloud;
@@ -115,6 +122,25 @@ public class YYApp extends MultiDexApplication {
         NetStateReceiver.registerNetworkStateReceiver(this);
 
         HxHelper.getInstance().init(this);
+
+        //测试
+        Cockroach.install(new Cockroach.ExceptionHandler() {
+            @Override
+            public void handlerException(final Thread thread, final Throwable throwable) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            AECHFileWriter.getInstance(mInstance).writeEx2File(throwable);
+                            Toast.makeText(YYApp.this, "Exception Happend\n" + thread + "\n" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                        } catch (Throwable e) {
+                            Toast.makeText(YYApp.this, "Exception Happend\n" + thread + "\n" + e.toString(), Toast.LENGTH_SHORT).show();
+                            ViseLog.e(e);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -59,6 +59,7 @@ import com.yhkj.yymall.bean.BannerItemBean;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.NormsBean;
 import com.yhkj.yymall.bean.ShopDetailsBean;
+import com.yhkj.yymall.bean.ShopSpecBean;
 import com.yhkj.yymall.config.FullscreenHolder;
 import com.yhkj.yymall.config.IWebPageView;
 import com.yhkj.yymall.config.ImageClickInterface;
@@ -73,7 +74,9 @@ import com.yhkj.yymall.view.flowlayout.FlowLayout;
 import com.yhkj.yymall.view.flowlayout.TagAdapter;
 import com.yhkj.yymall.view.flowlayout.TagFlowLayout;
 import com.yhkj.yymall.view.nestpager.Page;
+import com.yhkj.yymall.view.popwindows.CommonCarPopupView;
 import com.yhkj.yymall.view.popwindows.DetailsMenuPopupView;
+import com.yhkj.yymall.view.popwindows.DiscountCarPopupView;
 import com.yhkj.yymall.view.popwindows.ShopArgsPopupView;
 import com.yhkj.yymall.view.popwindows.ShopGiftPopupView;
 import com.yhkj.yymall.view.popwindows.WebPopupView;
@@ -82,6 +85,7 @@ import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -94,7 +98,8 @@ import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
  * Created by Administrator on 2017/7/8.
  */
 
-public class DiscountDetailsActivity extends BaseToolBarActivity implements CommentFragment.OnFinishListen,IWebPageView {
+public class DiscountDetailsActivity extends BaseToolBarActivity implements CommentFragment.OnFinishListen,IWebPageView,
+        DiscountCarPopupView.OnShopCarResLisiten {
 
     @Bind(R.id.as_allflowlayouts)
     TagFlowLayout as_allflowlayouts;
@@ -233,10 +238,8 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
     private Intent intent;
     private String goodsId;
     private String mSelectSpecStr = "";
-    private SparseArray<Integer> mListSelectSpec = new SparseArray<>();
     private int mCurSelectShopNumb = 1;
     private String shopId = "";
-    private String repertory;
 
     private MyWebChromeClient mWebChromeClient;
 
@@ -788,15 +791,15 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
                 }
                 tv_detailsline_pingj.setText("产品评价(" + dataBean.getComment().getCount() + ")");
 
-                String guige = "请选择商品";
+                mTvSelectTip = "请选择商品";
                 for (int i = 0; i < dataBean.getSpec().size(); i++) {
                     if (i < dataBean.getSpec().size() - 1) {
-                        guige = guige + dataBean.getSpec().get(i).getName() + "，";
+                        mTvSelectTip += dataBean.getSpec().get(i).getName() + "，";
                     } else {
-                        guige = guige + dataBean.getSpec().get(i).getName();
+                        mTvSelectTip += dataBean.getSpec().get(i).getName();
                     }
                 }
-                tv_detailsline_standard.setText(guige);
+                tv_detailsline_standard.setText(mTvSelectTip);
                 String[] mTestVal = new String[dataBean.getComment().getType().size()];
                 for (int i = 0; i < dataBean.getComment().getType().size(); i++) {
                     mTestVal[i] = dataBean.getComment().getType().get(i).getName() + "(" + dataBean.getComment().getType().get(i).getCount() + ")";
@@ -830,13 +833,13 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
                 tv_commodity_addshopcar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mStoreNone || mIsSale == 1) return;
-                        if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
-                            startActivity(LoginActivity.class);
-                            showToast("请先登录");
-                            return;
-                        }
-                        new CommonShopDetailsPopupView(DiscountDetailsActivity.this, dataBean, goodsId,true).showPopupWindow();
+//                        if (mStoreNone || mIsSale == 1) return;
+//                        if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
+//                            startActivity(LoginActivity.class);
+//                            showToast("请先登录");
+//                            return;
+//                        }
+//                        new CommonShopDetailsPopupView(DiscountDetailsActivity.this, dataBean, goodsId,true).showPopupWindow();
                     }
                 });
                 rl_detailsline_standard.setOnClickListener(new View.OnClickListener() {
@@ -848,7 +851,7 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
                             showToast("请先登录");
                             return;
                         }
-                        new CommonShopDetailsPopupView(DiscountDetailsActivity.this, dataBean, goodsId,false).showPopupWindow();
+                        showSelectCarPop(null);
                     }
                 });
 
@@ -861,23 +864,19 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
                             showToast("请先登录");
                             return;
                         }
-                        if (mListSelectSpec.size() < 0 || mListSelectSpec.size() == 0) {
-                            new CommonShopDetailsPopupView(DiscountDetailsActivity.this, dataBean, goodsId,false).showPopupWindow();
+                        if (mCurSpecBean == null || mSelectSpecHashMap == null || mSelectSpecHashMap.size() == 0) {
+                            showSelectCarPop(1);
                         } else {
-                            if (repertory!=null && repertory.equals("0")) {
-                                showToast("库存不足，请选择其他规格。");
-                            } else {
-                                if (!TextUtils.isEmpty(mCommonCanBuyStr)){
-                                    showToast(mCommonCanBuyStr);
-                                    return;
-                                }
-                                intent = new Intent(mContext, CheckOutActivity.class);
-                                intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.DISCOUNT);
-                                intent.putExtra("productId", shopId);
-                                intent.putExtra("discountId",String.valueOf(mDataBean.getDiscount().getId()));
-                                intent.putExtra("nums", mCurSelectShopNumb + "");
-                                mContext.startActivity(intent);
+                            if (!TextUtils.isEmpty(mCommonCanBuyStr)){
+                                showToast(mCommonCanBuyStr);
+                                return;
                             }
+                            intent = new Intent(mContext, CheckOutActivity.class);
+                            intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.DISCOUNT);
+                            intent.putExtra("productId", String.valueOf(mCurSpecBean.getId()));
+                            intent.putExtra("discountId",String.valueOf(mDataBean.getDiscount().getId()));
+                            intent.putExtra("nums", mCurSelectShopNumb + "");
+                            mContext.startActivity(intent);
                         }
                     }
                 });
@@ -1047,264 +1046,317 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
             web_commoditydetails = null;
         }
     }
+    private LinkedHashMap mSelectSpecHashMap;
+    private HashMap mSelectSpecPosHashMap;
+    private int mSelectNumb = -1;
 
-
-    class CommonShopDetailsPopupView extends BasePopupWindow implements View.OnClickListener {
-
-        private Context mContext;
-        private TextView vps_tv_shopprice, vps_tv_repertory, tv_popshopdetails_addshopcar, tv_popshopdetails_buy;
-        private RecyclerView vps_rv;
-        private DetailsPopAdapter detailsPopAdapter;
-        private String goodsIds;
-        private ShopDetailsBean.DataBean mDataBeans;
-        private NormsBean.DataBean mSpecBean;
-        private ImageView vps_img_shop;
-        private ImageView bt_popdetails_close;
-        private ProgressBar mProgress;
-
-        private DetailsPopAdapter.DetailsPopCall calls = new DetailsPopAdapter.DetailsPopCall() {
-            @Override
-            public void send(SparseArray<Integer> sparseArray) {
-                mListSelectSpec = sparseArray;
-                getSpec();
-            }
-
-            @Override
-            public void send(int numbs) {
-                mCurSelectShopNumb = numbs;
-            }
-        };
-
-        private void initView(){
-            mProgress = (ProgressBar) findViewById(R.id.view_progress);
-            vps_tv_shopprice = (TextView) findViewById(R.id.vps_tv_shopprice);
-            vps_rv = (RecyclerView) findViewById(R.id.vps_rv);
-            vps_img_shop = (ImageView) findViewById(R.id.vps_img_shop);
-            vps_tv_repertory = (TextView) findViewById(R.id.vps_tv_repertory);
-            bt_popdetails_close = (ImageView) findViewById(R.id.bt_popdetails_close);
-            tv_popshopdetails_addshopcar = (TextView) findViewById(R.id.tv_popshopdetails_addshopcar);
-            tv_popshopdetails_buy = (TextView) findViewById(R.id.tv_popshopdetails_buy);
-            bt_popdetails_close.setOnClickListener(this);
-            tv_popshopdetails_addshopcar.setOnClickListener(this);
-            tv_popshopdetails_buy.setOnClickListener(this);
-        }
-
-        private void getSpec() {
-            HashMap hashMap = new HashMap<>();
-            mSelectSpecStr = "";
-            if (mListSelectSpec == null || mListSelectSpec.size() == 0) {
-                for (int i = 0; i < mDataBeans.getSpec().size(); i++) {
-                    hashMap.put(mDataBeans.getSpec().get(i).getId() + "", mDataBeans.getSpec().get(i).getValue().get(0).getName() + "");
-                    mSelectSpecStr = mSelectSpecStr + mDataBeans.getSpec().get(i).getValue().get(0).getName() + ",";
-                    mListSelectSpec.put(i,0);
-                }
-            } else {
-                for (int i = 0; i < mDataBeans.getSpec().size(); i++) {
-                    hashMap.put(mDataBeans.getSpec().get(i).getId() + "", mDataBeans.getSpec().get(i).getValue().get(mListSelectSpec.get(i)).getName() + "");
-                    mSelectSpecStr = mSelectSpecStr + mDataBeans.getSpec().get(i).getValue().get(mListSelectSpec.get(i)).getName() + ",";
-                }
-            }
-
-            tv_detailsline_standard.setText("已选择：" + mSelectSpecStr);
-            HashMap hashMaps = new HashMap();
-            hashMaps.put("spec", hashMap);
-            String jsonStr = new Gson().toJson(hashMaps);
-            YYMallApi.getShopSpec(mContext, goodsIds, jsonStr, true,new YYMallApi.ApiResult<NormsBean.DataBean>(mContext) {
-                @Override
-                public void onStart() {
-                }
-
-                @Override
-                public void onError(ApiException e) {
-                    super.onError(e);
-                    showToast(e.getMessage());
-                }
-
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onNext(NormsBean.DataBean dataBean) {
-                    mProgress.setVisibility(GONE);
-                    updateSpecInfo(dataBean);
-                }
-            });
-        }
-
-        @Override
-        public void dismiss() {
-            super.dismiss();
-            getCanSelectStr();
-        }
-
-        private void getCanSelectStr() {
-            if (mSpecBean!= null && !canBuy() ) {
-                if (mSpecBean.getStoreNum() == 0) {
-                    mCommonCanBuyStr =  "暂无库存";
-                } else {
-                    mCommonCanBuyStr = "超过最大可购买数量";
-                }
-            }else{
-                mCommonCanBuyStr =null;
-            }
-        }
-        private int mCommonCanMaxBuy;
-
-        //计算购买上限
-        private void calculateCanBuyTag(){
-            int limit = mSpecBean.getLimitnum();
-            int storeNumb = mSpecBean.getStoreNum();
-            int allowPayNumb = mSpecBean.getAllowMaxNum();
-
-            if (limit == 0){
-                //不限购
-                mCommonCanMaxBuy = storeNumb;
-            }else{
-                //限购
-                mCommonCanMaxBuy = allowPayNumb > storeNumb ? storeNumb : allowPayNumb;
-            }
-        }
-
-        /**
-         */
-        private boolean canBuy(){
-            //type  0-buy  1-lease
-            return mCurSelectShopNumb <= mCommonCanMaxBuy;
-        }
-        private void updateSpecInfo(NormsBean.DataBean dataBean) {
-            mProgress.setVisibility(GONE);
-            mSpecBean = dataBean;
-            calculateCanBuyTag();
-            if (mLeftOrRight == null){
-                //none
-                tv_popshopdetails_addshopcar.setVisibility(VISIBLE);
-                tv_popshopdetails_buy.setVisibility(VISIBLE);
-            }else if (mLeftOrRight){
-                //left
-                tv_popshopdetails_addshopcar.setVisibility(VISIBLE);
-            }else {
-                //right
-                tv_popshopdetails_buy.setVisibility(VISIBLE);
-            }
-
-            Glide.with(mContext).load(dataBean.getImg()).into(vps_img_shop);
-            vps_tv_repertory.setText("库存" + dataBean.getStoreNum() + "件");
-            repertory = dataBean.getStoreNum() + "";
-            vps_tv_shopprice.setText("¥" + new java.text.DecimalFormat("#0.00").format(dataBean.getPrice()));
-            tv_detailsline_price.setText("¥" + new java.text.DecimalFormat("#0.00").format(dataBean.getPrice()));
-//            mTvYyTip.setText("(正价购买商品最多可用" + dataBean.getYayaLimit() + "丫丫)");
-            shopId = dataBean.getId() + "";
-            List<ShopDetailsBean.DataBean.SpecBean> list = mDataBeans.getSpec();
-            detailsPopAdapter = new DetailsPopAdapter(mContext, list, mListSelectSpec, calls, mCurSelectShopNumb,
-                    dataBean.getStoreNum(),dataBean.getAllowMaxNum(),dataBean.getLimitnum());
-            vps_rv.setLayoutManager(new LinearLayoutManager(mContext));
-            vps_rv.setAdapter(detailsPopAdapter);
-        }
-
-        private Boolean mLeftOrRight;
-        public CommonShopDetailsPopupView(final Activity context, ShopDetailsBean.DataBean dataBeans, String goodsId,final Boolean leftOrRight) {
-            super(context);
-            this.mContext = context;
-            this.goodsIds = goodsId;
-            this.mDataBeans = dataBeans;
-            mLeftOrRight = leftOrRight;
-            initView();
-            getSpec();
-        }
-
-        @Override
-        protected Animation initShowAnimation() {
-            Animation animation = getTranslateAnimation(500 * 2, 0, 300);
-            return animation;
-        }
-
-        @Override
-        public View getClickToDismissView() {
-            return getPopupWindowView();
-        }
-
-        @Override
-        public View onCreatePopupView() {
-            return createPopupById(R.layout.view_pop_shopdetails);
-        }
-
-        @Override
-        public View initAnimaView() {
-            return findViewById(R.id.vps_rl_popview);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.bt_popdetails_close:
-                    dismiss();
-                    break;
-                case R.id.tv_popshopdetails_addshopcar:
-                    if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
-                        showToast("请先登录");
-                        startActivity(LoginActivity.class);
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(repertory) && repertory.equals("0")) {
-                        showToast("库存不足，请选择其他规格。");
-                    } else {
-                        YYMallApi.getAddCar(mContext, shopId, mCurSelectShopNumb, new YYMallApi.ApiResult<CommonBean>(getContext()) {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onError(ApiException e) {
-                                super.onError(e);
-                                showToast(e.getMessage());
-                            }
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onNext(CommonBean commonBean) {
-                                showToast("加入购物车成功");
-                                dismiss();
-                            }
-                        });
-                    }
-                    break;
-
-                case R.id.tv_popshopdetails_buy:
-                    if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
-                        showToast("请先登录");
-                        startActivity(LoginActivity.class);
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(repertory) && repertory.equals("0")) {
-                        showToast("库存不足，请选择其他规格。");
-                    } else {
-                        if (!canBuy()){
-                            showToast("超过最大可购买数量");
-                            return;
-                        }
-                        intent = new Intent(mContext, CheckOutActivity.class);
-                        intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.DISCOUNT);
-                        intent.putExtra("productId", shopId);
-                        intent.putExtra("discountId",String.valueOf(mDataBean.getDiscount().getId()));
-                        intent.putExtra("nums", mCurSelectShopNumb + "");
-                        mContext.startActivity(intent);
-                        dismiss();
-                    }
-                    break;
-
-                default:
-                    break;
-
-            }
-        }
+    @Override
+    public void onShopCarEntityRes(LinkedHashMap hashMap) {
+        mSelectSpecHashMap = hashMap;
     }
+
+
+    @Override
+    public void onShopCarResPos(HashMap hashMap) {
+        mSelectSpecPosHashMap = hashMap;
+    }
+
+    private String mTvSelectTip;
+    @Override
+    public void onShopCarSelectString(String string) {
+        if (TextUtils.isEmpty(string))
+            tv_detailsline_standard.setText(mTvSelectTip);
+        else
+            tv_detailsline_standard.setText(string);
+    }
+
+    private ShopSpecBean.DataBean mCurSpecBean;
+    private java.text.DecimalFormat mTwoPointDf =new java.text.DecimalFormat("#0.00");
+
+    @Override
+    public void onShopSpecRes(ShopSpecBean.DataBean specBean, int numb) {
+        mCurSpecBean = specBean;
+        mSelectNumb = numb;
+        if (specBean == null)
+            return;
+        tv_detailsline_price.setText("¥" + mTwoPointDf.format(specBean.getPrice()));
+//        mTvYyTip.setText("(正价购买商品最多可用" + specBean.getYayaLimit() + "丫丫)");
+    }
+
+    @Override
+    public void onCanSelectRes(String commonCanBuy) {
+        mCommonCanBuyStr = commonCanBuy;
+    }
+
+    private void showSelectCarPop(Integer type){
+        //type租-1 买-0
+
+        if (mDataBean == null) return;
+        DiscountCarPopupView carPopupView;
+        if (mSelectSpecHashMap == null)
+            carPopupView = new DiscountCarPopupView(DiscountDetailsActivity.this,DiscountDetailsActivity.this,mDataBean,type);
+        else
+            carPopupView = new DiscountCarPopupView(DiscountDetailsActivity.this,DiscountDetailsActivity.this,mDataBean,mSelectSpecHashMap,mSelectSpecPosHashMap,String.valueOf(mSelectNumb),type);
+        carPopupView.showPopupWindow();
+    }
+//
+//
+//    class CommonShopDetailsPopupView extends BasePopupWindow implements View.OnClickListener {
+//
+//        private Context mContext;
+//        private TextView vps_tv_shopprice, vps_tv_repertory, tv_popshopdetails_addshopcar, tv_popshopdetails_buy;
+//        private RecyclerView vps_rv;
+//        private DetailsPopAdapter detailsPopAdapter;
+//        private String goodsIds;
+//        private ShopDetailsBean.DataBean mDataBeans;
+//        private NormsBean.DataBean mSpecBean;
+//        private ImageView vps_img_shop;
+//        private ImageView bt_popdetails_close;
+//        private ProgressBar mProgress;
+//
+//        private DetailsPopAdapter.DetailsPopCall calls = new DetailsPopAdapter.DetailsPopCall() {
+//            @Override
+//            public void send(SparseArray<Integer> sparseArray) {
+//                mListSelectSpec = sparseArray;
+//                getSpec();
+//            }
+//
+//            @Override
+//            public void send(int numbs) {
+//                mCurSelectShopNumb = numbs;
+//            }
+//        };
+//
+//        private void initView(){
+//            mProgress = (ProgressBar) findViewById(R.id.view_progress);
+//            vps_tv_shopprice = (TextView) findViewById(R.id.vps_tv_shopprice);
+//            vps_rv = (RecyclerView) findViewById(R.id.vps_rv);
+//            vps_img_shop = (ImageView) findViewById(R.id.vps_img_shop);
+//            vps_tv_repertory = (TextView) findViewById(R.id.vps_tv_repertory);
+//            bt_popdetails_close = (ImageView) findViewById(R.id.bt_popdetails_close);
+//            tv_popshopdetails_addshopcar = (TextView) findViewById(R.id.tv_popshopdetails_addshopcar);
+//            tv_popshopdetails_buy = (TextView) findViewById(R.id.tv_popshopdetails_buy);
+//            bt_popdetails_close.setOnClickListener(this);
+//            tv_popshopdetails_addshopcar.setOnClickListener(this);
+//            tv_popshopdetails_buy.setOnClickListener(this);
+//        }
+//
+//        private void getSpec() {
+//            HashMap hashMap = new HashMap<>();
+//            mSelectSpecStr = "";
+//            if (mListSelectSpec == null || mListSelectSpec.size() == 0) {
+//                for (int i = 0; i < mDataBeans.getSpec().size(); i++) {
+//                    hashMap.put(mDataBeans.getSpec().get(i).getId() + "", mDataBeans.getSpec().get(i).getValue().get(0).getName() + "");
+//                    mSelectSpecStr = mSelectSpecStr + mDataBeans.getSpec().get(i).getValue().get(0).getName() + ",";
+//                    mListSelectSpec.put(i,0);
+//                }
+//            } else {
+//                for (int i = 0; i < mDataBeans.getSpec().size(); i++) {
+//                    hashMap.put(mDataBeans.getSpec().get(i).getId() + "", mDataBeans.getSpec().get(i).getValue().get(mListSelectSpec.get(i)).getName() + "");
+//                    mSelectSpecStr = mSelectSpecStr + mDataBeans.getSpec().get(i).getValue().get(mListSelectSpec.get(i)).getName() + ",";
+//                }
+//            }
+//
+//            tv_detailsline_standard.setText("已选择：" + mSelectSpecStr);
+//            HashMap hashMaps = new HashMap();
+//            hashMaps.put("spec", hashMap);
+//            String jsonStr = new Gson().toJson(hashMaps);
+//            YYMallApi.getShopSpec(mContext, goodsIds, jsonStr, true,new YYMallApi.ApiResult<NormsBean.DataBean>(mContext) {
+//                @Override
+//                public void onStart() {
+//                }
+//
+//                @Override
+//                public void onError(ApiException e) {
+//                    super.onError(e);
+//                    showToast(e.getMessage());
+//                }
+//
+//                @Override
+//                public void onCompleted() {
+//
+//                }
+//
+//                @Override
+//                public void onNext(NormsBean.DataBean dataBean) {
+//                    mProgress.setVisibility(GONE);
+//                    updateSpecInfo(dataBean);
+//                }
+//            });
+//        }
+//
+//        @Override
+//        public void dismiss() {
+//            super.dismiss();
+//            getCanSelectStr();
+//        }
+//
+//        private void getCanSelectStr() {
+//            if (mSpecBean!= null && !canBuy() ) {
+//                if (mSpecBean.getStoreNum() == 0) {
+//                    mCommonCanBuyStr =  "暂无库存";
+//                } else {
+//                    mCommonCanBuyStr = "超过最大可购买数量";
+//                }
+//            }else{
+//                mCommonCanBuyStr =null;
+//            }
+//        }
+//        private int mCommonCanMaxBuy;
+//
+//        //计算购买上限
+//        private void calculateCanBuyTag(){
+//            int limit = mSpecBean.getLimitnum();
+//            int storeNumb = mSpecBean.getStoreNum();
+//            int allowPayNumb = mSpecBean.getAllowMaxNum();
+//
+//            if (limit == 0){
+//                //不限购
+//                mCommonCanMaxBuy = storeNumb;
+//            }else{
+//                //限购
+//                mCommonCanMaxBuy = allowPayNumb > storeNumb ? storeNumb : allowPayNumb;
+//            }
+//        }
+//
+//        /**
+//         */
+//        private boolean canBuy(){
+//            //type  0-buy  1-lease
+//            return mCurSelectShopNumb <= mCommonCanMaxBuy;
+//        }
+//        private void updateSpecInfo(NormsBean.DataBean dataBean) {
+//            mProgress.setVisibility(GONE);
+//            mSpecBean = dataBean;
+//            calculateCanBuyTag();
+//            if (mLeftOrRight == null){
+//                //none
+//                tv_popshopdetails_addshopcar.setVisibility(VISIBLE);
+//                tv_popshopdetails_buy.setVisibility(VISIBLE);
+//            }else if (mLeftOrRight){
+//                //left
+//                tv_popshopdetails_addshopcar.setVisibility(VISIBLE);
+//            }else {
+//                //right
+//                tv_popshopdetails_buy.setVisibility(VISIBLE);
+//            }
+//
+//            Glide.with(mContext).load(dataBean.getImg()).into(vps_img_shop);
+//            vps_tv_repertory.setText("库存" + dataBean.getStoreNum() + "件");
+//            repertory = dataBean.getStoreNum() + "";
+//            vps_tv_shopprice.setText("¥" + new java.text.DecimalFormat("#0.00").format(dataBean.getPrice()));
+//            tv_detailsline_price.setText("¥" + new java.text.DecimalFormat("#0.00").format(dataBean.getPrice()));
+////            mTvYyTip.setText("(正价购买商品最多可用" + dataBean.getYayaLimit() + "丫丫)");
+//            shopId = dataBean.getId() + "";
+//            List<ShopDetailsBean.DataBean.SpecBean> list = mDataBeans.getSpec();
+//            detailsPopAdapter = new DetailsPopAdapter(mContext, list, mListSelectSpec, calls, mCurSelectShopNumb,
+//                    dataBean.getStoreNum(),dataBean.getAllowMaxNum(),dataBean.getLimitnum());
+//            vps_rv.setLayoutManager(new LinearLayoutManager(mContext));
+//            vps_rv.setAdapter(detailsPopAdapter);
+//        }
+//
+//        private Boolean mLeftOrRight;
+//        public CommonShopDetailsPopupView(final Activity context, ShopDetailsBean.DataBean dataBeans, String goodsId,final Boolean leftOrRight) {
+//            super(context);
+//            this.mContext = context;
+//            this.goodsIds = goodsId;
+//            this.mDataBeans = dataBeans;
+//            mLeftOrRight = leftOrRight;
+//            initView();
+//            getSpec();
+//        }
+//
+//        @Override
+//        protected Animation initShowAnimation() {
+//            Animation animation = getTranslateAnimation(500 * 2, 0, 300);
+//            return animation;
+//        }
+//
+//        @Override
+//        public View getClickToDismissView() {
+//            return getPopupWindowView();
+//        }
+//
+//        @Override
+//        public View onCreatePopupView() {
+//            return createPopupById(R.layout.view_pop_shopdetails);
+//        }
+//
+//        @Override
+//        public View initAnimaView() {
+//            return findViewById(R.id.vps_rl_popview);
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            switch (v.getId()) {
+//                case R.id.bt_popdetails_close:
+//                    dismiss();
+//                    break;
+//                case R.id.tv_popshopdetails_addshopcar:
+//                    if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
+//                        showToast("请先登录");
+//                        startActivity(LoginActivity.class);
+//                        return;
+//                    }
+//                    if (!TextUtils.isEmpty(repertory) && repertory.equals("0")) {
+//                        showToast("库存不足，请选择其他规格。");
+//                    } else {
+//                        YYMallApi.getAddCar(mContext, shopId, mCurSelectShopNumb, new YYMallApi.ApiResult<CommonBean>(getContext()) {
+//                            @Override
+//                            public void onStart() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(ApiException e) {
+//                                super.onError(e);
+//                                showToast(e.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onCompleted() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(CommonBean commonBean) {
+//                                showToast("加入购物车成功");
+//                                dismiss();
+//                            }
+//                        });
+//                    }
+//                    break;
+//
+//                case R.id.tv_popshopdetails_buy:
+//                    if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
+//                        showToast("请先登录");
+//                        startActivity(LoginActivity.class);
+//                        return;
+//                    }
+//                    if (!TextUtils.isEmpty(repertory) && repertory.equals("0")) {
+//                        showToast("库存不足，请选择其他规格。");
+//                    } else {
+//                        if (!canBuy()){
+//                            showToast("超过最大可购买数量");
+//                            return;
+//                        }
+//                        intent = new Intent(mContext, CheckOutActivity.class);
+//                        intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.DISCOUNT);
+//                        intent.putExtra("productId", shopId);
+//                        intent.putExtra("discountId",String.valueOf(mDataBean.getDiscount().getId()));
+//                        intent.putExtra("nums", mCurSelectShopNumb + "");
+//                        mContext.startActivity(intent);
+//                        dismiss();
+//                    }
+//                    break;
+//
+//                default:
+//                    break;
+//
+//            }
+//        }
+//    }
 
 
 

@@ -1,5 +1,8 @@
 package com.yhkj.yymall.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -84,6 +87,15 @@ public class TimeKillDetailBean {
         private List<SpecBean> spec;
         private List<String> photo;
         private List<AttrBean> attr;
+        private DefaultSpecBean defaultSpec;
+
+        public void setDefaultSpec(DefaultSpecBean defaultSpec) {
+            this.defaultSpec = defaultSpec;
+        }
+
+        public DefaultSpecBean getDefaultSpec() {
+            return defaultSpec;
+        }
 
         public void setAllowMaxCount(int allowMaxCount) {
             this.allowMaxCount = allowMaxCount;
@@ -544,6 +556,15 @@ public class TimeKillDetailBean {
 
                 private String id;
                 private String name;
+                private int enable;
+
+                public void setEnable(int enable) {
+                    this.enable = enable;
+                }
+
+                public int getEnable() {
+                    return enable;
+                }
 
                 public String getId() {
                     return id;
@@ -562,7 +583,64 @@ public class TimeKillDetailBean {
                 }
             }
         }
+        public static class DefaultSpecBean {
 
+            private String minPrice;
+            private String maxPrice;
+            private String nMinPrice;
+            private String nMaxPrice;
+            private String img;
+
+            public void setnMinPrice(String nMinPrice) {
+                this.nMinPrice = nMinPrice;
+            }
+
+            public void setnMaxPrice(String nMaxPrice) {
+                this.nMaxPrice = nMaxPrice;
+            }
+
+            public String getnMinPrice() {
+                return nMinPrice;
+            }
+
+            public String getnMaxPrice() {
+                return nMaxPrice;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public void setMaxPrice(String maxPrice) {
+                this.maxPrice = maxPrice;
+            }
+
+            public String getImg() {
+                return img;
+            }
+
+            public String getMaxPrice() {
+                return maxPrice;
+            }
+
+            public void setMinPrice(String minPrice) {
+                this.minPrice = minPrice;
+            }
+
+            public String getMinPrice() {
+                return minPrice;
+            }
+
+
+            public DefaultSpecBean() {
+            }
+
+            protected DefaultSpecBean(Parcel in) {
+                this.minPrice = in.readString();
+                this.maxPrice = in.readString();
+                this.img = in.readString();
+            }
+        }
         public static class AttrBean {
             /**
              * name : 尺码

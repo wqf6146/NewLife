@@ -21,6 +21,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Administrator\.android\build-cache\34502fd52e4bbf323e397572ed43d389fc350746\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fee8132e5e0717ebe43d996ed3c5a60de206d3d1">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d9cd51762fac2dc5770499314d9b9fe823202fcf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\sdk\build\intermediates\bundles\default\libs\UPPayPluginExPro.jar"
         jumboMode="false"
         optimize="true"

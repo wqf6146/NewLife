@@ -81,6 +81,7 @@ import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import butterknife.Bind;
 
@@ -814,14 +815,15 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
         return mDataBean;
     }
 
-    private HashMap mSelectSpecHashMap;
+    private LinkedHashMap mSelectSpecHashMap;
     private HashMap mSelectSpecPosHashMap;
 //    private String mProductId;
     private int mSelectNumb = -1;
     private String mLeaseCanBuy;
     private String mCommonCanBuy;
+
     @Override
-    public void onShopCarResLisiten(HashMap hashMap) {
+    public void onShopCarEntityRes(LinkedHashMap hashMap) {
         mSelectSpecHashMap = hashMap;
     }
 
@@ -830,9 +832,13 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
         mSelectSpecPosHashMap = hashMap;
     }
 
+    private String mTvSelectTip;
     @Override
     public void onShopCarSelectString(String string) {
-        mTvSelectString.setText(string);
+        if (TextUtils.isEmpty(string))
+            mTvSelectString.setText(mTvSelectTip);
+        else
+            mTvSelectString.setText(string);
     }
 
     private ShopSpecBean.DataBean mCurSpecBean;
@@ -841,6 +847,8 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
     public void onShopSpecRes(ShopSpecBean.DataBean specBean, int numb) {
         mCurSpecBean = specBean;
         mSelectNumb = numb;
+        if (specBean == null)
+            return;
         mTvCurMallPrice.setText("¥"+mTwoPointDf.format(specBean.getNormalPrice()));
         mTvCurPlddgePrice.setText("¥"+mTwoPointDf.format(specBean.getPrice()));
         mTvPayPrice.setText("¥"+mTwoPointDf.format(specBean.getNormalPrice()));
@@ -1063,15 +1071,15 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
         mWebView.loadUrl(ApiService.SHOP_DETAIL + "#" + dataBean.getId());
         Log.e("url",ApiService.SHOP_DETAIL + "#" + dataBean.getId());
 
-        String guige = "请选择商品";
+        mTvSelectTip = "请选择商品";
         for (int i = 0; i < dataBean.getSpec().size(); i++) {
             if (i < dataBean.getSpec().size() - 1) {
-                guige = guige + dataBean.getSpec().get(i).getName() + "，";
+                mTvSelectTip += dataBean.getSpec().get(i).getName() + "，";
             } else {
-                guige = guige + dataBean.getSpec().get(i).getName();
+                mTvSelectTip += dataBean.getSpec().get(i).getName();
             }
         }
-        mTvSelectString.setText(guige);
+        mTvSelectString.setText(mTvSelectTip);
 
         //商品评价
 

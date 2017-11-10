@@ -102,10 +102,13 @@ public class MyServiceActivity extends BaseToolBarActivity {
                 ll_service_qq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (CommonUtil.isQQClientAvailable(MyServiceActivity.this))
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + dataBean.getCustomer().getQq() + "")));
-                        else
-                            showToast("请先安装QQ");
+//                        if (CommonUtil.isQQClientAvailable(MyServiceActivity.this))
+//                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + dataBean.getCustomer().getQq() + "")));
+//                        else
+//                            showToast("请先安装QQ");
+                        Intent intent = new Intent();
+                        intent.setClass(MyServiceActivity.this, ChatLoginActivity.class);
+                        startActivity(intent);
                     }
                 });
                 ll_service_tel.setOnClickListener(new View.OnClickListener() {

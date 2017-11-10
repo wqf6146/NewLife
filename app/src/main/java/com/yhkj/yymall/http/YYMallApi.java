@@ -125,8 +125,12 @@ public class YYMallApi {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap<>();
         hashMap.put("goodsId",goodsId);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), spec);
-        api.apiPost(ApiService.ENABLESPEC,YYApp.getInstance().getToken(),body,hashMap,true, callback);
+        if (TextUtils.isEmpty(spec)){
+            api.apiPost(ApiService.ENABLESPEC,YYApp.getInstance().getToken(),hashMap,true, callback);
+        }else{
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), spec);
+            api.apiPost(ApiService.ENABLESPEC,YYApp.getInstance().getToken(),body,hashMap,true, callback);
+        }
     }
 
     /**
@@ -1241,7 +1245,7 @@ public class YYMallApi {
     /**
      * 加入购物车
      */
-    public static <T> void getAddCar(Context context, String productId, int nums, ApiCallback<T> callback) {
+    public static <T> void getAddCar(Context context, int productId, int nums, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("productId", productId);
@@ -1693,7 +1697,7 @@ public class YYMallApi {
     /**
      * 确认建团
      */
-    public static <T> void getGroupCreate(Context context, String id, String productId, String nums, ApiCallback<T> callback) {
+    public static <T> void getGroupCreate(Context context, int id, int productId, int nums, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("id", id);

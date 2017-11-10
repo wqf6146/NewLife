@@ -104,10 +104,13 @@ public class LogisticsdetailActivity extends BaseToolBarActivity {
             @Override
             public void onClick(View v) {
                 //联系官方客服
-                if (CommonUtil.isQQClientAvailable(LogisticsdetailActivity.this) && mDataBean!=null && mDataBean.getInfo()!=null)
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + mDataBean.getInfo().getQq() + "")));
-                else
-                    showToast("请先安装QQ");
+//                if (CommonUtil.isQQClientAvailable(LogisticsdetailActivity.this) && mDataBean!=null && mDataBean.getInfo()!=null)
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + mDataBean.getInfo().getQq() + "")));
+//                else
+//                    showToast("请先安装QQ");
+                Intent intent = new Intent();
+                intent.setClass(LogisticsdetailActivity.this, ChatLoginActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -86,6 +86,7 @@ import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import butterknife.Bind;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -781,24 +782,30 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         });
     }
 
-    private HashMap mSelectSpecHashMap;
+    private LinkedHashMap mSelectSpecHashMap;
     private HashMap mSelectSpecPosHashMap;
 //    private String mProductId;
     private String mSelectNumb;
     private String mPanicBuyId;
+
     @Override
-    public void onShopCarResLisiten(HashMap hashMap) {
+    public void onShopCarEntityRes(LinkedHashMap hashMap) {
         mSelectSpecHashMap = hashMap;
     }
+
 
     @Override
     public void onShopCarResPos(HashMap hashMap) {
         mSelectSpecPosHashMap = hashMap;
     }
 
+    private String mTvSelectTip;
     @Override
     public void onShopCarSelectString(String string) {
-        mTvSelectString.setText(string);
+        if (TextUtils.isEmpty(string))
+            mTvSelectString.setText(mTvSelectTip);
+        else
+            mTvSelectString.setText(string);
     }
 
     private ShopSpecBean.DataBean mCurSpecBean;
@@ -806,6 +813,8 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
     public void onShopSpecRes(ShopSpecBean.DataBean specBean, String numb) {
         mCurSpecBean = specBean;
         mSelectNumb = numb;
+        if (specBean == null)
+            return;
         mTvPrice.setText("¥" + String.valueOf(specBean.getPrice()));
     }
 
@@ -995,15 +1004,15 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         mWebView.loadUrl(ApiService.SHOP_DETAIL + "#" + dataBean.getGoodsId());
         Log.e("url",ApiService.SHOP_DETAIL + "#" + dataBean.getGoodsId());
 
-        String guige = "请选择商品";
+        mTvSelectTip = "请选择商品";
         for (int i = 0; i < dataBean.getSpec().size(); i++) {
             if (i < dataBean.getSpec().size() - 1) {
-                guige = guige + dataBean.getSpec().get(i).getName() + "，";
+                mTvSelectTip += dataBean.getSpec().get(i).getName() + "，";
             } else {
-                guige = guige + dataBean.getSpec().get(i).getName();
+                mTvSelectTip += dataBean.getSpec().get(i).getName();
             }
         }
-        mTvSelectString.setText(guige);
+        mTvSelectString.setText(mTvSelectTip);
 
 
         if (dataBean.getComment()==null || dataBean.getComment().getList()==null || dataBean.getComment().getList().size() == 0) {

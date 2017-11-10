@@ -219,10 +219,13 @@ public class RefundDetailActivity extends BaseToolBarActivity {
         mLlLineServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CommonUtil.isQQClientAvailable(RefundDetailActivity.this))
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + dataBean.getQq())));
-                else
-                    showToast("请先安装QQ");
+//                if (CommonUtil.isQQClientAvailable(RefundDetailActivity.this))
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=" + dataBean.getQq())));
+//                else
+//                    showToast("请先安装QQ");
+                Intent intent = new Intent();
+                intent.setClass(RefundDetailActivity.this, ChatLoginActivity.class);
+                startActivity(intent);
             }
         });
         mLlPhoneServer.setOnClickListener(new View.OnClickListener() {

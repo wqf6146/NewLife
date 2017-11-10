@@ -1068,7 +1068,25 @@ public class ShopDetailsBean implements Parcelable {
 
             private String minPrice;
             private String maxPrice;
+            private String nMinPrice;
+            private String nMaxPrice;
             private String img;
+
+            public void setnMaxPrice(String nMaxPrice) {
+                this.nMaxPrice = nMaxPrice;
+            }
+
+            public void setnMinPrice(String nMinPrice) {
+                this.nMinPrice = nMinPrice;
+            }
+
+            public String getnMaxPrice() {
+                return nMaxPrice;
+            }
+
+            public String getnMinPrice() {
+                return nMinPrice;
+            }
 
             public void setImg(String img) {
                 this.img = img;
@@ -1103,6 +1121,8 @@ public class ShopDetailsBean implements Parcelable {
             public void writeToParcel(Parcel dest, int flags) {
                 dest.writeString(this.minPrice);
                 dest.writeString(this.maxPrice);
+                dest.writeString(this.nMaxPrice);
+                dest.writeString(this.nMinPrice);
                 dest.writeString(this.img);
             }
 
@@ -1112,6 +1132,8 @@ public class ShopDetailsBean implements Parcelable {
             protected DefaultSpecBean(Parcel in) {
                 this.minPrice = in.readString();
                 this.maxPrice = in.readString();
+                this.nMaxPrice = in.readString();
+                this.nMinPrice = in.readString();
                 this.img = in.readString();
             }
 

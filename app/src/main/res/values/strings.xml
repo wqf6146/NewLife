@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">YiYiYaYa</string>
 
-    <string name="version">V1.1.3</string>
+    <string name="version">V1.1.4</string>
 
     <string name="tencent_qq_appid">znVjPvZAwQQrxXaB</string>
     <string name="weixin_key">wx1b4e339277365985</string>

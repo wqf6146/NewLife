@@ -96,16 +96,19 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         this(context,onShopCarResLisiten,dataBean,null,null,null,type);
     }
     public LeaseShopCarPopupView(Activity activity,OnShopCarResLisiten onShopCarResLisiten,
-                                 ShopDetailsBean.DataBean dataBean,HashMap specHashMap,HashMap selectPosHashMap,String numb,Integer type){
+                                 ShopDetailsBean.DataBean dataBean,LinkedHashMap specHashMap,HashMap selectPosHashMap,String numb,Integer type){
         super(activity);
-        mSpecHashMap = specHashMap;
+        mSelectSpecs = specHashMap;
         mOnShopCarResLisiten = onShopCarResLisiten;
         mSelectPosHashMap = selectPosHashMap;
         mDataBean = dataBean;
         mSelectNumb = numb;
         mType = type;
         setBottomShow();
-        init();
+        if (mSelectPosHashMap == null || mSelectPosHashMap.size() == 0)
+            getSpecList();
+        else
+            init();
     }
 
     private void setBottomShow(){
@@ -128,16 +131,41 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
     }
 
-    private LinkedHashMap mSelectSpecs = new LinkedHashMap();
-    private HashMap mSpecHashMap;
+    private LinkedHashMap mSelectSpecs;
     private HashMap mSelectPosHashMap;
     NumberPickerView mNumbPickerView;
     private TextView mTvLimiteNumb;
     private CommonAdapter mCommonAdapter;
     private HeaderAndFooterWrapper mHeaderAndFooterWrapper;
     private List<ShopDetailsBean.DataBean.SpecBean> mAllSpecBean;
+
+    private void getSpecList(){
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),null,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+            @Override
+            public void onError(ApiException e) {
+                super.onError(e);
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onNext(EnableSpecBean.DataBean dataBean) {
+                mFlLoding.setVisibility(GONE);
+                mEnableSpecList = dataBean.getList();
+                init();
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+            }
+        });
+    }
+
     private void init() {
-//        mFlLoding.setVisibility(GONE);
         initShopSpec();
         mAllSpecBean = mDataBean.getSpec();
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -173,25 +201,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                             }
                         }
                     }
-//                    //检查是否是特殊情况
-//                    if (mEnableSpecList.size() +1 == mDataBean.getSpec().size()){
-//                        String mHealtheworld = null;
-//                        Iterator iter = mSelectSpecs.entrySet().iterator();
-//                        while (iter.hasNext()) {
-//                            Map.Entry entry = (Map.Entry) iter.next();
-//                            mHealtheworld = String.valueOf(entry.getKey());
-//                        }
-//                        if (bean.getId().equals(mHealtheworld)){
-//                            for (int j=0;j<bean.getValue().size();j++){
-//                                ShopDetailsBean.DataBean.SpecBean.ValueBean tagBean = bean.getValue().get(j);
-//                                //先置状态灰色、确认有库存再点亮
-//                                tagBean.setEnable(1);
-//                            }
-//                        }
-//                    }
                 }
-
-
 
                 tagFlowLayout.setAdapter(new TagAdapter<ShopDetailsBean.DataBean.SpecBean.ValueBean>(bean.getValue()) {
                     @Override
@@ -223,10 +233,9 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                                     showToast("暂无库存");
                                     return;
                                 }
-//                                if (parent.getTag(R.id.item_attr_select)!=null && (Integer)parent.getTag(R.id.item_attr_select) == pos)
-//                                        return;
                                 Integer curPos = (Integer) parent.getTag(R.id.item_attr_select);
                                 if (mSelectPosHashMap == null) mSelectPosHashMap = new HashMap();
+                                if (mSelectSpecs == null) mSelectSpecs = new LinkedHashMap();
                                 if (mSelectSpecs.get(parent.getTag()) != null){
                                     mSelectSpecs.remove(parent.getTag());
                                     parent.setTag(R.id.item_attr_select,null);
@@ -236,6 +245,9 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                                     mSelectSpecs.put(parent.getTag(),bean.getName());
                                     parent.setTag(R.id.item_attr_select,pos);
                                     mSelectPosHashMap.put(parent.getTag(),pos);
+                                }else{
+                                    mTvInventory.setText("");
+                                    mTvShopPrice.setText(mCurPriceRange);
                                 }
                                 selectOneSpec();
                                 if (isSelectDone()){
@@ -259,14 +271,12 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
         if (isSelectDone()) {
             updateShopSpec(false);
+            getPriceRange();
         }else{
             mFlLoding.setVisibility(GONE);
             Glide.with(getContext()).load(mDataBean.getDefaultSpec().getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(mImgShop);
-            if (mDataBean.getDefaultSpec().getMaxPrice().equals(mDataBean.getDefaultSpec().getMinPrice())){
-                mTvShopPrice.setText("¥"+mDataBean.getDefaultSpec().getMinPrice());
-            }else{
-                mTvShopPrice.setText("¥"+mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice());
-            }
+            getPriceRange();
+            mTvShopPrice.setText(mCurPriceRange);
             mNumbPickerView.setMaxValue(1) //界面上最小显示1
                     .setCurrentInventory(1) //租赁限制购买数量
                     .setMinDefaultNum(1)
@@ -308,7 +318,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                     return;
                 }
 
-                if (mSpecBean==null){
+                if (mSpecBean == null || !isSelectDone()){
                     Toast.makeText(getContext(),"请选择要购买的商品规格",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -339,7 +349,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                     return;
                 }
 
-                if (mSpecBean==null){
+                if (mSpecBean == null || !isSelectDone()){
                     Toast.makeText(getContext(),"请选择要购买的商品规格",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -364,7 +374,22 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         });
 
     }
-
+    private String mCurPriceRange;
+    private void getPriceRange(){
+        if (mType != null && mType == 0){
+            if (mDataBean.getDefaultSpec().getMaxPrice().equals(mDataBean.getDefaultSpec().getMinPrice())){
+                mCurPriceRange = "¥"+mDataBean.getDefaultSpec().getnMinPrice();
+            }else{
+                mCurPriceRange = "¥"+mDataBean.getDefaultSpec().getnMinPrice() + "～" + mDataBean.getDefaultSpec().getnMaxPrice();
+            }
+        }else {
+            if (mDataBean.getDefaultSpec().getMaxPrice().equals(mDataBean.getDefaultSpec().getMinPrice())){
+                mCurPriceRange = "¥"+mDataBean.getDefaultSpec().getMinPrice();
+            }else{
+                mCurPriceRange = "¥"+mDataBean.getDefaultSpec().getMinPrice() + "～" + mDataBean.getDefaultSpec().getMaxPrice();
+            }
+        }
+    }
     private void setTvStatus( FlowLayout parent,TextView tv,ShopDetailsBean.DataBean.SpecBean.ValueBean bean) {
         if (mEnableSpecList != null && mEnableSpecList.size() > 0){
             for (int p=0;p<mEnableSpecList.size();p++){
@@ -396,17 +421,22 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
     @Override
     public void dismiss() {
         super.dismiss();
-        if (mOnShopCarResLisiten!=null && getCurMaxBuy() > 0){
-            mOnShopCarResLisiten.onShopCarResLisiten(mSpecHashMap);
+        if (mOnShopCarResLisiten!=null){
+            mOnShopCarResLisiten.onShopCarEntityRes(mSelectSpecs);
             mOnShopCarResLisiten.onShopCarResPos(mSelectPosHashMap);
-            if (mSpecBean != null) {
+            mOnShopCarResLisiten.onShopCarSelectString(getSelectString());
+            if (isSelectDone()) {
                 mOnShopCarResLisiten.onShopSpecRes(mSpecBean, mNumbPickerView.getNumText());
                 mOnShopCarResLisiten.onCanSelectRes(getCanSelectStr(0),getCanSelectStr(1));
+            }else{
+                mOnShopCarResLisiten.onShopSpecRes(null,-1);
             }
         }
     }
 
     private String getCanSelectStr(int type) {
+        if ( mSpecBean == null)
+            return null;
         if (type == 0) {
             if (!canBuy(0)) {
                 if (mSpecBean.getStoreNum() == 0) {
@@ -431,21 +461,19 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
 
     private void initShopSpec(){
-        if (mSpecHashMap != null){
-            mSelectSpecs = (LinkedHashMap) mSpecHashMap.get("spec");
+        if (mSelectSpecs != null && mSelectSpecs.size() > 0){
             String curSelecst = getSelectString();
             mTvCurSelect.setText(curSelecst);
             if (mOnShopCarResLisiten != null ){
-                mOnShopCarResLisiten.onShopCarResLisiten(mSpecHashMap);
+                mOnShopCarResLisiten.onShopCarEntityRes(mSelectSpecs);
                 mOnShopCarResLisiten.onShopCarSelectString(curSelecst);
             }
-        }else{
-            mSpecHashMap = new HashMap();
-            mSelectPosHashMap = new HashMap();
         }
     }
 
     private String getSelectString(){
+        if (mSelectSpecs == null || mSelectSpecs.size() == 0)
+            return null;
         String selectString = "已选择 ";
         Iterator iter = mSelectSpecs.entrySet().iterator();
         while (iter.hasNext()) {
@@ -457,9 +485,13 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
     private void selectOneSpec(){
 //        mLastSelectSpecId = id;
-        HashMap args = new HashMap();
-        args.put("spec",mSelectSpecs);
-        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),new Gson().toJson(args),new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+        String jsonStr = null;
+        if (mSelectSpecs != null && mSelectSpecs.size() != 0){
+            HashMap args = new HashMap();
+            args.put("spec",mSelectSpecs);
+            jsonStr = new Gson().toJson(args);
+        }
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),jsonStr,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
@@ -485,8 +517,9 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
 
     private List<EnableSpecBean.DataBean.ListBean> mEnableSpecList;
     private void updateShopSpec(boolean loadView){
-        mSpecHashMap.put("spec",mSelectSpecs);
-        String json = new Gson().toJson(mSpecHashMap);
+        HashMap hashMap = new HashMap();
+        hashMap.put("spec",mSelectSpecs);
+        String json = new Gson().toJson(hashMap);
         YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadView, new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
@@ -508,14 +541,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
             public void onNext(ShopSpecBean.DataBean dataBean) {
                 mFlLoding.setVisibility(GONE);
                 initData(dataBean);
-                String selects = getSelectString();
-//                mTvCurSelect.setText(selects);
-                if (mOnShopCarResLisiten!=null){
-                    mOnShopCarResLisiten.onShopCarResLisiten(mSpecHashMap);
-                    mOnShopCarResLisiten.onShopCarSelectString(selects);
-                    mOnShopCarResLisiten.onShopCarResPos(mSelectPosHashMap);
-                    mOnShopCarResLisiten.onShopSpecRes(dataBean,mNumbPickerView.getNumText());
-                }
             }
         });
     }
@@ -571,9 +596,6 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                     }
                 });
         mTvInventory.setText("库存"+dataBean.getStoreNum()+"件");
-        if (mOnShopCarResLisiten!=null && getCurMaxBuy() > 0) {
-            mOnShopCarResLisiten.onShopSpecRes(dataBean, mNumbPickerView.getNumText());
-        }
     }
 
     private int mLeaseCanMaxBuy;//租赁最大购买量
@@ -639,7 +661,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
     }
 
     public interface OnShopCarResLisiten{
-        void onShopCarResLisiten(HashMap hashMap);
+        void onShopCarEntityRes(LinkedHashMap hashMap);
         void onShopCarResPos(HashMap hashMap);
         void onShopCarSelectString(String string);
         void onShopSpecRes(ShopSpecBean.DataBean specBean, int numb);

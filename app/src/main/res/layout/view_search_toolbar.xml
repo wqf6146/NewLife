@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingBottom="5dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/vt_btn_left"
@@ -15,13 +14,14 @@
 
     <TextView
         android:id="@+id/vt_tv_search"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
         android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/tv_search_bg"
         android:drawableLeft="@mipmap/ic_nor_gray_search"
         android:drawableRight="@mipmap/ic_nor_scan"

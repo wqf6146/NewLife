@@ -223,8 +223,6 @@ public class NewMessageActivity extends BaseToolBarActivity {
 //                else
 //                    showToast("请先安装QQ");
                 Intent intent = new Intent();
-//                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY, index);
-//                intent.putExtra(Constant.MESSAGE_TO_INTENT_EXTRA, Constant.MESSAGE_TO_AFTER_SALES);
                 intent.setClass(NewMessageActivity.this, ChatLoginActivity.class);
                 startActivity(intent);
             }

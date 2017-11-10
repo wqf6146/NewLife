@@ -400,7 +400,7 @@ public class OfferedDetailsActivity extends BaseToolBarActivity {
         }
 
         private String getCanSelectStr() {
-            if (!canBuy()) {
+            if (!canBuy() && mSpecBean != null) {
                 if (mSpecBean.getStoreNum() == 0) {
                     return  "暂无库存";
                 } else {

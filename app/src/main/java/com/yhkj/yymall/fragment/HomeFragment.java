@@ -104,6 +104,8 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         setNetWorkErrShow(GONE);
         mDrawable = mTvSerach.getCompoundDrawables();
         initRefreshLayout();
+        mImgLeft.setImageResource(R.mipmap.ic_nor_message);
+        mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
         mImgLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,20 +119,20 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                 }
             }
         });
-        mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//        mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //007cd1
-                overallXScroll = overallXScroll + dy;// 累加y值 解决滑动一半y值为0
-                if (overallXScroll <= 0) {   //设置标题的背景颜色
-                    mLlTopBar.setBackgroundColor(Color.argb((int) 0, 0, 124, 209));
-                } else if (overallXScroll > 0 && overallXScroll <= height) { //滑动距离小于banner图的高度时，设置背景和字体颜色颜色透明度渐变
-                    float scale = (float) overallXScroll / height;
-                    float alpha = (255 * scale);
+//                overallXScroll = overallXScroll + dy;// 累加y值 解决滑动一半y值为0
+//                if (overallXScroll <= 0) {   //设置标题的背景颜色
+//                    mLlTopBar.setBackgroundColor(Color.argb((int) 0, 0, 124, 209));
+//                } else if (overallXScroll > 0 && overallXScroll <= height) { //滑动距离小于banner图的高度时，设置背景和字体颜色颜色透明度渐变
+//                    float scale = (float) overallXScroll / height;
+//                    float alpha = (255 * scale);
 //                    if (overallXScroll >= height / 2) {
 //                        if (!mGraySet) {
 //                            mGraySet = true;
@@ -144,12 +146,12 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 //                            mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
 //                        }
 //                    }
-                    mLlTopBar.setBackgroundColor(Color.argb((int) alpha, 0, 124, 209));
-                } else {
-                    mLlTopBar.setBackgroundColor(Color.argb(255, 0, 124, 209));
-                }
-            }
-        });
+//                    mLlTopBar.setBackgroundColor(Color.argb((int) alpha, 0, 124, 209));
+//                } else {
+//                    mLlTopBar.setBackgroundColor(Color.argb(255, 0, 124, 209));
+//                }
+//            }
+//        });
 
 //        RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 //        mRecycleView.setRecycledViewPool(viewPool);
@@ -274,18 +276,18 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 
     @Override
     public void onStartPull() {
-        if (mToolbarStatus == 0) {
-            mToolbarStatus = 1;
-            mLlTopBar.startAnimation(getAnimToolBarOut());
-        }
+//        if (mToolbarStatus == 0) {
+//            mToolbarStatus = 1;
+//            mLlTopBar.startAnimation(getAnimToolBarOut());
+//        }
     }
 
     @Override
     public void onBackTop() {
-        if (mToolbarStatus == 1) {
-            mToolbarStatus = 0;
-            mLlTopBar.startAnimation(getAnimToolBarIn());
-        }
+//        if (mToolbarStatus == 1) {
+//            mToolbarStatus = 0;
+//            mLlTopBar.startAnimation(getAnimToolBarIn());
+//        }
     }
 
     @Override

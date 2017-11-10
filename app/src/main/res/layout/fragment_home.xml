@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/fh_refreshlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fh_recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/graybg" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:id="@+id/fh_ll_topbar"
+        android:background="@color/theme_bule"
         android:layout_height="wrap_content">
 
         <View
@@ -32,4 +22,17 @@
             android:layout_width="match_parent"
             android:id="@+id/fh_toolbar" />
     </LinearLayout>
-</FrameLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fh_refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fh_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/graybg" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

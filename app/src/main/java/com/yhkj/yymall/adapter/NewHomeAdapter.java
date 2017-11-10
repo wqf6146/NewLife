@@ -79,7 +79,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
     }
     private void bindIntegral(HomeViewHolder holder) {
         ImageView img = (ImageView)holder.itemView.findViewById(R.id.ii_img);
-        img.setImageResource(R.mipmap.ic_nor_integralbar);
+        img.setImageResource(R.mipmap.ic_nor_blueintengral);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
