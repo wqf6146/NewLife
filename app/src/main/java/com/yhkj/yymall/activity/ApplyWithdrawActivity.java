@@ -87,10 +87,7 @@ public class ApplyWithdrawActivity extends BaseToolBarActivity implements IWebPa
         initWebView();
     }
 
-    @Override
-    public Activity getActivity() {
-        return this;
-    }
+
 
     @Override
     public void hindProgressBar() {
@@ -104,6 +101,16 @@ public class ApplyWithdrawActivity extends BaseToolBarActivity implements IWebPa
     @Override
     public void startProgress() {
 //        startProgress90();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public FrameLayout getVideoFullView() {
+        return null;
     }
 
     @Override
@@ -160,10 +167,7 @@ public class ApplyWithdrawActivity extends BaseToolBarActivity implements IWebPa
                 "}" +
                 "})()");
     }
-    @Override
-    public FrameLayout getVideoFullView() {
-        return null;
-    }
+
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);

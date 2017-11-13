@@ -84,6 +84,7 @@ dependencies {
     compile('cn.bingoogolapple:bga-zxing:1.1.7@aar', {
         exclude group: 'com.android.support'
     })
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
     compile 'com.wanjian:cockroach:0.0.5'
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.android.support:appcompat-v7:25.2.0'

@@ -19,22 +19,27 @@ public class ImageClickInterface {
 
     @JavascriptInterface
     public void imageClick(String imgUrl, String hasLink) {
-        Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
         // 查看大图
 //        Intent intent = new Intent(context, ViewBigImageActivity.class);
 //        context.startActivity(intent);
-        Log.e("----点击了图片 url: ", "" + imgUrl);
+//        Log.e("----点击了图片 url: ", "" + imgUrl);
     }
 
     @JavascriptInterface
     public void textClick(String type, String item_pk) {
-        if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
-            Toast.makeText(context, "----点击了文字", Toast.LENGTH_SHORT).show();
-        }
+//        if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
+//            Toast.makeText(context, "----点击了文字", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @JavascriptInterface
     public void videoFullScreenClick(String url){
-        Toast.makeText(context, "----全屏", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "----全屏", Toast.LENGTH_SHORT).show();
+    }
+
+    @JavascriptInterface
+    public void invokeAosShare(String title,String content){
+
     }
 }

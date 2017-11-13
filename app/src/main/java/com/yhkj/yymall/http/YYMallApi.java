@@ -1243,13 +1243,21 @@ public class YYMallApi {
     }
 
     /**
+     * 线下活动
+     */
+    public static <T> void getOfflineAct(Context context, ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        api.apiPost(ApiService.OFFLINEACT, YYApp.getInstance().getToken(), new HashMap(),false, callback);
+    }
+
+    /**
      * 加入购物车
      */
     public static <T> void getAddCar(Context context, int productId, int nums, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("productId", productId);
-        hashMap.put("nums", nums + "");
+        hashMap.put("nums", nums);
         api.apiPost(ApiService.ADD_CAR, YYApp.getInstance().getToken(), hashMap, true, callback);
     }
 

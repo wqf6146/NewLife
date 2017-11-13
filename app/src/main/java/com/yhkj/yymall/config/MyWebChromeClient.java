@@ -1,7 +1,6 @@
 package com.yhkj.yymall.config;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -102,19 +101,19 @@ public class MyWebChromeClient extends WebChromeClient {
     }
 
     //扩展浏览器上传文件
-    //3.0++版本
-//    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-//        openFileChooserImpl(uploadMsg);
-//    }
+//    3.0++版本
+    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+        openFileChooserImpl(uploadMsg);
+    }
 
 //    //3.0--版本
-//    public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-//        openFileChooserImpl(uploadMsg);
-//    }
+    public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+        openFileChooserImpl(uploadMsg);
+    }
 //
-//    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-//        openFileChooserImpl(uploadMsg);
-//    }
+    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+        openFileChooserImpl(uploadMsg);
+    }
 
     // For Android > 5.0
     @Override
@@ -123,13 +122,13 @@ public class MyWebChromeClient extends WebChromeClient {
         return true;
     }
 
-//    private void openFileChooserImpl(ValueCallback<Uri> uploadMsg) {
-//        mUploadMessage = uploadMsg;
-//        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-//        i.addCategory(Intent.CATEGORY_OPENABLE);
-//        i.setType("image/*");
-//        mActivity.startActivityForResult(Intent.createChooser(i, "文件选择"), FILECHOOSER_RESULTCODE);
-//    }
+    private void openFileChooserImpl(ValueCallback<Uri> uploadMsg) {
+        mUploadMessage = uploadMsg;
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("image/*");
+        mActivity.startActivityForResult(Intent.createChooser(i, "文件选择"), FILECHOOSER_RESULTCODE);
+    }
 
     private void openFileChooserImplForAndroid5(ValueCallback<Uri[]> uploadMsg) {
         mUploadMessageForAndroid5 = uploadMsg;

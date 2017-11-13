@@ -165,9 +165,9 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <activity android:name=".activity.WebActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".activity.ShareCodeActivity"
             android:launchMode="singleTask"
@@ -215,7 +215,6 @@
 
         <activity
             android:name=".activity.TimeKillDetailActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -252,7 +251,6 @@
 
         <activity
             android:name=".activity.LeaseDetailActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -518,7 +516,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.CommodityDetailsActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -537,7 +534,6 @@
         <activity
             android:name=".activity.GrouponDetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 

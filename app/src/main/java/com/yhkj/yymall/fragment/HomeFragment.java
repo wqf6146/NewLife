@@ -2,6 +2,7 @@ package com.yhkj.yymall.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -15,9 +16,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.alibaba.android.vlayout.VirtualLayoutManager;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -35,16 +40,25 @@ import com.yhkj.yymall.activity.NewMessageActivity;
 import com.yhkj.yymall.activity.ScanActivity;
 import com.yhkj.yymall.activity.SearchActivity;
 import com.yhkj.yymall.activity.ShopClassifyActivity;
+import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.adapter.NewHomeAdapter;
 import com.yhkj.yymall.base.Constant;
+import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.bean.BannerBean;
 import com.yhkj.yymall.bean.HomeActBean;
 import com.yhkj.yymall.bean.HomeRecommBean;
+import com.yhkj.yymall.bean.OfflineBean;
 import com.yhkj.yymall.bean.UnReadBean;
+import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.http.api.ApiService;
 import com.yhkj.yymall.view.YiYaHeaderView;
 
+import java.util.List;
+
 import butterknife.Bind;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import static android.view.View.GONE;
 
@@ -74,6 +88,9 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 
     @Bind(R.id.vt_btn_left)
     ImageView mImgLeft;
+
+    @Bind(R.id.fh_img_offlineimg)
+    GifImageView mImgOffline;
 
     private Animation mAnimToolBarIn;
     private Animation mAnimToolBarOut;
@@ -106,6 +123,27 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         initRefreshLayout();
         mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
+//        Glide.with(mContext).load(R.mipmap.ic_nor_offlineact)
+//                .asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .into(new BitmapImageViewTarget(mImgOffline) {
+//                    @Override
+//                    protected void setResource(Bitmap resource) {
+////                    RoundedBitmapDrawable circularBitmapDrawable =
+////                            RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+////                    circularBitmapDrawable.setCircular(true);
+////                    mImgShopImg.setImageDrawable(circularBitmapDrawable);
+//                        mImgOffline.setImageBitmap(resource);
+//                    }
+//                });
+        try{
+            GifDrawable gifDrawable = new GifDrawable(getResources(), R.mipmap.ic_nor_offlineact);
+            mImgOffline.setImageDrawable(gifDrawable);
+            gifDrawable.setLoopCount(0);
+            gifDrawable.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         mImgLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +157,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                 }
             }
         });
+
 //        mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
 //            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
@@ -293,6 +332,16 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
     @Override
     protected void bindEvent() {
         super.bindEvent();
+        mImgOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebActivity.loadUrl(_mActivity,ApiService.OFFLINE_HOME_URL,"报名资料");
+//                Intent intent = new Intent(_mActivity, WebActivity.class);
+//                itent.putExtra("title","报名资料");
+//                intent.putExtra(Constant.WEB_TAG.TAG, ApiService.OFFLINE_HOME_URL);
+//                startActivity(intent);
+            }
+        });
         mTvSerach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,6 +421,57 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }else{
             mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         }
+
+
+    }
+
+    private void getOfflineAct(){
+        YYMallApi.getOfflineAct(_mActivity, new ApiCallback<OfflineBean.DataBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onNext(OfflineBean.DataBean dataBean) {
+                if (checkActArrive(Constant.ACT.ACT_OFFLINE)){
+                    //已经获取过活动 显示悬浮框
+                }else{
+                    //第一次 显示广告图
+
+                    List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+                    if (userConfigList!=null && userConfigList.size() > 0){
+                        UserConfig userConfig = userConfigList.get(0);
+                        userConfig.setActBit(1);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ApiException e) {
+                super.onError(e);
+                showToast(e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 检查活动是否到达
+     * @param act
+     */
+    private boolean checkActArrive(int act) {
+        List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+        if (userConfigList!=null && userConfigList.size() > 0){
+            UserConfig userConfig = userConfigList.get(0);
+            int actBit = userConfig.getActBit();
+            return (actBit & act) == 1;
+        }
+        return false;
     }
 
     private Animation getAnimToolBarOut() {

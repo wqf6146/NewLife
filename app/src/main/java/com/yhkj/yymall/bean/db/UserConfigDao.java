@@ -28,6 +28,7 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
         public final static Property Token = new Property(1, String.class, "token", false, "TOKEN");
         public final static Property State = new Property(2, Boolean.class, "state", false, "STATE");
         public final static Property Phone = new Property(3, String.class, "phone", false, "PHONE");
+        public final static Property ActBit = new Property(4, int.class, "actBit", false, "ACT_BIT");
     }
 
 
@@ -46,7 +47,8 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TOKEN\" TEXT," + // 1: token
                 "\"STATE\" INTEGER," + // 2: state
-                "\"PHONE\" TEXT);"); // 3: phone
+                "\"PHONE\" TEXT," + // 3: phone
+                "\"ACT_BIT\" INTEGER NOT NULL );"); // 4: actBit
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,7 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
         if (phone != null) {
             stmt.bindString(4, phone);
         }
+        stmt.bindLong(5, entity.getActBit());
     }
 
     @Override
@@ -103,6 +106,7 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
         if (phone != null) {
             stmt.bindString(4, phone);
         }
+        stmt.bindLong(5, entity.getActBit());
     }
 
     @Override
@@ -116,7 +120,8 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // token
             cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // state
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // phone
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // phone
+            cursor.getInt(offset + 4) // actBit
         );
         return entity;
     }
@@ -127,6 +132,7 @@ public class UserConfigDao extends AbstractDao<UserConfig, Long> {
         entity.setToken(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setState(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
         entity.setPhone(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setActBit(cursor.getInt(offset + 4));
      }
     
     @Override

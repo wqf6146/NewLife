@@ -246,6 +246,13 @@ public interface Constant {
     int MESSAGE_TO_AFTER_SALES = 2;
     String MESSAGE_TO_INTENT_EXTRA = "message_to";
 
+    /**
+     * 活动表
+     * 1 - 线下活动
+     */
+    interface ACT {
+        int ACT_OFFLINE = 1;
+    }
 
     /**
      * 容云
@@ -253,7 +260,4 @@ public interface Constant {
     String LyImServiceNum = "kefuchannelimid_318694";
     String LYAppKey = "1487171102068217#kefuchannelapp49323";
     String LYTenanId = "49323";
-
-
-
 }

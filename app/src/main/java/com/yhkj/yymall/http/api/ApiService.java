@@ -7,6 +7,9 @@ package com.yhkj.yymall.http.api;
 public interface ApiService {
 
     String SHARE_SHOP_URL = "https://webapp.yiyiyaya.cc/share.html";//分享URL
+    String OFFLINE_HOME_URL = "https://webapp.yiyiyaya.cc/wode.html";//线下活动url
+    String OFFLINE_SHARE_URL = "https://webapp.yiyiyaya.cc/fenxiang.html";//线下活动分享url
+    String OFFLINE_SHAREES_URL = "https://webapp.yiyiyaya.cc/sharees.html";//线下活动分享url
     String SHARE_CODE_URL = "https://webapp.yiyiyaya.cc/Invitation.html";
     String SHOP_DETAIL = "https://webapp.yiyiyaya.cc/detail.html";//商品详情
     String SHOP_DETAIL_TEST = "http://yiyiyaya-oss.oss-cn-zhangjiakou.aliyuncs.com/webapp/detail.html";
@@ -21,6 +24,8 @@ public interface ApiService {
     String HOMEREMMOND = HOST + "/homepage/categorys";
 
     String GETPLACES = HOST + "/other/getAddress"; //获取地区
+
+    String OFFLINEACT = HOST + "/offline/info";//线下活动
 
     String SENDMSG = HOST + "/other/sendMsg";//发送验证码
 

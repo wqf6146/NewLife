@@ -3,12 +3,30 @@
 
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\xsnow\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b0ee585c33b5333a8898758a9cb8bf6997aa7c94">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_e7ba505e86445cbe9485bdcd46a4b2e2e78425f4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\app\libs\SocialSDK_WeiXin_Full.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="fb2f0934928d899d70eab7d83049c60183db7382">
         <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_WeiXin_Full_d326390f645fa1ba09cc0ce7199cf8c64b4c4f80\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\app\libs\umeng_social_api.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="55a810a3647e7324408cb9ca3c64d7c7bfc8f138">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_api_9673d463af27c1b7288da1b2679be91135083465\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -30,12 +48,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\kefu-easeui\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d5231cb9bdc33d007fa031ecc06b89ed0744c305">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_e042e6f10892a233691d57b973f71333c90b679e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\sdk\build\intermediates\bundles\default\libs\UPPayPluginExPro.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="0aefbbe85feb188db29fabff9ec8216a1524b56f">
         <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\8\UPPayPluginExPro_6d33cb60849e64314df24273f0f2af1f930b5ba6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\app\libs\umeng_social_shareboard.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c698121d485cc1cd502ff8fad5e4e71f72ad1e9b">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareboard_bd361f6f042f843dba01f5311365f768bbea2c6f\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,6 +111,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\app\libs\open_sdk_r5781.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cbac7d081542657d885efd7a529a9267d22ec080">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\open_sdk_r5781_36fed1e2c8bf5373bd9d14ca01cfee74a2e4c1af\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\sdk\build\intermediates\bundles\default\libs\UPPayAssistEx.jar"
         jumboMode="false"
         optimize="true"
@@ -111,6 +156,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\YYMall\AppUpdate\build\intermediates\bundles\default\libs\patcher.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="26a860e68ef47fcc9cad29a54ffb0787c16a40bd">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\8\patcher_4622863d613ac382167901899f483872b0378013\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\sdk\build\intermediates\bundles\default\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -129,66 +183,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\xsnow\build\intermediates\bundles\default\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b0ee585c33b5333a8898758a9cb8bf6997aa7c94">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_e7ba505e86445cbe9485bdcd46a4b2e2e78425f4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\app\libs\umeng_social_api.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="55a810a3647e7324408cb9ca3c64d7c7bfc8f138">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_api_9673d463af27c1b7288da1b2679be91135083465\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\kefu-easeui\build\intermediates\bundles\default\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d5231cb9bdc33d007fa031ecc06b89ed0744c305">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_e042e6f10892a233691d57b973f71333c90b679e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\app\libs\umeng_social_shareboard.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c698121d485cc1cd502ff8fad5e4e71f72ad1e9b">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareboard_bd361f6f042f843dba01f5311365f768bbea2c6f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\app\libs\open_sdk_r5781.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="cbac7d081542657d885efd7a529a9267d22ec080">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\open_sdk_r5781_36fed1e2c8bf5373bd9d14ca01cfee74a2e4c1af\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\YYMall\AppUpdate\build\intermediates\bundles\default\libs\patcher.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="26a860e68ef47fcc9cad29a54ffb0787c16a40bd">
-        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\8\patcher_4622863d613ac382167901899f483872b0378013\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="E:\WorkPlaces\YYMall\app\libs\umeng_shareboard_widget.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="4b1a59e4c996ee354c2db160f4b1ad3b0e94aab5">
         <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_shareboard_widget_0ea351376bee8905b7a328697364922d982a9343\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Administrator\.android\build-cache\f66d88a47306dc979b87fff2f6fb177c0a506388\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cda65a47f1400b91bf6ec36ce2510c80eeb21c6d">
+        <dex dex="E:\WorkPlaces\YYMall\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8d2774c4dc96ce4604ea240cef453595ddb17bc1\classes.dex" />
     </item>
 
 </items>
