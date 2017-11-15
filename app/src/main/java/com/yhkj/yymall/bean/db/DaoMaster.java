@@ -21,12 +21,14 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        BaseConfigDao.createTable(db, ifNotExists);
         RecnetSearchBeanDao.createTable(db, ifNotExists);
         UserConfigDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        BaseConfigDao.dropTable(db, ifExists);
         RecnetSearchBeanDao.dropTable(db, ifExists);
         UserConfigDao.dropTable(db, ifExists);
     }
@@ -47,6 +49,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(BaseConfigDao.class);
         registerDaoClass(RecnetSearchBeanDao.class);
         registerDaoClass(UserConfigDao.class);
     }

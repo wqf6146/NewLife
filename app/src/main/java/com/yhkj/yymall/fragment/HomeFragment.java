@@ -1,10 +1,8 @@
 package com.yhkj.yymall.fragment;
 
-import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,13 +14,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 
-import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -30,12 +25,10 @@ import com.vise.log.ViseLog;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.util.StatusBarUtil;
-import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.BaseFragment;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.activity.LoginActivity;
-import com.yhkj.yymall.activity.MessageActivity;
 import com.yhkj.yymall.activity.NewMessageActivity;
 import com.yhkj.yymall.activity.ScanActivity;
 import com.yhkj.yymall.activity.SearchActivity;
@@ -45,15 +38,17 @@ import com.yhkj.yymall.adapter.NewHomeAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.bean.BannerBean;
+import com.yhkj.yymall.bean.BaseConfig;
 import com.yhkj.yymall.bean.HomeActBean;
 import com.yhkj.yymall.bean.HomeRecommBean;
 import com.yhkj.yymall.bean.OfflineBean;
 import com.yhkj.yymall.bean.UnReadBean;
-import com.yhkj.yymall.bean.UserConfig;
+import com.yhkj.yymall.config.LocalActUltils;
 import com.yhkj.yymall.http.YYMallApi;
-import com.yhkj.yymall.http.api.ApiService;
 import com.yhkj.yymall.view.YiYaHeaderView;
+import com.yhkj.yymall.view.popwindows.FullScreenPopupView;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
@@ -123,26 +118,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         initRefreshLayout();
         mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
-//        Glide.with(mContext).load(R.mipmap.ic_nor_offlineact)
-//                .asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .into(new BitmapImageViewTarget(mImgOffline) {
-//                    @Override
-//                    protected void setResource(Bitmap resource) {
-////                    RoundedBitmapDrawable circularBitmapDrawable =
-////                            RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
-////                    circularBitmapDrawable.setCircular(true);
-////                    mImgShopImg.setImageDrawable(circularBitmapDrawable);
-//                        mImgOffline.setImageBitmap(resource);
-//                    }
-//                });
-        try{
-            GifDrawable gifDrawable = new GifDrawable(getResources(), R.mipmap.ic_nor_offlineact);
-            mImgOffline.setImageDrawable(gifDrawable);
-            gifDrawable.setLoopCount(0);
-            gifDrawable.start();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
 
         mImgLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,11 +311,13 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         mImgOffline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebActivity.loadUrl(_mActivity,ApiService.OFFLINE_HOME_URL,"报名资料");
-//                Intent intent = new Intent(_mActivity, WebActivity.class);
-//                itent.putExtra("title","报名资料");
-//                intent.putExtra(Constant.WEB_TAG.TAG, ApiService.OFFLINE_HOME_URL);
-//                startActivity(intent);
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    startActivity(new Intent(_mActivity,LoginActivity.class));
+                    showToast("请先登录");
+                    return;
+                }
+//                startActivity(new Intent(_mActivity, BrowserActivity.class));
+//                WebActivity.loadUrl(_mActivity,String.valueOf(mImgOffline.getTag()),"报名资料");
             }
         });
         mTvSerach.setOnClickListener(new View.OnClickListener() {
@@ -379,6 +357,8 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             mViewStatus.setVisibility(GONE);
         }
+
+        getOfflineAct();
     }
 
     private boolean mLightStatus = false;
@@ -421,10 +401,9 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }else{
             mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         }
-
-
     }
 
+    private OfflineBean.DataBean mOfflineBean;
     private void getOfflineAct(){
         YYMallApi.getOfflineAct(_mActivity, new ApiCallback<OfflineBean.DataBean>() {
             @Override
@@ -438,17 +417,26 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             }
 
             @Override
-            public void onNext(OfflineBean.DataBean dataBean) {
-                if (checkActArrive(Constant.ACT.ACT_OFFLINE)){
-                    //已经获取过活动 显示悬浮框
+            public void onNext(final OfflineBean.DataBean dataBean) {
+                mOfflineBean = dataBean;
+                if (dataBean.getHasJoin() == 1 || checkActArrive(LocalActUltils.ACT_OFFLINE)){
+                    //已经参加过 || 活动已经推送到
+                    mImgOffline.setTag(dataBean.getFloatX().getLink());
+                    new OfflineTask().execute("1");
+                    return;
+                }
+                new OfflineTask().execute("2");
+//                //第一次 显示广告图
+                List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
+                if (baseConfigs!=null && baseConfigs.size() > 0){
+                    BaseConfig baseConfig = baseConfigs.get(0);
+                    baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
+                    DbHelper.getInstance().baseConfigLongDBManager().deleteAll();
+                    DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
                 }else{
-                    //第一次 显示广告图
-
-                    List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
-                    if (userConfigList!=null && userConfigList.size() > 0){
-                        UserConfig userConfig = userConfigList.get(0);
-                        userConfig.setActBit(1);
-                    }
+                    BaseConfig baseConfig = new BaseConfig();
+                    baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
+                    DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
                 }
             }
 
@@ -465,11 +453,11 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
      * @param act
      */
     private boolean checkActArrive(int act) {
-        List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
-        if (userConfigList!=null && userConfigList.size() > 0){
-            UserConfig userConfig = userConfigList.get(0);
-            int actBit = userConfig.getActBit();
-            return (actBit & act) == 1;
+        List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
+        if (baseConfigs!=null && baseConfigs.size() > 0){
+            BaseConfig baseConfig = baseConfigs.get(0);
+            int actBit = baseConfig.getActBit();
+            return LocalActUltils.compareActBitVal(actBit,act);
         }
         return false;
     }
@@ -518,6 +506,57 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             });
         }
         return mAnimToolBarIn;
+    }
+
+
+    public class OfflineTask extends AsyncTask<String, Void, File> {
+
+        private Boolean mSmallOrBig;
+        public OfflineTask() {
+
+        }
+
+        @Override
+        protected File doInBackground(String... params) {
+            mSmallOrBig = params[0].equals("1");
+            try {
+                return Glide
+                        .with(_mActivity)
+                        .load(mSmallOrBig ? mOfflineBean.getFloatX().getImg() : mOfflineBean.getPop().getImg())
+                        .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .get();
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(File result) {
+            if (result == null) {
+                return;
+            }
+            if (mSmallOrBig){
+                mOfflineBean.getFloatX().getImg().split(".");
+                try{
+                    GifDrawable gifDrawable = new GifDrawable(result);
+                    mImgOffline.setImageDrawable(gifDrawable);
+                    gifDrawable.setLoopCount(0);
+                    gifDrawable.start();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else{
+                FullScreenPopupView popupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
+                    @Override
+                    public void dismissWithOutAnima() {
+                        new OfflineTask().execute("1");
+                        mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
+                        super.dismissWithOutAnima();
+                    }
+                };
+                popupView.showPopupWindow();
+            }
+        }
     }
 //
 }

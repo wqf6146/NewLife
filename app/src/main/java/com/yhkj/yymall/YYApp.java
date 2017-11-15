@@ -3,11 +3,11 @@ package com.yhkj.yymall;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import com.hyphenate.chat.ChatClient;
-import com.hyphenate.helpdesk.easeui.UIProvider;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -141,6 +141,13 @@ public class YYApp extends MultiDexApplication {
                 });
             }
         });
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     @Override

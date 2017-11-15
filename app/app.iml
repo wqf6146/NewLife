@@ -92,7 +92,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform (1)" jdkType="Android SDK" />
@@ -106,17 +105,21 @@
     <orderEntry type="library" exported="" name="rxlifecycle-components-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.3.2" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="leakcanary-android-no-op-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="alertdialog-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="percent-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_tool" level="project" />
+    <orderEntry type="library" exported="" name="leakcanary-android-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="SmartRefreshLayout-1.0.2-alpha-6" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="leakcanary-watcher-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="paypal-android-sdk-2.13.3" level="project" />
+    <orderEntry type="library" exported="" name="haha-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="jsr305-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="bga-zxing-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_Sina_Full" level="project" />
@@ -126,8 +129,9 @@
     <orderEntry type="library" exported="" name="weiboSDKCore_3.1.4" level="project" />
     <orderEntry type="library" exported="" name="android-gif-drawable-1.2.8" level="project" />
     <orderEntry type="library" exported="" name="library-1.4.1" level="project" />
-    <orderEntry type="library" exported="" name="renderscript-v8" level="project" />
     <orderEntry type="library" exported="" name="library-1.2.4" level="project" />
+    <orderEntry type="library" exported="" name="agentweb-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="leakcanary-analyzer-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="rxlifecycle-android-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_shareboard" level="project" />
     <orderEntry type="library" exported="" name="library-1.2.0" level="project" />

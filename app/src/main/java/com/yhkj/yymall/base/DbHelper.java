@@ -4,6 +4,7 @@ import android.content.Context;
 
 
 import com.vise.xsnow.database.DBManager;
+import com.yhkj.yymall.bean.BaseConfig;
 import com.yhkj.yymall.bean.RecnetSearchBean;
 import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.bean.db.DaoMaster;
@@ -17,6 +18,7 @@ public class DbHelper {
     private static DbHelper instance;
     private static DBManager<RecnetSearchBean,Long> recnetSearchBeanLongDBManager;
     private static DBManager<UserConfig,Long> userConfigLongDBManager;
+    private static DBManager<BaseConfig,Long> baseConfigLongDBManager;
     private DaoMaster.DevOpenHelper mHelper;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
@@ -61,6 +63,17 @@ public class DbHelper {
         return userConfigLongDBManager;
     }
 
+    public DBManager<BaseConfig, Long> baseConfigLongDBManager(){
+        if (baseConfigLongDBManager == null) {
+            baseConfigLongDBManager = new DBManager<BaseConfig, Long>(){
+                @Override
+                public AbstractDao<BaseConfig, Long> getAbstractDao() {
+                    return mDaoSession.getBaseConfigDao();
+                }
+            };
+        }
+        return baseConfigLongDBManager;
+    }
 
     public DBManager<RecnetSearchBean, Long> recnetSearchBeanLongDBManager() {
         if (recnetSearchBeanLongDBManager == null) {

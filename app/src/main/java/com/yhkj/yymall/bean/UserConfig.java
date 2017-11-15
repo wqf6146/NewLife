@@ -15,7 +15,6 @@ public class UserConfig {
     String token;
     Boolean state;
     String phone;
-    int actBit;
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -49,21 +48,12 @@ public class UserConfig {
         this.id = id;
     }
 
-    public void setActBit(int actBit) {
-        this.actBit = actBit;
-    }
-
-    public int getActBit() {
-        return actBit;
-    }
-
-    @Generated(hash = 1285892582)
-    public UserConfig(Long id, String token, Boolean state, String phone, int actBit) {
+    @Generated(hash = 1560594449)
+    public UserConfig(Long id, String token, Boolean state, String phone) {
         this.id = id;
         this.token = token;
         this.state = state;
         this.phone = phone;
-        this.actBit = actBit;
     }
 
     @Generated(hash = 523434660)
