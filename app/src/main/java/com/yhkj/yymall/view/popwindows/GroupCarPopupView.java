@@ -132,6 +132,7 @@ public class GroupCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -247,7 +248,7 @@ public class GroupCarPopupView extends BasePopupWindow {
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
-                                    notifyDataChanged();
+//                                    notifyDataChanged();
                                 }
                             }
                         });
@@ -273,13 +274,17 @@ public class GroupCarPopupView extends BasePopupWindow {
             getPriceRange();
             mTvShopPrice.setText(mCurPriceRange);
             mNumbPickerView.setMaxValue(1) //界面上最小显示1
-                    .setCurrentInventory(1) //租赁限制购买数量
+                    .setCurrentInventory(1) //购买限制购买数量
                     .setMinDefaultNum(1)
                     .setCurrentNum(1)
                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                         @Override
+                        public String onIsCanClick() {
+                            return isSelectDone() ? "" : "请选选择规格";
+                        }
+                        @Override
                         public void onSelectDone(int value) {
-
+                            mSelectNumb = String.valueOf(value);
                         }
                         @Override
                         public void onWarningForInventory(int inventory) {
@@ -322,7 +327,7 @@ public class GroupCarPopupView extends BasePopupWindow {
                     if (mSpecBean.getStoreNum() == 0){
                         Toast.makeText(getContext(),"暂无库存",Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(getContext(),"超过最大可租赁数量",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"超过最大可购买数量",Toast.LENGTH_SHORT).show();
                     }
                     return;
                 }
@@ -476,7 +481,7 @@ public class GroupCarPopupView extends BasePopupWindow {
                 if (mSpecBean.getStoreNum() == 0) {
                     return "暂无库存";
                 } else {
-                    return "超过最大可租赁数量";
+                    return "超过最大可购买数量";
                 }
             }
             return null;
@@ -520,6 +525,7 @@ public class GroupCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -545,7 +551,7 @@ public class GroupCarPopupView extends BasePopupWindow {
         HashMap hashMap = new HashMap();
         hashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(hashMap);
-        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadView, new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
+        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,null,loadView, new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
 
@@ -598,13 +604,17 @@ public class GroupCarPopupView extends BasePopupWindow {
             }
         }
         mNumbPickerView.setMaxValue(getCurMaxBuy() == 0 ? 1 : getCurMaxBuy()) //界面上最小显示1
-                .setCurrentInventory(getCurMaxBuy() == 0 ? 1 : getCurMaxBuy()) //租赁限制购买数量
+                .setCurrentInventory(getCurMaxBuy() == 0 ? 1 : getCurMaxBuy()) //购买限制购买数量
                 .setMinDefaultNum(1)
                 .setCurrentNum(TextUtils.isEmpty(mSelectNumb) ? 1 : Integer.parseInt(mSelectNumb))
                 .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                     @Override
+                    public String onIsCanClick() {
+                        return isSelectDone() ? "" : "请选选择规格";
+                    }
+                    @Override
                     public void onSelectDone(int value) {
-
+                        mSelectNumb = String.valueOf(value);
                     }
                     @Override
                     public void onWarningForInventory(int inventory) {

@@ -373,6 +373,4 @@ public class MessageAdapter extends BaseAdapter {
     public Drawable getOtherBuddleBg() {
         return otherBuddleBg;
     }
-	
-	
 }

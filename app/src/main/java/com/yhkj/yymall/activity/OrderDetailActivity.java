@@ -64,7 +64,7 @@ import static android.view.View.VISIBLE;
  * Created by Administrator on 2017/7/4.
  */
 
-public class    OrderDetailActivity extends BaseActivity implements YiYaHeaderView.OnRefreshLisiten {
+public class OrderDetailActivity extends BaseActivity implements YiYaHeaderView.OnRefreshLisiten {
 
     @Bind(R.id.vr_refreshview)
     SmartRefreshLayout mRefreshView;
@@ -333,7 +333,7 @@ public class    OrderDetailActivity extends BaseActivity implements YiYaHeaderVi
 
                 mRecycleView.setAdapter(new CommonAdapter<OrderDetailBean.DataBean>(OrderDetailActivity.this,R.layout.item_orderdetail,datas) {
                     @Override
-                    protected void convert(ViewHolder holder, final OrderDetailBean.DataBean bean, int position) {
+                    protected void convert(final ViewHolder holder, final OrderDetailBean.DataBean bean, int position) {
                         holder.setOnClickListener(R.id.iod_ll_lineserver, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -344,7 +344,14 @@ public class    OrderDetailActivity extends BaseActivity implements YiYaHeaderVi
 //                                    showToast("请先安装QQ");
                                 Intent intent = new Intent();
                                 intent.setClass(OrderDetailActivity.this, ChatLoginActivity.class);
+                                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,Constant.INTENT_CODE_IMG_ORDER);
+                                intent.putExtra("orderid",String.valueOf(bean.getId()));
+                                intent.putExtra("ordertitle",bean.getOrderNo());
+                                intent.putExtra("orderprice",((TextView)holder.getView(R.id.iod_tv_orderprice)).getText());
+                                intent.putExtra("orderdesc",bean.getGoodses().get(0).getGoodsName());
+                                intent.putExtra("orderimg",bean.getGoodses().get(0).getGoodsImg());
                                 startActivity(intent);
+
                             }
                         });
                         if (bean.getTrace() == null){

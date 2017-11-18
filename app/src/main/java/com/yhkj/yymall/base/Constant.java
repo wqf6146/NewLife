@@ -16,6 +16,10 @@ public interface Constant {
         String TYPE = "type";
         int LEASE = 2;
         int GROUP = 1;
+        int DAILY = 6;
+        int DISCOUNT = 3;
+        int INTEGRAL = 4;
+        int TIMEKILL = 0;
     }
 
     /**
@@ -236,9 +240,9 @@ public interface Constant {
 
     String INTENT_CODE_IMG_SELECTED_KEY = "img_selected";
     int INTENT_CODE_IMG_SELECTED_DEFAULT = 0;
-    int INTENT_CODE_IMG_SELECTED_1 = 1;
+    int INTENT_CODE_IMG_ORDER = 1;
     int INTENT_CODE_IMG_SELECTED_2 = 2;
-    int INTENT_CODE_IMG_SELECTED_3 = 3;
+    int INTENT_CODE_IMG_SHOP = 3;
     int INTENT_CODE_IMG_SELECTED_4 = 4;
 
     int MESSAGE_TO_DEFAULT = 0;
@@ -257,7 +261,7 @@ public interface Constant {
     /**
      * 容云
      */
-    String LyImServiceNum = "kefuchannelimid_318694";
-    String LYAppKey = "1487171102068217#kefuchannelapp49323";
-    String LYTenanId = "49323";
+    String LyImServiceNum = "kefuchannelimid_682114";
+    String LYAppKey = "1492171117068577#kefuchannelapp49905";
+    String LYTenanId = "69944";
 }

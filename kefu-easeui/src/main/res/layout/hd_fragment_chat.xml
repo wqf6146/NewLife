@@ -15,13 +15,13 @@
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="1px"
-        android:layout_height="1px"
-        />
+        android:layout_height="1px" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/input_menu"
+        android:background="@color/gray_bg"
         android:layout_below="@id/title_bar" >
 
         <com.hyphenate.helpdesk.easeui.widget.MessageList

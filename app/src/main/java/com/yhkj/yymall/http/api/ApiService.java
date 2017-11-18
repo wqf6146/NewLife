@@ -21,6 +21,8 @@ public interface ApiService {
     String BANNER = HOST + "/homepage/slides";  //轮播图
     String HOMEACT = HOST + "/homepage/acitvity"; //首页活动相关
 
+    String OFFLINECALLBACK = HOST + "/offline/shareCallBack";
+
     String HOMEREMMOND = HOST + "/homepage/categorys";
 
     String GETPLACES = HOST + "/other/getAddress"; //获取地区
@@ -38,6 +40,8 @@ public interface ApiService {
     String GETADDRESSLIST = HOST + "/ucenter/addressList"; //收货地址
 
     String ADDADDRESS = HOST + "/ucenter/addAddress"; //添加收货地址
+
+    String OFFLINEACTVALID = HOST + "/offline/isValid";//线下活动是否有效
 
     String UPDATEADDRESS = HOST + "/ucenter/editAddress"; //修改收货地址
 

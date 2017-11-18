@@ -1,10 +1,12 @@
 package com.yhkj.yymall.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +25,12 @@ import com.hyphenate.helpdesk.easeui.util.CommonUtils;
 import com.hyphenate.helpdesk.easeui.widget.AlertDialogFragment;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRow;
 import com.hyphenate.helpdesk.model.MessageHelper;
+import com.vise.xsnow.manager.AppManager;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.activity.MainActivity;
+import com.yhkj.yymall.activity.SetActivity;
+import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.view.chatrow.ChatRowEvaluation;
 import com.yhkj.yymall.view.chatrow.ChatRowForm;
 import com.yhkj.yymall.view.chatrow.ChatRowOrder;
@@ -75,7 +81,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
         super.setUpView();
         //可以在此处设置titleBar(标题栏)的属性
 //        titleBar.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-        titleBar.setLeftImageResource(R.drawable.hd_icon_title_back);
+        titleBar.setLeftImageResource(R.mipmap.ic_nor_arrowleft);
         titleBar.setLeftLayoutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,27 +104,41 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
 
 
     private void showAlertDialog() {
-        FragmentTransaction mFragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        String fragmentTag = "dialogFragment";
-        Fragment fragment =  getActivity().getSupportFragmentManager().findFragmentByTag(fragmentTag);
-        if(fragment!=null){
-            //为了不重复显示dialog，在显示对话框之前移除正在显示的对话框
-            mFragTransaction.remove(fragment);
-        }
-        final AlertDialogFragment dialogFragment = new AlertDialogFragment();
-        dialogFragment.setTitleText(getString(R.string.prompt));
-        dialogFragment.setContentText(getString(R.string.Whether_to_empty_all_chats));
-        dialogFragment.setupLeftButton(null, null);
-        dialogFragment.setupRightBtn(null, new View.OnClickListener() {
+//        FragmentTransaction mFragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        String fragmentTag = "dialogFragment";
+//        Fragment fragment =  getActivity().getSupportFragmentManager().findFragmentByTag(fragmentTag);
+//        if(fragment!=null){
+//            //为了不重复显示dialog，在显示对话框之前移除正在显示的对话框
+//            mFragTransaction.remove(fragment);
+//        }
+//        final AlertDialogFragment dialogFragment = new AlertDialogFragment();
+//        dialogFragment.setTitleText(getString(R.string.prompt));
+//        dialogFragment.setContentText(getString(R.string.Whether_to_empty_all_chats));
+//        dialogFragment.setupLeftButton(null, null);
+//        dialogFragment.setupRightBtn(null, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ChatClient.getInstance().chatManager().clearConversation(toChatUsername);
+//                messageList.refresh();
+//                dialogFragment.dismiss();
+//                MediaManager.release();
+//            }
+//        });
+//        dialogFragment.show(mFragTransaction, fragmentTag);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage(getString(R.string.Whether_to_empty_all_chats));
+        builder.setPositiveButton("取消", null);
+        builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
                 ChatClient.getInstance().chatManager().clearConversation(toChatUsername);
                 messageList.refresh();
-                dialogFragment.dismiss();
                 MediaManager.release();
             }
         });
-        dialogFragment.show(mFragTransaction, fragmentTag);
+        builder.show();
     }
 
     @Override

@@ -140,6 +140,7 @@ public class CommonCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -176,7 +177,6 @@ public class CommonCarPopupView extends BasePopupWindow {
                     tagFlowLayout.setTag(R.id.item_attr_select,object);
                 }
                 tagFlowLayout.setMaxSelectCount(1);
-
                 if (mEnableSpecList!=null){
                     for (int i=0;i<mEnableSpecList.size();i++){
                         EnableSpecBean.DataBean.ListBean enableBean = mEnableSpecList.get(i);
@@ -197,7 +197,6 @@ public class CommonCarPopupView extends BasePopupWindow {
                         }
                     }
                 }
-
                 tagFlowLayout.setAdapter(new TagAdapter<ShopDetailsBean.DataBean.SpecBean.ValueBean>(bean.getValue()) {
                     @Override
                     public View getView(final FlowLayout parent,final int pos, final ShopDetailsBean.DataBean.SpecBean.ValueBean bean) {
@@ -219,7 +218,6 @@ public class CommonCarPopupView extends BasePopupWindow {
                             tv.setTag(false);
                             tv.setBackgroundResource(R.drawable.tag_normal_bg);
                         }
-
 
                         tv.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -247,7 +245,7 @@ public class CommonCarPopupView extends BasePopupWindow {
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
-                                    notifyDataChanged();
+//                                    notifyDataChanged();
                                 }
                             }
                         });
@@ -283,8 +281,12 @@ public class CommonCarPopupView extends BasePopupWindow {
                     .setCurrentNum(1)
                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                         @Override
+                        public String onIsCanClick() {
+                            return isSelectDone() ? "" : "请选选择规格";
+                        }
+                        @Override
                         public void onSelectDone(int value) {
-
+                            mSelectNumb = String.valueOf(value);
                         }
                         @Override
                         public void onWarningForInventory(int inventory) {
@@ -313,7 +315,6 @@ public class CommonCarPopupView extends BasePopupWindow {
             @Override
             public void onClick(View v) {
                 //我要买
-
                 if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     getContext().startActivity(new Intent(getContext(), LoginActivity.class));
                     Toast.makeText(getContext(),"请先登录",Toast.LENGTH_SHORT).show();
@@ -422,6 +423,7 @@ public class CommonCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -519,7 +521,7 @@ public class CommonCarPopupView extends BasePopupWindow {
         HashMap hashMap = new HashMap();
         hashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(hashMap);
-        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadView,  new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
+        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,null,loadView,new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
 
@@ -557,20 +559,24 @@ public class CommonCarPopupView extends BasePopupWindow {
                 .setCurrentNum(TextUtils.isEmpty(mSelectNumb) ? 1 : Integer.parseInt(mSelectNumb))
                 .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                     @Override
-                    public void onSelectDone(int value) {
-
+                    public String onIsCanClick(){
+                        return isSelectDone() ? "" : "请选选择规格";
                     }
                     @Override
-                    public void onWarningForInventory(int inventory) {
+                    public void onSelectDone(int value){
+                        mSelectNumb = String.valueOf(value);
+                    }
+                    @Override
+                    public void onWarningForInventory(int inventory){
                         Toast.makeText(getContext(),"超过最大库存",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onWarningMinInput(int minValue) {
+                    public void onWarningMinInput(int minValue){
                     }
 
                     @Override
-                    public void onWarningMaxInput(int maxValue) {
+                    public void onWarningMaxInput(int maxValue){
                         Toast.makeText(getContext(),"超过最大可购买数量",Toast.LENGTH_SHORT).show();
                     }
                 });

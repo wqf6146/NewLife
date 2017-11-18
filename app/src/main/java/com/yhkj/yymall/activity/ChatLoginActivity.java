@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
@@ -14,7 +15,7 @@ import com.hyphenate.helpdesk.Error;
 import com.hyphenate.helpdesk.callback.Callback;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
-import com.yhkj.yymall.BaseActivity;
+import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
 
@@ -172,9 +173,8 @@ public class ChatLoginActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!ChatLoginActivity.this.isFinishing())
-                    if (progressDialog!=null && progressDialog.isShowing())
-                        progressDialog.dismiss();
+                if (progressDialog!=null && progressDialog.isShowing())
+                    progressDialog.dismiss();
                 //此处演示设置技能组,如果后台设置的技能组名称为[shouqian|shouhou],这样指定即分配到技能组中.
                 //为null则不按照技能组分配,同理可以设置直接指定客服scheduleAgent
                 String queueName = null;
@@ -192,10 +192,10 @@ public class ChatLoginActivity extends AppCompatActivity {
                 bundle.putInt(Constant.INTENT_CODE_IMG_SELECTED_KEY, selectedIndex);
                 //设置点击通知栏跳转事件
                 Conversation conversation = ChatClient.getInstance().chatManager().getConversation(Constant.LyImServiceNum);
-                String titleName = null;
-                if (conversation.officialAccount() != null){
-                    titleName = conversation.officialAccount().getName();
-                }
+                String titleName = "YiYiYaYa客服";
+//                if (conversation.officialAccount() != null){
+//                    titleName = conversation.officialAccount().getName();
+//                }
                 // 进入主页面
                 Intent intent = new IntentBuilder(ChatLoginActivity.this)
                         .setTargetClass(ChatActivity.class)
@@ -207,6 +207,21 @@ public class ChatLoginActivity extends AppCompatActivity {
                         .setShowUserNick(true)
                         .setBundle(bundle)
                         .build();
+                if (selectedIndex == Constant.INTENT_CODE_IMG_ORDER){
+                    intent.putExtra("orderid", getIntent().getStringExtra("orderid"));
+                    intent.putExtra("ordertitle",getIntent().getStringExtra("ordertitle"));
+                    intent.putExtra("orderprice",getIntent().getStringExtra("orderprice"));
+                    intent.putExtra("orderdesc",getIntent().getStringExtra("orderdesc"));
+                    intent.putExtra("orderimg",getIntent().getStringExtra("orderimg"));
+                }else if (selectedIndex == Constant.INTENT_CODE_IMG_SHOP){
+                    intent.putExtra("shopid", getIntent().getStringExtra("shopid"));
+                    intent.putExtra("panicBuyItemId", getIntent().getStringExtra("panicBuyItemId"));
+                    intent.putExtra("shoptype", getIntent().getStringExtra("shoptype"));
+                    intent.putExtra("shopname",getIntent().getStringExtra("shopname"));
+                    intent.putExtra("shopprice",getIntent().getStringExtra("shopprice"));
+                    intent.putExtra("shopdesc",getIntent().getStringExtra("shopdesc"));
+                    intent.putExtra("shopimg",getIntent().getStringExtra("shopimg"));
+                }
                 startActivity(intent);
                 finish();
 

@@ -178,6 +178,10 @@ public class RentPladgeActivity extends BaseToolBarActivity {
                                     .setCurrentNum(1)
                                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                                         @Override
+                                        public String onIsCanClick() {
+                                            return "";
+                                        }
+                                        @Override
                                         public void onSelectDone(int value) {
                                             mSelectGoodsNumb = value;
                                         }

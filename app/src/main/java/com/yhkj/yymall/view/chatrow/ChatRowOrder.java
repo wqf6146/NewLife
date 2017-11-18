@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.hyphenate.helpdesk.model.MessageHelper;
 import com.hyphenate.helpdesk.model.OrderInfo;
 import com.hyphenate.helpdesk.util.Log;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.activity.OrderDetailActivity;
 import com.yhkj.yymall.fragment.CustomChatFragment;
 
 public class ChatRowOrder extends ChatRow {
@@ -82,6 +84,11 @@ public class ChatRowOrder extends ChatRow {
         mTextViewDes.setText(orderInfo.getDesc());
         mTextViewprice.setText(orderInfo.getPrice());
         mOrderTitle.setText(orderInfo.getTitle());
+        if (message.status() == Message.Status.SUCCESS){
+            mBtnSend.setVisibility(GONE);
+            bubbleLayout.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            bubbleLayout.setBackgroundResource(R.drawable.hd_chatto_bg_normal);
+        }
         String imageUrl = orderInfo.getImageUrl();
         if (!TextUtils.isEmpty(imageUrl)){
             Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(com.hyphenate.helpdesk.R.drawable.hd_default_image).into(mImageView);
@@ -90,7 +97,7 @@ public class ChatRowOrder extends ChatRow {
         message.setMessageStatusCallback(new Callback() {
             @Override
             public void onSuccess() {
-                ChatClient.getInstance().chatManager().getConversation(message.to()).removeMessage(message.messageId());
+//                ChatClient.getInstance().chatManager().getConversation(message.to()).removeMessage(message.messageId());
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -131,6 +138,14 @@ public class ChatRowOrder extends ChatRow {
 
     @Override
     protected void onBubbleClick() {
-
+        String id = "";
+        try {
+            id = message.getStringAttribute("id");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+        intent.putExtra("id", Integer.parseInt(id));
+        getContext().startActivity(intent);
     }
 }

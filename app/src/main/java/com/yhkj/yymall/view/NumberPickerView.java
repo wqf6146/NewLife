@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yhkj.yymall.R;
 
@@ -223,28 +224,44 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         int widgetId = view.getId();
         int numText = getNumText();
         if (widgetId == R.id.button_sub) {
-            if (numText > minDefaultNum + 1) {
-                mNumText.setText(String.valueOf(numText - 1));
-            } else {
-                mNumText.setText(String.valueOf(minDefaultNum));
-                //小于警戒值
-                warningForMinInput();
-                Log.d("NumberPicker", "减少已经到达极限");
+            if (onClickInputListener != null){
+                String errInfo = onClickInputListener.onIsCanClick();
+                if (TextUtils.isEmpty(errInfo)){
+                    if (numText > minDefaultNum + 1) {
+                        mNumText.setText(String.valueOf(numText - 1));
+                    } else {
+                        mNumText.setText(String.valueOf(minDefaultNum));
+                        //小于警戒值
+                        warningForMinInput();
+                        Log.d("NumberPicker", "减少已经到达极限");
+                    }
+                }else {
+                    Toast.makeText(getContext(),errInfo,Toast.LENGTH_SHORT).show();
+                }
             }
+
         } else if (widgetId == R.id.button_add) {
-            if (numText < Math.min(maxValue, currentInventory)) {
-                mNumText.setText(String.valueOf(numText + 1));
-            } else if (currentInventory < maxValue) {
-                mNumText.setText(String.valueOf(currentInventory));
-                //库存不足
-                warningForInventory();
-                Log.d("NumberPicker", "增加已经到达极限");
-            } else {
-                mNumText.setText(String.valueOf(maxValue));
-                // 超过限制数量
-                warningForMaxInput();
-                Log.d("NumberPicker", "达到已经限制的输入数量");
+            if (onClickInputListener != null){
+                String errInfo = onClickInputListener.onIsCanClick();
+                if (TextUtils.isEmpty(errInfo)){
+                    if (numText < Math.min(maxValue, currentInventory)) {
+                        mNumText.setText(String.valueOf(numText + 1));
+                    } else if (currentInventory < maxValue) {
+                        mNumText.setText(String.valueOf(currentInventory));
+                        //库存不足
+                        warningForInventory();
+                        Log.d("NumberPicker", "增加已经到达极限");
+                    } else {
+                        mNumText.setText(String.valueOf(maxValue));
+                        // 超过限制数量
+                        warningForMaxInput();
+                        Log.d("NumberPicker", "达到已经限制的输入数量");
+                    }
+                }else{
+                    Toast.makeText(getContext(),errInfo,Toast.LENGTH_SHORT).show();
+                }
             }
+
 
         }
         mNumText.setSelection(mNumText.getText().toString().length());
@@ -329,10 +346,9 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
      * 超过警戒值回调
      */
     public interface OnClickInputListener {
+        String onIsCanClick();
         void onWarningForInventory(int inventory);
-
         void onWarningMinInput(int minValue);
-
         void onWarningMaxInput(int maxValue);
         void onSelectDone(int value);
     }

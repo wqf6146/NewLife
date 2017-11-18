@@ -42,12 +42,16 @@ import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.GrouponSubBean;
 import com.yhkj.yymall.bean.NormsBean;
 import com.yhkj.yymall.bean.OfferedDetailsBean;
+import com.yhkj.yymall.bean.ShopSpecBean;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.view.NestFullListView.NestFullListView;
 import com.yhkj.yymall.view.NestFullListView.NestFullListViewAdapter;
 import com.yhkj.yymall.view.NestFullListView.NestFullViewHolder;
+import com.yhkj.yymall.view.popwindows.GroupCarPopupView;
+import com.yhkj.yymall.view.popwindows.OfferedPopipView;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -59,7 +63,7 @@ import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
  * Created by Administrator on 2017/7/31.
  */
 
-public class OfferedDetailsActivity extends BaseToolBarActivity {
+public class OfferedDetailsActivity extends BaseToolBarActivity implements OfferedPopipView.OnShopCarResLisiten {
 
     @Bind(R.id.img_offereddetails_shop)
     ImageView img_offereddetails_shop;
@@ -235,7 +239,19 @@ public class OfferedDetailsActivity extends BaseToolBarActivity {
                     tv_offereddetails_offere.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new OfferedDetailsActivity.OfferedDetailsPopupView(OfferedDetailsActivity.this, dataBean, dataBean.getGoods().getId() + "").showPopupWindow();
+                            //type团-1 买-0
+                            if (mDataBean == null) return;
+                            OfferedPopipView carPopupView;
+                            if (mSelectSpecHashMap == null)
+                                carPopupView = new OfferedPopipView(OfferedDetailsActivity.this,OfferedDetailsActivity.this,mDataBean,1,groupId);
+                            else
+                                carPopupView = new OfferedPopipView(OfferedDetailsActivity.this,OfferedDetailsActivity.this,mDataBean,mSelectSpecHashMap,
+                                        mSelectSpecPosHashMap,String.valueOf(mSelectNumb),1,groupId);
+                            carPopupView.showPopupWindow();
+
+
+//                            new OfferedDetailsActivity.OfferedDetailsPopupView(OfferedDetailsActivity.this,
+//                                    dataBean, dataBean.getGoods().getId() + "").showPopupWindow();
                         }
                     });
                 }
@@ -290,226 +306,253 @@ public class OfferedDetailsActivity extends BaseToolBarActivity {
         }
     };
 
+    @Override
+    public void onCanSelectRes(String commonCanBuy, String leaseCanBuy) {
 
-    class OfferedDetailsPopupView extends BasePopupWindow implements View.OnClickListener {
-
-        private Context mContext;
-        private TextView vps_tv_shopprice, vps_tv_repertory, tv_popgroupondetails_dbuy, tv_popgroupondetails_tbuy;
-        private RecyclerView vps_rv;
-        private OfferedDetailsPopAdapter detailsPopAdapter;
-        private String goodsIds;
-        private OfferedDetailsBean.DataBean mDataBeans;
-        private ImageView vps_img_shop;
-        private ImageView bt_popdetails_close;
-        private SparseArray<Integer> mListSelectSpec = new SparseArray<>();
-        private String repertory;
-        private String shopId = "";
-        private ProgressBar vpg_progressbar;
-        private NormsBean.DataBean mSpecBean;
-        private OfferedDetailsPopAdapter.DetailsPopCall calls = new OfferedDetailsPopAdapter.DetailsPopCall() {
-            @Override
-            public void send(SparseArray<Integer> sparseArray) {
-                mListSelectSpec = sparseArray;
-                getSpec();
-            }
-
-            @Override
-            public void send(int numbs) {
-                mCurSelectNumb = numbs;
-            }
-        };
-
-        private void initView(){
-            vps_tv_shopprice = (TextView) findViewById(R.id.vps_tv_shopprice);
-            vps_rv = (RecyclerView) findViewById(R.id.vps_rv);
-            vps_img_shop = (ImageView) findViewById(R.id.vps_img_shop);
-            vps_tv_repertory = (TextView) findViewById(R.id.vps_tv_repertory);
-            bt_popdetails_close = (ImageView) findViewById(R.id.bt_popdetails_close);
-            tv_popgroupondetails_dbuy = (TextView) findViewById(R.id.tv_popgroupondetails_dbuy);
-            tv_popgroupondetails_tbuy = (TextView) findViewById(R.id.tv_popgroupondetails_tbuy);
-            vpg_progressbar = (ProgressBar)findViewById(R.id.vpg_progressbar);
-            tv_popgroupondetails_dbuy.setOnClickListener(this);
-            tv_popgroupondetails_tbuy.setOnClickListener(this);
-            bt_popdetails_close.setOnClickListener(this);
-            tv_popgroupondetails_dbuy.setVisibility(GONE);
-            tv_popgroupondetails_tbuy.setVisibility(View.VISIBLE);
-            tv_popgroupondetails_tbuy.setText(mDataBean.getAllowNum() + "人团");
-        }
-
-        public OfferedDetailsPopupView(final Activity context, OfferedDetailsBean.DataBean dataBeans, String goodsId) {
-            super(context);
-            this.mContext = context;
-            this.goodsIds = goodsId;
-            this.mDataBeans = dataBeans;
-            initView();
-            getSpec();
-        }
-        private void getSpec(){
-            HashMap hashMap = new HashMap<>();
-            List<OfferedDetailsBean.DataBean.GoodsBean.SpecBean> specBean = mDataBean.getGoods().getSpec();
-            if (mListSelectSpec == null || mListSelectSpec.size() == 0) {
-                for (int i = 0; i < specBean.size(); i++) {
-                    hashMap.put(specBean.get(i).getId() + "", specBean.get(i).getValue().get(0).getName() + "");
-                    mListSelectSpec.put(i,0);
-                }
-            } else {
-                for (int i = 0; i < specBean.size(); i++) {
-                    hashMap.put(specBean.get(i).getId() + "", specBean.get(i).getValue().get(mListSelectSpec.get(i)).getName() + "");
-                }
-            }
-
-            HashMap hashMaps = new HashMap();
-            hashMaps.put("spec", hashMap);
-            String jsonStr = new Gson().toJson(hashMaps);
-            YYMallApi.getShopSpec(mContext, goodsIds, jsonStr, true,new YYMallApi.ApiResult<NormsBean.DataBean>(mContext) {
-                @Override
-                public void onStart() {
-                }
-
-                @Override
-                public void onError(ApiException e) {
-                    super.onError(e);
-                    showToast(e.getMessage());
-                }
-
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onNext(NormsBean.DataBean dataBean) {
-                    vpg_progressbar.setVisibility(GONE);
-                    updateSpecInfo(dataBean);
-                }
-            });
-        }
-        private void updateSpecInfo(NormsBean.DataBean dataBean) {
-            vpg_progressbar.setVisibility(GONE);
-            mSpecBean = dataBean;
-            calculateCanBuyTag();
-            Glide.with(mContext).load(dataBean.getImg()).into(vps_img_shop);
-            vps_tv_repertory.setText("库存" + dataBean.getStoreNum() + "件");
-            repertory = dataBean.getStoreNum() + "";
-            vps_tv_shopprice.setText("¥" + mDataBean.getGoods().getPrice());
-            shopId = dataBean.getId() + "";
-            List<OfferedDetailsBean.DataBean.GoodsBean.SpecBean> list = mDataBeans.getGoods().getSpec();
-            detailsPopAdapter = new OfferedDetailsPopAdapter(mContext, list, mListSelectSpec, calls, mCurSelectNumb,mSpecBean.getLimitnum(),getCurMaxBuy());
-            vps_rv.setLayoutManager(new LinearLayoutManager(mContext));
-            vps_rv.setAdapter(detailsPopAdapter);
-        }
-
-        private String getCanSelectStr() {
-            if (!canBuy() && mSpecBean != null) {
-                if (mSpecBean.getStoreNum() == 0) {
-                    return  "暂无库存";
-                } else {
-                    return  "超过最大可团购数量";
-                }
-            }else{
-                return null;
-            }
-        }
-
-        private int mGroupCanMaxBuy;
-
-        //计算购买上限
-        private void calculateCanBuyTag(){
-            int limit = mSpecBean.getLimitnum();
-            int storeNumb = mSpecBean.getStoreNum();
-            int allowPayNumb = mSpecBean.getAllowMaxNum();
-            if (limit == 0){
-                //不限购
-                mGroupCanMaxBuy = storeNumb;
-            }else{
-                //限购
-                mGroupCanMaxBuy = allowPayNumb > storeNumb ? storeNumb : allowPayNumb;
-            }
-        }
-
-        private int getCurMaxBuy(){
-            return mGroupCanMaxBuy;
-        }
-
-        /**
-         *
-         */
-        private boolean canBuy(){
-            return mCurSelectNumb <= mGroupCanMaxBuy;
-        }
-
-        @Override
-        protected Animation initShowAnimation() {
-            Animation animation = getTranslateAnimation(500 * 2, 0, 300);
-            return animation;
-        }
-
-        @Override
-        public View getClickToDismissView() {
-            return getPopupWindowView();
-        }
-
-        @Override
-        public View onCreatePopupView() {
-            return createPopupById(R.layout.view_pop_groupdetals);
-        }
-
-        @Override
-        public View initAnimaView() {
-            return findViewById(R.id.vps_rl_popview);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.bt_popdetails_close:
-                    dismiss();
-                    break;
-                case R.id.tv_popgroupondetails_tbuy:
-                    if (repertory.equals("0")) {
-                        showToast("库存不足，请选择其他规格。");
-                    } else {
-                        String str = getCanSelectStr();
-                        if (!TextUtils.isEmpty(str)){
-                            showToast(str);
-                            return;
-                        }
-                        YYMallApi.getGroupComfirm(OfferedDetailsActivity.this, shopId, groupId, mCurSelectNumb + "", new ApiCallback<GrouponSubBean.DataBean>() {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onError(ApiException e) {
-                                showToast(e.getMessage());
-                            }
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onNext(GrouponSubBean.DataBean dataBean) {
-                                intent = new Intent(mContext, CheckOutActivity.class);
-                                intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.GROUPON);
-                                intent.putExtra("groupUserId", dataBean.getGroupUserId() + "");
-                                intent.putExtra("nums", mCurSelectNumb + "");
-                                intent.putExtra("productId", shopId);
-                                mContext.startActivity(intent);
-                            }
-                        });
-
-                        dismiss();
-                    }
-                    break;
-                default:
-                    break;
-
-            }
-        }
     }
+
+    private LinkedHashMap mSelectSpecHashMap;
+    @Override
+    public void onShopCarEntityRes(LinkedHashMap hashMap) {
+        mSelectSpecHashMap = hashMap;
+    }
+
+    HashMap mSelectSpecPosHashMap;
+    @Override
+    public void onShopCarResPos(HashMap hashMap) {
+        mSelectSpecPosHashMap = hashMap;
+    }
+
+    @Override
+    public void onShopCarSelectString(String string) {
+
+    }
+
+    private int mSelectNumb;
+    @Override
+    public void onShopSpecRes(ShopSpecBean.DataBean specBean, int numb) {
+        mSelectNumb = numb;
+    }
+    //
+//    class OfferedDetailsPopupView extends BasePopupWindow implements View.OnClickListener {
+//
+//        private Context mContext;
+//        private TextView vps_tv_shopprice, vps_tv_repertory, tv_popgroupondetails_dbuy, tv_popgroupondetails_tbuy;
+//        private RecyclerView vps_rv;
+//        private OfferedDetailsPopAdapter detailsPopAdapter;
+//        private String goodsIds;
+//        private OfferedDetailsBean.DataBean mDataBeans;
+//        private ImageView vps_img_shop;
+//        private ImageView bt_popdetails_close;
+//        private SparseArray<Integer> mListSelectSpec = new SparseArray<>();
+//        private String repertory;
+//        private String shopId = "";
+//        private ProgressBar vpg_progressbar;
+//        private NormsBean.DataBean mSpecBean;
+//        private OfferedDetailsPopAdapter.DetailsPopCall calls = new OfferedDetailsPopAdapter.DetailsPopCall() {
+//            @Override
+//            public void send(SparseArray<Integer> sparseArray) {
+//                mListSelectSpec = sparseArray;
+//                getSpec();
+//            }
+//
+//            @Override
+//            public void send(int numbs) {
+//                mCurSelectNumb = numbs;
+//            }
+//        };
+//
+//        private void initView(){
+//            vps_tv_shopprice = (TextView) findViewById(R.id.vps_tv_shopprice);
+//            vps_rv = (RecyclerView) findViewById(R.id.vps_rv);
+//            vps_img_shop = (ImageView) findViewById(R.id.vps_img_shop);
+//            vps_tv_repertory = (TextView) findViewById(R.id.vps_tv_repertory);
+//            bt_popdetails_close = (ImageView) findViewById(R.id.bt_popdetails_close);
+//            tv_popgroupondetails_dbuy = (TextView) findViewById(R.id.tv_popgroupondetails_dbuy);
+//            tv_popgroupondetails_tbuy = (TextView) findViewById(R.id.tv_popgroupondetails_tbuy);
+//            vpg_progressbar = (ProgressBar)findViewById(R.id.vpg_progressbar);
+//            tv_popgroupondetails_dbuy.setOnClickListener(this);
+//            tv_popgroupondetails_tbuy.setOnClickListener(this);
+//            bt_popdetails_close.setOnClickListener(this);
+//            tv_popgroupondetails_dbuy.setVisibility(GONE);
+//            tv_popgroupondetails_tbuy.setVisibility(View.VISIBLE);
+//            tv_popgroupondetails_tbuy.setText(mDataBean.getAllowNum() + "人团");
+//        }
+//
+//        public OfferedDetailsPopupView(final Activity context, OfferedDetailsBean.DataBean dataBeans, String goodsId) {
+//            super(context);
+//            this.mContext = context;
+//            this.goodsIds = goodsId;
+//            this.mDataBeans = dataBeans;
+//            initView();
+//            getSpec();
+//        }
+//        private void getSpec(){
+//            HashMap hashMap = new HashMap<>();
+//            List<OfferedDetailsBean.DataBean.GoodsBean.SpecBean> specBean = mDataBean.getGoods().getSpec();
+//            if (mListSelectSpec == null || mListSelectSpec.size() == 0) {
+//                for (int i = 0; i < specBean.size(); i++) {
+//                    hashMap.put(specBean.get(i).getId() + "", specBean.get(i).getValue().get(0).getName() + "");
+//                    mListSelectSpec.put(i,0);
+//                }
+//            } else {
+//                for (int i = 0; i < specBean.size(); i++) {
+//                    hashMap.put(specBean.get(i).getId() + "", specBean.get(i).getValue().get(mListSelectSpec.get(i)).getName() + "");
+//                }
+//            }
+//
+//            HashMap hashMaps = new HashMap();
+//            hashMaps.put("spec", hashMap);
+//            String jsonStr = new Gson().toJson(hashMaps);
+//            YYMallApi.getShopSpec(mContext, goodsIds, jsonStr, true,new YYMallApi.ApiResult<NormsBean.DataBean>(mContext) {
+//                @Override
+//                public void onStart() {
+//                }
+//
+//                @Override
+//                public void onError(ApiException e) {
+//                    super.onError(e);
+//                    showToast(e.getMessage());
+//                }
+//
+//                @Override
+//                public void onCompleted() {
+//
+//                }
+//
+//                @Override
+//                public void onNext(NormsBean.DataBean dataBean) {
+//                    vpg_progressbar.setVisibility(GONE);
+//                    updateSpecInfo(dataBean);
+//                }
+//            });
+//        }
+//        private void updateSpecInfo(NormsBean.DataBean dataBean) {
+//            vpg_progressbar.setVisibility(GONE);
+//            mSpecBean = dataBean;
+//            calculateCanBuyTag();
+//            Glide.with(mContext).load(dataBean.getImg()).into(vps_img_shop);
+//            vps_tv_repertory.setText("库存" + dataBean.getStoreNum() + "件");
+//            repertory = dataBean.getStoreNum() + "";
+//            vps_tv_shopprice.setText("¥" + mDataBean.getGoods().getPrice());
+//            shopId = dataBean.getId() + "";
+//            List<OfferedDetailsBean.DataBean.GoodsBean.SpecBean> list = mDataBeans.getGoods().getSpec();
+//            detailsPopAdapter = new OfferedDetailsPopAdapter(mContext, list, mListSelectSpec, calls, mCurSelectNumb,mSpecBean.getLimitnum(),getCurMaxBuy());
+//            vps_rv.setLayoutManager(new LinearLayoutManager(mContext));
+//            vps_rv.setAdapter(detailsPopAdapter);
+//        }
+//
+//        private String getCanSelectStr() {
+//            if (!canBuy() && mSpecBean != null) {
+//                if (mSpecBean.getStoreNum() == 0) {
+//                    return  "暂无库存";
+//                } else {
+//                    return  "超过最大可团购数量";
+//                }
+//            }else{
+//                return null;
+//            }
+//        }
+//
+//        private int mGroupCanMaxBuy;
+//
+//        //计算购买上限
+//        private void calculateCanBuyTag(){
+//            int limit = mSpecBean.getLimitnum();
+//            int storeNumb = mSpecBean.getStoreNum();
+//            int allowPayNumb = mSpecBean.getAllowMaxNum();
+//            if (limit == 0){
+//                //不限购
+//                mGroupCanMaxBuy = storeNumb;
+//            }else{
+//                //限购
+//                mGroupCanMaxBuy = allowPayNumb > storeNumb ? storeNumb : allowPayNumb;
+//            }
+//        }
+//
+//        private int getCurMaxBuy(){
+//            return mGroupCanMaxBuy;
+//        }
+//
+//        /**
+//         *
+//         */
+//        private boolean canBuy(){
+//            return mCurSelectNumb <= mGroupCanMaxBuy;
+//        }
+//
+//        @Override
+//        protected Animation initShowAnimation() {
+//            Animation animation = getTranslateAnimation(500 * 2, 0, 300);
+//            return animation;
+//        }
+//
+//        @Override
+//        public View getClickToDismissView() {
+//            return getPopupWindowView();
+//        }
+//
+//        @Override
+//        public View onCreatePopupView() {
+//            return createPopupById(R.layout.view_pop_groupdetals);
+//        }
+//
+//        @Override
+//        public View initAnimaView() {
+//            return findViewById(R.id.vps_rl_popview);
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            switch (v.getId()) {
+//                case R.id.bt_popdetails_close:
+//                    dismiss();
+//                    break;
+//                case R.id.tv_popgroupondetails_tbuy:
+//                    if (repertory.equals("0")) {
+//                        showToast("库存不足，请选择其他规格。");
+//                    } else {
+//                        String str = getCanSelectStr();
+//                        if (!TextUtils.isEmpty(str)){
+//                            showToast(str);
+//                            return;
+//                        }
+//                        YYMallApi.getGroupComfirm(OfferedDetailsActivity.this, shopId, groupId, mCurSelectNumb + "", new ApiCallback<GrouponSubBean.DataBean>() {
+//                            @Override
+//                            public void onStart() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(ApiException e) {
+//                                showToast(e.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onCompleted() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(GrouponSubBean.DataBean dataBean) {
+//                                intent = new Intent(mContext, CheckOutActivity.class);
+//                                intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.GROUPON);
+//                                intent.putExtra("groupUserId", dataBean.getGroupUserId() + "");
+//                                intent.putExtra("nums", mCurSelectNumb + "");
+//                                intent.putExtra("productId", shopId);
+//                                mContext.startActivity(intent);
+//                            }
+//                        });
+//
+//                        dismiss();
+//                    }
+//                    break;
+//                default:
+//                    break;
+//
+//            }
+//        }
+//    }
 
     public static String formatTime(int ms, int type) {
 

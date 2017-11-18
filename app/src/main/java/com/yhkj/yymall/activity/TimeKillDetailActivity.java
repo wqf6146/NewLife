@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -17,17 +16,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,9 +41,7 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.vise.log.ViseLog;
-import com.vise.xsnow.event.BusFactory;
 import com.vise.xsnow.manager.AppManager;
-import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.yhkj.yymall.BaseToolBarActivity;
@@ -58,20 +51,17 @@ import com.yhkj.yymall.adapter.UltraBannerPagerAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.BannerItemBean;
 import com.yhkj.yymall.bean.CommonBean;
-import com.yhkj.yymall.bean.ShopDetailsBean;
 import com.yhkj.yymall.bean.ShopSpecBean;
 import com.yhkj.yymall.bean.TimeKillDetailBean;
 import com.yhkj.yymall.config.FullscreenHolder;
 import com.yhkj.yymall.config.IWebPageView;
-import com.yhkj.yymall.config.ImageClickInterface;
+import com.yhkj.yymall.config.JSInterface;
 import com.yhkj.yymall.config.MyWebChromeClient;
 import com.yhkj.yymall.config.MyWebViewClient;
-import com.yhkj.yymall.event.MainTabSelectEvent;
 import com.yhkj.yymall.fragment.CommentFragment;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.http.api.ApiService;
 import com.yhkj.yymall.util.CommonUtil;
-import com.yhkj.yymall.util.TagUtils;
 import com.yhkj.yymall.view.GoodsGoneLayout;
 import com.yhkj.yymall.view.flowlayout.FlowLayout;
 import com.yhkj.yymall.view.flowlayout.TagAdapter;
@@ -315,7 +305,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         mWebChromeClient = new MyWebChromeClient(this);
         mWebView.setWebChromeClient(mWebChromeClient);
         // 与js交互
-        mWebView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
+//        mWebView.addJavascriptInterface(new JSInterface(this), "injectedObject");
         mWebView.setWebViewClient(new MyWebViewClient(this));
     }
     @Override
@@ -554,7 +544,18 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                     startActivity(LoginActivity.class);
                     return;
                 }
-                startActivity(MyServiceActivity.class);
+//                startActivity(MyServiceActivity.class);
+                Intent intent = new Intent();
+                intent.setClass(TimeKillDetailActivity.this, ChatLoginActivity.class);
+                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,Constant.INTENT_CODE_IMG_SHOP);
+                intent.putExtra("shopid",String.valueOf(mDataBean.getGoodsId()));
+                intent.putExtra("panicBuyItemId", String.valueOf(mDataBean.getPanicId()));
+                intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.COMMON));
+                intent.putExtra("shopname",mDataBean.getName());
+                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopdesc",mDataBean.getDescription());
+                intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
+                startActivity(intent);
             }
         });
         rl_detailsline_point.setOnClickListener(new View.OnClickListener() {

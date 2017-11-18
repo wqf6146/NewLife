@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vise.log.ViseLog;
 import com.vise.xsnow.manager.AppManager;
@@ -23,12 +22,11 @@ import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
-import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.BalanceBean;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.config.IWebPageView;
-import com.yhkj.yymall.config.ImageClickInterface;
+import com.yhkj.yymall.config.JSInterface;
 import com.yhkj.yymall.config.MyWebChromeClient;
 import com.yhkj.yymall.config.MyWebViewClient;
 import com.yhkj.yymall.http.YYMallApi;
@@ -211,7 +209,7 @@ public class ApplyWithdrawActivity extends BaseToolBarActivity implements IWebPa
         mWebChromeClient = new MyWebChromeClient(this);
         mWebView.setWebChromeClient(mWebChromeClient);
         // 与js交互
-        mWebView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
+//        mWebView.addJavascriptInterface(new JSInterface(this), "injectedObject");
         mWebView.setWebViewClient(new MyWebViewClient(this));
     }
 

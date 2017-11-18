@@ -12,10 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,20 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.google.gson.Gson;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -49,20 +43,17 @@ import com.vise.log.ViseLog;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
-import com.vise.xsnow.ui.basepopup.BasePopupWindow;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
-import com.yhkj.yymall.adapter.DetailsPopAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.BannerItemBean;
 import com.yhkj.yymall.bean.CommonBean;
-import com.yhkj.yymall.bean.NormsBean;
 import com.yhkj.yymall.bean.ShopDetailsBean;
 import com.yhkj.yymall.bean.ShopSpecBean;
 import com.yhkj.yymall.config.FullscreenHolder;
 import com.yhkj.yymall.config.IWebPageView;
-import com.yhkj.yymall.config.ImageClickInterface;
+import com.yhkj.yymall.config.JSInterface;
 import com.yhkj.yymall.config.MyWebChromeClient;
 import com.yhkj.yymall.config.MyWebViewClient;
 import com.yhkj.yymall.fragment.CommentFragment;
@@ -73,7 +64,6 @@ import com.yhkj.yymall.view.flowlayout.FlowLayout;
 import com.yhkj.yymall.view.flowlayout.TagAdapter;
 import com.yhkj.yymall.view.flowlayout.TagFlowLayout;
 import com.yhkj.yymall.view.nestpager.Page;
-import com.yhkj.yymall.view.popwindows.CommonCarPopupView;
 import com.yhkj.yymall.view.popwindows.DailyCarPopupView;
 import com.yhkj.yymall.view.popwindows.DetailsMenuPopupView;
 import com.yhkj.yymall.view.popwindows.ShopArgsPopupView;
@@ -406,12 +396,22 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
         ll_commoditydetails_kf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(YYApp.getInstance().getToken())) {
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     showToast("请先登录");
                     startActivity(LoginActivity.class);
                     return;
                 }
-                Intent intent = new Intent(getApplicationContext(), MyServiceActivity.class);
+//                Intent intent = new Intent(getApplicationContext(), MyServiceActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(DailyDetailsActivity.this, ChatLoginActivity.class);
+                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,Constant.INTENT_CODE_IMG_SHOP);
+                intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
+                intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.DAILY));
+                intent.putExtra("shopname",mDataBean.getName());
+                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopdesc",mDataBean.getDescription());
+                intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);
             }
         });
@@ -557,7 +557,7 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
         mWebChromeClient = new MyWebChromeClient(this);
         web_commoditydetails.setWebChromeClient(mWebChromeClient);
         // 与js交互
-        web_commoditydetails.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
+//        web_commoditydetails.addJavascriptInterface(new JSInterface(this), "injectedObject");
         web_commoditydetails.setWebViewClient(new MyWebViewClient(this));
     }
     @Override

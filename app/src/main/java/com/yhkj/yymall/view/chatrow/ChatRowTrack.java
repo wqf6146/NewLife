@@ -16,6 +16,13 @@ import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRow;
 import com.hyphenate.helpdesk.model.MessageHelper;
 import com.hyphenate.helpdesk.model.VisitorTrack;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.activity.CommodityDetailsActivity;
+import com.yhkj.yymall.activity.DailyDetailsActivity;
+import com.yhkj.yymall.activity.DiscountDetailsActivity;
+import com.yhkj.yymall.activity.GrouponDetailsActivity;
+import com.yhkj.yymall.activity.IntegralDetailActivity;
+import com.yhkj.yymall.activity.LeaseDetailActivity;
+import com.yhkj.yymall.activity.TimeKillDetailActivity;
 
 public class ChatRowTrack extends ChatRow {
 
@@ -73,7 +80,7 @@ public class ChatRowTrack extends ChatRow {
         }
         mTrackTitle.setText(visitorTrack.getTitle());
         mTextViewDes.setText(visitorTrack.getDesc());
-        mTextViewprice.setText(visitorTrack.getPrice());
+        mTextViewprice.setText("¥"+visitorTrack.getPrice());
         String imageUrl = visitorTrack.getImageUrl();
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(com.hyphenate.helpdesk.R.drawable.hd_default_image).into(mImageView);
@@ -82,6 +89,57 @@ public class ChatRowTrack extends ChatRow {
 
     @Override
     protected void onBubbleClick() {
+        String id = "";
+        String type = "";
+        String panicBuyItemId = "";
+        try {
+            id = message.getStringAttribute("shopid");
+            type = message.getStringAttribute("type");
+            panicBuyItemId = message.getStringAttribute("panicBuyItemId");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+
+        int t = Integer.parseInt(type);
+        int pid = TextUtils.isEmpty(panicBuyItemId) ? 0 : Integer.parseInt(panicBuyItemId);
+        if (t == 2) {
+            //租赁商品
+            Intent intent = new Intent(getContext(), LeaseDetailActivity.class);
+            intent.putExtra("id", id);
+            getContext().startActivity(intent);
+        }else if (t == 0){
+            if (pid != 0){
+                //限时抢购
+                Intent intent = new Intent(getContext(), TimeKillDetailActivity.class);
+                intent.putExtra("id", String.valueOf(pid));
+                getContext().startActivity(intent);
+            }else{
+                //普通商品
+                Intent intent = new Intent(getContext(), CommodityDetailsActivity.class);
+                intent.putExtra("goodsId", id);
+                getContext().startActivity(intent);
+            }
+        }else if (t == 1){
+            //拼团商品
+            Intent intent = new Intent(getContext(), GrouponDetailsActivity.class);
+            intent.putExtra("goodsId", id);
+            getContext().startActivity(intent);
+        }else if (t == 3){
+            //折扣
+            Intent intent = new Intent(getContext(), DiscountDetailsActivity.class);
+            intent.putExtra("goodsId", id);
+            getContext().startActivity(intent);
+        }else if (t == 4){
+            //积分
+            Intent intent = new Intent(getContext(), IntegralDetailActivity.class);
+            intent.putExtra("id", id);
+            getContext().startActivity(intent);
+        }else if (t == 6){
+            //日常活动
+            Intent intent = new Intent(getContext(), DailyDetailsActivity.class);
+            intent.putExtra("goodsId", id);
+            getContext().startActivity(intent);
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.yhkj.yymall.bean.HomeActBean;
 import com.yhkj.yymall.bean.HomeRecommBean;
 import com.yhkj.yymall.event.MainTabSelectEvent;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.view.CountView;
 import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
@@ -488,6 +490,9 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
             });
             adapters.setDataBean(mBannerData);
             UltraViewPager ultraViewPager = (UltraViewPager) holder.itemView;
+            DisplayMetrics metric = new DisplayMetrics();
+            mContext.getWindowManager().getDefaultDisplay().getMetrics(metric);
+            ultraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 2.42);
             ultraViewPager.setAdapter(adapters);
             ultraViewPager.setAutoScroll(2000);
             ultraViewPager.initIndicator();

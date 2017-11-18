@@ -2,10 +2,9 @@ package com.yhkj.yymall.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.text.TextUtils;
 
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.chat.Message;
@@ -14,14 +13,13 @@ import com.hyphenate.helpdesk.easeui.recorder.MediaManager;
 import com.hyphenate.helpdesk.easeui.ui.ChatFragment;
 import com.hyphenate.helpdesk.easeui.util.CommonUtils;
 import com.hyphenate.helpdesk.easeui.util.Config;
+import com.hyphenate.helpdesk.model.ContentFactory;
+import com.hyphenate.helpdesk.model.OrderInfo;
+import com.hyphenate.helpdesk.model.VisitorTrack;
+import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.fragment.CustomChatFragment;
-import com.yhkj.yymall.util.CommonUtil;
-
-import butterknife.Bind;
-
-import static android.view.View.GONE;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -30,8 +28,6 @@ public class ChatActivity extends AppCompatActivity {
     private ChatFragment chatFragment;
 
     String toChatUsername;
-
-    View mDeadStatusView;
 
     @Override
     protected void onResume() {
@@ -44,14 +40,15 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.hd_activity_chat);
+        StatusBarUtil.setStatusBarColor(this,R.color.theme_bule);
         instance = this;
-        mDeadStatusView = findViewById(R.id.ftr_dead_statusbg);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-            mDeadStatusView.setVisibility(GONE);
-        }else{
-            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
-            mDeadStatusView.setBackgroundColor(getResources().getColor(R.color.theme_bule));
-        }
+//        mDeadStatusView = findViewById(R.id.ftr_dead_statusbg);
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//            mDeadStatusView.setVisibility(GONE);
+//        }else{
+//            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
+//            mDeadStatusView.setBackgroundColor(getResources().getColor(R.color.theme_bule));
+//        }
         //IM服务号
         toChatUsername = getIntent().getExtras().getString(Config.EXTRA_SERVICE_IM_NUMBER);
         //可以直接new ChatFragment使用
@@ -76,11 +73,12 @@ public class ChatActivity extends AppCompatActivity {
             //检查是否是从某个商品详情进来
             int selectedIndex = bundle.getInt(Constant.INTENT_CODE_IMG_SELECTED_KEY, Constant.INTENT_CODE_IMG_SELECTED_DEFAULT);
             switch (selectedIndex) {
-                case Constant.INTENT_CODE_IMG_SELECTED_1:
+                case Constant.INTENT_CODE_IMG_ORDER:
                 case Constant.INTENT_CODE_IMG_SELECTED_2:
+
                     sendOrderMessage(selectedIndex);
                     break;
-                case Constant.INTENT_CODE_IMG_SELECTED_3:
+                case Constant.INTENT_CODE_IMG_SHOP:
                 case Constant.INTENT_CODE_IMG_SELECTED_4:
                     sendTrackMessage(selectedIndex);
                     break;
@@ -97,8 +95,16 @@ public class ChatActivity extends AppCompatActivity {
      * @param selectedIndex
      */
     private void sendOrderMessage(int selectedIndex){
-        Message message = Message.createTxtSendMessage(getMessageContent(selectedIndex), toChatUsername);
-//        message.addContent(DemoMessageHelper.createOrderInfo(this, selectedIndex));
+        Message message = Message.createTxtSendMessage(getIntent().getStringExtra("ordertitle"), toChatUsername);
+        OrderInfo info = ContentFactory.createOrderInfo(null);
+        info.title("订单号：" + String.format(getIntent().getStringExtra("ordertitle"))).orderTitle("")
+                .price(getIntent().getStringExtra("orderprice"))
+                .desc(getIntent().getStringExtra("orderdesc"))
+                .imageUrl(getIntent().getStringExtra("orderimg"))
+                .itemUrl("https://admin.yiyiyaya.cc/index.php?controller=order&action=order_show&id=" + getIntent().getStringExtra("orderid"));
+        message.addContent(info);
+        message.setAttribute("id",getIntent().getStringExtra("orderid"));
+//        message.setMsgId(getIntent().getStringExtra("orderid"));
         ChatClient.getInstance().chatManager().saveMessage(message);
     }
 
@@ -107,27 +113,21 @@ public class ChatActivity extends AppCompatActivity {
      * @param selectedIndex
      */
     private void sendTrackMessage(int selectedIndex) {
-        Message message = Message.createTxtSendMessage(getMessageContent(selectedIndex), toChatUsername);
-//        message.addContent(DemoMessageHelper.createVisitorTrack(this, selectedIndex));
+        Message message = Message.createTxtSendMessage(getIntent().getStringExtra("shopname"), toChatUsername);
+        VisitorTrack info = ContentFactory.createVisitorTrack(null);
+        info.title("我正在看")
+                .price(getIntent().getStringExtra("shopprice"))
+                .desc(String.format(getIntent().getStringExtra("shopname")))
+                .imageUrl(getIntent().getStringExtra("shopimg"))
+                .itemUrl("https://admin.yiyiyaya.cc/index.php?controller=goods&action=goods_edit&id=" + getIntent().getStringExtra("shopid"));
+        message.addContent(info);
+        message.setAttribute("shopid",getIntent().getStringExtra("shopid"));
+        message.setAttribute("type",getIntent().getStringExtra("shoptype"));
+        String pid = getIntent().getStringExtra("panicBuyItemId");
+        if (!TextUtils.isEmpty(pid))
+            message.setAttribute("panicBuyItemId",pid);
         ChatClient.getInstance().chatManager().sendMessage(message);
     }
-
-    private String getMessageContent(int selectedIndex){
-        switch (selectedIndex){
-            case 1:
-                return "古驰亮色夹克";
-            case 2:
-                return "铂金女士手提袋";
-            case 3:
-                return "缪缪女士高跟鞋";
-            case 4:
-                return "卡地亚的一块手表";
-        }
-        // 内容自己随意定义。
-        return "";
-    }
-
-
 
     @Override
     protected void onDestroy() {
@@ -145,7 +145,7 @@ public class ChatActivity extends AppCompatActivity {
         if (toChatUsername.equals(username))
             super.onNewIntent(intent);
         else {
-            finish();
+//            finish();
             startActivity(intent);
         }
 

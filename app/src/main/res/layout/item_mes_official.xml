@@ -14,7 +14,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginLeft="10dp"
-        android:src="@mipmap/ic_nor_greenqq" />
+        android:src="@mipmap/ic_nor_onlinechat" />
 
     <LinearLayout
         android:layout_width="wrap_content"

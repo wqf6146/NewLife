@@ -119,6 +119,20 @@ public class YYMallApi {
     }
 
     /**
+     * 线下活动接口回调
+     *
+     * @param context
+     * @param callback
+     * @param <T>
+     */
+    public static <T> void OfflineActCallback(Context context, ApiCallback<T> callback) {
+        ViseApi api = new ViseApi.Builder(context).build();
+        api.post(ApiService.OFFLINECALLBACK, YYApp.getInstance().getToken(),new HashMap(), false, callback);
+    }
+
+
+
+    /**
      * 可选规格
      */
     public static <T> void getEnableSpec(Context context,String goodsId, String spec, ApiCallback<T> callback){
@@ -1206,10 +1220,13 @@ public class YYMallApi {
     /***
      * 读取货品规格
      */
-    public static <T> void getShopSpec(Context context, String goodid, String jsonSpec,boolean loadView, ApiCallback<T> callback) {
+    public static <T> void getShopSpec(Context context, String goodid, String jsonSpec,Integer panicId,boolean loadView, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("goodsId", goodid);
+        if (panicId != null){
+            hashMap.put("panicId", panicId);
+        }
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonSpec);
         api.apiPost(ApiService.LOADGOODSPEC, YYApp.getInstance().getToken(), body, hashMap, loadView, callback);
     }
@@ -1249,6 +1266,19 @@ public class YYMallApi {
         ViseApi api = new ViseApi.Builder(context).build();
         api.apiPost(ApiService.OFFLINEACT, YYApp.getInstance().getToken(), new HashMap(),false, callback);
     }
+
+    /**
+     * 线下活动
+     */
+    public static <T> void getOfflineActIsValid(Context context,int id,ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        HashMap hashMap = new HashMap();
+        hashMap.put("id",id);
+        api.apiPost(ApiService.OFFLINEACTVALID, YYApp.getInstance().getToken(),hashMap,false, callback);
+    }
+
+
+
 
     /**
      * 加入购物车
@@ -1760,7 +1790,7 @@ public class YYMallApi {
     /**
      * 确认参团
      */
-    public static <T> void getGroupComfirm(Context context, String productId, String groupId, String nums, ApiCallback<T> callback) {
+    public static <T> void getGroupComfirm(Context context, int productId, int groupId, int nums, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("groupId", groupId);

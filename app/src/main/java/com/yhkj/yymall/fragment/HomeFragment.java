@@ -1,6 +1,7 @@
 package com.yhkj.yymall.fragment;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -43,6 +44,7 @@ import com.yhkj.yymall.bean.HomeActBean;
 import com.yhkj.yymall.bean.HomeRecommBean;
 import com.yhkj.yymall.bean.OfflineBean;
 import com.yhkj.yymall.bean.UnReadBean;
+import com.yhkj.yymall.bean.ValidBean;
 import com.yhkj.yymall.config.LocalActUltils;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.view.YiYaHeaderView;
@@ -56,6 +58,7 @@ import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by Administrator on 2017/6/19.
@@ -90,7 +93,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
     private Animation mAnimToolBarIn;
     private Animation mAnimToolBarOut;
 
-//    private HomeAdapter mHomeAdapter;
     private NewHomeAdapter mHomeAdapter;
 
     private Drawable[] mDrawable;
@@ -191,7 +193,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
     }
 
     private void getData(final boolean isPullDown) {
-
         YYMallApi.getBanner(_mActivity, new ApiCallback<BannerBean.DataBean>() {
             @Override
             public void onStart() {
@@ -311,13 +312,47 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         mImgOffline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     startActivity(new Intent(_mActivity,LoginActivity.class));
                     showToast("请先登录");
                     return;
                 }
-//                startActivity(new Intent(_mActivity, BrowserActivity.class));
-//                WebActivity.loadUrl(_mActivity,String.valueOf(mImgOffline.getTag()),"报名资料");
+
+                YYMallApi.getOfflineActIsValid(_mActivity,mOfflineBean.getId(),new YYMallApi.ApiResult<ValidBean.DataBean>(_mActivity){
+                    @Override
+                    public void onError(ApiException e) {
+                        super.onError(e);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
+
+                    @Override
+                    public void onNext(ValidBean.DataBean dataBean) {
+                        super.onNext(dataBean);
+                        if (dataBean.getIsValid() == 1) {
+                            if (mAdPopupView != null && !mAdPopupView.isShowing()){
+                                mAdPopupView.showPopupWindow();
+                                mImgOffline.setVisibility(GONE);
+                            }else{
+                                new OfflineTask().execute("2");
+                            }
+//                            WebActivity.loadUrl(_mActivity,String.valueOf(mImgOffline.getTag()),"报名资料");
+                        }else{
+                            showToast("活动已失效");
+                            mImgOffline.setVisibility(GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+                });
+
             }
         });
         mTvSerach.setOnClickListener(new View.OnClickListener() {
@@ -357,8 +392,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             mViewStatus.setVisibility(GONE);
         }
-
-        getOfflineAct();
     }
 
     private boolean mLightStatus = false;
@@ -401,6 +434,17 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }else{
             mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         }
+
+        getOfflineAct();
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (mAdPopupView!= null && mAdPopupView.isShowing()){
+            mAdPopupView.dismissWithOutAnima();
+            return true;
+        }
+        return super.onBackPressedSupport();
     }
 
     private OfflineBean.DataBean mOfflineBean;
@@ -419,31 +463,44 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             @Override
             public void onNext(final OfflineBean.DataBean dataBean) {
                 mOfflineBean = dataBean;
-                if (dataBean.getHasJoin() == 1 || checkActArrive(LocalActUltils.ACT_OFFLINE)){
-                    //已经参加过 || 活动已经推送到
-                    mImgOffline.setTag(dataBean.getFloatX().getLink());
-                    new OfflineTask().execute("1");
-                    return;
-                }
-                new OfflineTask().execute("2");
-//                //第一次 显示广告图
-                List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
-                if (baseConfigs!=null && baseConfigs.size() > 0){
-                    BaseConfig baseConfig = baseConfigs.get(0);
-                    baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
-                    DbHelper.getInstance().baseConfigLongDBManager().deleteAll();
-                    DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
+                if (dataBean.getHasJoin() == 0){
+                    //还没参加过
+                    if (checkActArrive(LocalActUltils.ACT_OFFLINE)) {
+//                        活动已经推送到
+                        if (mImgOffline.getVisibility() != VISIBLE
+                            && ( mAdPopupView == null || (mAdPopupView !=null && !mAdPopupView.isShowing()) ) ){
+                            mImgOffline.setTag(dataBean.getFloatX().getLink());
+                            new OfflineTask().execute("1");
+                        }
+                    }else{
+                        mImgOffline.setTag(dataBean.getPop().getLink());
+                        new OfflineTask().execute("2");
+    //                //第一次 显示广告图
+                        List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
+                        if (baseConfigs!=null && baseConfigs.size() > 0){
+                            BaseConfig baseConfig = baseConfigs.get(0);
+                            baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
+                            baseConfig.setToken(YYApp.getInstance().getToken());
+                            DbHelper.getInstance().baseConfigLongDBManager().deleteAll();
+                            DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
+                        }else{
+                            BaseConfig baseConfig = new BaseConfig();
+                            baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
+                            baseConfig.setToken(YYApp.getInstance().getToken());
+                            DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
+                        }
+                    }
                 }else{
-                    BaseConfig baseConfig = new BaseConfig();
-                    baseConfig.setActBit(LocalActUltils.setActBit(baseConfig.getActBit(),LocalActUltils.ACT_OFFLINE));
-                    DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
+                    mImgOffline.setVisibility(GONE);
                 }
+
             }
 
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
-                showToast(e.getMessage());
+//                showToast(e.getMessage());
+                mImgOffline.setVisibility(GONE);
             }
         });
     }
@@ -452,12 +509,19 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
      * 检查活动是否到达
      * @param act
      */
-    private boolean checkActArrive(int act) {
+    private boolean checkActArrive(int act){
         List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
-        if (baseConfigs!=null && baseConfigs.size() > 0){
+        if(baseConfigs!=null && baseConfigs.size() > 0){
             BaseConfig baseConfig = baseConfigs.get(0);
-            int actBit = baseConfig.getActBit();
-            return LocalActUltils.compareActBitVal(actBit,act);
+            if(!TextUtils.isEmpty(baseConfig.getToken()) && baseConfig.getToken().equals(YYApp.getInstance().getToken())){
+                int actBit = baseConfig.getActBit();
+                return LocalActUltils.compareActBitVal(actBit,act);
+            }
+            return LocalActUltils.compareActBitVal(baseConfig.getActBit(),act);
+        }else{
+            BaseConfig baseConfig = new BaseConfig();
+            baseConfig.setActBit(LocalActUltils.setActBit(0,LocalActUltils.ACT_OFFLINE));
+            DbHelper.getInstance().baseConfigLongDBManager().insert(baseConfig);
         }
         return false;
     }
@@ -535,28 +599,42 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             if (result == null) {
                 return;
             }
+            mImgOffline.setVisibility(GONE);
             if (mSmallOrBig){
-                mOfflineBean.getFloatX().getImg().split(".");
-                try{
-                    GifDrawable gifDrawable = new GifDrawable(result);
-                    mImgOffline.setImageDrawable(gifDrawable);
-                    gifDrawable.setLoopCount(0);
-                    gifDrawable.start();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else{
-                FullScreenPopupView popupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
-                    @Override
-                    public void dismissWithOutAnima() {
-                        new OfflineTask().execute("1");
-                        mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
-                        super.dismissWithOutAnima();
+                boolean bGif = mOfflineBean.getFloatX().getImg().endsWith("gif");
+                if (bGif){
+                    try{
+                        GifDrawable gifDrawable = new GifDrawable(result);
+                        mImgOffline.setImageDrawable(gifDrawable);
+                        mImgOffline.setVisibility(View.VISIBLE);
+                        gifDrawable.setLoopCount(0);
+                        gifDrawable.start();
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                };
-                popupView.showPopupWindow();
+                }else{
+                    mImgOffline.setImageBitmap(BitmapFactory.decodeFile(result.getAbsolutePath()));
+                    mImgOffline.setVisibility(View.VISIBLE);
+                }
+
+            }else{
+                if ( (mAdPopupView ==null || !mAdPopupView.isShowing()) && mImgOffline.getVisibility()!= View.VISIBLE ){
+                    mAdPopupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
+                        @Override
+                        public void dismissWithOutAnima() {
+//                            new OfflineTask().execute("1");
+                            mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
+                            mImgOffline.setVisibility(VISIBLE);
+                            super.dismissWithOutAnima();
+                        }
+                    };
+                    mAdPopupView.setDismissWhenTouchOuside(false);
+                    mAdPopupView.showPopupWindow();
+                }
             }
         }
     }
+
+    private FullScreenPopupView mAdPopupView;
 //
 }

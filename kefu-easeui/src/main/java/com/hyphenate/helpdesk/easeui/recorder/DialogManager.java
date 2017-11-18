@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.helpdesk.R;
+import com.hyphenate.helpdesk.easeui.util.CommonUtils;
 
 import java.text.DecimalFormat;
 
@@ -23,7 +24,7 @@ public class DialogManager {
 
     private TextView mLabel;
     private Context mContext;
-    private DecimalFormat decimalFormat = new DecimalFormat("0.0");
+    private DecimalFormat decimalFormat = new DecimalFormat("#0.0");
 
     public DialogManager(Context context) {
         mContext = context;
@@ -34,6 +35,7 @@ public class DialogManager {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.hd_widget_voice_recorder, null);
         mDialog.setContentView(view);
+        view.getLayoutParams().width = CommonUtils.dip2px(mContext,80);
         mVoice = (ImageView) mDialog.findViewById(R.id.mic_image);
         mLabel = (TextView) mDialog.findViewById(R.id.recording_hint);
         mDialog.show();
@@ -86,7 +88,7 @@ public class DialogManager {
     }
     public void updateRecordTime(float time) {
         if (mDialog != null && mDialog.isShowing()) {
-            mLabel.setText(decimalFormat.format(time));
+            mLabel.setText(decimalFormat.format(time) + "s");
         }
     }
 }

@@ -54,6 +54,16 @@ public class OfflineBean {
         private FloatBean floatX;
         private int hasJoin;
 
+        private int id;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public PopBean getPop() {
             return pop;
         }

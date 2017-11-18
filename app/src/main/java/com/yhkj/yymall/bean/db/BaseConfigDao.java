@@ -26,6 +26,7 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property ActBit = new Property(1, int.class, "actBit", false, "ACT_BIT");
+        public final static Property Token = new Property(2, String.class, "token", false, "TOKEN");
     }
 
 
@@ -42,7 +43,8 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BASE_CONFIG\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"ACT_BIT\" INTEGER NOT NULL );"); // 1: actBit
+                "\"ACT_BIT\" INTEGER NOT NULL ," + // 1: actBit
+                "\"TOKEN\" TEXT);"); // 2: token
     }
 
     /** Drops the underlying database table. */
@@ -60,6 +62,11 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getActBit());
+ 
+        String token = entity.getToken();
+        if (token != null) {
+            stmt.bindString(3, token);
+        }
     }
 
     @Override
@@ -71,6 +78,11 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getActBit());
+ 
+        String token = entity.getToken();
+        if (token != null) {
+            stmt.bindString(3, token);
+        }
     }
 
     @Override
@@ -82,7 +94,8 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
     public BaseConfig readEntity(Cursor cursor, int offset) {
         BaseConfig entity = new BaseConfig( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1) // actBit
+            cursor.getInt(offset + 1), // actBit
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // token
         );
         return entity;
     }
@@ -91,6 +104,7 @@ public class BaseConfigDao extends AbstractDao<BaseConfig, Long> {
     public void readEntity(Cursor cursor, BaseConfig entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setActBit(cursor.getInt(offset + 1));
+        entity.setToken(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     
     @Override

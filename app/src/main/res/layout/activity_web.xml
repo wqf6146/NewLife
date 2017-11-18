@@ -34,9 +34,4 @@
 
     </RelativeLayout>
 
-    <WebView
-        android:layout_width="match_parent"
-        android:id="@+id/aw_webview"
-        android:layout_height="match_parent"></WebView>
-
 </LinearLayout>

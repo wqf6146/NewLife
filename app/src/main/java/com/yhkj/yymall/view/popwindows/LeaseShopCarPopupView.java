@@ -144,6 +144,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -252,7 +253,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
-                                    notifyDataChanged();
+//                                    notifyDataChanged();
                                 }
                             }
                         });
@@ -283,8 +284,12 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                     .setCurrentNum(1)
                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                         @Override
+                        public String onIsCanClick() {
+                            return isSelectDone() ? "" : "请选选择规格";
+                        }
+                        @Override
                         public void onSelectDone(int value) {
-
+                            mSelectNumb = String.valueOf(value);
                         }
                         @Override
                         public void onWarningForInventory(int inventory) {
@@ -495,6 +500,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -520,7 +526,7 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
         HashMap hashMap = new HashMap();
         hashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(hashMap);
-        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadView, new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
+        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,null,loadView, new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
 
@@ -578,8 +584,12 @@ public class LeaseShopCarPopupView extends BasePopupWindow {
                 .setCurrentNum(TextUtils.isEmpty(mSelectNumb) ? 1 : Integer.parseInt(mSelectNumb))
                 .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                     @Override
+                    public String onIsCanClick() {
+                        return isSelectDone() ? "" : "请选选择规格";
+                    }
+                    @Override
                     public void onSelectDone(int value) {
-
+                        mSelectNumb = String.valueOf(value);
                     }
                     @Override
                     public void onWarningForInventory(int inventory) {

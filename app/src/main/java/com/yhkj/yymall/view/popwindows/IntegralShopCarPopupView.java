@@ -141,6 +141,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -250,7 +251,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
-                                    notifyDataChanged();
+//                                    notifyDataChanged();
                                 }
                             }
                         });
@@ -293,8 +294,12 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
                     .setCurrentNum(1)
                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                         @Override
+                        public String onIsCanClick() {
+                            return isSelectDone() ? "" : "请选选择规格";
+                        }
+                        @Override
                         public void onSelectDone(int value) {
-
+                            mSelectNumb = String.valueOf(value);
                         }
                         @Override
                         public void onWarningForInventory(int inventory) {
@@ -415,6 +420,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -499,7 +505,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
         HashMap hashMap = new HashMap();
         hashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(hashMap);
-        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadview,new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
+        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,null,loadview,new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
 
@@ -568,12 +574,20 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
     private void initData(ShopSpecBean.DataBean dataBean) {
         mSpecBean = dataBean;
         calculateCanBuyTag();
-        if (dataBean.getLimitnum() == 0){
+        if (dataBean.getLimitnum() != 0 ){
             //不限购
-            mTvLimiteNumb.setVisibility(GONE);
+            if (mType == null){
+                mTvLimiteNumb.setText("（积分购买每人限购" + dataBean.getLimitnum() + "件)");
+                mTvLimiteNumb.setVisibility(View.VISIBLE);
+            }else if (mType == 0){
+                mTvLimiteNumb.setVisibility(GONE);
+            }else{
+                mTvLimiteNumb.setText("（每人限购" + dataBean.getLimitnum() + "件)");
+                mTvLimiteNumb.setVisibility(View.VISIBLE);
+            }
         }else{
-            mTvLimiteNumb.setText("（每人限购" + dataBean.getLimitnum() + "件)");
-            mTvLimiteNumb.setVisibility(View.VISIBLE);
+//            mTvLimiteNumb.setText("（积分购买每人限购" + dataBean.getLimitnum() + "件)");
+            mTvLimiteNumb.setVisibility(View.GONE);
         }
 
         Glide.with(getContext()).load(dataBean.getImg()).into(mImgShop);
@@ -590,8 +604,12 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
                 .setCurrentNum(TextUtils.isEmpty(mSelectNumb) ?  1 : Integer.parseInt(mSelectNumb))
                 .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                     @Override
+                    public String onIsCanClick() {
+                        return isSelectDone() ? "" : "请选选择规格";
+                    }
+                    @Override
                     public void onSelectDone(int value) {
-
+                        mSelectNumb = String.valueOf(value);
                     }
                     @Override
                     public void onWarningForInventory(int inventory) {

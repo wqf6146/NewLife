@@ -14,6 +14,7 @@ public class BaseConfig {
     Long id;
 
     int actBit;
+    String token;
 
     public int getActBit() {
         return this.actBit;
@@ -31,10 +32,19 @@ public class BaseConfig {
         this.id = id;
     }
 
-    @Generated(hash = 1431119375)
-    public BaseConfig(Long id, int actBit) {
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Generated(hash = 926575067)
+    public BaseConfig(Long id, int actBit, String token) {
         this.id = id;
         this.actBit = actBit;
+        this.token = token;
     }
 
     @Generated(hash = 1736079804)

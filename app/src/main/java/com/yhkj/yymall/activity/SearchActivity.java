@@ -151,40 +151,47 @@ public class SearchActivity extends BaseToolBarActivity {
         super.onResume();
         loadRecentSearchShop();
     }
-
+    private TagAdapter mTagAdapter;
     private void loadRecentSearchShop(){
         List<RecnetSearchBean> recnetSearchBeanList = DbHelper.getInstance().recnetSearchBeanLongDBManager().queryBuilder().orderDesc(RecnetSearchBeanDao.Properties.Id).limit(10)
                 .build().list();
         if (recnetSearchBeanList.size() > 0){
             mRlRecent.setVisibility(View.VISIBLE);
-            mrecentFlowLayout.setAdapter(new TagAdapter<RecnetSearchBean>(recnetSearchBeanList) {
-                @Override
-                public View getView(FlowLayout parent, int position, final RecnetSearchBean bean) {
-                    TextView tv = (TextView) LayoutInflater.from(SearchActivity.this).inflate(R.layout.item_flow_tv,
-                            mrecentFlowLayout, false);
-                    tv.setText(bean.getMText());
-                    tv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            QueryBuilder<RecnetSearchBean> queryBuilder = DbHelper.getInstance().recnetSearchBeanLongDBManager().queryBuilder();
-                            List<RecnetSearchBean> listRes = queryBuilder.where(RecnetSearchBeanDao.Properties.MText.eq(bean.getMText())).list();
-                            if (listRes.size() == 0){
-                                DbHelper.getInstance().recnetSearchBeanLongDBManager().insert(new RecnetSearchBean(bean.getMText()));
-                            }else{
-                                RecnetSearchBean bean = listRes.get(0);
-                                DbHelper.getInstance().recnetSearchBeanLongDBManager().delete(bean);
-                                DbHelper.getInstance().recnetSearchBeanLongDBManager().insert(new RecnetSearchBean(bean.getMText()));
+            mrecentFlowLayout.setVisibility(View.VISIBLE);
+            if (mTagAdapter == null){
+                mTagAdapter = new TagAdapter<RecnetSearchBean>(recnetSearchBeanList) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, final RecnetSearchBean bean) {
+                        TextView tv = (TextView) LayoutInflater.from(SearchActivity.this).inflate(R.layout.item_flow_tv,
+                                mrecentFlowLayout, false);
+                        tv.setText(bean.getMText());
+                        tv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                QueryBuilder<RecnetSearchBean> queryBuilder = DbHelper.getInstance().recnetSearchBeanLongDBManager().queryBuilder();
+                                List<RecnetSearchBean> listRes = queryBuilder.where(RecnetSearchBeanDao.Properties.MText.eq(bean.getMText())).list();
+                                if (listRes.size() == 0){
+                                    DbHelper.getInstance().recnetSearchBeanLongDBManager().insert(new RecnetSearchBean(bean.getMText()));
+                                }else{
+                                    RecnetSearchBean bean = listRes.get(0);
+                                    DbHelper.getInstance().recnetSearchBeanLongDBManager().delete(bean);
+                                    DbHelper.getInstance().recnetSearchBeanLongDBManager().insert(new RecnetSearchBean(bean.getMText()));
+                                }
+                                Intent intent = new Intent(SearchActivity.this,ShopListActivity.class);
+                                intent.putExtra("value",bean.getMText());
+                                intent.putExtra("name",bean.getMText());
+                                intent.putExtra(Constant.TOOLBAR_TYPE.TYPE, Constant.TOOLBAR_TYPE.SEARCH_TV);
+                                startActivity(intent);
                             }
-                            Intent intent = new Intent(SearchActivity.this,ShopListActivity.class);
-                            intent.putExtra("value",bean.getMText());
-                            intent.putExtra("name",bean.getMText());
-                            intent.putExtra(Constant.TOOLBAR_TYPE.TYPE, Constant.TOOLBAR_TYPE.SEARCH_TV);
-                            startActivity(intent);
-                        }
-                    });
-                    return tv;
-                }
-            });
+                        });
+                        return tv;
+                    }
+                };
+                mrecentFlowLayout.setAdapter(mTagAdapter);
+            }else{
+                mTagAdapter.setTagDatas(recnetSearchBeanList);
+                mTagAdapter.notifyDataChanged();
+            }
         }else{
             mRlRecent.setVisibility(GONE);
             mrecentFlowLayout.setVisibility(GONE);

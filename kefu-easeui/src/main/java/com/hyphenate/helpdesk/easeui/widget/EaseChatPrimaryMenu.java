@@ -2,6 +2,7 @@ package com.hyphenate.helpdesk.easeui.widget;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyphenate.helpdesk.R;
+
+import java.util.List;
 
 /**
  * 聊天输入栏主菜单栏
@@ -115,10 +118,13 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements View
         });
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEND  ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)){
+
                     if (sendTextMsg()) return true;
                     return true;
                 }
+
                 return false;
             }
         });

@@ -26,6 +26,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
+import com.vise.xsnow.util.InputMethodUtils;
 import com.yhkj.yymall.BaseActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -212,6 +213,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(LoginActivity.this).setShareConfig(config);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     @Override

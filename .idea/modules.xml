@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppUpdate/AppUpdate.iml" filepath="$PROJECT_DIR$/AppUpdate/AppUpdate.iml" />
-      <module fileurl="file://$PROJECT_DIR$/YYMall.iml" filepath="$PROJECT_DIR$/YYMall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NewLife-master.iml" filepath="$PROJECT_DIR$/NewLife-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" filepath="$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/kefu-easeui/kefu-easeui.iml" filepath="$PROJECT_DIR$/kefu-easeui/kefu-easeui.iml" />

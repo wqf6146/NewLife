@@ -353,7 +353,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
             conversation.markAllMessagesAsRead();
             final List<Message> msgs = conversation.getAllMessages();
             int msgCount = msgs != null ? msgs.size() : 0;
-            if (msgCount < conversation.getAllMsgCount() && msgCount < pagesize) {
+            if (msgCount < conversation.getAllMsgCount() && msgCount < pagesize){
                 String msgId = null;
                 if (msgs != null && msgs.size() > 0) {
                     msgId = msgs.get(0).messageId();
@@ -361,7 +361,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
                 conversation.loadMessages(msgId, pagesize - msgCount);
             }
         }
-
     }
 
     protected void onMessageListInit() {

@@ -96,8 +96,6 @@ public class HxHelper {
         }
     }
 
-
-
     private void setEaseUIProvider(final Context context){
         //设置头像和昵称 某些控件可能没有头像和昵称，需要注意
         UIProvider.getInstance().setUserProfileProvider(new UIProvider.UserProfileProvider() {

@@ -1,12 +1,7 @@
 package com.yhkj.yymall.view.popwindows;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.webkit.WebSettings;
@@ -15,16 +10,11 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
-import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.vise.xsnow.ui.basepopup.BasePopupWindow;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.config.IWebPageView;
-import com.yhkj.yymall.config.ImageClickInterface;
 import com.yhkj.yymall.config.MyWebChromeClient;
 import com.yhkj.yymall.config.MyWebViewClient;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -139,7 +129,7 @@ public class WebPopupView<T> extends BasePopupWindow implements IWebPageView {
         mWebChromeClient = new MyWebChromeClient(this);
         mWebView.setWebChromeClient(mWebChromeClient);
         // 与js交互
-//        mWebView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
+//        mWebView.addJavascriptInterface(new JSInterface(this), "injectedObject");
         mWebView.setWebViewClient(new MyWebViewClient(this));
     }
     @Override

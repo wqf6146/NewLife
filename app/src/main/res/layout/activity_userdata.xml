@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/au_img_right1"
-                    android:maxLength="8"
+                    android:maxLength="11"
                     android:textColor="@color/grayfont"
                     android:textSize="@dimen/content_text_s14" />
 
@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:layout_toLeftOf="@+id/au_btn_clearname"
                     android:inputType="text"
-                    android:maxLength="8"
+                    android:maxLength="11"
                     android:background="@null"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imh_ll_container"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="170dp"
     android:background="@mipmap/ic_nor_minebg"
     android:gravity="center_vertical"
     android:orientation="vertical">
@@ -26,10 +26,10 @@
 
             <ImageView
                 android:id="@+id/imh_img_user"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
                 android:src="@mipmap/ic_nor_srcheadimg" />
 
             <RelativeLayout
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/content_text_s16" />
+                        android:textSize="@dimen/content_text_s14" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"

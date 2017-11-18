@@ -117,7 +117,7 @@ public class DailyCarPopupView extends BasePopupWindow {
     private final int COLOR_UNENABLE = Color.parseColor("#a1a1a1");
     private void setBottomShow(){
         if (mType == null){
-            mTvCopyLeft.setText("加入购物车");
+            mTvCopyLeft.setVisibility(GONE);
             mTvCopyRight.setText("立即购买");
             return;
         }else{
@@ -139,6 +139,7 @@ public class DailyCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -247,7 +248,7 @@ public class DailyCarPopupView extends BasePopupWindow {
                                 selectOneSpec();
                                 if (isSelectDone()){
                                     updateShopSpec(false);
-                                    notifyDataChanged();
+//                                    notifyDataChanged();
                                 }
                             }
                         });
@@ -284,7 +285,7 @@ public class DailyCarPopupView extends BasePopupWindow {
                     .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                         @Override
                         public void onSelectDone(int value) {
-
+                            mSelectNumb = String.valueOf(value);
                         }
                         @Override
                         public void onWarningForInventory(int inventory) {
@@ -298,6 +299,10 @@ public class DailyCarPopupView extends BasePopupWindow {
                         @Override
                         public void onWarningMaxInput(int maxValue) {
                             Toast.makeText(getContext(),"请选选择规格",Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public String onIsCanClick() {
+                            return isSelectDone() ? "" : "请选选择规格";
                         }
                     });
         }
@@ -422,6 +427,7 @@ public class DailyCarPopupView extends BasePopupWindow {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+                showToast(e.getMessage());
             }
 
             @Override
@@ -519,7 +525,7 @@ public class DailyCarPopupView extends BasePopupWindow {
         HashMap hashMap = new HashMap();
         hashMap.put("spec",mSelectSpecs);
         String json = new Gson().toJson(hashMap);
-        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,loadView,  new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
+        YYMallApi.getShopSpec(getContext(), String.valueOf(mDataBean.getId()), json,null,loadView,  new YYMallApi.ApiResult<ShopSpecBean.DataBean>(getContext()) {
             @Override
             public void onStart() {
 
@@ -551,6 +557,13 @@ public class DailyCarPopupView extends BasePopupWindow {
         calculateCanBuyTag();
         Glide.with(getContext()).load(dataBean.getImg()).into(mImgShop);
         mTvShopPrice.setText("¥"+mTwoPointDf.format(mSpecBean.getPrice()));
+        if (dataBean.getLimitnum() > 0){
+            mTvLimiteNumb.setVisibility(View.VISIBLE);
+            mTvLimiteNumb.setText("（每人限购" + mSpecBean.getLimitnum() + "件）");
+        }else{
+            mTvLimiteNumb.setVisibility(GONE);
+        }
+
         mNumbPickerView.setMaxValue(mCommonCanMaxBuy == 0 ? 1 : mCommonCanMaxBuy)
                 .setCurrentInventory(mCommonCanMaxBuy == 0 ? 1 : mCommonCanMaxBuy)
                 .setMinDefaultNum(1)
@@ -558,7 +571,7 @@ public class DailyCarPopupView extends BasePopupWindow {
                 .setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
                     @Override
                     public void onSelectDone(int value) {
-
+                        mSelectNumb = String.valueOf(value);
                     }
                     @Override
                     public void onWarningForInventory(int inventory) {
@@ -572,6 +585,10 @@ public class DailyCarPopupView extends BasePopupWindow {
                     @Override
                     public void onWarningMaxInput(int maxValue) {
                         Toast.makeText(getContext(),"超过最大可购买数量",Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public String onIsCanClick() {
+                        return isSelectDone() ? "" : "请选选择规格";
                     }
                 });
         mTvInventory.setText("库存"+dataBean.getStoreNum()+"件");

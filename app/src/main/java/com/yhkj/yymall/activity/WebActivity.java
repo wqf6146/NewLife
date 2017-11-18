@@ -3,57 +3,208 @@ package com.yhkj.yymall.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.just.library.BaseAgentWebActivity;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
+import com.vise.xsnow.net.callback.ApiCallback;
+import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
+import com.yhkj.yymall.bean.CommonBean;
+import com.yhkj.yymall.config.JSInterface;
+import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.http.api.ApiService;
+import com.yhkj.yymall.util.CommonUtil;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static com.yhkj.yymall.http.api.ApiService.SHARE_CODE_URL;
+import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
  */
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends BaseAgentWebActivity {
 
+    private TextView mTvTitle;
+    private ImageView mImgBack;
+    private View mDeadStatusView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        WebView webView = (WebView)findViewById(R.id.aw_webview);
-//声明WebSettings子类
-        WebSettings webSettings = webView.getSettings();
 
-//如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
-        webSettings.setJavaScriptEnabled(true);
-// 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）
-// 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
+        mDeadStatusView = findViewById(R.id.aw_view_statusbar);
+        if (Build.VERSION.SDK_INT >= KITKAT)
+            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
+        mImgBack = (ImageView)findViewById(R.id.aw_img_back);
+        mTvTitle = (TextView)findViewById(R.id.aw_tv_title);
 
-//支持插件
-//        webSettings.setPluginsEnabled(true);
+        mImgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mAgentWeb.back())
+                    finish();
+            }
+        });
+        mTvTitle.setText(getIntent().getStringExtra("title"));
 
-//设置自适应屏幕，两者合用
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+        mAgentWeb.getJsInterfaceHolder().addJavaObject("aosObject",new JSInterface(new JSInterface.JsCallBack() {
+            @Override
+            public void callBack(final String... args) {
+                //线下活动分享
+                if (args.length < 1)
+                    return;
+                new ShareAction(WebActivity.this)
+                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.WEIXIN_FAVORITE,
+                                SHARE_MEDIA.QZONE)
+                        .setShareboardclickCallback(new ShareBoardlistener() {
+                            @Override
+                            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                String url = ApiService.OFFLINE_SHAREES_URL;
+                                if (share_media == SHARE_MEDIA.SINA){
+                                    if (CommonUtil.isWeiboClientAvailable(WebActivity.this)){
+                                        UMImage image = new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
+                                        new ShareAction(WebActivity.this).setPlatform(SHARE_MEDIA.SINA).withText(args[1]+url)
+                                                .withMedia(image).setCallback(shareListener).share();
+                                    }else{
+                                        Toast.makeText(WebActivity.this,"请先安装新浪微博",Toast.LENGTH_SHORT).show();
+                                    }
 
-//缩放操作
-        webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-
-//其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
-        webView.loadUrl("https://webapp.yiyiyaya.cc/wode.html");
+                                }else{
+                                    UMWeb web = new UMWeb(url);
+                                    web.setTitle(args[0]);//标题
+                                    web.setThumb( new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
+                                    web.setDescription(args[1]);//描述
+                                    new ShareAction(WebActivity.this).withText(args[1]).setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
+                                }
+                            }
+                        })
+                        .open();
+            }
+        }));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @NonNull
+    @Override
+    protected ViewGroup getAgentWebParent() {
+        return (ViewGroup) this.findViewById(R.id.container);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mAgentWeb != null && mAgentWeb.handleKeyEvent(keyCode, event)) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void setTitle(WebView view, String title) {
+
+    }
+
+    @Override
+    protected int getIndicatorColor() {
+        return Color.parseColor("#00ffffff");
+    }
+
+    @Override
+    protected int getIndicatorHeight() {
+        return 3;
+    }
+
+    @Nullable
+    @Override
+    protected String getUrl() {
+        return getIntent().getStringExtra(Constant.WEB_TAG.TAG) + "#" + YYApp.getInstance().getToken();
+    }
+
+    public static void loadUrl(Context mContext, String mUrl, String title) {
+        Intent intent = new Intent(mContext, WebActivity.class);
+        intent.putExtra(Constant.WEB_TAG.TAG, mUrl);
+        intent.putExtra("title", title);
+        mContext.startActivity(intent);
+    }
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            YYMallApi.OfflineActCallback(WebActivity.this, new ApiCallback<CommonBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(ApiException e) {
+                    Toast.makeText(WebActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNext(CommonBean commonBean) {
+                    Toast.makeText(WebActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(WebActivity.this,"分享失败",Toast.LENGTH_SHORT).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+        }
+    };
 }

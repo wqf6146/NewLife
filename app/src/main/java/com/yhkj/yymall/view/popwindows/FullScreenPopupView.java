@@ -1,15 +1,20 @@
 package com.yhkj.yymall.view.popwindows;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vise.xsnow.ui.basepopup.BasePopupWindow;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.YYApp;
+import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.bean.OfflineBean;
 import com.yhkj.yymall.http.api.ApiService;
@@ -45,8 +50,12 @@ public class FullScreenPopupView extends BasePopupWindow  {
         mImgAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                WebActivity.loadUrl(getContext(),url,"报名资料");
-                dismissWithOutAnima();
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    getContext().startActivity(new Intent(getContext(),LoginActivity.class));
+                }else{
+                    WebActivity.loadUrl(getContext(),url,"报名资料");
+                    dismissWithOutAnima();
+                }
             }
         });
     }
@@ -59,7 +68,7 @@ public class FullScreenPopupView extends BasePopupWindow  {
 
     @Override
     public View getClickToDismissView() {
-        return getPopupWindowView();
+        return null;
     }
 
     @Override

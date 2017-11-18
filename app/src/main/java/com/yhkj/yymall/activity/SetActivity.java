@@ -128,7 +128,12 @@ public class SetActivity extends BaseToolBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             YYApp.getInstance().setToken(null);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
-                            ChatClient.getInstance().logout(true, null);
+                            try{
+                                if(ChatClient.getInstance().isLoggedInBefore())
+                                    ChatClient.getInstance().logout(true, null);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             AppManager.getInstance().finishActivity(SetActivity.this);
                         }
                     });

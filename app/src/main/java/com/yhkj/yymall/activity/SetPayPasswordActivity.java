@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.exception.ApiException;
+import com.vise.xsnow.util.InputMethodUtils;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -95,6 +96,7 @@ public class SetPayPasswordActivity extends BaseToolBarActivity {
                             @Override
                             public void onNext(CommonBean commonBean) {
                                 showToast("设置成功");
+                                InputMethodUtils.showInputMethod(SetPayPasswordActivity.this);
                                 AppManager.getInstance().finishActivity(SetPayPasswordActivity.this);
                                 AppManager.getInstance().finishActivity(UpdatepwdActivity.class);
                             }

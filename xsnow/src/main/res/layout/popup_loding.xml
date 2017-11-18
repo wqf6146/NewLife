@@ -8,7 +8,7 @@
         android:id="@+id/pl_ll_popview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#70000000"
+        android:background="#fff"
         android:padding="10dp"
         android:orientation="vertical"
         android:layout_centerVertical="true"
@@ -17,6 +17,6 @@
         <me.zhanghai.android.materialprogressbar.MaterialProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:mpb_indeterminateTint="#fff" />
+            app:mpb_indeterminateTint="#007cd1" />
     </LinearLayout>
 </RelativeLayout>

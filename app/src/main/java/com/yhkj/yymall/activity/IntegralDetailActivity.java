@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.manager.AppManager;
-import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.yhkj.yymall.BaseToolBarActivity;
@@ -54,10 +52,9 @@ import com.yhkj.yymall.bean.BannerItemBean;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.ShopDetailsBean;
 import com.yhkj.yymall.bean.ShopSpecBean;
-import com.yhkj.yymall.bean.TimeKillDetailBean;
 import com.yhkj.yymall.config.FullscreenHolder;
 import com.yhkj.yymall.config.IWebPageView;
-import com.yhkj.yymall.config.ImageClickInterface;
+import com.yhkj.yymall.config.JSInterface;
 import com.yhkj.yymall.config.MyWebChromeClient;
 import com.yhkj.yymall.config.MyWebViewClient;
 import com.yhkj.yymall.fragment.CommentFragment;
@@ -72,9 +69,7 @@ import com.yhkj.yymall.view.nestpager.Page;
 import com.yhkj.yymall.view.popwindows.DetailsMenuPopupView;
 import com.yhkj.yymall.view.popwindows.IntegralShopCarPopupView;
 import com.yhkj.yymall.view.popwindows.ShopArgsPopupView;
-import com.yhkj.yymall.view.popwindows.ShopClassifyPopView;
 import com.yhkj.yymall.view.popwindows.ShopGiftPopupView;
-import com.yhkj.yymall.view.popwindows.TimeKilShopCarPopupView;
 import com.yhkj.yymall.view.popwindows.WebPopupView;
 import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
@@ -83,7 +78,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import butterknife.Bind;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -317,7 +311,7 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
         mWebChromeClient = new MyWebChromeClient(this);
         mWebView.setWebChromeClient(mWebChromeClient);
         // 与js交互
-        mWebView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
+//        mWebView.addJavascriptInterface(new JSInterface(this), "injectedObject");
         mWebView.setWebViewClient(new MyWebViewClient(this));
     }
     @Override
@@ -577,7 +571,17 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
                     startActivity(LoginActivity.class);
                     return;
                 }
-                startActivity(MyServiceActivity.class);
+//                startActivity(MyServiceActivity.class);
+                Intent intent = new Intent();
+                intent.setClass(IntegralDetailActivity.this, ChatLoginActivity.class);
+                intent.putExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,Constant.INTENT_CODE_IMG_SHOP);
+                intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
+                intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.INTEGRAL));
+                intent.putExtra("shopname",mDataBean.getName());
+                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopdesc",mDataBean.getDescription());
+                intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
+                startActivity(intent);
             }
         });
         rl_detailsline_point.setOnClickListener(new View.OnClickListener() {
