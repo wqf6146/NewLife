@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_nor_yiyiyaya"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/aa_rl_server"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_userdata"
+            android:text="联系客服"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        app:layout_widthPercent="90%"
+        app:layout_heightPercent="0.1%"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="0dp"/>
+
+    <RelativeLayout
+        android:id="@+id/aa_rl_xieyi"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_acountsecurity"
+            android:text="服务协议"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        app:layout_widthPercent="90%"
+        app:layout_heightPercent="0.1%"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="0dp"/>
+
+    <RelativeLayout
+        android:id="@+id/aa_rl_jies"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_authentication"
+            android:text="公司介绍"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@mipmap/suggestion_line"
+        android:visibility="gone"
+        app:layout_heightPercent="0.1%"
+        app:layout_widthPercent="90%" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/as_img_aboutyyyy"
+            android:text="分享给好友"
+            android:textSize="@dimen/content_text_s14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        app:layout_widthPercent="90%"
+        app:layout_heightPercent="0.1%"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="0dp"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        app:layout_widthPercent="100%"
+        android:background="@color/white"
+        app:layout_heightPercent="10%"
+        android:padding="10dp"
+        android:layout_height="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="当前版本"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/as_img_certificateinfo"
+            android:textSize="@dimen/content_text_s14"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/as_img_version_right"
+            android:text="@string/version"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/as_img_version_right"
+            android:src="@mipmap/ic_nor_gray_arrowright"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/grayfont_2"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/content_text_s12"
+        android:text="Copyright ©2017\n河北博艺玩具有限公司"
+        android:layout_height="wrap_content" />
+
+</com.yhkj.yymall.view.PercentLinearLayout>

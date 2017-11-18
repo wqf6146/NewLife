@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:clickToClose="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:tag="Bottom2">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#80d2d2d2" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_dele_item"
+                android:layout_width="75dp"
+                android:clickable="true"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FF0000"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llChildContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:background="#D4D4D4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/img_shopcar_item"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@mipmap/ic_launcher" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_expendlistitem"
+                            android:layout_width="match_parent"
+                            android:padding="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:textColor="@color/grayfont"
+                                android:textSize="@dimen/title_text_s12" />
+
+                            <TextView
+                                android:id="@+id/tv_chopcar_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center_vertical"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="8辆车+全套狗狗"
+                                android:textColor="@color/grayfont_1"
+                                android:textSize="@dimen/title_text_s12" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_chopcar_money"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="¥ 80"
+                                    android:textColor="@color/blackfont"
+                                    android:textSize="@dimen/title_text_s16" />
+
+                                <TextView
+                                    android:id="@+id/tv_chopcar_fakemoney"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_toRightOf="@+id/tv_chopcar_money"
+                                    android:text="¥210"
+                                    android:textColor="@color/grayfont_1"
+                                    android:textSize="@dimen/title_text_s12" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="1px"/>
+
+                                <TextView
+                                    android:id="@+id/tv_shopcar_numb"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="10dp"
+                                    android:text="×1"
+                                    android:textColor="@color/grayfont_1"
+                                    android:textSize="@dimen/title_text_s16" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_expendlistitem"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tv_item_del"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:background="#FF0000"
+                                android:gravity="center"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="删除"
+                                android:textColor="#FFFFFF"
+                                android:textSize="@dimen/content_text_s16" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="20dp"
+                                android:layout_toLeftOf="@+id/tv_item_del"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_expenditem_sub"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="#F4F4F4"
+                                    android:gravity="center"
+                                    android:text="-"
+                                    android:textColor="#d9d9d9"
+                                    android:textSize="@dimen/content_text_s24" />
+
+                                <TextView
+                                    android:id="@+id/tv_expenditem_numb"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="20dp"
+                                    android:text="1"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_expenditem_add"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="#F4F4F4"
+                                    android:gravity="center"
+                                    android:text="+"
+                                    android:textColor="#d9d9d9"
+                                    android:textSize="@dimen/content_text_s24" />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ei_ll_gift"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="赠品" />
+
+                        <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                            android:id="@+id/ei_nestlistview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</com.daimajia.swipe.SwipeLayout>

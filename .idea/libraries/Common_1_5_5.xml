@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Common-1.5.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/b00021956b0b915c44a1ff7ff8da0837e7154e31/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/b00021956b0b915c44a1ff7ff8da0837e7154e31/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/androidstudio/cache/.gradle/caches/modules-2/files-2.1/cn.qqtheme.framework/Common/1.5.5/639faec4e5b0d861b79a74128fa2223fcf958a08/Common-1.5.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,1 @@
+include ':app', ':xsnow', ':jcvideoplayer-lib', ':sdk', ':AppUpdate', ':kefu-easeui'

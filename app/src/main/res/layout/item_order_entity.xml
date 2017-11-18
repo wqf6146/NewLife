@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_height="0.1dp"/>
+
+    <LinearLayout
+        android:id="@+id/ioe_ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ioe_img_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/ic_nor_graycicle"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+            <ImageView
+                android:id="@+id/ioe_img_shopimg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/view_square_bg"
+                android:padding="1dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_nor_srcpic" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/is_vert_img_tagshop"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ioc_tv_shopname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="全套8款狗狗巡逻队滑行车停车场变形汪汪队立大功玩具儿童玩具"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/ioc_tv_shopstatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="已发货"
+                    android:textSize="@dimen/content_text_s12"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ioc_tv_shopdesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="8辆车+全套狗狗"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ioc_tv_shopprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$88.99"
+                    android:textColor="@color/black_bg"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1px"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/ioe_tv_addcar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/stroke_square_red"
+                    android:padding="4dp"
+                    android:text="加入购物车"
+                    android:textColor="@color/redfont"
+                    android:textSize="@dimen/content_text_s10"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ioe_tv_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/tv_blue_square_bg"
+                    android:padding="4dp"
+                    android:text="立即购买"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s10"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ioe_tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="3dp"
+                    android:text="x1"
+                    android:textColor="@color/grayfont_2"
+                    android:textSize="@dimen/content_text_s12"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ioe_tv_aftersale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/stroke_square_gray"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="申请售后"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/grayfont"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>

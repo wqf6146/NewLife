@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_bule"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/img_forget_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login_phone" />
+
+        <EditText
+            android:id="@+id/ed_forget_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/img_forget_phone"
+            android:background="@drawable/ed_null"
+            android:hint="请输入11位手机号码"
+            android:inputType="number"
+            android:textCursorDrawable="@null"
+            android:maxLength="11"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAC2EB"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ed_forget_phone"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/img_forget_phone"
+            android:background="#AAC2EB" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/img_forget_yzm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login_yzm" />
+
+        <Button
+            android:id="@+id/bt_forget_yzm"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bt_yuan_white"
+            android:gravity="center"
+            android:text="获取验证码"
+            android:textColor="@color/theme_bule"
+            android:textSize="15sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/bt_forget_yzm"
+            android:layout_toRightOf="@+id/img_forget_yzm"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/ed_forget_yzm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/ed_null"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textColor="#FFFFFF"
+                android:textCursorDrawable="@null"
+                android:textColorHint="#AAC2EB"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:background="#AAC2EB" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="重新设置登录密码"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/img_forget_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login_lock" />
+
+        <ImageView
+            android:id="@+id/img_forget_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@mipmap/login_eye" />
+
+        <EditText
+            android:id="@+id/ed_forget_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/img_forget_eye"
+            android:layout_toRightOf="@+id/img_forget_psw"
+            android:background="@drawable/ed_null"
+            android:hint="请输入登录密码"
+            android:textCursorDrawable="@null"
+            android:inputType="textPassword"
+            android:maxLength="12"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAC2EB"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/view_forget_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ed_forget_psw"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/img_forget_psw"
+            android:background="#AAC2EB" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_register_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bt_yuan_white"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="完 成"
+        android:textColor="@color/theme_bule"
+        android:textSize="18sp" />
+
+
+</LinearLayout>

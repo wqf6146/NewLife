@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vps_rl_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#8f000000"
+    android:orientation="vertical">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/vps_rl_popview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        app:layout_heightPercent="70%"
+        app:layout_widthPercent="100%">
+
+        <RelativeLayout
+            android:id="@+id/vps_ll_head"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <View
+                    android:layout_width="90dp"
+                    android:layout_height="90dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/vps_tv_shopprice"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s14"
+                        android:textColor="@color/blackfont_1"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+
+                    <TextView
+                        android:id="@+id/vps_tv_repertory"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s12"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+
+                    <TextView
+                        android:id="@+id/vps_tv_selecttip"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s12"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/bt_popdetails_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_nor_x"
+                    android:layout_marginTop="10dp"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/vps_img_shop"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_nor_srcpic" />
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/vps_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/vps_btn_copy"
+            android:layout_below="@+id/vps_ll_head"
+            android:background="@color/white">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/vps_btn_copy"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%">
+
+            <TextView
+                android:id="@+id/tv_popgroupondetails_dbuy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F38C0C"
+                android:gravity="center"
+                android:text="单独购买"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s14" />
+            <TextView
+                android:id="@+id/tv_popgroupondetails_tbuy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#295FC6"
+                android:gravity="center"
+                android:text="2人团"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/vpg_progressbar"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentRelativeLayout>

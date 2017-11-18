@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ic_ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/ic_view_topline"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/graybg" />
+
+    <LinearLayout
+        android:id="@+id/ic_ll_store"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/ic_tv_storename"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/tv_shopgroup_type"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="怡怡丫丫自营"
+            android:textColor="@color/blackfont_1"
+            android:textSize="@dimen/title_text_s14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@mipmap/suggestion_line" />
+    </LinearLayout>
+
+
+    <com.yhkj.yymall.view.NestFullListView.NestFullListView
+        android:layout_width="match_parent"
+        android:id="@+id/ic_listview_goods"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:id="@+id/ic_ll_freight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/blackfont_1"
+            android:text="配送方式"
+            android:textSize="@dimen/title_text_s14" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/ic_tv_freightdesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="快递，全场包邮"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ic_img_freightarrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_gray_arrowright" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="#f4f4f4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:id="@+id/ic_ll_total"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/grayfont"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/ic_tv_goodsnumb"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s14"
+            android:id="@+id/ic_tv_totalprice"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

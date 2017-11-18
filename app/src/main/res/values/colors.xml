@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black_bg">#151515</color>
+    <color name="black_bg_1">#333333</color>
+    <color name="blackfont">#323030</color>
+    <color name="blackfont_1">#525050</color>
+    <color name="grayfont">#727070</color>
+    <color name="grayfont_1">#828080</color>
+    <color name="grayfont_1.5">#a1a1a1</color>
+    <color name="grayfont_2">#ADADAD</color>
+    <color name="grayfont_3">#EDEDED</color>
+    <color name="grayfont_4">#F1F1F1</color>
+    <color name="grayline">#BDBDBD</color>
+    <color name="graybg">#F9F9F9</color>
+    <color name="halfgraybg">#aaADADAD</color>
+    <color name="graybg_1">#e9e9e9</color>
+    <color name="graybg_2">#F4F4F4</color>
+    <color name="transparency">#00ffffff</color>
+    <color name="half_transparency">#aaffffff</color>
+    <color name="translucent">#00000000</color>
+    <color name="ic_default_bg_color">#33000000</color>
+    <color name="ttbalck_bg">#88151515</color>
+    <!--popview-->
+    <color name="divider">#999</color>
+    <color name="pop_bg_content">#F9F9F9</color>
+    <color name="pop_bg_translucent">#01000000</color>
+    <color name="pop_bg_translucent_half">#70000000</color>
+    <color name="pop_item_text_normal_color">#007AFF</color>
+    <color name="pop_item_text_warning_color">#FF3B30</color>
+    <color name="pop_item_bg_pressed">#EBEBEB</color>
+    <color name="pop_action_sheet_title">#4d4d4d</color>
+    <color name="pop_action_sheet_message">#8f8f8f</color>
+    <color name="menu_bg">#2b2b2b</color>
+    <color name="menu_click_bg">#515151</color>
+
+    <color name="item_border_color">#666666</color>
+    <color name="item_default_color">#22EEEEEE</color>
+    <color name="item_pressed_color">#CCCCCC</color>
+    <color name="item_activated_color">#77CEEE</color>
+    <color name="theme_bule">#007cd1</color>
+    <color name="theme_bule1">#009cd1</color>
+    <color name="back_gray">#F4F4F4</color>
+
+    <color name="common_pink">#fb1e91</color>
+    <color name="common_pink2">#FEECEB</color>
+    <color name="common_pink3">#ff4965</color>
+    <color name="yellow">#FFD700</color>
+    <color name="orange">#FFA500</color>
+    <color name="deeporange">#FF0000</color>
+    <color name="redfont">#ff3b30</color>
+    <color name="greenfont">#4bd39c</color>
+</resources>

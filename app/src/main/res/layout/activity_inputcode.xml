@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/theme_bule"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ai_img_leftbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_nor_arrowleft" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="邀请码"
+            android:textSize="@dimen/content_text_s16"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@mipmap/ic_nor_love"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/ai_et_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/stroke_circle_white"
+        android:gravity="center"
+        android:hint="请输入您获得的邀请码"
+        android:textCursorDrawable="@null"
+        android:inputType="number"
+        android:maxLength="8"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/content_text_s14" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="确定"
+        android:textSize="@dimen/content_text_s14"
+        android:padding="10dp"
+        android:textColor="@color/theme_bule"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/ai_tv_share"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tv_bg_circle_white"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s14"
+            android:text="查看详细规则"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/service_bottom"
+            android:id="@+id/ai_tv_rule"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>

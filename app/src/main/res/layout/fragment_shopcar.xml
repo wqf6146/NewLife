@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/ll_shopcar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@mipmap/suggestion_line" />
+
+        <RelativeLayout
+            android:id="@+id/rl_shopcar_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/img_chopcar_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp" />
+
+            <TextView
+                android:id="@+id/tv_chopcar_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_chopcar_all"
+                android:text="全选"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_shopcar_dosing"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/pop_item_text_normal_color"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="结算(1)"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/tv_shopcar_yrscj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/tv_shopcar_dosing"
+                android:text="移入收藏夹"
+                android:textSize="@dimen/content_text_s12"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rl_shopcar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/tv_shopcar_dosing"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/tv_shopcar_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="合计：¥88.90"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/title_text_s14" />
+
+                <TextView
+                    android:id="@+id/tv_shopcar_jsmoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_shopcar_money"
+                    android:layout_marginTop="5dp"
+                    android:text="为您节省121.01元"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/title_text_s12"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fsc_refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_shopcar"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnablePreviewInEditMode="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_shopcar_gid"
+            android:background="@color/graybg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.yhkj.yymall.view.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="FixedBehind"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</RelativeLayout>

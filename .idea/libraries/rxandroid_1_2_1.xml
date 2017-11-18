@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="rxandroid-1.2.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/e864bf8757b127d56f4e7b8574c0b445932f8ace/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/e864bf8757b127d56f4e7b8574c0b445932f8ace/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

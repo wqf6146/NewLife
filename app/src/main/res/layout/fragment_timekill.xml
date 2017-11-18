@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yhkj.yymall.view.viewpager.ViewPager
+        android:id="@+id/ft_viewpager"
+        android:layout_below="@+id/ft_ultraviewViewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.yhkj.yymall.view.viewpager.UltraViewPager
+        android:layout_width="0dp"
+        android:background="@mipmap/ic_nor_timekillbg"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="10%"
+        android:id="@+id/ft_ultraviewViewpager"
+        android:layout_height="0dp">
+    </com.yhkj.yymall.view.viewpager.UltraViewPager>
+    <View
+        android:layout_width="20dp"
+        android:background="@mipmap/ic_nor_redtrig"
+        android:id="@+id/ft_view_trig"
+        android:layout_below="@+id/ft_ultraviewViewpager"
+        android:layout_centerHorizontal="true"
+        android:layout_height="10dp"/>
+</android.support.percent.PercentRelativeLayout>

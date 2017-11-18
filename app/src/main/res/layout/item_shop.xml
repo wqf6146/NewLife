@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/is_fl_container"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/fn_ll_hor"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/is_img_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_nor_srcpic" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/is_img_tagshop"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/is_hor_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="耐克同款2017童鞋夏季辛苦大网眼透气减震镂空休闲鞋运动"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/is_hor_shop_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/is_view_line"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
+                android:text="¥127"
+                android:textColor="@color/common_pink"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/is_hor_groupnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/is_view_line"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
+                android:text="190成团"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12" />
+
+            <View
+                android:id="@+id/is_view_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/suggestion_line" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/is_ll_vert"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="0dp">
+            <ImageView
+                android:id="@+id/is_vert_img_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_nor_srcpic" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/is_vert_img_tagshop"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/is_vert_shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="耐克同款2017童鞋夏季辛苦大网眼透..."
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/is_vert_shop_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:text="¥127"
+                android:textColor="@color/common_pink"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/is_vert_shop_groupnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:text="190成团"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

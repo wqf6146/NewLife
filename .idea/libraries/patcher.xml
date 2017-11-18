@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="patcher">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AppUpdate/libs/patcher.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

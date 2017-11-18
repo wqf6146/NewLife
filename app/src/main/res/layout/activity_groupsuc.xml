@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="拼团成功"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/grayfont"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="商品正快马加鞭向你奔来，请耐心等候"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="查看订单"
+                android:padding="5dp"
+                android:id="@+id/ag_tv_checkorder"
+                android:textSize="@dimen/content_text_s14"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_square_gray"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="返回首页"
+                android:padding="5dp"
+                android:textColor="@color/grayfont"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/ag_tv_backhome"
+                android:textSize="@dimen/content_text_s14"
+                android:background="@drawable/stroke_square_gray"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingTop="10dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_height="80dp">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/ag_listview"
+                    android:layout_height="wrap_content"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="商品名称"
+                android:textColor="@color/grayfont"
+                android:id="@+id/ag_tv_shopnametag"
+                android:textSize="@dimen/content_text_s14"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/content_text_s12"
+                android:textColor="@color/grayfont_1"
+                android:layout_toRightOf="@+id/ag_tv_shopnametag"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/ag_tv_shopname"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="参团时间"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s14"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/content_text_s12"
+                android:textColor="@color/grayfont_1"
+                android:layout_alignParentRight="true"
+                android:id="@+id/ag_tv_shoptime"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

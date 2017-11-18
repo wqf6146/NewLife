@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ii_ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <ImageView
+            android:id="@+id/ii_img_shopimg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_nor_srcpic" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/ii_img_tag"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1.3">
+
+        <TextView
+            android:id="@+id/ii_tv_shopname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:text="耐克同款2017童鞋夏季辛苦大网眼透..."
+            android:textColor="@color/blackfont"
+            android:textSize="@dimen/content_text_s12" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/ii_tv_shopintegral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@mipmap/ic_nor_integral"
+                android:drawablePadding="5dp"
+                android:text="127"
+                android:textColor="@color/redfont"
+                android:textSize="@dimen/content_text_s14" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/title_text_s12"
+                android:layout_marginLeft="5dp"
+                android:text="积分"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/ii_tv_shopsale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:text="已售190"
+            android:textColor="@color/grayfont_2"
+            android:textSize="@dimen/content_text_s10" />
+    </LinearLayout>
+
+</LinearLayout>

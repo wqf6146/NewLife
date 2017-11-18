@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/popup_contianer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="15dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_triangle"
+            android:layout_height="15dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_circle"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/vpm_ll_1"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_menu_popup"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_nor_trade"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="全部订单"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_s14" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="0.5dp"
+                android:background="#6c6c6c"/>
+
+            <LinearLayout
+                android:id="@+id/vpm_ll_2"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_menu_popup"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_nor_trade"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="购物订单"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_s14" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="0.5dp"
+                android:background="#6c6c6c"/>
+
+            <LinearLayout
+                android:id="@+id/vpm_ll_3"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_menu_popup"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_nor_taxes"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="租赁订单"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_s14" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yhkj.yymall.view.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@mipmap/ic_nor_levelheadbg"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        app:layout_heightPercent="50%"
+        app:layout_widthPercent="100%">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <RelativeLayout
+            android:id="@+id/am_rl_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/am_img_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/login_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的等级"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s16" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="26%"
+            app:layout_widthPercent="100%">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_centerInParent="true"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/am_img_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_nor_srcheadimg" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/am_img_mylevel"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="20dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/am_tv_howlevelup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tv_bg_circle"
+                android:gravity="center"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="如何升级?"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/am_tv_expreience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/content_text_s14" />
+
+        <TextView
+            android:id="@+id/am_tv_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/graybg"
+            android:textSize="@dimen/content_text_s12" />
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_heightPercent="15%"
+            app:layout_widthPercent="100%">
+
+            <ProgressBar
+                android:id="@+id/am_progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_centerVertical="true"
+                android:progressDrawable="@drawable/progress_bg" />
+
+            <LinearLayout
+                android:id="@+id/am_ll_level1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="33%">
+
+                <ImageView
+                    android:id="@+id/am_img_rank1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_nor_bv1"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/am_ll_level2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_toRightOf="@+id/am_ll_level1"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="33%">
+
+                <ImageView
+                    android:id="@+id/am_img_rank2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_nor_mv2"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/am_ll_level3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_toRightOf="@+id/am_ll_level2"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="33%">
+
+                <ImageView
+                    android:id="@+id/am_img_rank3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_nor_bv3"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/am_tv_rank1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/am_tv_rank2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/am_tv_rank3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+
+    </com.yhkj.yymall.view.PercentLinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/am_tv_allprivaledge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="全部特权"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_nor_gray_rightarrow"
+            android:id="@+id/am_rightarrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="1px"/>
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/am_rl_privildege_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_heightPercent="11%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:id="@+id/am_img_crow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_nor_crow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/am_tv_goevaluate"
+            android:layout_toRightOf="@+id/am_img_crow"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/am_tv_privildege_title_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评价返积分"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <TextView
+                    android:id="@+id/am_tv_privildege_tag_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/tv_bg_circle_deepblue"
+                    android:padding="2dp"
+                    android:text="v1及以上可享用"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s8" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/am_tv_privildege_content_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评价商品可获得积分"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/am_tv_goevaluate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tv_blue_square_bg"
+            android:padding="2dp"
+            android:text="去评价"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s12"
+            android:visibility="gone" />
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/am_rl_privildege_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_heightPercent="11%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:id="@+id/am_img_crow_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_nor_crow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/am_img_crow_2"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/am_tv_privildege_title_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评价返积分"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <TextView
+                    android:id="@+id/am_tv_privildege_tag_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/tv_bg_circle_deepblue"
+                    android:padding="2dp"
+                    android:text="v1及以上可享用"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s8" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/am_tv_privildege_content_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评价商品可获得积分"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tv_blue_square_bg"
+            android:padding="2dp"
+            android:text="去评价"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s12"
+            android:visibility="gone" />
+    </android.support.percent.PercentRelativeLayout>
+</com.yhkj.yymall.view.PercentLinearLayout>

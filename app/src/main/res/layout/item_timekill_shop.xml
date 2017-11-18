@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/fn_ll_hor_2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/is_img_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_nor_srcpic" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_nor_tagtimekill"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5">
+
+            <TextView
+                android:id="@+id/fn_tv_shopname_hor_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:maxLines="2"
+                android:textColor="@color/grayfont"
+                android:textSize="@dimen/content_text_s12" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/fn_tv_shopname_hor_2"
+                android:layout_above="@+id/fn_tv_shopprice_hor_2"
+                android:padding="10dp"
+                android:layout_height="match_parent">
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:layout_width="match_parent"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/its_progressbar"
+                    app:mpb_progressStyle="horizontal"
+                    app:mpb_progressTint="@color/theme_bule"
+                    app:mpb_secondaryProgressTint="@color/theme_bule"
+                    app:mpb_progressBackgroundTint="@color/grayfont_2"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                    android:layout_height="15dp" />
+
+                <TextView
+                    android:id="@+id/its_tv_sales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/its_progressbar"
+                    android:textColor="@color/grayfont_2"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/its_tv_storenumb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/its_progressbar"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/fn_tv_shopprice_hor_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/is_shop_grayprice"
+                android:paddingLeft="5dp"
+                android:textColor="@color/common_pink"
+                android:textSize="@dimen/content_text_s14" />
+
+            <TextView
+                android:id="@+id/is_shop_grayprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/fn_view_line_hor_2"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:textColor="@color/grayfont_2"
+                android:textSize="@dimen/content_text_s12" />
+
+            <TextView
+                android:id="@+id/is_shop_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/fn_view_line_hor_2"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="7dp"
+                android:text="立即抢购"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+
+            <View
+                android:id="@+id/fn_view_line_hor_2"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/suggestion_line" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

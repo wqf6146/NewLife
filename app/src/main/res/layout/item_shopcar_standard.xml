@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s12"
+        android:id="@+id/iss_tv_key"
+        android:text="颜色"
+        android:layout_height="wrap_content" />
+
+    <com.yhkj.yymall.view.flowlayout.TagFlowLayout
+        android:layout_width="match_parent"
+        android:id="@+id/iss_flowlayout"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

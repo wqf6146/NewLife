@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    android:layout_height="200dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_height="match_parent">
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/iha_ll_chart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="80%">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/theme_bule"
+                    android:padding="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="免费领"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="儿童汽车安全座椅"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s10">
+
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_nor_newchart" />
+            </LinearLayout>
+
+            <com.yhkj.yymall.view.PercentLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12"
+                app:layout_heightPercent="100%"
+                android:orientation="vertical"
+                app:layout_widthPercent="30%">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+                <TextView
+                    android:id="@+id/iha_tv_chartgetpeople"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_nor_yellowpoint"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s12" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_height="0dp"/>
+            </com.yhkj.yymall.view.PercentLinearLayout>
+
+
+
+            <!--<com.yhkj.yymall.view.CountView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:id="@+id/iha_countview"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/iha_ll_jfcj"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:drawablePadding="2dp"
+                    android:drawableRight="@mipmap/ic_nor_tagrob"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="积分抽奖"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/content_text_s14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="积分好礼送不停"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s12" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@mipmap/ic_nor_twopeople" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0px"
+        android:background="@color/grayline"
+        app:layout_widthPercent="0.1%"
+        app:layout_heightPercent="90%"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/iha_ll_integral "
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="折扣促销"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/title_text_s16" />
+
+                <TextView
+                    android:id="@+id/iha_cleanlinepeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/tv_bg_circle_deepblue"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全新正品折扣正当时！"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s10" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@mipmap/text_shopcar" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/grayline" />
+
+        <LinearLayout
+            android:id="@+id/iha_timekill"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="限时抢购"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/content_text_s16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="秒杀正当时 整点开抢"
+                    android:textSize="@dimen/content_text_s10" />
+
+                <com.yhkj.yymall.view.CountView
+                    android:id="@+id/iha_countview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@mipmap/text_car" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.yhkj.yymall.view.PercentLinearLayout>

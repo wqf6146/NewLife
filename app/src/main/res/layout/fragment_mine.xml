@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fm_xrefreshview"
+        android:layout_width="match_parent"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnablePreviewInEditMode="true"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/fm_recycleview"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/fm_ll_topbar"
+        android:clickable="true"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/fm_view_status"
+            android:layout_height="25dp"/>
+        <include layout="@layout/view_toolbar_mine"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:id="@+id/fm_rl_toolbar"/>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:id="@+id/fm_view_line"-->
+            <!--android:visibility="gone"-->
+            <!--android:background="@mipmap/suggestion_line"-->
+            <!--android:layout_height="1px"/>-->
+    </LinearLayout>
+</RelativeLayout>

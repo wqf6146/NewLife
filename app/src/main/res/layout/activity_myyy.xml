@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_heightPercent="30%"
+        app:layout_widthPercent="100%">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_5star" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的丫丫"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="使用帮助"
+            android:padding="10dp"
+            android:id="@+id/am_tv_userhelp"
+            android:textSize="@dimen/content_text_s14"
+            android:textColor="@color/theme_bule"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/am_ll_yy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/am_tv_myprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s28" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="个"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s12" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="1丫丫=1元，购物可抵现金"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:layout_below="@+id/am_ll_yy"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/am_ll_usercreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_b5star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="新用户注册得丫丫"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s16" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/am_tv_usercreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@mipmap/suggestion_line"
+            android:layout_marginLeft="10dp"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:id="@+id/am_ll_baby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_b5star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="完善宝宝信息得丫丫"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s16" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/am_tv_baby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@mipmap/suggestion_line"
+            android:layout_marginLeft="10dp"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:id="@+id/am_ll_invati"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_b5star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邀请好友得丫丫"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s16" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/am_tv_inviteyaya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@mipmap/suggestion_line"
+            android:layout_marginLeft="10dp"
+            android:layout_height="1px"/>
+
+        <LinearLayout
+            android:id="@+id/am_ll_drawegetyy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_b5star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="抽奖得丫丫"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s16" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@mipmap/suggestion_line"
+            android:layout_marginLeft="10dp"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:id="@+id/am_ll_pladgegetyy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_b5star" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="押金置换丫丫"
+                    android:textColor="@color/grayfont"
+                    android:textSize="@dimen/content_text_s16" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/ic_nor_gray_arrowright" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@mipmap/suggestion_line"
+            android:layout_marginLeft="10dp"
+            android:layout_height="1px"/>
+
+    </LinearLayout>
+
+</com.yhkj.yymall.view.PercentLinearLayout>

@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">XSnow</string>
+    <string name="tip_type_not_image">选择的不是图片</string>
+    <string name="tip_no_camera">没有相机</string>
+    <string name="tip_tips">提示</string>
+    <string name="tip_compress">正在压缩照片...</string>
+    <string name="tip_compress_failed">"%1$s 图片压缩失败:%2$s picturePath:%3$s"</string>
+    <string name="msg_crop_failed">"有裁切失败的图片"</string>
+    <string name="msg_compress_failed">"有压缩失败的图片"</string>
+    <string name="msg_crop_canceled">" 取消裁切"</string>
+    <string name="msg_operation_canceled">"操作被取消"</string>
+    <string name="tip_permission_camera">没有使用相机的权限，请在权限管理中开启</string>
+    <string name="tip_permission_storage">没有使用SD卡的权限，请在权限管理中开启</string>
+    <string name="tip_permission_camera_storage">没有使用相机和SD卡的权限，请在权限管理中开启</string>
+    <string name="xrefreshview_header_hint_normal">下拉刷新</string>
+    <string name="xrefreshview_header_hint_ready">释放刷新</string>
+    <string name="xrefreshview_header_hint_refreshing">正在刷新</string>
+    <string name="xrefreshview_header_hint_loading">正在加载</string>
+    <string name="xrefreshview_header_hint_loaded">加载完成</string>
+    <string name="xrefreshview_header_hint_loaded_fail">加载失败</string>
+    <string name="xrefreshview_header_last_time">上次更新时间：</string>
+    <string name="xrefreshview_footer_hint_normal">加载完成</string>
+    <string name="xrefreshview_footer_hint_fail">加载失败，请重试</string>
+    <string name="xrefreshview_footer_hint_complete">已无更多数据</string>
+    <string name="xrefreshview_footer_hint_click">点击加载更多</string>
+    <string name="xrefreshview_footer_hint_release">松开加载更多</string>
+    <string name="xrefreshview_footer_hint_ready">松开载入更多</string>
+    <string name="xrefreshview_never_refresh">从未刷新</string>
+    <string name="xrefreshview_refresh_justnow">刚刚刷新</string>
+    <string name="xrefreshview_refresh_minutes_ago">%1s分钟之前刷新</string>
+    <string name="xrefreshview_refresh_hours_ago">%1s小时之前刷新</string>
+    <string name="xrefreshview_refresh_days_ago">%1s天之前刷新</string>
+
+
+
+    <string name="share_to">分享到</string>
+
+    <string name="share_empty_tip">分享內容不能为空</string>
+    <string name="share_channel_none">没有该分享渠道</string>
+
+    <!--微信-->
+    <string name="share_no_weixin_client">分享失败，请先安装微信</string>
+
+    <!--分享结果-->
+    <string name="share_success">分享成功</string>
+    <string name="share_failed">分享失败</string>
+    <string name="share_cancel">分享取消</string>
+
+    <string name="share_weibosdk_auth_success">授权成功</string>
+    <string name="share_weibosdk_auth_failed">授权失败</string>
+    <string name="share_weibosdk_auth_canceled">取消授权</string>
+    <string name="share_no_weibo_client">分享失败，请先安装微博客户端</string>
+
+
+    <!-- share channel -->
+    <string name="share_channel_weixin_friend">微信</string>
+    <string name="share_channel_weixin_circle">朋友圈</string>
+    <string name="share_channel_weibo">微博</string>
+    <string name="share_channel_qq">QQ</string>
+    <string name="share_channel_qzone">QQ空间</string>
+    <string name="share_channel_more">更多</string>
+
+
+    <!-- saveBitmap -->
+    <string name="share_save_bitmap_failed">图片保存失败</string>
+    <string name="share_save_bitmap_no_sdcard">SD卡未挂载</string>
+</resources>

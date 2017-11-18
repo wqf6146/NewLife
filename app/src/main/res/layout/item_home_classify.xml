@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="100dp">
+
+    <LinearLayout
+        android:id="@+id/ll_home_act"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ihc_img_1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_nor_yearend" />
+
+        <TextView
+            android:id="@+id/ihc_tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="年中大促"
+            android:textColor="@color/blackfont_1"
+            android:textSize="@dimen/content_text_s12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ihc_ll_chart"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ihc_img_2"
+            android:layout_width="wrap_content"
+            android:scaleType="fitXY"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_nor_rocket" />
+
+        <TextView
+            android:id="@+id/ihc_tv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="安全座椅"
+            android:textColor="@color/blackfont_1"
+            android:textSize="@dimen/content_text_s12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ihc_ll_lottery"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ihc_img_3"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_nor_hotmall" />
+
+        <TextView
+            android:id="@+id/ihc_tv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="积分抽奖"
+            android:textColor="@color/blackfont_1"
+            android:textSize="@dimen/content_text_s12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_home_signin"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="50dp"
+            android:src="@mipmap/ic_nor_dayilysign"
+            android:id="@+id/ihc_img_4"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="每日签到"
+            android:textSize="@dimen/content_text_s12"
+            android:id="@+id/ihc_tv_4"
+            android:textColor="@color/blackfont_1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

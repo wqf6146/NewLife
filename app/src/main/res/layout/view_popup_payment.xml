@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#8f000000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_paymentpop_animas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_paymentpopu1"
+            android:background="#FFFFFF">
+            <ImageView
+                android:id="@+id/img_paymentpop_cloes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:background="@mipmap/payment_close" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入支付密码"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rl_paymentpopu1"
+            android:id="@+id/view_paymentpop1"
+            android:background="#f4f4f4"
+            />
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_paymentpop1"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="300dp"
+            >
+        <com.yhkj.yymall.view.PasswordView
+            android:inputType="number"
+            android:id="@+id/aspp_passwordview_payment"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_widthPercent="90%"
+            android:layout_centerHorizontal="true"
+            />
+
+            <RelativeLayout
+                app:layout_widthPercent="90%"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aspp_passwordview_payment"
+                android:layout_centerHorizontal="true"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_payment_forget"
+                    android:text="忘记密码？"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s14"
+                    android:layout_marginTop="20dp"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+
+        </android.support.percent.PercentRelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

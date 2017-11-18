@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="0.1dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:id="@+id/ioc_img_ordertype"
+            android:visibility="gone"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/grayfont"
+            android:id="@+id/ioc_tv_merchantname"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/content_text_s14"
+            android:text="YiYiYaYa自营"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/arrowright"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1px"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="已发货"
+            android:textColor="@color/redfont"
+            android:textSize="@dimen/content_text_s14"
+            android:layout_marginRight="5dp"
+            android:id="@+id/ioc_tv_orderstatus"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <!--<include layout="@layout/item_order_entity"/>-->
+    <com.yhkj.yymall.view.NestFullListView.NestFullListView
+        android:layout_width="match_parent"
+        android:id="@+id/iof_listview"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ioac_tv_sumstrings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共1件,共计$88.99"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ioc_tv_tab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/view_square_bg"
+            android:padding="5dp"
+            android:text="查看物流"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12" />
+
+        <TextView
+            android:id="@+id/ioc_tv_tab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_square_bg"
+            android:padding="5dp"
+            android:text="确认收货"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/ioc_tv_tab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/view_square_bg"
+            android:padding="5dp"
+            android:text="确认收货"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/graybg"
+        android:layout_height="10dp"/>
+</LinearLayout>

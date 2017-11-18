@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="30%"
+        android:background="@color/white"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_nor_bigbluenike"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/content_text_s18"
+                android:textColor="@color/theme_bule"
+                android:layout_marginTop="10dp"
+                android:text="充值成功"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/ar_tv_price"
+                android:textColor="@color/blackfont"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/content_text_s24"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ar_tv_commit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tv_bg_circle_deepblue"
+        android:gravity="center"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="@dimen/content_text_s14"
+        app:layout_heightPercent="7%"
+        app:layout_widthPercent="80%" />
+
+
+</com.yhkj.yymall.view.PercentLinearLayout>

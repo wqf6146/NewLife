@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="支付宝"
+        android:textSize="@dimen/content_text_s14"
+        android:textColor="@color/grayfont"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ar_tv_paytype"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ar_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50.00"
+            android:textColor="@color/theme_bule"
+            android:textSize="@dimen/content_text_s24" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="元"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/theme_bule"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/grayfont_1"
+        android:textSize="@dimen/content_text_s12"
+        android:text="充值成功"
+        android:id="@+id/ar_tv_status"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="充值到"
+            android:textSize="@dimen/content_text_s14"
+            android:textColor="@color/grayfont"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:text="182****3085"
+            android:paddingRight="10dp"
+            android:id="@+id/ar_tv_acount"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/ar_tv_acountname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小宝妈妈"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/title_text_s14"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="创建时间"
+            android:textSize="@dimen/content_text_s14"
+            android:textColor="@color/grayfont"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:text="182****2017-07-22 10:10:00"
+            android:id="@+id/ar_tv_date"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

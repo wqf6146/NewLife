@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="WheelPicker-1.5.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/07e56638c4f6d22f8e2f90970e197640f8902e81/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/07e56638c4f6d22f8e2f90970e197640f8902e81/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/androidstudio/cache/.gradle/caches/modules-2/files-2.1/cn.qqtheme.framework/WheelPicker/1.5.5/2247bf5e547468900d260545bcad82244165d0e5/WheelPicker-1.5.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

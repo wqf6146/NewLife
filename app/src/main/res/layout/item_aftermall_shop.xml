@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:id="@+id/ioc_img_ordertype"
+            android:visibility="gone"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/blackfont_1"
+            android:id="@+id/ioc_tv_merchantname"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/content_text_s12"
+            android:text="YiYiYaYa自营"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_nor_gray_arrowright"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1px"/>
+
+        <TextView
+            android:id="@+id/ias_tv_topstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="已发货"
+            android:textColor="@color/redfont"
+            android:textSize="@dimen/content_text_s14" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_marginLeft="10dp"
+        android:layout_height="1dp"/>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/is_ll_hor"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:visibility="visible">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/is_img_shop"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:src="@mipmap/ic_nor_srcpic" />-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1.5">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/is_shop_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="5dp"-->
+                <!--android:text="耐克同款2017童鞋夏季辛苦大网眼透气减震镂空休闲鞋运动"-->
+                <!--android:textColor="@color/grayfont"-->
+                <!--android:textSize="@dimen/content_text_s12" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/ias_tv_desc"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:text="8辆车+全套狗狗"-->
+                <!--android:textColor="@color/grayfont_1"-->
+                <!--android:textSize="@dimen/content_text_s12" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/is_shop_price"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:padding="5dp"-->
+                <!--android:text="退款金额：¥88.99"-->
+                <!--android:textColor="@color/common_pink"-->
+                <!--android:textSize="@dimen/content_text_s12" />-->
+
+        <!--</RelativeLayout>-->
+
+    <!--</LinearLayout>-->
+    <com.yhkj.yymall.view.NestFullListView.NestFullListView
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ias_listview"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ias_tv_bottomstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_nor_tui"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/blackfont_1"
+            android:text="退货退款 退款完成" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1px"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/ioc_tv_tab1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:background="@drawable/view_square_bg"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="查看物流"-->
+            <!--android:textColor="@color/grayfont"-->
+            <!--android:textSize="@dimen/content_text_s12"-->
+            <!--android:visibility="gone" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/ioc_tv_tab2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/view_square_bg"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="    删除    "-->
+            <!--android:textColor="@color/grayfont"-->
+            <!--android:textSize="@dimen/content_text_s12"-->
+            <!--android:visibility="gone" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/ioc_tv_tab3"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@drawable/view_square_bg"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/grayfont"-->
+            <!--android:textSize="@dimen/content_text_s12"-->
+            <!--android:visibility="gone" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/content_text_s12"
+            android:textColor="@color/grayfont"
+            android:id="@+id/ias_tv_backprice"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/graybg"
+        android:layout_height="10dp"/>
+
+</LinearLayout>

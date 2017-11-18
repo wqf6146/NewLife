@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/graybg"
+    android:id="@+id/ict_rl_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="0dp"
+        app:layout_widthPercent="7%"
+        app:layout_heightPercent="100%"
+        android:id="@+id/ict_view_indicate"
+        android:layout_height="0dp"/>
+    <TextView
+        android:layout_width="0dp"
+        android:gravity="center"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="100%"
+        android:text="儿童推车"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s12"
+        android:id="@+id/ict_tv_name"
+        android:layout_height="0dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="1px"/>
+
+</android.support.percent.PercentRelativeLayout>

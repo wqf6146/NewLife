@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/iva_tv_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="购买数量"
+        android:textSize="@dimen/content_text_s14" />
+
+    <TextView
+        android:id="@+id/iva_tv_buynumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/iva_tv_buy"
+        android:textColor="@color/grayfont_2"
+        android:textSize="@dimen/content_text_s12"
+        android:visibility="gone" />
+
+    <com.yhkj.yymall.view.NumberPickerView
+        android:id="@+id/iva_addview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        app:addBackground="@color/graybg_2"
+        app:backgroud="@color/graybg_2"
+        app:buttonWidth="40dp"
+        app:editable="true"
+        app:editextWidth="40dp"
+        app:individer="@drawable/divider_horizontal2"
+        app:subBackground="@color/graybg_2"
+        app:textColor="@android:color/black"
+        app:textSize="14sp" />
+
+
+</RelativeLayout>

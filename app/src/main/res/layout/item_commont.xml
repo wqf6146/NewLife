@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ic_img_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_nor_srcheadimg" />
+
+        <TextView
+            android:id="@+id/ic_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="v**5"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/ic_tv_spec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:text="颜色分类：全鹏 山酒红"
+        android:textColor="@color/grayfont_1"
+        android:textSize="@dimen/content_text_s12" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s12"
+        android:id="@+id/ic_tv_content"
+        android:padding="10dp"
+        android:text="为了给宝宝买到一辆合适的推车，在网上找了好几天，发现这家的推车是最物美价廉的，无论是做工还是车子的性能，。。"
+        android:layout_height="wrap_content" />
+
+    <com.yhkj.yymall.view.ninegrid.NineGridView
+        android:id="@+id/ic_nineview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:id="@+id/ic_tv_reply"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="9.5dp"
+        android:background="@drawable/ic_nor_commentarrow"
+        android:gravity="bottom"
+        android:paddingLeft="10dp"
+        android:text="掌柜回复：。谢谢您的评价谢谢您的评价谢谢您的评价谢谢您的评价谢谢您的评价"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s14" />
+
+    <View
+        android:id="@+id/ic_view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/graybg" />
+
+</LinearLayout>

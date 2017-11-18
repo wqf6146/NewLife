@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
+        android:layout_width="5dp"
+        android:background="@drawable/view_circle_blue"
+        android:id="@+id/ie_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="top"
+        android:layout_toRightOf="@+id/ie_view"
+        android:id="@+id/ie_tv_desc"
+        android:text="完成一个商品评价获得10个经验值（评价后24小时内发放）"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

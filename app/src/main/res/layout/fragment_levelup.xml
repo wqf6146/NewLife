@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@color/graybg"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="3dp"
+                        android:background="@color/theme_bule"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s14"
+                        android:text="什么是会员等级?"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="@color/grayfont"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:padding="3dp"
+                    android:text="会员等级是YiYiYaYa根据经验值对现有用户进行的分级制度，目前分为V0、V1、V2、V3、V4、V5、V6、V7八个等级，不同等级的会员享有不同的特权。"
+                    android:textSize="@dimen/content_text_s12"
+                    android:layout_height="wrap_content" />
+
+                <com.yhkj.yymall.view.SuitLines.SuitLines xmlns:line="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/fl_suitlines"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="#fff"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="80dp"
+                    line:lineType="curve" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:src="@mipmap/ic_nor_alllevels"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="10dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/theme_bule" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s14"
+                        android:text="经验值获得规则"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--<com.yhkj.yymall.view.NestFullListView.NestFullListView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:id="@+id/fl_list_expressdesc"-->
+                    <!--android:layout_height="wrap_content"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<View-->
+                        <!--android:layout_width="5dp"-->
+                        <!--android:background="@drawable/view_circle_blue"-->
+                        <!--android:id="@+id/ie_view1"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="5dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:gravity="top"-->
+                        <!--android:layout_toRightOf="@+id/ie_view1"-->
+                        <!--android:id="@+id/ie_tv_desc1"-->
+                        <!--android:text="完成一个商品评价获得10个经验值（评价后24小时内发放）"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<View-->
+                        <!--android:layout_width="5dp"-->
+                        <!--android:background="@drawable/view_circle_blue"-->
+                        <!--android:id="@+id/ie_view2"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="5dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:gravity="top"-->
+                        <!--android:layout_toRightOf="@+id/ie_view2"-->
+                        <!--android:id="@+id/ie_tv_desc2"-->
+                        <!--android:text="购物获得经验值"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<View-->
+                        <!--android:layout_width="5dp"-->
+                        <!--android:background="@drawable/view_circle_blue"-->
+                        <!--android:id="@+id/ie_view3"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="5dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:gravity="top"-->
+                        <!--android:layout_toRightOf="@+id/ie_view3"-->
+                        <!--android:id="@+id/ie_tv_desc3"-->
+                        <!--android:text="租赁获得经验值"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+                <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/fl_nestlistview_getrules"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@mipmap/suggestion_line"
+                    android:layout_margin="10dp"
+                    android:layout_height="1px"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tv_blue_square_bg"
+                        android:padding="5dp"
+                        android:text="去评价"
+                        android:textColor="@color/theme_bule"
+                        android:textSize="@dimen/content_text_s12"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fl_tv_gobuy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/tv_blue_square_bg"
+                        android:padding="5dp"
+                        android:text="去购物"
+                        android:textColor="@color/theme_bule"
+                        android:textSize="@dimen/content_text_s12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/tv_blue_square_bg"
+                        android:padding="5dp"
+                        android:text="去租赁"
+                        android:textColor="@color/theme_bule"
+                        android:textSize="@dimen/content_text_s12"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="3dp"
+                        android:background="@color/theme_bule"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s14"
+                        android:text="经验值减扣规则"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<View-->
+                        <!--android:layout_width="5dp"-->
+                        <!--android:background="@drawable/view_circle_blue"-->
+                        <!--android:id="@+id/ie_view4"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="5dp"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:gravity="top"-->
+                        <!--android:layout_toRightOf="@+id/ie_view4"-->
+                        <!--android:id="@+id/ie_tv_desc4"-->
+                        <!--android:text="购物退货减扣经验值"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+                <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/fl_nestlistview_consumes"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@mipmap/suggestion_line"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="1px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="3dp"
+                        android:background="@color/theme_bule"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/content_text_s14"
+                        android:text="备注"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/grayfont"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:layout_height="wrap_content">
+                    <com.yhkj.yymall.view.NestFullListView.NestFullListView
+                        android:layout_width="match_parent"
+                        android:id="@+id/fl_nestlistview_remark"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"/>
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="1.以上规则自2017年7月1日起生效"-->
+                        <!--android:textColor="@color/grayfont"-->
+                        <!--android:textSize="@dimen/content_text_s12"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="2.会员达到相应等级要求即可升级。可跨级升级"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:textColor="@color/grayfont"-->
+                        <!--android:textSize="@dimen/content_text_s12"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:text="3.有效订单是指交易完成的且未退款的订单"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:textColor="@color/grayfont"-->
+                        <!--android:textSize="@dimen/content_text_s12"-->
+                        <!--android:layout_height="wrap_content" />-->
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
