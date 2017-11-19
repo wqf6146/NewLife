@@ -1,9 +1,14 @@
 package com.yhkj.yymall.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -15,9 +20,11 @@ import com.hyphenate.helpdesk.Error;
 import com.hyphenate.helpdesk.callback.Callback;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
+import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
+import com.yhkj.yymall.base.HxHelper;
 
 /**
  * Created by Administrator on 2017/11/6.
@@ -40,6 +47,45 @@ public class ChatLoginActivity extends AppCompatActivity {
         messageToIndex = intent.getIntExtra(Constant.MESSAGE_TO_INTENT_EXTRA, Constant.MESSAGE_TO_DEFAULT);
         //ChatClient.getInstance().isLoggedInBefore() 可以检测是否已经登录过环信，如果登录过则环信SDK会自动登录，不需要再次调用登录操作
 
+        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+            // 有权限，直接do anything.
+            if (ChatClient.getInstance().isLoggedInBefore()) {
+                progressDialog = getProgressDialog();
+                progressDialog.setMessage("正在加载，请稍后...");
+                progressDialog.show();
+                toChatActivity();
+            } else {
+                createAccountThenLoginChatServer();
+            }
+        }else{
+            // 申请权限。
+            AndPermission.with(this)
+                    .requestCode(100)
+                    .permission(Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)
+                    .send();
+        }
+    }
+    @TargetApi(23)
+    private void CheckPermission() {
+        if (!Settings.System.canWrite(this)) {
+            Toast.makeText(this,"先设置")
+            Uri selfPackageUri = Uri.parse("package:"
+                    + this.getPackageName());
+            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                    selfPackageUri);
+            startActivity(intent);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i=0; i<permissions.length; i++){
+            if (grantResults[i] == -1){
+                CheckPermission();
+                break;
+            }
+        }
+        HxHelper.instance.initSdk();
         if (ChatClient.getInstance().isLoggedInBefore()) {
             progressDialog = getProgressDialog();
             progressDialog.setMessage("正在加载，请稍后...");

@@ -261,7 +261,7 @@ public interface Constant {
     /**
      * 容云
      */
-    String LyImServiceNum = "kefuchannelimid_682114";
-    String LYAppKey = "1492171117068577#kefuchannelapp49905";
-    String LYTenanId = "69944";
+    String LyImServiceNum = "kefuchannelimid_834817";
+    String LYAppKey = "1499171118068027#kefuchannelapp49922";
+    String LYTenanId = "70013";
 }

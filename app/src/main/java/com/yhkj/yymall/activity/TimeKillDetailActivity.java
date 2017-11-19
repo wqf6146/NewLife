@@ -762,6 +762,10 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         mRlPopCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    showToast("请先登录");
+                    startActivity(new Intent(TimeKillDetailActivity.this,LoginActivity.class));
+                }
                 if (mStoreNone || mIsSale == 1) return;
                 showSelectCarPop(1);
             }

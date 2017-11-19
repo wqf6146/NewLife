@@ -52,28 +52,28 @@
             android:name="com.yhkj.yymall.util.GlideConfiguration"
             android:value="GlideModule" />
 
-        <receiver
-            android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.yhkj.yymall" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"-->
+            <!--android:exported="true"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+                <!--<category android:name="com.yhkj.yymall" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <service android:name="com.hyphenate.chat.EMGCMListenerService"
             android:exported="false" >
         </service>
 
-        <receiver
-            android:name="com.yhkj.yymall.receiver.GCMPushBroadCast"
-            android:exported="false">
-            <intent-filter >
-                <action android:name="com.hyphenate.sdk.push"/>
-                <category android:name="com.yhkj.yymall"/>
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name="com.yhkj.yymall.receiver.GCMPushBroadCast"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter >-->
+                <!--<action android:name="com.hyphenate.sdk.push"/>-->
+                <!--<category android:name="com.yhkj.yymall"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -84,6 +84,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- 地图定位页面 -->
+        <activity android:name=".activity.BaiduMapActivity"
+            android:theme="@style/AppBaseTheme"
+            android:screenOrientation="portrait"/>
+        <!-- 百度地图所需的service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
         <activity
             android:name=".activity.LaunchActivity"
@@ -675,12 +689,29 @@
         </activity>
 
         <activity
-            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:screenOrientation="portrait" >
+        </activity>
 
+        <!--<activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation"-->
+            <!--android:exported="false"-->
+            <!--android:windowSoftInputMode="adjustResize">-->
+
+        <!--</activity>-->
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="tencent_qq_appid"
@@ -690,9 +721,9 @@
             android:name="weixin_key"
             android:value="@string/weixin_key"/>
 
-        <meta-data
-            android:name="sina_weibo_redirecturi"
-            android:value="@string/sina_weibo_redirecturi" />
+        <!--<meta-data-->
+            <!--android:name="sina_weibo_redirecturi"-->
+            <!--android:value="@string/sina_weibo_redirecturi" />-->
 
         <meta-data
             android:name="sina_weibo_key"
@@ -759,9 +790,9 @@
             <!--android:screenOrientation="portrait"-->
             <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="59522f2a7f2c7433d100064c"></meta-data>
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="59522f2a7f2c7433d100064c"></meta-data>-->
         <!--友盟分享三方登陆-->
 
     </application>

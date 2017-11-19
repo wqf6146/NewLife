@@ -313,12 +313,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             @Override
             public void onClick(View v) {
 
-                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
-                    startActivity(new Intent(_mActivity,LoginActivity.class));
-                    showToast("请先登录");
-                    return;
-                }
-
                 YYMallApi.getOfflineActIsValid(_mActivity,mOfflineBean.getId(),new YYMallApi.ApiResult<ValidBean.DataBean>(_mActivity){
                     @Override
                     public void onError(ApiException e) {
@@ -333,6 +327,12 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                     @Override
                     public void onNext(ValidBean.DataBean dataBean) {
                         super.onNext(dataBean);
+//                        if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+//                            startActivity(new Intent(_mActivity,LoginActivity.class));
+//                            showToast("请先登录");
+//                            return;
+//                        }
+
                         if (dataBean.getIsValid() == 1) {
                             if (mAdPopupView != null && !mAdPopupView.isShowing()){
                                 mAdPopupView.showPopupWindow();

@@ -185,10 +185,10 @@ public class PaymentAcitivity extends BaseToolBarActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        String initInfo = BCPay.initWechatPay(PaymentAcitivity.this, "wx1b4e339277365985");
-        if (initInfo != null) {
-            showToast("微信初始化失败：" + initInfo);
-        }
+        BCPay.initWechatPay(PaymentAcitivity.this, getResources().getString(R.string.weixin_key));
+//        if (initInfo != null) {
+//            showToast("微信初始化失败：" + initInfo);
+//        }
         loadingDialog = new ProgressDialog(PaymentAcitivity.this);
         loadingDialog.setMessage("启动第三方支付，请稍候...");
         loadingDialog.setIndeterminate(true);

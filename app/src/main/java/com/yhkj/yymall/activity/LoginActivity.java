@@ -1,9 +1,15 @@
 package com.yhkj.yymall.activity;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -27,10 +33,12 @@ import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.util.InputMethodUtils;
+import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.BaseActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.DbHelper;
+import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.RegisterBean;
 import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.http.YYMallApi;
@@ -91,11 +99,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String type;
 
 
+
+    private void tryCreateHxAccount(String phone){
+        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+            // 有权限，直接do anything.
+            createAccountThenLoginChatServer(phone);
+        }
+    }
+
     private void createAccountThenLoginChatServer(String phone) {
         final String account = "yiyiyaya_"+phone;
         final String userPwd = "123456";
-        // createAccount to huanxin server
-        // if you have a account, this step will ignore
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
             public void onSuccess() {
@@ -138,6 +152,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
     @Override
     protected void bindEvent() {
 
@@ -308,7 +323,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
-                            createAccountThenLoginChatServer(phone);
+                            tryCreateHxAccount(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setPhone(phone);

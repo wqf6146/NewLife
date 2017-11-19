@@ -1,5 +1,6 @@
 package com.yhkj.yymall.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.hyphenate.helpdesk.model.AgentInfo;
 import com.hyphenate.helpdesk.model.MessageHelper;
 import com.hyphenate.helpdesk.util.Log;
+import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.activity.ChatActivity;
 import com.yhkj.yymall.receiver.CallReceiver;
@@ -68,31 +70,27 @@ public class HxHelper {
      */
     public void init(final Context context) {
         appContext = context;
+        if(AndPermission.hasPermission(context, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+            // 有权限，直接do anything.
+            initSdk();
+        }
+    }
+
+    public void initSdk(){
         ChatClient.Options options = new ChatClient.Options();
         options.setAppkey(Constant.LYAppKey);
         options.setTenantId(Constant.LYTenanId);
         options.showAgentInputState().showVisitorWaitCount();
-
-        //增加GCM推送，对于国外的APP可能比较需要
-//        options.setGCMNumber("****");
-        //在小米手机上当app被kill时使用小米推送进行消息提示，SDK已支持，可选
-//        options.setMipushConfig("2882303761517507836", "5631750729836");
-
-//        options.setKefuRestServer("https://sandbox.kefu.easemob.com");
-
-	    //设为调试模式，打成正式包时，最好设为false，以免消耗额外的资源
-	    options.setConsoleLog(true);
-
+        options.setConsoleLog(false);
         // 环信客服 SDK 初始化, 初始化成功后再调用环信下面的内容
-        if (ChatClient.getInstance().init(context, options)){
+        if (ChatClient.getInstance().init(appContext, options)){
             _uiProvider = UIProvider.getInstance();
             //初始化EaseUI
-            _uiProvider.init(context);
+            _uiProvider.init(appContext);
             //调用easeui的api设置providers
-            setEaseUIProvider(context);
+            setEaseUIProvider(appContext);
             //设置全局监听
             setGlobalListeners();
-
         }
     }
 

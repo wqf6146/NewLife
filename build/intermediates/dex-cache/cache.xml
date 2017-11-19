@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\BaiduLBS_Android.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e34f4b68502d8390dc04d23541103c8ea95db8b4">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\BaiduLBS_Android_a180b2e538bbc7b034cb9b4a7d630a66594d2f6e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\open_sdk_r5781.jar"
         jumboMode="false"
         optimize="true"
@@ -52,17 +61,26 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="55a810a3647e7324408cb9ca3c64d7c7bfc8f138">
+        sha1="b680704ac08a1203f713be45e7c95653bb7497fe">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_api_a0d0c890b5f9e16af120823331fbee0e5e9cf9d1\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_Sina_Full.jar"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_Sina_Simplify.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="06b17f1b60ec7c872a6d6eb37dfb5f92e313d33d">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_Sina_Full_de532f5a0bc62b0a94ecf75ad4647fe160b38627\classes.dex" />
+        sha1="01e9d7608a5af0c13061b6d30579ef00986455cb">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_Sina_Simplify_bc30c2e9d5d002205c6b43abb0878c1a104dc239\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_shareview.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fd6e56a1bbd965cee6fda6021ee764c81b4723b6">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareview_916589be4e337d6aa23c6549bf5122389a00e2d0\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -88,7 +106,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="09a14799b9e09cb72bd2d0346f13dec601a71f6c">
+        sha1="9a2fc3d30ce3cb03014a373b1d5c8b5795334271">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_net_79589e037bbf91bf30377c5ac7783bb55f46608e\classes.dex" />
     </item>
     <item
@@ -120,15 +138,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\weiboSDKCore_3.1.4.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="f3617ce51258bf3ec0fe2503e3c0a920040b1b53">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\weiboSDKCore_3.1.4_9217f511c4078b27bc74500f7945184b17af0fc5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_WeiXin_Full.jar"
         jumboMode="false"
         optimize="true"
@@ -151,7 +160,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="d587b427ea6e658f7f9302a74b0ec0b3ca8d55a7">
+        sha1="c13ae40b5263ece6e4e263ccd035ce3a1bab6367">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_f81601384d89cc1d6f10092c3a9e07ba965771b3\classes.dex" />
     </item>
     <item
@@ -160,7 +169,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="c698121d485cc1cd502ff8fad5e4e71f72ad1e9b">
+        sha1="61fdc2bd1237079ae596f6cc93b6a5807d23940e">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareboard_2120cdfa235010cd58b3965fa50f2df4a6f9bd07\classes.dex" />
     </item>
     <item

@@ -9,7 +9,7 @@ public class UpdateBean {
     /**
      * code : 0
      * msg : 1
-     * data : {"info":{"version ":"v1.1.6","versionDescription":"重大更新","versionUrl":"baidu.com"}}
+     * data : {"info":{"version":"1.0.1","versionNo":"1","versionDescription":"1","versionUrl":"https://api.yiyiyaya.cc/#1","md5":"08:01:12:E6:4E:FF:9D:4B:9A:6F:CD:73:7A:CD:63:FF","versionLowest":"1.1.4"}}
      */
 
     private int code;
@@ -42,7 +42,7 @@ public class UpdateBean {
 
     public static class DataBean {
         /**
-         * info : {"version ":"v1.1.6","versionDescription":"重大更新","versionUrl":"baidu.com"}
+         * info : {"version":"1.0.1","versionNo":"1","versionDescription":"1","versionUrl":"https://api.yiyiyaya.cc/#1","md5":"08:01:12:E6:4E:FF:9D:4B:9A:6F:CD:73:7A:CD:63:FF","versionLowest":"1.1.4"}
          */
 
         private InfoBean info;
@@ -57,9 +57,12 @@ public class UpdateBean {
 
         public static class InfoBean {
             /**
-             * version  : v1.1.6
-             * versionDescription : 重大更新
-             * versionUrl : baidu.com
+             * version : 1.0.1
+             * versionNo : 1
+             * versionDescription : 1
+             * versionUrl : https://api.yiyiyaya.cc/#1
+             * md5 : 08:01:12:E6:4E:FF:9D:4B:9A:6F:CD:73:7A:CD:63:FF
+             * versionLowest : 1.1.4
              */
 
             private String version;
@@ -67,13 +70,14 @@ public class UpdateBean {
             private String versionDescription;
             private String versionUrl;
             private String md5;
+            private String versionLowest;
 
-            public void setMd5(String md5) {
-                this.md5 = md5;
+            public String getVersion() {
+                return version;
             }
 
-            public String getMd5() {
-                return md5;
+            public void setVersion(String version) {
+                this.version = version;
             }
 
             public String getVersionNo() {
@@ -82,14 +86,6 @@ public class UpdateBean {
 
             public void setVersionNo(String versionNo) {
                 this.versionNo = versionNo;
-            }
-
-            public String getVersion() {
-                return version;
-            }
-
-            public void setVersion(String version) {
-                this.version = version;
             }
 
             public String getVersionDescription() {
@@ -106,6 +102,22 @@ public class UpdateBean {
 
             public void setVersionUrl(String versionUrl) {
                 this.versionUrl = versionUrl;
+            }
+
+            public String getMd5() {
+                return md5;
+            }
+
+            public void setMd5(String md5) {
+                this.md5 = md5;
+            }
+
+            public String getVersionLowest() {
+                return versionLowest;
+            }
+
+            public void setVersionLowest(String versionLowest) {
+                this.versionLowest = versionLowest;
             }
         }
     }

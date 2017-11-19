@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
+import com.hyphenate.chat.EMLocationMessageBody;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.EMVoiceMessageBody;
 import com.hyphenate.chat.Message;
@@ -22,17 +21,15 @@ import com.hyphenate.helpdesk.easeui.provider.CustomChatRowProvider;
 import com.hyphenate.helpdesk.easeui.recorder.MediaManager;
 import com.hyphenate.helpdesk.easeui.ui.ChatFragment;
 import com.hyphenate.helpdesk.easeui.util.CommonUtils;
-import com.hyphenate.helpdesk.easeui.widget.AlertDialogFragment;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRow;
 import com.hyphenate.helpdesk.model.MessageHelper;
-import com.vise.xsnow.manager.AppManager;
 import com.yhkj.yymall.R;
-import com.yhkj.yymall.YYApp;
+import com.yhkj.yymall.activity.BaiduMapActivity;
+import com.yhkj.yymall.activity.ContextMenuActivity;
 import com.yhkj.yymall.activity.MainActivity;
-import com.yhkj.yymall.activity.SetActivity;
-import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.view.chatrow.ChatRowEvaluation;
 import com.yhkj.yymall.view.chatrow.ChatRowForm;
+import com.yhkj.yymall.view.chatrow.ChatRowLocation;
 import com.yhkj.yymall.view.chatrow.ChatRowOrder;
 import com.yhkj.yymall.view.chatrow.ChatRowTrack;
 
@@ -149,16 +146,16 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
 
     @Override
     public boolean onMessageBubbleClick(Message message) {
-        //消息框点击事件,return true
-//        if (message.getType() == Message.Type.LOCATION) {
-//            EMLocationMessageBody locBody = (EMLocationMessageBody) message.body();
-//            Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
-//            intent.putExtra("latitude", locBody.getLatitude());
-//            intent.putExtra("longitude", locBody.getLongitude());
-//            intent.putExtra("address", locBody.getAddress());
-//            startActivity(intent);
-//            return true;
-//        }
+//        消息框点击事件,return true
+        if (message.getType() == Message.Type.LOCATION) {
+            EMLocationMessageBody locBody = (EMLocationMessageBody) message.body();
+            Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
+            intent.putExtra("latitude", locBody.getLatitude());
+            intent.putExtra("longitude", locBody.getLongitude());
+            intent.putExtra("address", locBody.getAddress());
+            startActivity(intent);
+            return true;
+        }
         return false;
     }
 
@@ -172,7 +169,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
     public boolean onExtendMenuItemClick(int itemId, View view) {
         switch (itemId) {
             case ITEM_MAP: //地图
-//                startActivityForResult(new Intent(getActivity(), BaiduMapActivity.class), REQUEST_CODE_SELECT_MAP);
+                startActivityForResult(new Intent(getActivity(), BaiduMapActivity.class), REQUEST_CODE_SELECT_MAP);
                 break;
 	        case ITEM_LEAVE_MSG://ITEM_SHORTCUT:
 //		        Intent intent = new Intent(getActivity(), NewLeaveMessageActivity.class);
@@ -197,7 +194,6 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
 
     private void startVideoCall(){
         inputMenu.hideExtendMenuContainer();
-
         Message message = Message.createVideoInviteSendMessage(getString(R.string.em_chat_invite_video_call), toChatUsername);
         ChatClient.getInstance().chatManager().sendMessage(message);
     }
@@ -214,7 +210,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
         //demo 这里不覆盖基类已经注册的item, item点击listener沿用基类的
         super.registerExtendMenuItem();
         //增加扩展的item
-//        inputMenu.registerExtendMenuItem(R.string.attach_location, R.drawable.hd_chat_location_selector, ITEM_MAP, R.id.chat_menu_map, extendMenuItemClickListener);
+        inputMenu.registerExtendMenuItem(R.string.attach_location, R.drawable.hd_chat_location_selector, ITEM_MAP, R.id.chat_menu_map, extendMenuItemClickListener);
 //        inputMenu.registerExtendMenuItem(R.string.leave_title, R.drawable.em_chat_phrase_selector, ITEM_LEAVE_MSG, R.id.chat_menu_leave_msg, extendMenuItemClickListener);
 //        inputMenu.registerExtendMenuItem(R.string.attach_call_video, R.drawable.em_chat_video_selector, ITEM_VIDEO, R.id.chat_menu_video_call, extendMenuItemClickListener);
     }
@@ -224,19 +220,19 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
-//                case ContextMenuActivity.RESULT_CODE_COPY: // 复制消息
-//                    String string = ((EMTextMessageBody) contextMenuMessage.body()).getMessage();
-//                    clipboard.setText(string);
-//                    break;
-//                case ContextMenuActivity.RESULT_CODE_DELETE: // 删除消息
-//                    if (contextMenuMessage.getType() == Message.Type.VOICE){
-//                        EMVoiceMessageBody voiceBody = (EMVoiceMessageBody) contextMenuMessage.body();
-//                        String voicePath = voiceBody.getLocalUrl();
-//                        MediaManager.release(voicePath);
-//                    }
-//                    conversation.removeMessage(contextMenuMessage.messageId());
-//                    messageList.refresh();
-//                    break;
+                case ContextMenuActivity.RESULT_CODE_COPY: // 复制消息
+                    String string = ((EMTextMessageBody) contextMenuMessage.body()).getMessage();
+                    clipboard.setText(string);
+                    break;
+                case ContextMenuActivity.RESULT_CODE_DELETE: // 删除消息
+                    if (contextMenuMessage.getType() == Message.Type.VOICE){
+                        EMVoiceMessageBody voiceBody = (EMVoiceMessageBody) contextMenuMessage.body();
+                        String voicePath = voiceBody.getLocalUrl();
+                        MediaManager.release(voicePath);
+                    }
+                    conversation.removeMessage(contextMenuMessage.messageId());
+                    messageList.refresh();
+                    break;
                 default:
                     break;
             }
@@ -250,7 +246,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                 if (locationAddress != null && !locationAddress.equals("")) {
                     sendLocationMessage(latitude, longitude, locationAddress, toChatUsername);
                 } else {
-//                    Toast.makeText(getActivity(), R.string.unable_to_get_loaction, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "无法获取位置信息", Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_CODE_SHORTCUT) {
                 String content = data.getStringExtra("content");
@@ -306,7 +302,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
         @Override
         public ChatRow getCustomChatRow(Message message, int position, BaseAdapter adapter) {
             if (message.getType() == Message.Type.LOCATION) {
-//                return new ChatRowLocation(getActivity(), message, position, adapter);
+                return new ChatRowLocation(getActivity(), message, position, adapter);
             } else if (message.getType() == Message.Type.TXT) {
                 switch (MessageHelper.getMessageExtType(message)) {
                     case EvaluationMsg:

@@ -341,9 +341,10 @@ public class DailyCarPopupView extends BasePopupWindow {
                 }
 
                 Intent intent = new Intent(getContext(), CheckOutActivity.class);
-                intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.COMMONSHOP);
+                intent.putExtra(Constant.PREORDER_TYPE.TYPE, Constant.PREORDER_TYPE.DAILY);
                 intent.putExtra("productId", String.valueOf(mSpecBean.getId()));
                 intent.putExtra("nums", String.valueOf(mNumbPickerView.getNumText()));
+                intent.putExtra("dailyId",String.valueOf(mDataBean.getDaily().getDaily_active_id()));
                 getContext().startActivity(intent);
             }
         });

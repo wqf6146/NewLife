@@ -116,8 +116,25 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private int mNeedUpdate = 0;
     private void tryUpdateVersion() {
-        if (compareVersion(mUpdateBean)) {
+        mNeedUpdate = compareVersion(mUpdateBean);
+        if (mNeedUpdate == -1) {
+            //强制更新
+            new AlertDialog.Builder(this)
+                    .setTitle(String.format("是否升级到%s版本？", mUpdateBean.getInfo().getVersion()))
+                    .setCancelable(false)
+                    .setMessage(mUpdateBean.getInfo().getVersionDescription())
+                    .setPositiveButton("升级", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startUpdateVersion();
+                        }
+                    })
+                    .create()
+                    .show();
+        }else if (mNeedUpdate == 1){
+            //可以更新
             new AlertDialog.Builder(this)
                     .setTitle(String.format("是否升级到%s版本？", mUpdateBean.getInfo().getVersion()))
                     .setMessage(mUpdateBean.getInfo().getVersionDescription())
@@ -291,16 +308,31 @@ public class MainActivity extends BaseActivity {
         }else{
             Log.e("UpdateVersion","md5 vertify faild! remove files");
             BGAUpgradeUtil.deleteApkExcpetFile(this);
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("更新失败");
-            builder.setMessage("更新文件发生了错误");
-            builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.show();
+            if (mNeedUpdate == -1){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(false);
+                builder.setTitle("更新失败");
+                builder.setMessage("更新文件发生了错误");
+                builder.setNegativeButton("重试", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startUpdateVersion();
+                    }
+                });
+                builder.show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("更新失败");
+                builder.setMessage("更新文件发生了错误");
+                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
         }
     }
 
@@ -333,29 +365,26 @@ public class MainActivity extends BaseActivity {
     /**
      * 比对版本号
      * @param dataBean
+     * return 0-无需更新 1-可以更新 -1-必须更新
      */
-    private boolean compareVersion(UpdateBean.DataBean dataBean) {
+    private int compareVersion(UpdateBean.DataBean dataBean) {
         String curVersion = CommonUtil.getVersionName(this);
+        String lowVersion = dataBean.getInfo().getVersionLowest();
         String serverVersion = dataBean.getInfo().getVersion();
-        boolean bNeedUpdate = false;
+        int needUpdate = 0;
+        if (!TextUtils.isEmpty(lowVersion) && !TextUtils.isEmpty(curVersion) && !curVersion.equals(lowVersion)){
+            Integer curv = Integer.parseInt(curVersion.replace(".",""));
+            Integer lowv = Integer.parseInt(lowVersion.replace(".",""));
+            needUpdate = lowv > curv ? -1 : 0;
+        }
+        if (needUpdate != 0)
+            return needUpdate;
         if (!TextUtils.isEmpty(serverVersion) && !TextUtils.isEmpty(curVersion) && !curVersion.equals(serverVersion)){
             Integer curv = Integer.parseInt(curVersion.replace(".",""));
             Integer serv = Integer.parseInt(serverVersion.replace(".",""));
-            bNeedUpdate = serv > curv;
-//            if (curVersionArr.length == serverVersionArr.length){
-//                for (int i=0; i<curVersionArr.length;i++){
-//                    int local = Integer.parseInt(curVersionArr[i]);
-//                    int remote = Integer.parseInt(serverVersionArr[i]);
-//                    // 1.0.5 local
-//                    // 1.1.1 remote
-//                    if (remote > local){
-//                        bNeedUpdate = true;
-//                        break;
-//                    }
-//                }
-//            }
+            needUpdate = serv > curv ? 1 : 0;
         }
-        return bNeedUpdate;
+        return needUpdate;
     }
 
     @Override

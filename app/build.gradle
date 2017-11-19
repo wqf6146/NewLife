@@ -33,7 +33,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 2
-        versionName "1.1.4"
+        versionName "1.1.5 "
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -56,6 +56,11 @@ android {
         schemaVersion 1
         targetGenDir 'src/main/java'
         daoPackage 'com.yhkj.yymall.bean.db'
+    }
+    sourceSets{
+        main(){
+            jniLibs.srcDirs=['libs']
+        }
     }
 }
 //    afterEvaluate {
@@ -109,25 +114,26 @@ dependencies {
     compile('com.alibaba.android:vlayout:1.0.7@aar') {
         transitive = true
     }
+    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
+    //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
     compile project(':xsnow')
     compile project(':jcvideoplayer-lib')
-    compile files('libs/SocialSDK_QQ_Full.jar')
-    compile files('libs/SocialSDK_Sina_Full.jar')
     compile files('libs/SocialSDK_WeiXin_Full.jar')
     compile files('libs/umeng_shareboard_widget.jar')
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_social_net.jar')
     compile files('libs/umeng_social_shareboard.jar')
     compile files('libs/umeng_social_tool.jar')
-    compile files('libs/weiboSDKCore_3.1.4.jar')
     compile project(':sdk')
     //    compile project(':AppUpdate')
     compile project(':AppUpdate')
     compile project(':kefu-easeui')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/SocialSDK_Sina_Simplify.jar')
+    compile files('libs/umeng_social_shareview.jar')
+    compile files('libs/SocialSDK_QQ_Full.jar')
 }

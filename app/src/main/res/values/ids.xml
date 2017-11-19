@@ -37,4 +37,6 @@
 
     <item name="id_lease_header" type="id"></item>
     <item name="id_lease_content" type="id"></item>
+
+    <item type="id" name="chat_menu_map"/>
 </resources>

@@ -122,7 +122,8 @@ public class YYApp extends MultiDexApplication {
         PlatformConfig.setSinaWeibo("3789899951", "862a78fd0ff2dfad350a4fa02f9e9184", "http://www.yiyiyaya.cc");
         UMShareAPI.get(this);
 //        Config.DEBUG = true;
-        Config.isNeedAuth = true;
+//        Config.isNeedAuth = true;
+
 
         NetStateReceiver.registerNetworkStateReceiver(this);
 

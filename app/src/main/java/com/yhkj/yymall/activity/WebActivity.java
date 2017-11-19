@@ -78,22 +78,32 @@ public class WebActivity extends BaseAgentWebActivity {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 String url = ApiService.OFFLINE_SHAREES_URL;
-                                if (share_media == SHARE_MEDIA.SINA){
-                                    if (CommonUtil.isWeiboClientAvailable(WebActivity.this)){
-                                        UMImage image = new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
-                                        new ShareAction(WebActivity.this).setPlatform(SHARE_MEDIA.SINA).withText(args[1]+url)
-                                                .withMedia(image).setCallback(shareListener).share();
-                                    }else{
-                                        Toast.makeText(WebActivity.this,"请先安装新浪微博",Toast.LENGTH_SHORT).show();
-                                    }
 
-                                }else{
-                                    UMWeb web = new UMWeb(url);
-                                    web.setTitle(args[0]);//标题
-                                    web.setThumb( new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
-                                    web.setDescription(args[1]);//描述
-                                    new ShareAction(WebActivity.this).withText(args[1]).setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-                                }
+                                UMWeb web = new UMWeb(url);
+                                web.setTitle(args[0]);
+                                web.setDescription(args[1]);
+                                web.setThumb( new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
+                                new ShareAction(WebActivity.this).withMedia(web)
+                                        .setPlatform(share_media)
+                                        .setCallback(shareListener)
+                                        .share();
+
+//                                if (share_media == SHARE_MEDIA.SINA){
+//                                    if (CommonUtil.isWeiboClientAvailable(WebActivity.this)){
+//                                        UMImage image = new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
+//                                        new ShareAction(WebActivity.this).setPlatform(SHARE_MEDIA.SINA).withText(args[1]+url)
+//                                                .withMedia(image).setCallback(shareListener).share();
+//                                    }else{
+//                                        Toast.makeText(WebActivity.this,"请先安装新浪微博",Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                                }else{
+//                                    UMWeb web = new UMWeb(url);
+//                                    web.setTitle(args[0]);//标题
+//                                    web.setThumb( new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
+//                                    web.setDescription(args[1]);//描述
+//                                    new ShareAction(WebActivity.this).withText(args[1]).setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
+//                                }
                             }
                         })
                         .open();

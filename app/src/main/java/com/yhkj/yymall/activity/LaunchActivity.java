@@ -1,5 +1,6 @@
 package com.yhkj.yymall.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,12 +12,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
+import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.bean.LaunchInfoBean;
 import com.yhkj.yymall.bean.UpdateBean;
@@ -109,7 +112,6 @@ public class LaunchActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         mHanlder.postDelayed(new Runnable() {
             @Override
             public void run() {

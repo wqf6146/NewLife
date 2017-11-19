@@ -557,9 +557,9 @@ public class TimeKilShopCarPopupView extends BasePopupWindow {
         calculateCanBuyTag();
         Glide.with(getContext()).load(dataBean.getImg()).into(mImgShop);
         mTvShopPrice.setText("¥"+mTwoPointDf.format(mSpecBean.getPrice()));
-        if (dataBean.getLimitnum() > 0){
+        if (mDataBean.getMaxCount() > 0){
             mTvLimiteNumb.setVisibility(View.VISIBLE);
-            mTvLimiteNumb.setText("（每人限购" + mSpecBean.getLimitnum() + "件）");
+            mTvLimiteNumb.setText("（每人限购" + mDataBean.getMaxCount() + "件）");
         }else{
             mTvLimiteNumb.setVisibility(GONE);
         }

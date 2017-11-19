@@ -616,27 +616,40 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
                                         @Override
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             String url = SHARE_SHOP_URL + "#" + mDataBean.getId();
-                                            if (share_media == SHARE_MEDIA.SINA){
-                                                if (CommonUtil.isWeiboClientAvailable(LeaseDetailActivity.this)){
-                                                    UMImage image;
-                                                    if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                        image = new UMImage(LeaseDetailActivity.this, mDataBean.getPhoto().get(0));  //缩略图
-                                                    else
-                                                        image = new UMImage(LeaseDetailActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                    new ShareAction(LeaseDetailActivity.this).setPlatform(SHARE_MEDIA.SINA).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧："+mDataBean.getName()+url).withMedia(image).setCallback(shareListener).share();
-                                                }else{
-                                                    showToast("请先安装新浪微博");
-                                                }
-                                            }else{
-                                                UMWeb web = new UMWeb(url);
-                                                web.setTitle(mDataBean.getName());//标题
-                                                if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                    web.setThumb( new UMImage(LeaseDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
-                                                else
-                                                    web.setThumb( new UMImage(LeaseDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                new ShareAction(LeaseDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-                                            }
+
+                                            UMWeb web = new UMWeb(url);
+                                            web.setTitle(mDataBean.getName());//标题
+                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                            if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
+                                                web.setThumb( new UMImage(LeaseDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
+                                            else
+                                                web.setThumb( new UMImage(LeaseDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                            new ShareAction(LeaseDetailActivity.this).withMedia(web)
+                                                    .setPlatform(share_media)
+                                                    .setCallback(shareListener)
+                                                    .share();
+
+//                                            if (share_media == SHARE_MEDIA.SINA){
+//                                                if (CommonUtil.isWeiboClientAvailable(LeaseDetailActivity.this)){
+//                                                    UMImage image;
+//                                                    if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
+//                                                        image = new UMImage(LeaseDetailActivity.this, mDataBean.getPhoto().get(0));  //缩略图
+//                                                    else
+//                                                        image = new UMImage(LeaseDetailActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
+//                                                    new ShareAction(LeaseDetailActivity.this).setPlatform(SHARE_MEDIA.SINA).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧："+mDataBean.getName()+url).withMedia(image).setCallback(shareListener).share();
+//                                                }else{
+//                                                    showToast("请先安装新浪微博");
+//                                                }
+//                                            }else{
+//                                                UMWeb web = new UMWeb(url);
+//                                                web.setTitle(mDataBean.getName());//标题
+//                                                if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
+//                                                    web.setThumb( new UMImage(LeaseDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
+//                                                else
+//                                                    web.setThumb( new UMImage(LeaseDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+//                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+//                                                new ShareAction(LeaseDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
+//                                            }
                                         }
                                     })
                                     .open();
