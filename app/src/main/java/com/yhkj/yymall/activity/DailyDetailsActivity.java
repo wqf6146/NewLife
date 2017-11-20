@@ -81,6 +81,7 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -409,7 +410,7 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
                 intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.DAILY));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopprice","¥"+mTwoPointDf.format(mDataBean.getDaily().getPrice()));
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);
@@ -436,25 +437,15 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
                                         @Override
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             String url = SHARE_SHOP_URL + "#" + mDataBean.getId();
-                                            if (share_media == SHARE_MEDIA.SINA) {
-                                                UMImage image;
-                                                if (mDataBean.getPhoto() != null && mDataBean.getPhoto().size() > 0)
-                                                    image = new UMImage(DailyDetailsActivity.this, mDataBean.getPhoto().get(0));  //缩略图
-                                                else
-                                                    image = new UMImage(DailyDetailsActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                new ShareAction(DailyDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧" + url).withMedia(image)
-                                                        .setCallback(shareListener).setPlatform(SHARE_MEDIA.SINA).share();
-                                            } else {
-                                                UMWeb web = new UMWeb(url);
-                                                web.setTitle(mDataBean.getName());//标题
-                                                if (mDataBean.getPhoto() != null && mDataBean.getPhoto().size() > 0)
-                                                    web.setThumb(new UMImage(DailyDetailsActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
-                                                else
-                                                    web.setThumb(new UMImage(DailyDetailsActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                new ShareAction(DailyDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
-                                                        setCallback(shareListener).setPlatform(share_media).share();
-                                            }
+                                            UMWeb web = new UMWeb(url);
+                                            web.setTitle(mDataBean.getName());//标题
+                                            if (mDataBean.getPhoto() != null && mDataBean.getPhoto().size() > 0)
+                                                web.setThumb(new UMImage(DailyDetailsActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
+                                            else
+                                                web.setThumb(new UMImage(DailyDetailsActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                            new ShareAction(DailyDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
+                                                    setCallback(shareListener).setPlatform(share_media).share();
                                         }
                                     })
                                     .open();
@@ -986,7 +977,12 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -995,6 +991,12 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -1005,6 +1007,12 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -1014,6 +1022,12 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }

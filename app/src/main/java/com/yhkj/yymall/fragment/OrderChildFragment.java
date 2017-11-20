@@ -63,6 +63,7 @@ import java.util.List;
 import butterknife.Bind;
 
 import static android.view.View.GONE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -283,7 +284,12 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -292,6 +298,12 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -302,6 +314,12 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -311,6 +329,12 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }

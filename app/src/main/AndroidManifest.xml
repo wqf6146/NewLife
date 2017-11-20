@@ -678,15 +678,15 @@
             android:name="UMENG_APPKEY"
             android:value="59522f2a7f2c7433d100064c"></meta-data>
         <!--友盟分享三方登陆-->
-        <activity
-            android:name="cc.yiyiyaya.WBShareActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <!--<activity-->
+            <!--android:name="cc.yiyiyaya.WBShareActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation"-->
+            <!--android:screenOrientation="portrait">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
@@ -700,17 +700,16 @@
             <!--android:configChanges="keyboardHidden|orientation"-->
             <!--android:exported="false"-->
             <!--android:windowSoftInputMode="adjustResize">-->
-
         <!--</activity>-->
+
         <activity
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-            android:launchMode="singleTask"
-            android:name="com.sina.weibo.sdk.share.WbShareTransActivity">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
 
         <meta-data

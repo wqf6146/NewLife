@@ -87,8 +87,7 @@ public class EaseChatInputMenu extends LinearLayout {
         }
         // 主按钮菜单栏,没有定义用默认的
         if (chatPrimaryMenu == null) {
-            chatPrimaryMenu = (EaseChatPrimaryMenuBase) layoutInflater.inflate(R.layout.hd_layout_chat_primary_menu,
-                    null);
+            chatPrimaryMenu = (EaseChatPrimaryMenuBase) layoutInflater.inflate(R.layout.hd_layout_chat_primary_menu, null);
         }
         primaryMenuContainer.addView(chatPrimaryMenu);
         chatPrimaryMenu.setEmojiSendBtn(emojiSendBtn);
@@ -179,6 +178,10 @@ public class EaseChatInputMenu extends LinearLayout {
      */
     public void setInputMessage(CharSequence txtContent) {
         this.chatPrimaryMenu.setInputMessage(txtContent);
+    }
+
+    public void setDoubleUserStatus(boolean bSend){
+        this.chatPrimaryMenu.setDoubleUseStatus(bSend);
     }
 
     public void setInputMessage(int resId) {
@@ -363,6 +366,7 @@ public class EaseChatInputMenu extends LinearLayout {
         emojiconMenu.setVisibility(View.GONE);
         chatExtendMenuContainer.setVisibility(View.GONE);
         chatPrimaryMenu.onExtendAllContainerHide();
+
     }
 
     /**

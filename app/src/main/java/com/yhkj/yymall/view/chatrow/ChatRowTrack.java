@@ -80,7 +80,7 @@ public class ChatRowTrack extends ChatRow {
         }
         mTrackTitle.setText(visitorTrack.getTitle());
         mTextViewDes.setText(visitorTrack.getDesc());
-        mTextViewprice.setText("¥"+visitorTrack.getPrice());
+        mTextViewprice.setText(visitorTrack.getPrice());
         String imageUrl = visitorTrack.getImageUrl();
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(com.hyphenate.helpdesk.R.drawable.hd_default_image).into(mImageView);

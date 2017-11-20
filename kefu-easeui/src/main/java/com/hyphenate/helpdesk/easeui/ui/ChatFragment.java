@@ -239,7 +239,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ChatClient.getInstance().chatManager().addVisitorWaitListener(visitorWaitListener);
-
     }
 
     ChatManager.VisitorWaitListener visitorWaitListener = new ChatManager.VisitorWaitListener() {
@@ -370,10 +369,10 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         setListItemClickListener();
 
         messageList.getListView().setOnTouchListener(new OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (!inputMenu.isVoiceRecording()){//录音时，点击列表不做操作
+                    inputMenu.setDoubleUserStatus(false);
                     hideKeyboard();
                     inputMenu.hideExtendMenuContainer();
                 }
@@ -386,7 +385,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
 
     protected void setListItemClickListener() {
         messageList.setItemClickListener(new MessageListItemClickListener() {
-
             @Override
             public void onUserAvatarClick(String username) {
                 if (chatFragmentListener != null) {

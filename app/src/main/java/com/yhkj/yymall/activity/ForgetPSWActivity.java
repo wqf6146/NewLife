@@ -191,7 +191,6 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                                 @Override
                                 public void onNext(RegisterBean.DataBean dataBean) {
                                     showToast("修改成功");
-                                    createAccountThenLoginChatServer(ed_forget_phone.getText().toString());
                                     DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                                     UserConfig userConfig = new UserConfig();
                                     userConfig.setToken(dataBean.getToken());
@@ -199,8 +198,7 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                                     userConfig.setPhone(ed_forget_phone.getText().toString());
                                     DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                                     YYApp.getInstance().setToken(dataBean.getToken());
-                                    startActivity(MainActivity.class);
-                                    AppManager.getInstance().finishActivity(ForgetPSWActivity.this);
+                                    createAccountThenLoginChatServer(ed_forget_phone.getText().toString());
                                 }
 
                                 @Override
@@ -220,16 +218,15 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
         }
     }
     private void createAccountThenLoginChatServer(String phone) {
-        final String account = "yiyiyaya_"+phone;
+        final String account = phone;
         final String userPwd = "123456";
-        // createAccount to huanxin server
-        // if you have a account, this step will ignore
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        loginHx(account);
                     }
                 });
             }
@@ -239,6 +236,10 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                 Log.e(LoginActivity.class.toString(),error);
                 if (errorCode == Error.USER_ALREADY_EXIST)
                     loginHx(account);
+                else{
+                    startActivity(MainActivity.class);
+                    AppManager.getInstance().finishActivity(ForgetPSWActivity.this);
+                }
             }
 
             @Override
@@ -253,11 +254,15 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
             @Override
             public void onSuccess() {
                 Log.d(LoginActivity.class.toString(), "Hx login success!");
+                startActivity(MainActivity.class);
+                AppManager.getInstance().finishActivity(ForgetPSWActivity.this);
             }
 
             @Override
             public void onError(int code, String error) {
                 Log.e(LoginActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
+                startActivity(MainActivity.class);
+                AppManager.getInstance().finishActivity(ForgetPSWActivity.this);
             }
 
             @Override

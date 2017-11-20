@@ -19,18 +19,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/ShareDialogTheme" />
 
-        <activity
-            android:name="com.vise.xsnow.sharesdk.ShareHandlerActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent">
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+        <!--<activity-->
+            <!--android:name="com.vise.xsnow.sharesdk.ShareHandlerActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.Translucent">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
     </application>
 

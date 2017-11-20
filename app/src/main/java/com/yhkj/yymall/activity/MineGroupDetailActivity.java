@@ -49,6 +49,7 @@ import java.util.TimeZone;
 import butterknife.Bind;
 
 import static android.view.View.GONE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -246,7 +247,12 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -255,6 +261,12 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -265,6 +277,12 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -274,6 +292,12 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -311,25 +335,15 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
                                 @Override
                                 public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                     String url = SHARE_SHOP_URL + "#" + mGoodsId;
-                                    if (share_media == SHARE_MEDIA.SINA) {
-                                        UMImage image;
-                                        if (!TextUtils.isEmpty(mStringImg))
-                                            image = new UMImage(MineGroupDetailActivity.this,mStringImg);  //缩略图
-                                        else
-                                            image = new UMImage(MineGroupDetailActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                        new ShareAction(MineGroupDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧" + url).withMedia(image)
-                                                .setCallback(shareListener).setPlatform(SHARE_MEDIA.SINA).share();
-                                    } else {
-                                        UMWeb web = new UMWeb(url);
-                                        web.setTitle(mDataBean.getGoodsName());//标题
-                                        if (!TextUtils.isEmpty(mStringImg))
-                                            web.setThumb(new UMImage(MineGroupDetailActivity.this,mStringImg));  //缩略图
-                                        else
-                                            web.setThumb(new UMImage(MineGroupDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                        web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                        new ShareAction(MineGroupDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
-                                                setCallback(shareListener).setPlatform(share_media).share();
-                                    }
+                                    UMWeb web = new UMWeb(url);
+                                    web.setTitle(mDataBean.getGoodsName());//标题
+                                    if (!TextUtils.isEmpty(mStringImg))
+                                        web.setThumb(new UMImage(MineGroupDetailActivity.this,mStringImg));  //缩略图
+                                    else
+                                        web.setThumb(new UMImage(MineGroupDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                    web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                    new ShareAction(MineGroupDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
+                                            setCallback(shareListener).setPlatform(share_media).share();
                                 }
                             })
                             .open();

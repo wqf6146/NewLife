@@ -151,7 +151,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="63f4771f2fa93f1e27b90d2563408901fdb45e67">
+        sha1="16551013d4d4ad40cd6551be36efb965484a154e">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_c98c8e2d4a47790c18e47c6072f7818828c6a658\classes.dex" />
     </item>
     <item
@@ -160,7 +160,7 @@
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="c13ae40b5263ece6e4e263ccd035ce3a1bab6367">
+        sha1="1cbc7312fa37995c3e239d5187b9e27d6f1c1096">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_f81601384d89cc1d6f10092c3a9e07ba965771b3\classes.dex" />
     </item>
     <item

@@ -1,6 +1,7 @@
 package cn.bingoogolapple.update;
 
 import java.io.IOException;
+import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -49,22 +50,27 @@ class DownloadResponseBody extends ResponseBody {
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
-                long bytesRead = super.read(sink, byteCount);
-                mProgress += bytesRead == -1 ? 0 : bytesRead;
+                try{
+                    long bytesRead = super.read(sink, byteCount);
+                    mProgress += bytesRead == -1 ? 0 : bytesRead;
 
-                if (System.currentTimeMillis() - mLastSendTime > 500) {
-                    RxUtil.send(new BGADownloadProgressEvent(contentLength(), mProgress));
-                    mLastSendTime = System.currentTimeMillis();
-                } else if (mProgress == contentLength()) {
-                    Observable.just(mProgress).delaySubscription(500, TimeUnit.MILLISECONDS, Schedulers.io()).subscribe(new Action1<Long>() {
-                        @Override
-                        public void call(Long aLong) {
-                            RxUtil.send(new BGADownloadProgressEvent(contentLength(), mProgress));
-                        }
-                    });
+                    if (System.currentTimeMillis() - mLastSendTime > 500) {
+                        RxUtil.send(new BGADownloadProgressEvent(contentLength(), mProgress));
+                        mLastSendTime = System.currentTimeMillis();
+                    } else if (mProgress == contentLength()) {
+                        Observable.just(mProgress).delaySubscription(500, TimeUnit.MILLISECONDS, Schedulers.io()).subscribe(new Action1<Long>() {
+                            @Override
+                            public void call(Long aLong) {
+                                RxUtil.send(new BGADownloadProgressEvent(contentLength(), mProgress));
+                            }
+                        });
+                    }
+
+                    return bytesRead;
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-
-                return bytesRead;
+                return 0;
             }
         };
     }

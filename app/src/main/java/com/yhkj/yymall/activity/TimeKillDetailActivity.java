@@ -83,6 +83,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -443,7 +444,12 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -452,6 +458,12 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -462,6 +474,12 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -471,6 +489,12 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -552,7 +576,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                 intent.putExtra("panicBuyItemId", String.valueOf(mDataBean.getPanicId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.COMMON));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopprice","¥"+mTwoPointDf.format(Double.parseDouble(mDataBean.getPrice())));
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);
@@ -617,27 +641,17 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                                         @Override
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             String url = SHARE_SHOP_URL + "#" + mDataBean.getGoodsId();
-                                            if (share_media == SHARE_MEDIA.SINA){
-                                                if (CommonUtil.isWeiboClientAvailable(TimeKillDetailActivity.this)) {
-                                                    UMImage image;
-                                                    if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                        image = new UMImage(TimeKillDetailActivity.this, mDataBean.getPhoto().get(0));  //缩略图
-                                                    else
-                                                        image = new UMImage(TimeKillDetailActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                    new ShareAction(TimeKillDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧："+mDataBean.getName()+url).withMedia(image).setCallback(shareListener).share();
-                                                }else{
-                                                    showToast("请先安装新浪微博");
-                                                }
-                                            }else{
-                                                UMWeb web = new UMWeb(url);
-                                                web.setTitle(mDataBean.getName());//标题
-                                                if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                    web.setThumb( new UMImage(TimeKillDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
-                                                else
-                                                    web.setThumb( new UMImage(TimeKillDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                new ShareAction(TimeKillDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).setPlatform(share_media).setCallback(shareListener).share();
-                                            }
+                                            UMWeb web = new UMWeb(url);
+                                            web.setTitle(mDataBean.getName());//标题
+                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                            if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
+                                                web.setThumb( new UMImage(TimeKillDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
+                                            else
+                                                web.setThumb( new UMImage(TimeKillDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                            new ShareAction(TimeKillDetailActivity.this).withMedia(web)
+                                                    .setPlatform(share_media)
+                                                    .setCallback(shareListener)
+                                                    .share();
                                         }
                                     })
                                     .open();
@@ -734,7 +748,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         mLlLeasePrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStoreNone || mIsSale == 1) return;
+                if (mStoreNone || mIsSale == 1 || mActNotStart) return;
                 if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     showToast("请先登录");
                     startActivity(LoginActivity.class);
@@ -765,8 +779,9 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                 if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     showToast("请先登录");
                     startActivity(new Intent(TimeKillDetailActivity.this,LoginActivity.class));
+                    return;
                 }
-                if (mStoreNone || mIsSale == 1) return;
+                if (mStoreNone || mIsSale == 1 || mActNotStart) return;
                 showSelectCarPop(1);
             }
         });
@@ -834,6 +849,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
         setToolBarColor(getResources().getColor(R.color.theme_bule));
         setImgRightResource(R.mipmap.ic_nor_3point);
         setTvTitleText("商品详情");
+        mActNotStart = getIntent().getIntExtra("status",0) == 0 ? false : true;
     }
 
     @Override
@@ -906,6 +922,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                 setNetWorkErrShow(GONE);
                 mDataBean = dataBean;
                 storeVerify();
+                actStatusVerify();
                 saleVerify();
                 mPanicBuyId = String.valueOf(dataBean.getPanicId());
                 setDetailData(dataBean);
@@ -916,6 +933,16 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
     /**
      * 库存判断
      */
+    private boolean mActNotStart = false;
+    private void actStatusVerify(){
+        if (mActNotStart == true || mDataBean.getIsValid() == 0){
+            mActNotStart = true;
+            mTvStoreNone.setText("秒杀活动即将开始");
+            mTvStoreNone.setVisibility(VISIBLE);
+            mTvBuyStr.setTextColor(getResources().getColor(R.color.half_transparency));
+            mTvSelectString.setTextColor(getResources().getColor(R.color.grayfont_1_5));
+        }
+    }
     private boolean mStoreNone = false;
     private void storeVerify(){
         if (mDataBean.getStoreNum() <= 0){
@@ -935,6 +962,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
             mTvSelectString.setTextColor(getResources().getColor(R.color.grayfont_1_5));
         }
     }
+    private java.text.DecimalFormat mTwoPointDf =new java.text.DecimalFormat("#0.00");
     private String mTitleString;
     public void setDetailData(final TimeKillDetailBean.DataBean dataBean){
         buildBannerBean(dataBean);
@@ -1011,9 +1039,9 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
 
         mTvSelectTip = "请选择商品";
         for (int i = 0; i < dataBean.getSpec().size(); i++) {
-            if (i < dataBean.getSpec().size() - 1) {
+            if (i < dataBean.getSpec().size() - 1){
                 mTvSelectTip += dataBean.getSpec().get(i).getName() + "，";
-            } else {
+            }else{
                 mTvSelectTip += dataBean.getSpec().get(i).getName();
             }
         }

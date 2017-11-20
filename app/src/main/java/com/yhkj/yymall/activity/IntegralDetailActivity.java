@@ -81,6 +81,7 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -455,7 +456,12 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -464,6 +470,12 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -474,6 +486,12 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -483,6 +501,12 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -578,7 +602,7 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
                 intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.INTEGRAL));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopprice",String.valueOf(Math.round(mDataBean.getIntegral().getPrice())) + "积分");
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);
@@ -643,27 +667,14 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
                                         @Override
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             String url = SHARE_SHOP_URL + "#" + mDataBean.getId();
-                                            if (share_media == SHARE_MEDIA.SINA){
-                                                if (CommonUtil.isWeiboClientAvailable(IntegralDetailActivity.this)) {
-                                                    UMImage image;
-                                                    if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                        image = new UMImage(IntegralDetailActivity.this, mDataBean.getPhoto().get(0));  //缩略图
-                                                    else
-                                                        image = new UMImage(IntegralDetailActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                    new ShareAction(IntegralDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧："+mDataBean.getName()+url).withMedia(image).setCallback(shareListener).share();
-                                                }else{
-                                                    showToast("请先安装新浪微博");
-                                                }
-                                            }else{
-                                                UMWeb web = new UMWeb(url);
-                                                web.setTitle(mDataBean.getName());//标题
-                                                if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
-                                                    web.setThumb( new UMImage(IntegralDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
-                                                else
-                                                    web.setThumb( new UMImage(IntegralDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                new ShareAction(IntegralDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).setPlatform(share_media).setCallback(shareListener).share();
-                                            }
+                                            UMWeb web = new UMWeb(url);
+                                            web.setTitle(mDataBean.getName());//标题
+                                            if (mDataBean.getPhoto() !=null && mDataBean.getPhoto().size() > 0)
+                                                web.setThumb( new UMImage(IntegralDetailActivity.this, mDataBean.getPhoto().get(0)));  //缩略图
+                                            else
+                                                web.setThumb( new UMImage(IntegralDetailActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                            new ShareAction(IntegralDetailActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).setPlatform(share_media).setCallback(shareListener).share();
                                         }
                                     })
                                     .open();
@@ -793,6 +804,11 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
         mRlPopCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    showToast("请先登录");
+                    startActivity(new Intent(IntegralDetailActivity.this,LoginActivity.class));
+                    return;
+                }
                 if (mStoreNone || mIsSale == 1) return;
                 showSelectCarPop(null);
             }

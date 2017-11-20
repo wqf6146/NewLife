@@ -106,6 +106,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements View
             @Override
             public void afterTextChanged(Editable s) {
                 refleshEmojiSendBtn();
+
             }
         });
         buttonPressToSpeak.setAudioFinishRecorderListener(new RecorderMenu.AudioFinishRecorderListener() {
@@ -186,11 +187,15 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements View
             editText.requestFocus();
             displayKeyboard(editText);
         } else if (id == R.id.btn_more) {
-            hideVoiceMode();
-            showMoreorLess(false);
-            showNormalFaceImage();
-            if (listener != null)
-                listener.onToggleExtendClicked();
+            if (buttonMore.getTag() != null){
+                sendTextMsg();
+            }else{
+                hideVoiceMode();
+                showMoreorLess(false);
+                showNormalFaceImage();
+                if (listener != null)
+                    listener.onToggleExtendClicked();
+            }
         } else if (id ==R.id.btn_less) {
             showMoreorLess(true);
             if (listener != null)
@@ -219,6 +224,17 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements View
             editText.requestFocus();
             displayKeyboard(editText);
         } else {
+        }
+    }
+
+    @Override
+    public void setDoubleUseStatus(boolean bSend){
+        if (bSend){
+            buttonMore.setTag("send");
+            buttonMore.setBackgroundResource(R.drawable.ic_nor_send);
+        }else{
+            buttonMore.setTag(null);
+            buttonMore.setBackgroundResource(R.drawable.hd_type_select_btn_nor);
         }
     }
 
@@ -304,14 +320,17 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements View
     }
 
     private void refleshEmojiSendBtn() {
-        if (editText.getText().length() > 0 && !emojiSengBtnEnable) {
-            if (emojiSendBtn != null) {
+        int length = editText.getText().length();
+        if (length > 0 ) {
+            setDoubleUseStatus(true);
+            if (!emojiSengBtnEnable && emojiSendBtn != null) {
                 emojiSendBtn.setEnabled(true);
                 emojiSendBtn.setBackgroundResource(R.color.emoji_send_btn_enable_bg_color);
             }
             emojiSengBtnEnable = true;
-        } else if(editText.getText().length() == 0 && emojiSengBtnEnable) {
-            if (emojiSendBtn != null) {
+        } else if(length == 0) {
+            setDoubleUseStatus(false);
+            if (emojiSengBtnEnable && emojiSendBtn != null) {
                 emojiSendBtn.setEnabled(false);
                 emojiSendBtn.setBackgroundResource(R.color.emoji_send_btn_disable_bg_color);
             }

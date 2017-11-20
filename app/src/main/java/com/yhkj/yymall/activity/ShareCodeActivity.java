@@ -1,6 +1,8 @@
 package com.yhkj.yymall.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.BaseActivity;
+import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.InviteCodeBean;
@@ -32,6 +35,7 @@ import com.yhkj.yymall.util.CommonUtil;
 
 import butterknife.Bind;
 
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_CODE_URL;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
@@ -106,22 +110,11 @@ public class ShareCodeActivity extends BaseActivity {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 String url = SHARE_CODE_URL + "#" + mCode;
-                                if (share_media == SHARE_MEDIA.SINA){
-                                    if (CommonUtil.isWeiboClientAvailable(ShareCodeActivity.this)){
-                                        UMImage image = new UMImage(ShareCodeActivity.this, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
-                                        new ShareAction(ShareCodeActivity.this).setPlatform(SHARE_MEDIA.SINA).withText("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！"+url)
-                                                .withMedia(image).setCallback(shareListener).share();
-                                    }else{
-                                        showToast("请先安装新浪微博");
-                                    }
-
-                                }else{
-                                    UMWeb web = new UMWeb(url);
-                                    web.setTitle("YiYiYaYa,厂家直销专用app,更高质量，更低价格，宝宝开心，妈妈放心，我们更安心");//标题
-                                    web.setThumb( new UMImage(ShareCodeActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
-                                    web.setDescription("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！");//描述
-                                    new ShareAction(ShareCodeActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-                                }
+                                UMWeb web = new UMWeb(url);
+                                web.setTitle("YiYiYaYa,厂家直销专用app,更高质量，更低价格，宝宝开心，妈妈放心，我们更安心");//标题
+                                web.setThumb( new UMImage(ShareCodeActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
+                                web.setDescription("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！");//描述
+                                new ShareAction(ShareCodeActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
                             }
                         })
                         .open();
@@ -134,6 +127,33 @@ public class ShareCodeActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+    private ProgressDialog getProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(ShareCodeActivity.this);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+//                    progressShow = false;
+                }
+            });
+        }
+        return mProgressDialog;
+    }
+    private ProgressDialog mProgressDialog;
+    protected void showProgressDialog(String txt){
+        if (mProgressDialog == null){
+            mProgressDialog = getProgressDialog();
+        }
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage(txt);
+            mProgressDialog.show();
+        }
+    }
+    protected void hideProgressDialog(){
+        if (mProgressDialog!=null)
+            mProgressDialog.dismiss();
+    }
     private UMShareListener shareListener = new UMShareListener() {
         /**
          * @descrption 分享开始的回调
@@ -141,7 +161,12 @@ public class ShareCodeActivity extends BaseActivity {
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -150,6 +175,12 @@ public class ShareCodeActivity extends BaseActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -160,11 +191,13 @@ public class ShareCodeActivity extends BaseActivity {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-//            if (UMShareAPI.get(ShareCodeActivity.this).isInstall(ShareCodeActivity.this,platform)){
-                showToast(t.getMessage());
-//            }else{
-//                showToast("分享失败");
-//            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
+            showToast("分享失败");
         }
 
         /**
@@ -173,8 +206,13 @@ public class ShareCodeActivity extends BaseActivity {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
-
         }
     };
 

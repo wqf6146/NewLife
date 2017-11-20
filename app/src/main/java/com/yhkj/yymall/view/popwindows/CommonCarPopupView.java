@@ -136,7 +136,7 @@ public class CommonCarPopupView extends BasePopupWindow {
     }
 
     private void getSpecList(){
-        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),null,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),null,false,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
@@ -242,11 +242,12 @@ public class CommonCarPopupView extends BasePopupWindow {
                                     mTvInventory.setText("");
                                     mTvShopPrice.setText(mCurPriceRange);
                                 }
-                                selectOneSpec();
+                                boolean bShow = true;
                                 if (isSelectDone()){
-                                    updateShopSpec(false);
-//                                    notifyDataChanged();
+                                    updateShopSpec(true);
+                                    bShow = false;
                                 }
+                                selectOneSpec(bShow);
                             }
                         });
                         return tv;
@@ -411,7 +412,7 @@ public class CommonCarPopupView extends BasePopupWindow {
         return mSelectSpecs!=null && mSelectSpecs.size() == mDataBean.getSpec().size();
     }
 
-    private void selectOneSpec(){
+    private void selectOneSpec(boolean bShow){
 //        mLastSelectSpecId = id;
         String jsonStr = null;
         if (mSelectSpecs != null && mSelectSpecs.size() != 0){
@@ -419,7 +420,7 @@ public class CommonCarPopupView extends BasePopupWindow {
             args.put("spec",mSelectSpecs);
             jsonStr = new Gson().toJson(args);
         }
-        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),jsonStr,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),jsonStr,bShow,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
@@ -551,7 +552,7 @@ public class CommonCarPopupView extends BasePopupWindow {
     private void initData(ShopSpecBean.DataBean dataBean) {
         mSpecBean = dataBean;
         calculateCanBuyTag();
-        Glide.with(getContext()).load(dataBean.getImg()).into(mImgShop);
+        Glide.with(getContext()).load(dataBean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(mImgShop);
         mTvShopPrice.setText("¥"+mTwoPointDf.format(mSpecBean.getPrice()));
         mNumbPickerView.setMaxValue(mCommonCanMaxBuy == 0 ? 1 : mCommonCanMaxBuy)
                 .setCurrentInventory(mCommonCanMaxBuy == 0 ? 1 : mCommonCanMaxBuy)

@@ -9,8 +9,8 @@
     <string name="attach_take_pic">拍照</string>
     <string name="attach_location">位置</string>
     <string name="attach_file">文件</string>
-    <string name="move_up_to_cancel">手指上滑，取消录音</string>
-    <string name="release_to_cancel">松开手指，取消录音</string>
+    <string name="move_up_to_cancel">手指上滑，取消发送</string>
+    <string name="release_to_cancel">松开手指，取消发送</string>
     <string name="str_recorder_recording">松开结束</string>
     <string name="recording_description">松开结束，手指上滑取消发送</string>
     <string name="send_fail">发送消息失败,</string>
@@ -61,7 +61,7 @@
     <string name="new_leave_msg_alert_ok">好的</string>
     <string name="new_leave_item_hint_text">必填</string>
     <string name="new_leave_item_empty_value_toast">请输入必填项</string>
-    <string name="chat_primary_text_hint">输入信息</string>
+    <string name="chat_primary_text_hint">请输入您要咨询的问题</string>
     <string name="ease_record_menu_too_short">时间过短</string>
     <string name="ticket_name">名字</string>
     <string name="ticket_phone">电话</string>

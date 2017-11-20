@@ -1,6 +1,8 @@
 package com.yhkj.yymall;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -30,6 +32,7 @@ import com.vise.xsnow.event.BusFactory;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.util.StatusBarUtil;
+import com.yhkj.yymall.activity.LeaseDetailActivity;
 import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.util.CommonUtil;
@@ -224,6 +227,11 @@ public abstract class BaseToolBarActivity extends SupportActivity {
         super.onDestroy();
         if (isOnStartRegisterBus) {
             BusFactory.getBus().unregister(this);
+        }
+        if (mProgressDialog!=null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+            mProgressBar = null;
         }
         AppManager.getInstance().removeActivity(this);
     }
@@ -514,7 +522,33 @@ public abstract class BaseToolBarActivity extends SupportActivity {
     }
 
     protected void onActivityLoadFinish(){}
-
+    private ProgressDialog getProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(BaseToolBarActivity.this);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+//                    progressShow = false;
+                }
+            });
+        }
+        return mProgressDialog;
+    }
+    private ProgressDialog mProgressDialog;
+    protected void showProgressDialog(String txt){
+        if (mProgressDialog == null){
+            mProgressDialog = getProgressDialog();
+        }
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage(txt);
+            mProgressDialog.show();
+        }
+    }
+    protected void hideProgressDialog(){
+        if (mProgressDialog!=null)
+            mProgressDialog.dismiss();
+    }
 
     /**
      * 关闭软键盘

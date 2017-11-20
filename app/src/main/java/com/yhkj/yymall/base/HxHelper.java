@@ -70,10 +70,11 @@ public class HxHelper {
      */
     public void init(final Context context) {
         appContext = context;
-        if(AndPermission.hasPermission(context, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+        initSdk();
+//        if(AndPermission.hasPermission(context, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
             // 有权限，直接do anything.
-            initSdk();
-        }
+
+//        }
     }
 
     public void initSdk(){
@@ -112,7 +113,7 @@ public class HxHelper {
                         }
                     }
                     if (userAvatarView != null){
-                        userAvatarView.setImageResource(com.hyphenate.helpdesk.R.drawable.hd_default_avatar);
+                        userAvatarView.setImageResource(com.hyphenate.helpdesk.R.mipmap.ic_nor_yiyiyaya);
                         if (agentInfo != null){
                             if (!TextUtils.isEmpty(agentInfo.getAvatar())) {
                                 String strUrl = agentInfo.getAvatar();

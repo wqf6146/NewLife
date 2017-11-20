@@ -73,6 +73,8 @@ public abstract class EaseChatPrimaryMenuBase extends RelativeLayout {
      */
     public abstract void setInputMessage(CharSequence txtContent);
 
+    public abstract void setDoubleUseStatus(boolean bSend);
+
 	/**
 	 * 是否正在录制语音
      */

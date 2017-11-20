@@ -1,7 +1,9 @@
 package com.yhkj.yymall;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -258,7 +260,33 @@ public abstract class BaseFragment extends SupportFragment {
         intent.putExtra(TOOLBAR_TYPE.TYPE,type);
         startActivity(intent);
     }
-
+    private ProgressDialog getProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(_mActivity);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+//                    progressShow = false;
+                }
+            });
+        }
+        return mProgressDialog;
+    }
+    private ProgressDialog mProgressDialog;
+    protected void showProgressDialog(String txt){
+        if (mProgressDialog == null){
+            mProgressDialog = getProgressDialog();
+        }
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage(txt);
+            mProgressDialog.show();
+        }
+    }
+    protected void hideProgressDialog(){
+        if (mProgressDialog!=null)
+            mProgressDialog.dismiss();
+    }
     private Toast mToast;
     public void showToast(String text) {
         if (mToast == null) {

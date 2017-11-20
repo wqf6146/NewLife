@@ -394,16 +394,16 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }
     }
 
-    private boolean mLightStatus = false;
+//    private boolean mLightStatus = false;
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
         //设置深色主题
-        if (!mLightStatus) {
-            mLightStatus = true;
-            StatusBarUtil.StatusBarLightMode(_mActivity);
-        }
+//        if (!mLightStatus) {
+//            mLightStatus = true;
+//            StatusBarUtil.StatusBarLightMode(_mActivity);
+//        }
         if (!TextUtils.isEmpty(YYApp.getInstance().getToken())){
             YYMallApi.getUnReadMesTag(_mActivity,new YYMallApi.ApiResult<UnReadBean.DataBean>(_mActivity) {
                 @Override

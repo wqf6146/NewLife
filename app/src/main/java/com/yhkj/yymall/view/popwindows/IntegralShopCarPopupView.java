@@ -137,7 +137,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
     }
 
     private void getSpecList(){
-        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),null,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),null,false,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
@@ -248,11 +248,12 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
                                     mTvInventory.setText("");
                                     mTvShopPrice.setText(mCurPriceRange);
                                 }
-                                selectOneSpec();
+                                boolean bShow = true;
                                 if (isSelectDone()){
-                                    updateShopSpec(false);
-//                                    notifyDataChanged();
+                                    updateShopSpec(true);
+                                    bShow = false;
                                 }
+                                selectOneSpec(bShow);
                             }
                         });
                         return tv;
@@ -408,7 +409,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
             }
         }
     }
-    private void selectOneSpec(){
+    private void selectOneSpec(Boolean bShow){
 //        mLastSelectSpecId = id;
         String jsonStr = null;
         if (mSelectSpecs != null && mSelectSpecs.size() != 0){
@@ -416,7 +417,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
             args.put("spec",mSelectSpecs);
             jsonStr = new Gson().toJson(args);
         }
-        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),jsonStr,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
+        YYMallApi.getEnableSpec(getContext(),String.valueOf(mDataBean.getId()),jsonStr,bShow,new YYMallApi.ApiResult<EnableSpecBean.DataBean>(getContext()){
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
@@ -590,7 +591,7 @@ public class IntegralShopCarPopupView extends BasePopupWindow {
             mTvLimiteNumb.setVisibility(View.GONE);
         }
 
-        Glide.with(getContext()).load(dataBean.getImg()).into(mImgShop);
+        Glide.with(getContext()).load(dataBean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(mImgShop);
         if (mType != null && mType == 0){
             //正价购买
             mTvShopPrice.setText("¥"  + new java.text.DecimalFormat("#0.00").format(mSpecBean.getNormalPrice()));

@@ -74,7 +74,9 @@ public class HProgressDialogUtils {
         String all = df.format((float)total/1024/1024);
         String percent = df.format((float)current/1024/1024);
         sHorizontalProgressDialog.setProgress(((int) current));
-        sHorizontalProgressDialog.setProgressNumberFormat(String.format("%sM/%sM",percent,all));
+        if (current !=0 && total != 0){
+            sHorizontalProgressDialog.setProgressNumberFormat(String.format("%sM/%sM",percent,all));
+        }
         if (sHorizontalProgressDialog.getProgress() >= sHorizontalProgressDialog.getMax()) {
             sHorizontalProgressDialog.dismiss();
             sHorizontalProgressDialog = null;

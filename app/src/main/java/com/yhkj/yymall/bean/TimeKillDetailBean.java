@@ -88,6 +88,15 @@ public class TimeKillDetailBean {
         private List<String> photo;
         private List<AttrBean> attr;
         private DefaultSpecBean defaultSpec;
+        private int isValid;
+
+        public void setIsValid(int isValid) {
+            this.isValid = isValid;
+        }
+
+        public int getIsValid() {
+            return isValid;
+        }
 
         public void setDefaultSpec(DefaultSpecBean defaultSpec) {
             this.defaultSpec = defaultSpec;

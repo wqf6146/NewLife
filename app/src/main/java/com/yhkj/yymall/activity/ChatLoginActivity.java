@@ -45,47 +45,7 @@ public class ChatLoginActivity extends AppCompatActivity {
         selectedIndex = intent.getIntExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,
                 Constant.INTENT_CODE_IMG_SELECTED_DEFAULT);
         messageToIndex = intent.getIntExtra(Constant.MESSAGE_TO_INTENT_EXTRA, Constant.MESSAGE_TO_DEFAULT);
-        //ChatClient.getInstance().isLoggedInBefore() 可以检测是否已经登录过环信，如果登录过则环信SDK会自动登录，不需要再次调用登录操作
-
-        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
-            // 有权限，直接do anything.
-            if (ChatClient.getInstance().isLoggedInBefore()) {
-                progressDialog = getProgressDialog();
-                progressDialog.setMessage("正在加载，请稍后...");
-                progressDialog.show();
-                toChatActivity();
-            } else {
-                createAccountThenLoginChatServer();
-            }
-        }else{
-            // 申请权限。
-            AndPermission.with(this)
-                    .requestCode(100)
-                    .permission(Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)
-                    .send();
-        }
-    }
-    @TargetApi(23)
-    private void CheckPermission() {
-        if (!Settings.System.canWrite(this)) {
-            Toast.makeText(this,"先设置")
-            Uri selfPackageUri = Uri.parse("package:"
-                    + this.getPackageName());
-            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
-                    selfPackageUri);
-            startActivity(intent);
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        for (int i=0; i<permissions.length; i++){
-            if (grantResults[i] == -1){
-                CheckPermission();
-                break;
-            }
-        }
-        HxHelper.instance.initSdk();
+//        HxHelper.instance.initSdk();
         if (ChatClient.getInstance().isLoggedInBefore()) {
             progressDialog = getProgressDialog();
             progressDialog.setMessage("正在加载，请稍后...");
@@ -94,6 +54,46 @@ public class ChatLoginActivity extends AppCompatActivity {
         } else {
             createAccountThenLoginChatServer();
         }
+//        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+//             有权限，直接do anything.
+//
+//        }else{
+//             申请权限。
+//            AndPermission.with(this)
+//                    .requestCode(100)
+//                    .permission(Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)
+//                    .send();
+//        }
+    }
+//    @TargetApi(23)
+//    private void CheckPermission() {
+//        if (!Settings.System.canWrite(this)) {
+//            Toast.makeText(this,"先设置")
+//            Uri selfPackageUri = Uri.parse("package:"
+//                    + this.getPackageName());
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+//                    selfPackageUri);
+//            startActivity(intent);
+//        }
+//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        for (int i=0; i<permissions.length; i++){
+//            if (grantResults[i] == -1){
+//                Toast.makeText(this,"需要在设置里打开YiYiYaYa的配置权限",Toast.LENGTH_SHORT).show();
+//                break;
+//            }
+//        }
+//        HxHelper.instance.initSdk();
+//        if (ChatClient.getInstance().isLoggedInBefore()) {
+//            progressDialog = getProgressDialog();
+//            progressDialog.setMessage("正在加载，请稍后...");
+//            progressDialog.show();
+//            toChatActivity();
+//        } else {
+//            createAccountThenLoginChatServer();
+//        }
     }
 
     @Override
@@ -113,13 +113,12 @@ public class ChatLoginActivity extends AppCompatActivity {
         final String userPwd = "123456";
         progressDialog = getProgressDialog();
         progressDialog.setMessage("正在加载，请稍后...");
-        progressDialog.show();
-        // createAccount to huanxin server
-        // if you have a account, this step will ignore
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "demo register success");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -184,7 +183,6 @@ public class ChatLoginActivity extends AppCompatActivity {
         ChatClient.getInstance().login(uname, upwd, new Callback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "demo login success!");
                 if (!progressShow) {
                     return;
                 }
@@ -193,7 +191,6 @@ public class ChatLoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(int code, String error) {
-                Log.e(TAG, "login fail,code:" + code + ",error:" + error);
                 if (!progressShow) {
                     return;
                 }

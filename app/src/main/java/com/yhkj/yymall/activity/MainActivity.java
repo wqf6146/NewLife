@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
         if (mNeedUpdate == -1) {
             //强制更新
             new AlertDialog.Builder(this)
-                    .setTitle(String.format("是否升级到%s版本？", mUpdateBean.getInfo().getVersion()))
+                    .setTitle(String.format("请升级到%s版本", mUpdateBean.getInfo().getVersion()))
                     .setCancelable(false)
                     .setMessage(mUpdateBean.getInfo().getVersionDescription())
                     .setPositiveButton("升级", new DialogInterface.OnClickListener() {
@@ -202,7 +202,6 @@ public class MainActivity extends BaseActivity {
      * 下载Apk文件
      */
     private void downloadUpdateFile(String url){
-
         BGAUpgradeUtil.downloadApkFile(ApiService.HOST + url, mUpdateBean.getInfo().getVersion())
                 .retry(3)
                 .subscribe(new Subscriber<File>() {
@@ -219,6 +218,42 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         HProgressDialogUtils.cancel();
+                        if (mNeedUpdate == -1) {
+                            //强制更新
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("更新失败")
+                                    .setCancelable(false)
+                                    .setMessage("更新发生了错误，请重试")
+                                    .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startUpdateVersion();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }else if (mNeedUpdate == 1){
+                            //可以更新
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("更新失败")
+                                    .setMessage("更新发生了错误，请重试")
+                                    .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startUpdateVersion();
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
                     }
 
                     @Override
@@ -250,6 +285,42 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         HProgressDialogUtils.cancel();
+                        if (mNeedUpdate == -1) {
+                            //强制更新
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("更新失败")
+                                    .setCancelable(false)
+                                    .setMessage("更新发生了错误，请重试")
+                                    .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startUpdateVersion();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }else if (mNeedUpdate == 1) {
+                            //可以更新
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("更新失败")
+                                    .setMessage("更新发生了错误，请重试")
+                                    .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startUpdateVersion();
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
                     }
 
                     @Override
@@ -325,7 +396,13 @@ public class MainActivity extends BaseActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("更新失败");
                 builder.setMessage("更新文件发生了错误");
-                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startUpdateVersion();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -372,10 +449,10 @@ public class MainActivity extends BaseActivity {
         String lowVersion = dataBean.getInfo().getVersionLowest();
         String serverVersion = dataBean.getInfo().getVersion();
         int needUpdate = 0;
-        if (!TextUtils.isEmpty(lowVersion) && !TextUtils.isEmpty(curVersion) && !curVersion.equals(lowVersion)){
+        if (!TextUtils.isEmpty(lowVersion)){
             Integer curv = Integer.parseInt(curVersion.replace(".",""));
             Integer lowv = Integer.parseInt(lowVersion.replace(".",""));
-            needUpdate = lowv > curv ? -1 : 0;
+            needUpdate = lowv >= curv ? -1 : 0;
         }
         if (needUpdate != 0)
             return needUpdate;
@@ -406,16 +483,38 @@ public class MainActivity extends BaseActivity {
             public void onNetDisConnect() {
                 if (HProgressDialogUtils.isShowing()){
                     HProgressDialogUtils.cancel();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("更新失败");
-                    builder.setMessage("无网络连接");
-                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.show();
+                    if (mNeedUpdate == -1){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setCancelable(false);
+                        builder.setTitle("更新失败");
+                        builder.setMessage("更新发生了错误");
+                        builder.setNegativeButton("重试", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                startUpdateVersion();
+                            }
+                        });
+                        builder.show();
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("更新失败");
+                        builder.setMessage("更新发生了错误");
+                        builder.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                startUpdateVersion();
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
                 }
             }
         };

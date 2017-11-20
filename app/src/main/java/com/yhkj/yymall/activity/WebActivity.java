@@ -1,6 +1,8 @@
 package com.yhkj.yymall.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -26,6 +28,7 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
+import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
@@ -158,7 +161,33 @@ public class WebActivity extends BaseAgentWebActivity {
         intent.putExtra("title", title);
         mContext.startActivity(intent);
     }
-
+    private ProgressDialog getProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(WebActivity.this);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+//                    progressShow = false;
+                }
+            });
+        }
+        return mProgressDialog;
+    }
+    private ProgressDialog mProgressDialog;
+    protected void showProgressDialog(String txt){
+        if (mProgressDialog == null){
+            mProgressDialog = getProgressDialog();
+        }
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage(txt);
+            mProgressDialog.show();
+        }
+    }
+    protected void hideProgressDialog(){
+        if (mProgressDialog!=null)
+            mProgressDialog.dismiss();
+    }
     private UMShareListener shareListener = new UMShareListener() {
         /**
          * @descrption 分享开始的回调
@@ -166,7 +195,12 @@ public class WebActivity extends BaseAgentWebActivity {
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -193,6 +227,12 @@ public class WebActivity extends BaseAgentWebActivity {
 
                 @Override
                 public void onNext(CommonBean commonBean) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgressDialog();
+                        }
+                    });
                     Toast.makeText(WebActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -206,6 +246,12 @@ public class WebActivity extends BaseAgentWebActivity {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             Toast.makeText(WebActivity.this,"分享失败",Toast.LENGTH_SHORT).show();
         }
 
@@ -215,6 +261,13 @@ public class WebActivity extends BaseAgentWebActivity {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
+            Toast.makeText(WebActivity.this,"取消分享",Toast.LENGTH_SHORT).show();
         }
     };
 }

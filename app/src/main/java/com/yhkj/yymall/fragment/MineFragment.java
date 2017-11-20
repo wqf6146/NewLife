@@ -51,6 +51,7 @@ import com.yhkj.yymall.activity.AdvanceActivity;
 import com.yhkj.yymall.activity.AfterMallListActivity;
 import com.yhkj.yymall.activity.CollectActivity;
 import com.yhkj.yymall.activity.InputCodeActivity;
+import com.yhkj.yymall.activity.LeaseDetailActivity;
 import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.activity.MessageActivity;
 import com.yhkj.yymall.activity.MineEvaActivity;
@@ -85,7 +86,9 @@ import java.util.List;
 import butterknife.Bind;
 
 import static android.view.View.GONE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_CODE_URL;
+import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
  * Created by Administrator on 2017/6/19.
@@ -221,7 +224,12 @@ public class MineFragment extends BaseFragment {
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -230,6 +238,12 @@ public class MineFragment extends BaseFragment {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -240,6 +254,12 @@ public class MineFragment extends BaseFragment {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -249,6 +269,12 @@ public class MineFragment extends BaseFragment {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -353,22 +379,11 @@ public class MineFragment extends BaseFragment {
                                                 @Override
                                                 public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                                     String url = SHARE_CODE_URL + "#" + code;
-                                                    if (share_media == SHARE_MEDIA.SINA){
-                                                        if (CommonUtil.isWeiboClientAvailable(_mActivity)){
-                                                            UMImage image = new UMImage(_mActivity, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
-                                                            new ShareAction(_mActivity).setPlatform(SHARE_MEDIA.SINA).withText("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！"+url)
-                                                                    .withMedia(image).setCallback(shareListener).share();
-                                                        }else{
-                                                            showToast("请先安装新浪微博");
-                                                        }
-
-                                                    }else{
-                                                        UMWeb web = new UMWeb(url);
-                                                        web.setTitle("YiYiYaYa,厂家直销专用app,更高质量，更低价格，宝宝开心，妈妈放心，我们更安心");//标题
-                                                        web.setThumb( new UMImage(_mActivity, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
-                                                        web.setDescription("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！");//描述
-                                                        new ShareAction(_mActivity).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-                                                    }
+                                                    UMWeb web = new UMWeb(url);
+                                                    web.setTitle("YiYiYaYa,厂家直销专用app,更高质量，更低价格，宝宝开心，妈妈放心，我们更安心");//标题
+                                                    web.setThumb( new UMImage(_mActivity, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
+                                                    web.setDescription("YiYiYaYa厂家直销各种儿童用品，玩具、童车、童装、家居等，高品质低价格，更有安全座椅0元领用，快来看看吧！");//描述
+                                                    new ShareAction(_mActivity).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
                                                 }
                                             })
                                             .open();

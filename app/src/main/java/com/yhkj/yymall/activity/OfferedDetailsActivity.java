@@ -57,6 +57,7 @@ import java.util.List;
 import butterknife.Bind;
 
 import static android.view.View.GONE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -210,25 +211,15 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
                                         @Override
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             String url = SHARE_SHOP_URL + "#" + mDataBean.getGoods().getId();
-                                            if (share_media == SHARE_MEDIA.SINA) {
-                                                UMImage image;
-                                                if (!TextUtils.isEmpty(mDataBean.getGoods().getImg()))
-                                                    image = new UMImage(OfferedDetailsActivity.this,mDataBean.getGoods().getImg());  //缩略图
-                                                else
-                                                    image = new UMImage(OfferedDetailsActivity.this, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                new ShareAction(OfferedDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧" + url).withMedia(image)
-                                                        .setCallback(shareListener).setPlatform(SHARE_MEDIA.SINA).share();
-                                            } else {
-                                                UMWeb web = new UMWeb(url);
-                                                web.setTitle(mDataBean.getGoods().getName());//标题
-                                                if (!TextUtils.isEmpty(mDataBean.getGoods().getImg()))
-                                                    web.setThumb(new UMImage(OfferedDetailsActivity.this,mDataBean.getGoods().getImg()));  //缩略图
-                                                else
-                                                    web.setThumb(new UMImage(OfferedDetailsActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                new ShareAction(OfferedDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
-                                                        setCallback(shareListener).setPlatform(share_media).share();
-                                            }
+                                            UMWeb web = new UMWeb(url);
+                                            web.setTitle(mDataBean.getGoods().getName());//标题
+                                            if (!TextUtils.isEmpty(mDataBean.getGoods().getImg()))
+                                                web.setThumb(new UMImage(OfferedDetailsActivity.this,mDataBean.getGoods().getImg()));  //缩略图
+                                            else
+                                                web.setThumb(new UMImage(OfferedDetailsActivity.this, R.mipmap.ic_nor_srcpic));  //缩略图
+                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                            new ShareAction(OfferedDetailsActivity.this).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").withMedia(web).
+                                                    setCallback(shareListener).setPlatform(share_media).share();
                                         }
                                     })
                                     .open();
@@ -273,7 +264,12 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -282,6 +278,12 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -292,6 +294,12 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -301,6 +309,12 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }

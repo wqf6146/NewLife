@@ -64,6 +64,7 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.vise.utils.handler.HandlerUtil.runOnUiThread;
 import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
@@ -289,7 +290,12 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -298,6 +304,12 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -308,6 +320,12 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -317,6 +335,12 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -527,23 +551,14 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
                                                         @Override
                                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                                             String url = SHARE_SHOP_URL + "#" + dataBean.getId();
-                                                            if (share_media == SHARE_MEDIA.SINA){
-                                                                UMImage image;
-                                                                if (ordersBean.getGoodses() !=null && ordersBean.getGoodses().size() > 0)
-                                                                    image = new UMImage(_mActivity, ordersBean.getGoodses().get(0).getGoodsImg());  //缩略图
-                                                                else
-                                                                    image = new UMImage(_mActivity, R.mipmap.ic_nor_srcpic);  //缩略图
-                                                                new ShareAction(_mActivity).setPlatform(SHARE_MEDIA.SINA).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧"+url).withMedia(image).setCallback(shareListener).share();
-                                                            }else{
-                                                                UMWeb web = new UMWeb(url);
-                                                                if (ordersBean.getGoodses() !=null && ordersBean.getGoodses().size() > 0) {
-                                                                    web.setTitle(ordersBean.getGoodses().get(0).getGoodsName());//标题
-                                                                    web.setThumb(new UMImage(_mActivity, ordersBean.getGoodses().get(0).getGoodsImg()));  //缩略图
-                                                                }else
-                                                                    web.setThumb( new UMImage(_mActivity, R.mipmap.ic_nor_srcpic));  //缩略图
-                                                                web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
-                                                                new ShareAction(_mActivity).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-                                                            }
+                                                            UMWeb web = new UMWeb(url);
+                                                            if (ordersBean.getGoodses() !=null && ordersBean.getGoodses().size() > 0) {
+                                                                web.setTitle(ordersBean.getGoodses().get(0).getGoodsName());//标题
+                                                                web.setThumb(new UMImage(_mActivity, ordersBean.getGoodses().get(0).getGoodsImg()));  //缩略图
+                                                            }else
+                                                                web.setThumb( new UMImage(_mActivity, R.mipmap.ic_nor_srcpic));  //缩略图
+                                                            web.setDescription("我在YiYiYaYa发现了一个不错的商品，快来看看吧");//描述
+                                                            new ShareAction(_mActivity).withText("我在YiYiYaYa发现了一个不错的商品，快来看看吧").setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
                                                         }
                                                     })
                                                     .open();

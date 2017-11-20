@@ -1,7 +1,9 @@
 package com.yhkj.yymall.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -453,6 +455,8 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+
     private UMShareListener shareListener = new UMShareListener() {
         /**
          * @descrption 分享开始的回调
@@ -460,7 +464,12 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showProgressDialog("正在加载，请稍后...");
+                }
+            });
         }
 
         /**
@@ -469,6 +478,12 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享成功");
         }
 
@@ -479,6 +494,12 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("分享失败");
         }
 
@@ -488,6 +509,12 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                }
+            });
             showToast("取消分享");
 
         }
@@ -562,7 +589,7 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
                 intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.LEASE));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice",mDataBean.getPrice());
+                intent.putExtra("shopprice","¥"+mTwoPointDf.format(mDataBean.getRent().getDeposit()));
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);
@@ -807,6 +834,11 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
         mRlPopCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    showToast("请先登录");
+                    startActivity(new Intent(LeaseDetailActivity.this,LoginActivity.class));
+                    return;
+                }
                 if (mStoreNone || mIsSale == 1) return;
                 showSelectCarPop(null);
             }

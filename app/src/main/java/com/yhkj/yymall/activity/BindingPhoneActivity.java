@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.helpdesk.Error;
@@ -104,23 +105,32 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
         type = intent.getStringExtra("type");
     }
     private void createAccountThenLoginChatServer(String phone) {
-        final String account = "yiyiyaya_"+phone;
+        final String account = phone;
         final String userPwd = "123456";
-        // createAccount to huanxin server
-        // if you have a account, this step will ignore
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        //登录环信服务器
+                        loginHx(account);
                     }
                 });
             }
 
             @Override
             public void onError(final int errorCode, final String error) {
-                Log.e(LoginActivity.class.toString(),error);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (errorCode == Error.USER_ALREADY_EXIST){
+                            loginHx(account);
+                        }else{
+                            AppManager.getInstance().finishActivity(LoginActivity.class);
+                            AppManager.getInstance().finishActivity(BindingPhoneActivity.this);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -193,7 +203,6 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
 
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
-                            createAccountThenLoginChatServer(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setToken(dataBean.getToken());
@@ -201,8 +210,7 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                             YYApp.getInstance().setToken(dataBean.getToken());
-                            AppManager.getInstance().finishActivity(LoginActivity.class);
-                            AppManager.getInstance().finishActivity(BindingPhoneActivity.this);
+                            createAccountThenLoginChatServer(phone);
                         }
                     });
                 }
@@ -227,71 +235,21 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
                 break;
         }
     }
-    private void registerLx(final String phone) {
-        ChatClient.getInstance().register(phone, "123456", new Callback() {
-            @Override
-            public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //登录环信服务器
-                        loginHx(phone);
-                    }
-                });
-            }
 
-            @Override
-            public void onError(final int errorCode, final String error) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        if (errorCode == Error.NETWORK_ERROR){
-                            Log.e("registerHx","网络连接不可用，请检查网络");
-//                            Toast.makeText(getApplicationContext(), "网络连接不可用，请检查网络", Toast.LENGTH_SHORT).show();
-                        }else if (errorCode == Error.USER_ALREADY_EXIST){
-                            Log.e("registerHx","账户已存在");
-                        }else if(errorCode == Error.USER_AUTHENTICATION_FAILED){
-                            Log.e("registerHx","无开放注册权限");
-//                            Toast.makeText(getApplicationContext(), "无开放注册权限", Toast.LENGTH_SHORT).show();
-                        } else if (errorCode == Error.USER_ILLEGAL_ARGUMENT){
-                            Log.e("registerHx","用户名不合法");
-//                            Toast.makeText(getApplicationContext(), "用户名不合法", Toast.LENGTH_SHORT).show();
-                        }else {
-                            Log.e("registerHx","error");
-//                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-
-            }
-        });
-    }
     private void loginHx(final String phone) {
         ChatClient.getInstance().login(phone, "123456", new Callback() {
             @Override
             public void onSuccess() {
                 Log.d(BindingPhoneActivity.class.toString(), "Hx login success!");
-//                                if (!progressShow) {
-//                                    return;
-//                                }
-//                                toChatActivity();
+                AppManager.getInstance().finishActivity(LoginActivity.class);
+                AppManager.getInstance().finishActivity(BindingPhoneActivity.this);
             }
 
             @Override
             public void onError(int code, String error) {
                 Log.e(BindingPhoneActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
-//                                runOnUiThread(new Runnable() {
-//                                    public void run() {
-////                                        progressDialog.dismiss();
-////                                        Toast.makeText(ChatLoginActivity.this,
-////                                                "联系客服失败",
-////                                                Toast.LENGTH_SHORT).show();
-////                                        finish();
-//                                    }
-//                                });
+                AppManager.getInstance().finishActivity(LoginActivity.class);
+                AppManager.getInstance().finishActivity(BindingPhoneActivity.this);
             }
 
             @Override

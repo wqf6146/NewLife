@@ -110,10 +110,8 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
         setNetWorkErrShow(GONE);
     }
     private void createAccountThenLoginChatServer(final String phone) {
-        final String account = "yiyiyaya_"+phone;
+        final String account = phone;
         final String userPwd = "123456";
-        // createAccount to huanxin server
-        // if you have a account, this step will ignore
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
             public void onSuccess() {
@@ -122,7 +120,12 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 
             @Override
             public void onError(final int errorCode, final String error) {
-                Log.e(LoginActivity.class.toString(),error);
+                if (errorCode == Error.USER_ALREADY_EXIST)
+                    loginHx(phone);
+                else{
+                    AppManager.getInstance().finishActivity(LoginActivity.class);
+                    AppManager.getInstance().finishActivity(RegisterActivity.class);
+                }
             }
 
             @Override
@@ -221,7 +224,6 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
-                            createAccountThenLoginChatServer(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setPhone(phone);
@@ -229,11 +231,8 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                             YYApp.getInstance().setToken(dataBean.getToken());
-//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                            startActivity(intent);
-//                            finish();
-                            AppManager.getInstance().finishActivity(LoginActivity.class);
-                            AppManager.getInstance().finishActivity(RegisterActivity.class);
+                            createAccountThenLoginChatServer(phone);
+
                         }
                     });
 
@@ -315,24 +314,15 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
             @Override
             public void onSuccess() {
                 Log.d(RegisterActivity.class.toString(), "Hx login success!");
-//                                if (!progressShow) {
-//                                    return;
-//                                }
-//                                toChatActivity();
+                AppManager.getInstance().finishActivity(LoginActivity.class);
+                AppManager.getInstance().finishActivity(RegisterActivity.class);
             }
 
             @Override
             public void onError(int code, String error) {
                 Log.e(RegisterActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
-//                                runOnUiThread(new Runnable() {
-//                                    public void run() {
-////                                        progressDialog.dismiss();
-////                                        Toast.makeText(ChatLoginActivity.this,
-////                                                "联系客服失败",
-////                                                Toast.LENGTH_SHORT).show();
-////                                        finish();
-//                                    }
-//                                });
+                AppManager.getInstance().finishActivity(LoginActivity.class);
+                AppManager.getInstance().finishActivity(RegisterActivity.class);
             }
 
             @Override
@@ -356,7 +346,6 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
                     e.printStackTrace();
                 }
             }
-
         }
     };
 

@@ -26,6 +26,7 @@ public class DetailsMenuPopupView extends BasePopupWindow implements View.OnClic
             public void onClick(View v) {
                 if (mOnMenuClickLisiten!=null)
                     mOnMenuClickLisiten.onMenuClick(1);
+                dismiss();
             }
         });
         findViewById(R.id.vpm_ll_2).setOnClickListener(new View.OnClickListener() {
@@ -33,6 +34,7 @@ public class DetailsMenuPopupView extends BasePopupWindow implements View.OnClic
             public void onClick(View v) {
                 if (mOnMenuClickLisiten!=null)
                     mOnMenuClickLisiten.onMenuClick(2);
+                dismiss();
             }
         });
         findViewById(R.id.vpm_ll_3).setOnClickListener(new View.OnClickListener() {
@@ -40,6 +42,7 @@ public class DetailsMenuPopupView extends BasePopupWindow implements View.OnClic
             public void onClick(View v) {
                 if (mOnMenuClickLisiten!=null)
                     mOnMenuClickLisiten.onMenuClick(3);
+                dismiss();
             }
         });
     }

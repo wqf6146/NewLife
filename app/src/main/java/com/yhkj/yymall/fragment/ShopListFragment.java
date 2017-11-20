@@ -205,6 +205,15 @@ public class ShopListFragment extends BaseFragment {
                     if (bean.getStatus() == 2){
                         holder.setBackgroundRes(R.id.is_shop_buy,R.drawable.tv_bg_circle_gray_1);
                         holder.setText(R.id.is_shop_buy,"即将开始");
+                        holder.setOnClickListener(R.id.fn_ll_hor_2, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, TimeKillDetailActivity.class);
+                                intent.putExtra("id",String.valueOf(bean.getPaniclBuyItemId()));
+                                intent.putExtra("status",-1);
+                                startActivity(intent);
+                            }
+                        });
                     }else{
                         holder.setBackgroundRes(R.id.is_shop_buy,R.drawable.tv_bg_circle_deepblue);
                         holder.setText(R.id.is_shop_buy,"立即抢购");

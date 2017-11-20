@@ -101,14 +101,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void tryCreateHxAccount(String phone){
-        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
+//        if(AndPermission.hasPermission(this, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
             // 有权限，直接do anything.
             createAccountThenLoginChatServer(phone);
-        }
+//        }
     }
 
     private void createAccountThenLoginChatServer(String phone) {
-        final String account = "yiyiyaya_"+phone;
+        final String account = phone;
         final String userPwd = "123456";
         ChatClient.getInstance().register(account, userPwd, new Callback() {
             @Override
@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        loginHx(account);
                     }
                 });
             }
@@ -125,6 +126,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Log.e(LoginActivity.class.toString(),error);
                 if (errorCode == Error.USER_ALREADY_EXIST)
                     loginHx(account);
+                else{
+                    AppManager.getInstance().finishActivity(LoginActivity.this);
+                }
             }
 
             @Override
@@ -139,11 +143,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess() {
                 Log.d(LoginActivity.class.toString(), "Hx login success!");
+                AppManager.getInstance().finishActivity(LoginActivity.this);
             }
 
             @Override
             public void onError(int code, String error) {
                 Log.e(LoginActivity.class.toString(), "Hx login fail,code:" + code + ",error:" + error);
+                AppManager.getInstance().finishActivity(LoginActivity.this);
             }
 
             @Override
@@ -323,7 +329,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         @Override
                         public void onNext(RegisterBean.DataBean dataBean) {
-                            tryCreateHxAccount(phone);
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setPhone(phone);
@@ -331,7 +336,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             userConfig.setState(zddl);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                             YYApp.getInstance().setToken(dataBean.getToken());
-                            AppManager.getInstance().finishActivity(LoginActivity.this);
+                            tryCreateHxAccount(phone);
                         }
                     });
                 }
