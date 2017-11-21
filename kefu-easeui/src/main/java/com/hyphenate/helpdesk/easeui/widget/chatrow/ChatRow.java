@@ -69,6 +69,7 @@ public abstract class ChatRow extends LinearLayout {
         onInflatView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
         userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+        userAvatarView.setBackground(null);
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -134,7 +135,13 @@ public abstract class ChatRow extends LinearLayout {
 
         if (adapter instanceof MessageAdapter) {
             if (userAvatarView != null){
-                if (((MessageAdapter) adapter).isShowAvatar() && message.direct() == Message.Direct.RECEIVE){
+                String tag = null;
+                try {
+                 tag = message.getStringAttribute("id");
+                }catch (Exception e){
+//                    e.printStackTrace();
+                }
+                if (((MessageAdapter) adapter).isShowAvatar() && tag == null){
                     userAvatarView.setVisibility(View.VISIBLE);
                 }
                 else{

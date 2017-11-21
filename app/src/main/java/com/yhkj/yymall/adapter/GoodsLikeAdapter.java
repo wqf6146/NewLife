@@ -36,11 +36,9 @@ import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 
-
 /**
  * Created by Administrator on 2017/7/3.
  */
-
 public abstract class GoodsLikeAdapter extends DelegateAdapter {
 
     private Context mContext;
@@ -63,7 +61,6 @@ public abstract class GoodsLikeAdapter extends DelegateAdapter {
     private GridLayoutHelper mShopGridLayoutHelp;
     private CommonAdapter mTopTipAdapter;
     private ShopItemAdapter mItemAdpater;
-
 
     /**
      * 初始化头部视图

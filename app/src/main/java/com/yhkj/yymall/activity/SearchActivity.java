@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
+import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -66,6 +67,7 @@ public class SearchActivity extends BaseToolBarActivity {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtil.StatusBarLightMode(this);
     }
 
     @Override

@@ -129,24 +129,8 @@ public class YYApp extends MultiDexApplication {
 
         HxHelper.getInstance().init(this);
 
-        //测试
-        Cockroach.install(new Cockroach.ExceptionHandler() {
-            @Override
-            public void handlerException(final Thread thread, final Throwable throwable) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            AECHFileWriter.getInstance(mInstance).writeEx2File(throwable);
-                            Toast.makeText(YYApp.this, "Exception Happend\n" + thread + "\n" + throwable.toString(), Toast.LENGTH_SHORT).show();
-                        } catch (Throwable e) {
-                            Toast.makeText(YYApp.this, "Exception Happend\n" + thread + "\n" + e.toString(), Toast.LENGTH_SHORT).show();
-                            ViseLog.e(e);
-                        }
-                    }
-                });
-            }
-        });
+//
+
 
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.

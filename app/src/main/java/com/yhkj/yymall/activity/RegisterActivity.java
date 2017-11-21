@@ -228,6 +228,7 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
                             UserConfig userConfig = new UserConfig();
                             userConfig.setPhone(phone);
                             userConfig.setToken(dataBean.getToken());
+                            userConfig.setHeadIco(dataBean.getHeadIco());
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                             YYApp.getInstance().setToken(dataBean.getToken());

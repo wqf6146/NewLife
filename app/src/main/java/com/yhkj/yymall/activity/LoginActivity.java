@@ -207,6 +207,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                     UserConfig userConfig = new UserConfig();
                     userConfig.setToken(dataBean.getToken());
+                    userConfig.setHeadIco(dataBean.getHeadIco());
                     userConfig.setState(zddl);
                     DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
                     YYApp.getInstance().setToken(dataBean.getToken());
@@ -332,6 +333,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setPhone(phone);
+                            userConfig.setHeadIco(dataBean.getHeadIco());
                             userConfig.setToken(dataBean.getToken());
                             userConfig.setState(zddl);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);

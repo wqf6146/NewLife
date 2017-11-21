@@ -92,7 +92,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform (1)" jdkType="Android SDK" />
@@ -114,7 +113,6 @@
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="percent-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_tool" level="project" />
-    <orderEntry type="library" exported="" name="SmartRefreshLayout-1.0.2-alpha-6" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
@@ -136,6 +134,7 @@
     <orderEntry type="library" exported="" name="viseutils-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_shareboard_widget" level="project" />
     <orderEntry type="library" exported="" name="vlayout-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="SmartRefreshLayout-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="multipleimageselect-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_net" level="project" />
     <orderEntry type="library" exported="" name="viselog-1.0.0" level="project" />

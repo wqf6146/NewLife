@@ -47,14 +47,19 @@ import com.yhkj.yymall.R;
 //import io.reactivex.functions.Consumer;
 //import io.reactivex.functions.Function;
 import com.yhkj.yymall.adapter.PeopleInfoAdatper;
+import com.yhkj.yymall.base.DbHelper;
+import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.PersonBean;
+import com.yhkj.yymall.bean.UdSaveCallBack;
+import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.event.AvatarUpdateEvent;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.util.FileUtils;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.Bind;
 import rx.Observable;
@@ -306,7 +311,7 @@ public class UserDataActivity extends BaseToolBarActivity implements TakePhoto.T
                 String name = mTvName.getText().toString();
                 String sex = mTvSex.getText().toString();
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(sex)){
-                    YYMallApi.updateUserInfo(UserDataActivity.this, mAvatarFile, name, sex.equals("男") ? 1 : 2, new YYMallApi.ApiResult<CommonBean>(UserDataActivity.this) {
+                    YYMallApi.updateUserInfo(UserDataActivity.this, mAvatarFile, name, sex.equals("男") ? 1 : 2, new YYMallApi.ApiResult<UdSaveCallBack>(UserDataActivity.this) {
                         @Override
                         public void onStart() {
 
@@ -325,7 +330,16 @@ public class UserDataActivity extends BaseToolBarActivity implements TakePhoto.T
                         }
 
                         @Override
-                        public void onNext(CommonBean o) {
+                        public void onNext(UdSaveCallBack commonBean) {
+                            List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+                            if (userConfigList !=null || userConfigList.size()>0){
+                                UserConfig userConfig = userConfigList.get(0);
+                                userConfig.setHeadIco(commonBean.getData().getHeadIco());
+                                DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                                DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
+//                                HxHelper.getInstance().initSdk();
+                            }
+
                             showToast("保存成功");
                             BusFactory.getBus().post(new AvatarUpdateEvent());
                             AppManager.getInstance().finishActivity(UserDataActivity.this);

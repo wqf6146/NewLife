@@ -35,6 +35,7 @@ import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.vise.xsnow.ui.basepopup.BasePopupWindow;
+import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.base.Constant;
@@ -42,6 +43,7 @@ import com.yhkj.yymall.bean.ShopSelectBean;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.http.api.ApiService;
 import com.yhkj.yymall.util.CommonUtil;
+import com.yhkj.yymall.view.ItemOffsetDecoration;
 import com.yhkj.yymall.view.NestFullListView.NestFullListView;
 import com.yhkj.yymall.view.NestFullListView.NestFullListViewAdapter;
 import com.yhkj.yymall.view.NestFullListView.NestFullViewHolder;
@@ -116,6 +118,7 @@ public class ShopListActivity extends BaseToolBarActivity {
     @Override
     protected void initView() {
         super.initView();
+        StatusBarUtil.StatusBarLightMode(this);
         initRefreshLayout();
         mCateGoryId = getIntent().getStringExtra("id");
         mShopName = getIntent().getStringExtra("name");
@@ -873,25 +876,6 @@ public class ShopListActivity extends BaseToolBarActivity {
         }
     }
 
-    class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
-
-        private int mItemOffset;
-
-        public ItemOffsetDecoration(int itemOffset) {
-            mItemOffset = itemOffset;
-        }
-
-        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
-            this(context.getResources().getDimensionPixelSize(itemOffsetId));
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(mItemOffset, mItemOffset, mItemOffset, mItemOffset);
-        }
-    }
 
     private void getShopToolbarAnimIn(){
         if (mAnimIn == null){

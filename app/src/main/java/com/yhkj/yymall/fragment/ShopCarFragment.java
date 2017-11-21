@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.vlayout.VirtualLayoutManager;
+import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -21,17 +24,31 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.event.BusFactory;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
+import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
+import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
+import com.vise.xsnow.ui.adapter.recycleview.wrapper.HeaderAndFooterWrapper;
 import com.yhkj.yymall.BaseToolBarFragment;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.activity.CheckOutActivity;
+import com.yhkj.yymall.activity.CommodityDetailsActivity;
+import com.yhkj.yymall.activity.DailyDetailsActivity;
+import com.yhkj.yymall.activity.DiscountDetailsActivity;
+import com.yhkj.yymall.activity.GrouponDetailsActivity;
+import com.yhkj.yymall.activity.IntegralDetailActivity;
+import com.yhkj.yymall.activity.LeaseDetailActivity;
+import com.yhkj.yymall.activity.ShopListActivity;
+import com.yhkj.yymall.activity.TimeKillDetailActivity;
 import com.yhkj.yymall.adapter.GoodsLikeAdapter;
+import com.yhkj.yymall.adapter.NewGoodsLikeAdapter;
 import com.yhkj.yymall.adapter.ShopCarsAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.GoodsLikeBean;
 import com.yhkj.yymall.bean.ShopCarBean;
 import com.yhkj.yymall.event.MainTabSelectEvent;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.util.CommonUtil;
+import com.yhkj.yymall.view.ItemOffsetDecoration;
 import com.yhkj.yymall.view.YiYaHeaderView;
 
 import java.util.ArrayList;
@@ -91,7 +108,8 @@ public class ShopCarFragment extends BaseToolBarFragment {
     private int type = 0;
     private int page = 1;
 
-    private GoodsLikeAdapter shopCarsNullAdapter;
+    private CommonAdapter<GoodsLikeBean.DataBean.ListBean> shopNullEntiryAdapter;
+    private HeaderAndFooterWrapper mShopNullAdapter;
     private ShopCarsAdapter.Call call = new ShopCarsAdapter.Call() {
         @Override
         public void send(String checked, String[] shopId) {
@@ -161,14 +179,14 @@ public class ShopCarFragment extends BaseToolBarFragment {
 //                shopCarsNullAdapter = null;
                 fsc_refreshlayout.setLoadmoreFinished(false);
                 fsc_refreshlayout.setEnableLoadmore(true);
-                if (shopCarsNullAdapter == null)
+                if (shopNullEntiryAdapter == null)
                     YYMallApi.getGoodsLike(getActivity(), page = 1, false, nulApiCallback);
                 aBoolean = true;
                 rl_shopcar_pay.setVisibility(GONE);
                 ll_shopcar.setVisibility(GONE);
                 compileBl = false;
             } else {
-                shopCarsNullAdapter = null;
+                shopNullEntiryAdapter = null;
                 fsc_refreshlayout.setEnableLoadmore(false);
                 rl_shopcar_pay.setVisibility(View.VISIBLE);
                 if (!compileBl) {
@@ -464,27 +482,117 @@ public class ShopCarFragment extends BaseToolBarFragment {
         public void onNext(GoodsLikeBean.DataBean dataBean) {
             setNetWorkErrShow(GONE);
             setTitleTvRightText("");
-            if (shopCarsNullAdapter == null) {
-                final VirtualLayoutManager layoutManager = new VirtualLayoutManager(getActivity());
-                rv_shopcar_gid.setLayoutManager(layoutManager);
-                final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-                rv_shopcar_gid.setRecycledViewPool(viewPool);
-                viewPool.setMaxRecycledViews(0, 10);
-                shopCarsNullAdapter = new GoodsLikeAdapter(getActivity(), layoutManager,R.layout.item_shopcarnull_top, dataBean){
+            if (shopNullEntiryAdapter == null) {
+                rv_shopcar_gid.setLayoutManager(new GridLayoutManager(_mActivity,2));
+                rv_shopcar_gid.addItemDecoration(new ItemOffsetDecoration(CommonUtil.dip2px(_mActivity,1)));
+                View view = LayoutInflater.from(_mActivity).inflate(R.layout.item_shopcarnull_top,rv_shopcar_gid,false);
+                view.findViewById(R.id.ist_tv_specmall).setOnClickListener(new View.OnClickListener(){
                     @Override
-                    public void initHeadView(GoodsLikeAdapter.CommonHolder holder, int position) {
-                        TextView tv = (TextView) holder.itemView.findViewById(R.id.ist_tv_specmall);
-                        tv.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        BusFactory.getBus().post(new MainTabSelectEvent(0));
+                    }
+                });
+                shopNullEntiryAdapter = new CommonAdapter<GoodsLikeBean.DataBean.ListBean>(getActivity(), R.layout.item_shop, dataBean.getList()){
+                    @Override
+                    protected void convert(ViewHolder holder, final GoodsLikeBean.DataBean.ListBean bean, int position) {
+//                        holder.mImgTagShop.setVisibility(View.GONE);
+//                        holder.itemView.findViewById(R.id.is_ll_vert).setVisibility(View.VISIBLE);
+//                        holder.itemView.findViewById(R.id.fn_ll_hor).setVisibility(GONE);
+                        // VERT
+
+//                        holder.mTvVertShopGroupNumber.setText("已售" + String.valueOf(bean.getSale())+"件");
+//                        holder.mTvVertShopName.setText(bean.getName());
+//                        holder.mTvVertShopPrice.setText("¥" + bean.getPrice());
+                        holder.setVisible(R.id.is_vert_img_tagshop,false);
+                        holder.setVisible(R.id.is_ll_vert,true);
+                        holder.setVisible(R.id.fn_ll_hor,false);
+                        Glide.with(mContext).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into((ImageView)holder.getView(R.id.is_vert_img_shop));
+                        holder.setText(R.id.is_vert_shop_groupnumber,"已售" + String.valueOf(bean.getSale())+"件");
+                        holder.setText(R.id.is_vert_shop_name,bean.getName());
+                        holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                        if (bean.getType() == 2) {
+                            //租赁商品
+                            holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                            holder.setImageResource(R.id.is_vert_img_tagshop,R.mipmap.ic_nor_tagfree);
+                            holder.setVisible(R.id.is_vert_img_tagshop,true);
+                        }else if (bean.getType() == 1){
+                            //拼团商品
+                            holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                            holder.setImageResource(R.id.is_vert_img_tagshop,R.mipmap.ic_nor_taggroup);
+                            holder.setVisible(R.id.is_vert_img_tagshop,true);
+                        }else if (bean.getType() == 3){
+                            //折扣
+                            holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                            holder.setImageResource(R.id.is_vert_img_tagshop,R.mipmap.ic_nor_tagdiscount);
+                            holder.setVisible(R.id.is_vert_img_tagshop,true);
+                        }else if (bean.getType() == 4){
+                            //积分
+                            holder.setText(R.id.is_vert_shop_price,bean.getPrice() + "积分");
+                            holder.setImageResource(R.id.is_vert_img_tagshop,R.mipmap.ic_nor_tagintegral);
+                            holder.setVisible(R.id.is_vert_img_tagshop,true);
+
+                        }else if (bean.getType() == 0 && bean.getPanicBuyItemId() != 0){
+                            //限时抢购
+                            holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                            holder.setImageResource(R.id.is_vert_img_tagshop,R.mipmap.ic_nor_tagtimekill);
+                            holder.setVisible(R.id.is_vert_img_tagshop,true);
+
+                        }else{
+                            holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
+                        }
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                BusFactory.getBus().post(new MainTabSelectEvent(0));
+                                //商品类型 0 普通商品 1 团购商品 2 租赁商品
+                                if (bean.getType() == 0) {
+                                    if (bean.getPanicBuyItemId() != 0){
+                                        Intent intent = new Intent(mContext, TimeKillDetailActivity.class);
+                                        intent.putExtra("id",bean.getPanicBuyItemId() + "");
+                                        mContext.startActivity(intent);
+                                    }else{
+                                        Intent intent = new Intent(mContext, CommodityDetailsActivity.class);
+                                        intent.putExtra("goodsId",bean.getId() + "");
+                                        mContext.startActivity(intent);
+                                    }
+                                } else if (bean.getType() == 2) {
+                                    Intent intent = new Intent(mContext, LeaseDetailActivity.class);
+                                    intent.putExtra("id", bean.getId() + "");
+                                    mContext.startActivity(intent);
+                                }else if (bean.getType() ==  1) {
+                                    //拼团
+                                    Intent intent = new Intent(mContext, GrouponDetailsActivity.class);
+                                    intent.putExtra("goodsId", bean.getId() + "");
+                                    mContext.startActivity(intent);
+                                }else if (bean.getType() == 3){
+                                    //折扣
+                                    Intent intent = new Intent(mContext, DiscountDetailsActivity.class);
+                                    intent.putExtra("goodsId", bean.getId() + "");
+                                    mContext.startActivity(intent);
+                                }else if (bean.getType() == 4){
+                                    //积分
+                                    Intent intent = new Intent(mContext, IntegralDetailActivity.class);
+                                    intent.putExtra("id", bean.getId() + "");
+                                    mContext.startActivity(intent);
+                                }
+                                else if (bean.getType() == 6){
+                                    //积分
+                                    Intent intent = new Intent(mContext, DailyDetailsActivity.class);
+                                    intent.putExtra("goodsId", bean.getId() + "");
+                                    mContext.startActivity(intent);
+                                }
                             }
                         });
+
                     }
                 };
-                rv_shopcar_gid.setAdapter(shopCarsNullAdapter);
+                mShopNullAdapter = new HeaderAndFooterWrapper(shopNullEntiryAdapter);
+                mShopNullAdapter.addHeaderView(view);
+                rv_shopcar_gid.setAdapter(mShopNullAdapter);
+                mShopNullAdapter.notifyDataSetChanged();
             } else {
-                shopCarsNullAdapter.setItemList(dataBean);
+                int start = mShopNullAdapter.getItemCount();
+                shopNullEntiryAdapter.addDatas(dataBean.getList());
+                mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount()+1);
             }
         }
     };
@@ -548,7 +656,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
                 type = 0;
                 page = 1;
                 refreshlayout.setLoadmoreFinished(false);
-                shopCarsNullAdapter = null;
+                shopNullEntiryAdapter = null;
                 YYMallApi.getShopCar(_mActivity, YYApp.getInstance().getToken(),false, apiCallback);
             }
         });
@@ -577,7 +685,9 @@ public class ShopCarFragment extends BaseToolBarFragment {
                     public void onNext(GoodsLikeBean.DataBean dataBean) {
                         if (dataBean.getList() != null && dataBean.getList().size() > 0) {
                             refreshlayout.finishLoadmore();
-                            shopCarsNullAdapter.addItemList(dataBean);
+                            int start = mShopNullAdapter.getItemCount();
+                            shopNullEntiryAdapter.addDatas(dataBean.getList());
+                            mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount()+1);
                         } else {
                             refreshlayout.finishLoadmore();
                             refreshlayout.setLoadmoreFinished(true);

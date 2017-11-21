@@ -42,7 +42,7 @@ class StorageUtil {
             // 利用系统api getPackageName()得到的包名，这个异常根本不可能发生
             appName = "";
         }
-        return new File(getApkFileDir(), appName + "_" + version + ".apk");
+        return new File(getApkFileDir(), appName.toLowerCase() + "_" + version + ".apk");
     }
 
     /**
@@ -56,7 +56,7 @@ class StorageUtil {
             // 利用系统api getPackageName()得到的包名，这个异常根本不可能发生
             appName = "";
         }
-        return getApkFileDir() + "/" +  appName + "_" + version + ".apk";
+        return getApkFileDir() + "/" +  appName.toLowerCase() + "_" + version + ".apk";
     }
 
     /**
@@ -70,7 +70,7 @@ class StorageUtil {
             // 利用系统api getPackageName()得到的包名，这个异常根本不可能发生
             appName = "";
         }
-        return new File(getApkFileDir(), appName + "_v" + oldverion + "_" + newersion + ".patch");
+        return new File(getApkFileDir(), appName.toLowerCase() + "_v" + oldverion + "_" + newersion + ".patch");
     }
 
     /**
@@ -134,7 +134,38 @@ class StorageUtil {
         }
         return false;
     }
+    /**
+     * 删除当前版本外的文件
+     *
+     * @param file
+     */
+    static void deleteExcludeFile(File file,String version) {
+        try {
+            if (file == null || !file.exists()) {
+                return;
+            }
 
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files != null && files.length > 0) {
+                    for (File f : files) {
+                        if (f.exists()) {
+                            if (f.isDirectory()) {
+                                deleteExcludeFile(f, version);
+                            } else {
+                                String fileName = f.getName();
+                                if (!fileName.endsWith(version)) {
+                                    f.delete();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * 删除文件或文件夹
      *

@@ -180,7 +180,12 @@ public class BGAUpgradeUtil {
         }).map(new Func1<InputStream, File>() {
             @Override
             public File call(InputStream inputStream) {
-                return StorageUtil.savePatch(inputStream, oldversion,newversion);
+                try{
+                    return StorageUtil.savePatch(inputStream, oldversion,newversion);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -237,6 +242,8 @@ public class BGAUpgradeUtil {
         if (sApp.getPackageManager().queryIntentActivities(installApkIntent, 0).size() > 0) {
             sApp.startActivity(installApkIntent);
         }
+        deleteApkExcpetFile(sApp);
+        deleteApkExcpetVersion(sApp,apkFile.getName());
     }
 
     /**
@@ -245,7 +252,18 @@ public class BGAUpgradeUtil {
     public static void deleteFile(File file,Context context) {
         StorageUtil.deleteFile(file,context);
     }
+    /**
+     * 删除安装目录下的文件
+     */
+    public static void deleteApkExcpetVersion(Context context,String version) {
+        File apkDir = StorageUtil.getApkFileDir();
+        if (apkDir == null || apkDir.listFiles() == null || apkDir.listFiles().length == 0) {
+            return;
+        }
 
+        // 删除文件
+        StorageUtil.deleteExcludeFile(apkDir,version);
+    }
     /**
      * 删除安装目录下的文件
      */

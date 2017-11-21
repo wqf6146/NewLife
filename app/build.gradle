@@ -33,7 +33,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 2
-        versionName "1.1.4"
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -81,7 +81,7 @@ task javadoc(type: Javadoc) {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile('com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-6', {
+    compile('com.scwang.smartrefresh:SmartRefreshLayout:1.0.3', {
         exclude group: 'com.android.support'
     })
     compile('cn.bingoogolapple:bga-qrcodecore:1.1.7@aar', {

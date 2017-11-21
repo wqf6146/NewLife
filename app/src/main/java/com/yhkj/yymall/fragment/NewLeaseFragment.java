@@ -43,6 +43,7 @@ import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.vise.xsnow.ui.adapter.recycleview.wrapper.HeaderAndFooterWrapper;
 import com.vise.xsnow.ui.basepopup.BasePopupWindow;
+import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.BaseFragment;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -1085,8 +1086,14 @@ public class NewLeaseFragment extends BaseFragment implements LeaseHeaderPagerBe
             mRvHotLease.scrollToPosition(0);
         }
     }
+    protected boolean mLightStatus = false;
     @Override
     public void onPagerClosed() {
+        //设置深色主题
+        if (!mLightStatus) {
+            mLightStatus = true;
+            StatusBarUtil.StatusBarLightMode(_mActivity);
+        }
         mImgBackTop.setVisibility(View.VISIBLE);
         mViewStatus.setBackgroundColor(getResources().getColor(R.color.white));
         tooglePager(false);

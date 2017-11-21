@@ -671,7 +671,7 @@ public class GrouponDetailsActivity extends BaseToolBarActivity implements Comme
                 intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.GROUP));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice","¥"+mTwoPointDf.format(mDataBean.getGroup().getPrice()));
+                intent.putExtra("shopprice","¥"+mTwoPointDf.format(Double.parseDouble(mDataBean.getGroup().getPrice())));
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);

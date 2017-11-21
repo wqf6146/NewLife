@@ -108,8 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_shopcar"
-        app:srlEnableAutoLoadmore="true"
-        app:srlEnablePreviewInEditMode="true">
+        app:srlEnableAutoLoadmore="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_shopcar_gid"

@@ -194,6 +194,7 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                                     DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                                     UserConfig userConfig = new UserConfig();
                                     userConfig.setToken(dataBean.getToken());
+                                    userConfig.setHeadIco(dataBean.getHeadIco());
                                     userConfig.setState(false);
                                     userConfig.setPhone(ed_forget_phone.getText().toString());
                                     DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);

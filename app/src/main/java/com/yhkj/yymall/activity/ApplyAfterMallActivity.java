@@ -621,7 +621,7 @@ public class ApplyAfterMallActivity extends BaseToolBarActivity  implements Take
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ApplyAfterMallActivity.this);
-                builder.setTitle("设置头像");
+                builder.setTitle("选取图片");
                 builder.setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -6,6 +6,12 @@ package com.yhkj.yymall.bean;
 
 public class CommonBean {
 
+    /**
+     * code : 0
+     * msg : 1
+     *
+     */
+
     private int code;
     private String msg;
 

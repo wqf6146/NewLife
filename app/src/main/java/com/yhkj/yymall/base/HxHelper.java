@@ -28,6 +28,7 @@ import com.hyphenate.helpdesk.util.Log;
 import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.activity.ChatActivity;
+import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.receiver.CallReceiver;
 import com.yhkj.yymall.util.GlideCircleTransform;
 import com.yhkj.yymall.util.ListenerManager;
@@ -92,6 +93,8 @@ public class HxHelper {
             setEaseUIProvider(appContext);
             //设置全局监听
             setGlobalListeners();
+        }else{
+            setEaseUIProvider(appContext);
         }
     }
 
@@ -122,7 +125,6 @@ public class HxHelper {
                                     if (!strUrl.startsWith("http")) {
                                         strUrl = "http:" + strUrl;
                                     }
-
                                     //正常的string路径
                                     Glide.with(context).load(strUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(com.hyphenate.helpdesk.R.drawable.hd_default_avatar)
                                             .transform(new GlideCircleTransform(context)).into(userAvatarView);
@@ -134,7 +136,18 @@ public class HxHelper {
                 } else {
                     //此处设置当前登录用户的头像，
                     if (userAvatarView != null){
-                        userAvatarView.setImageResource(R.drawable.hd_default_avatar);
+                        List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+                        if (userConfigList !=null || userConfigList.size()>0){
+                            UserConfig userConfig = userConfigList.get(0);
+                            if (!TextUtils.isEmpty(userConfig.getHeadIco())) {
+                                Glide.with(context).load(userConfig.getHeadIco()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.ic_nor_srcheadimg)
+                                        .transform(new GlideCircleTransform(context)).into(userAvatarView);
+                            }else{
+                                userAvatarView.setImageResource(R.mipmap.ic_nor_srcheadimg);
+                            }
+                        }else{
+                            userAvatarView.setImageResource(R.mipmap.ic_nor_srcheadimg);
+                        }
 //                        Glide.with(context).load("http://oev49clxj.bkt.clouddn.com/7a8aed7bjw1f32d0cumhkj20ey0mitbx.png").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.hd_default_avatar).into(userAvatarView);
 //                        如果用圆角，可以采用此方案：http://blog.csdn.net/weidongjian/article/details/47144549
                     }

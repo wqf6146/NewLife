@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:text="发送位置"
             android:textColor="@color/main_text_color"
-            android:textSize="@dimen/content_text_s18" />
+            android:textSize="@dimen/content_text_s16" />
 
 
         <Button
@@ -41,7 +41,7 @@
             android:onClick="sendLocation"
             android:text="@string/button_send"
             android:textColor="@color/main_text_color"
-            android:textSize="@dimen/main_content_text_size" />
+            android:textSize="@dimen/content_text_s14" />
 
     </RelativeLayout>
 

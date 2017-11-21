@@ -589,7 +589,7 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
                 intent.putExtra("shopid",String.valueOf(mDataBean.getId()));
                 intent.putExtra("shoptype", String.valueOf(Constant.SHOP_TYPE.LEASE));
                 intent.putExtra("shopname",mDataBean.getName());
-                intent.putExtra("shopprice","¥"+mTwoPointDf.format(mDataBean.getRent().getDeposit()));
+                intent.putExtra("shopprice","¥"+mTwoPointDf.format(Double.parseDouble(mDataBean.getRent().getDeposit())));
                 intent.putExtra("shopdesc",mDataBean.getDescription());
                 intent.putExtra("shopimg",mDataBean.getPhoto().get(0));
                 startActivity(intent);

@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity {
      * 下载Apk文件
      */
     private void downloadUpdateFile(String url){
-        BGAUpgradeUtil.downloadApkFile(ApiService.HOST + url, mUpdateBean.getInfo().getVersion())
+        BGAUpgradeUtil.downloadApkFile(mUpdateBean.getInfo().getVersionUrl() + url, mUpdateBean.getInfo().getVersion())
                 .retry(3)
                 .subscribe(new Subscriber<File>() {
                     @Override
@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity {
      * 下载patch文件
      */
     private void downloadUpdateFile(String url,String oldversion, String newversion){
-        BGAUpgradeUtil.downloadPatchFile(ApiService.HOST + url, oldversion,newversion)
+        BGAUpgradeUtil.downloadPatchFile(mUpdateBean.getInfo().getVersionUrl() + url, oldversion,newversion)
                 .subscribe(new Subscriber<File>() {
                     @Override
                     public void onStart() {
@@ -338,7 +338,6 @@ public class MainActivity extends BaseActivity {
                                                 tryInstallApk(BGAUpgradeUtil.getApkFile(newVersion));
                                             }
                                         });
-
                                     }
 
                                     @Override
@@ -347,8 +346,38 @@ public class MainActivity extends BaseActivity {
                                             @Override
                                             public void run() {
                                                 HProgressDialogUtils.cancel();
-                                                showToast(s);
                                                 BGAUpgradeUtil.deleteApkExcpetFile(MainActivity.this);
+                                                if (mNeedUpdate == -1){
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                                    builder.setCancelable(false);
+                                                    builder.setTitle("更新失败");
+                                                    builder.setMessage("更新文件发生了错误");
+                                                    builder.setNegativeButton("重试", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                            startUpdateVersion();
+                                                        }
+                                                    });
+                                                    builder.show();
+                                                }else{
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                                    builder.setTitle("更新失败");
+                                                    builder.setMessage("更新文件发生了错误");
+                                                    builder.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                            startUpdateVersion();
+                                                        }
+                                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                                    builder.show();
+                                                }
                                             }
                                         });
                                     }
@@ -412,7 +441,6 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
-
 
     /**
      * 开始更新

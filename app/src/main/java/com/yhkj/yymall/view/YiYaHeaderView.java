@@ -47,6 +47,16 @@ public class YiYaHeaderView extends RelativeLayout implements RefreshHeader {
         this.initView(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public boolean isSupportHorizontalDrag() {
+        return false;
+    }
+
+    @Override
+    public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
+
+    }
+
     private View mRootView;
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
         mRootView = LayoutInflater.from(context).inflate(R.layout.view_refresh_header_normal,this);

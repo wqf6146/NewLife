@@ -206,6 +206,7 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
                             DbHelper.getInstance().userConfigLongDBManager().deleteAll();
                             UserConfig userConfig = new UserConfig();
                             userConfig.setToken(dataBean.getToken());
+                            userConfig.setHeadIco(dataBean.getHeadIco());
                             userConfig.setPhone(phone);
                             userConfig.setState(true);
                             DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);

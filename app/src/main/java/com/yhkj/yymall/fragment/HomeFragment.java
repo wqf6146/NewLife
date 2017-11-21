@@ -396,14 +396,24 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 
 //    private boolean mLightStatus = false;
 
+
+    private boolean bNeedShow = false;
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mImgOffline!=null){
+            if (mImgOffline.getVisibility() == VISIBLE){
+                bNeedShow = true;
+                mImgOffline.setVisibility(GONE);
+            }else if (mImgOffline.getVisibility() == GONE  && bNeedShow == true){
+                mImgOffline.setVisibility(VISIBLE);
+            }
+        }
+    }
+
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        //设置深色主题
-//        if (!mLightStatus) {
-//            mLightStatus = true;
-//            StatusBarUtil.StatusBarLightMode(_mActivity);
-//        }
         if (!TextUtils.isEmpty(YYApp.getInstance().getToken())){
             YYMallApi.getUnReadMesTag(_mActivity,new YYMallApi.ApiResult<UnReadBean.DataBean>(_mActivity) {
                 @Override
@@ -469,11 +479,13 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 //                        活动已经推送到
                         if (mImgOffline.getVisibility() != VISIBLE
                             && ( mAdPopupView == null || (mAdPopupView !=null && !mAdPopupView.isShowing()) ) ){
-                            mImgOffline.setTag(dataBean.getFloatX().getLink());
-                            new OfflineTask().execute("1");
+                            if (mSmallLoaded){
+                                mImgOffline.setVisibility(VISIBLE);
+                            }else{
+                                new OfflineTask().execute("1");
+                            }
                         }
                     }else{
-                        mImgOffline.setTag(dataBean.getPop().getLink());
                         new OfflineTask().execute("2");
     //                //第一次 显示广告图
                         List<BaseConfig> baseConfigs = DbHelper.getInstance().baseConfigLongDBManager().loadAll();
@@ -573,6 +585,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
     }
 
 
+    private boolean mSmallLoaded = false;
     public class OfflineTask extends AsyncTask<String, Void, File> {
 
         private Boolean mSmallOrBig;
@@ -616,15 +629,20 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                     mImgOffline.setImageBitmap(BitmapFactory.decodeFile(result.getAbsolutePath()));
                     mImgOffline.setVisibility(View.VISIBLE);
                 }
-
+                mSmallLoaded = true;
+                mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
             }else{
                 if ( (mAdPopupView ==null || !mAdPopupView.isShowing()) && mImgOffline.getVisibility()!= View.VISIBLE ){
                     mAdPopupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
                         @Override
                         public void dismissWithOutAnima() {
-//                            new OfflineTask().execute("1");
-                            mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
-                            mImgOffline.setVisibility(VISIBLE);
+                            if (mSmallLoaded != true){
+                                //还没加载过
+                                new OfflineTask().execute("1");
+                            }else{
+                                mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
+                                mImgOffline.setVisibility(VISIBLE);
+                            }
                             super.dismissWithOutAnima();
                         }
                     };

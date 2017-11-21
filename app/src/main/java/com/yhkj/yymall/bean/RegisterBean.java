@@ -49,10 +49,21 @@ public class RegisterBean {
          */
 
         private String token;
+        private String headIco;
+
+        public void setHeadIco(String headIco) {
+            this.headIco = headIco;
+        }
+
+        public String getHeadIco() {
+            return headIco;
+        }
 
         public String getToken() {
             return token;
         }
+
+
 
         public void setToken(String token) {
             this.token = token;

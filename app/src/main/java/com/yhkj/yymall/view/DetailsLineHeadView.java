@@ -27,6 +27,16 @@ public class DetailsLineHeadView extends RelativeLayout implements RefreshHeader
         this.initView(context, null, 0);
     }
 
+    @Override
+    public boolean isSupportHorizontalDrag() {
+        return false;
+    }
+
+    @Override
+    public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
+
+    }
+
     public DetailsLineHeadView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.initView(context, attrs, 0);

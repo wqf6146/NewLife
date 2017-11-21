@@ -40,6 +40,16 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
     private SpinnerStyle mSpinnerStyle = SpinnerStyle.Translate;
     private boolean mLoadmoreFinished = false;
 
+    @Override
+    public boolean isSupportHorizontalDrag() {
+        return false;
+    }
+
+    @Override
+    public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
+
+    }
+
     //<editor-fold desc="LinearLayout">
     public ClassicsFooter(Context context) {
         super(context);
