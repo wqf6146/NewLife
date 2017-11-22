@@ -54,16 +54,16 @@ public class FullScreenPopupView extends BasePopupWindow  {
                     getContext().startActivity(new Intent(getContext(),LoginActivity.class));
                 }else{
                     WebActivity.loadUrl(getContext(),url,"报名资料");
-                    dismissWithOutAnima();
                 }
+                dismissWithOutAnima();
             }
         });
     }
 
     @Override
     protected Animation initShowAnimation() {
-        Animation animation = getTranslateAnimation(250 * 2, 0, 300);
-        return animation;
+//        Animation animation = getTranslateAnimation(250 * 2, 0, 300);
+        return null;
     }
 
     @Override

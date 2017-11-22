@@ -1236,7 +1236,7 @@ public class GrouponDetailsActivity extends BaseToolBarActivity implements Comme
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

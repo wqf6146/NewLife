@@ -315,7 +315,7 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

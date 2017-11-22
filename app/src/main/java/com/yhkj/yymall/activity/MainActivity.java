@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity {
         setOnResumeRegisterBus(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        NetStateReceiver.registerNetworkStateReceiver(this);
     }
 
     Boolean mPrepareExit = false;
@@ -592,6 +593,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         UMShareAPI.get(this).release();
+        NetStateReceiver.unRegisterNetworkStateReceiver(this);
     }
 
     @Override

@@ -298,7 +298,7 @@ public class MineGroupDetailActivity extends BaseToolBarActivity {
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

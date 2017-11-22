@@ -495,7 +495,7 @@ public class TimeKillDetailActivity extends BaseToolBarActivity  implements Time
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

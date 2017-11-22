@@ -47,6 +47,7 @@ import com.yhkj.yymall.bean.UnReadBean;
 import com.yhkj.yymall.bean.ValidBean;
 import com.yhkj.yymall.config.LocalActUltils;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.view.DragLayout;
 import com.yhkj.yymall.view.YiYaHeaderView;
 import com.yhkj.yymall.view.popwindows.FullScreenPopupView;
 
@@ -89,6 +90,9 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 
     @Bind(R.id.fh_img_offlineimg)
     GifImageView mImgOffline;
+
+    @Bind(R.id.fh_dl_offline)
+    DragLayout mDlOffLine;
 
     private Animation mAnimToolBarIn;
     private Animation mAnimToolBarOut;
@@ -312,7 +316,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         mImgOffline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                mDL.setVisibility(GONE);
                 YYMallApi.getOfflineActIsValid(_mActivity,mOfflineBean.getId(),new YYMallApi.ApiResult<ValidBean.DataBean>(_mActivity){
                     @Override
                     public void onError(ApiException e) {
@@ -327,23 +331,17 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                     @Override
                     public void onNext(ValidBean.DataBean dataBean) {
                         super.onNext(dataBean);
-//                        if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
-//                            startActivity(new Intent(_mActivity,LoginActivity.class));
-//                            showToast("请先登录");
-//                            return;
-//                        }
-
                         if (dataBean.getIsValid() == 1) {
                             if (mAdPopupView != null && !mAdPopupView.isShowing()){
                                 mAdPopupView.showPopupWindow();
-                                mImgOffline.setVisibility(GONE);
+                                mDlOffLine.setVisibility(GONE);
                             }else{
+                                mDlOffLine.setVisibility(GONE);
                                 new OfflineTask().execute("2");
                             }
-//                            WebActivity.loadUrl(_mActivity,String.valueOf(mImgOffline.getTag()),"报名资料");
                         }else{
                             showToast("活动已失效");
-                            mImgOffline.setVisibility(GONE);
+                            mDlOffLine.setVisibility(GONE);
                         }
                     }
 
@@ -397,17 +395,25 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 //    private boolean mLightStatus = false;
 
 
-    private boolean bNeedShow = false;
+//    private boolean bNeedShow = false;
     @Override
     public void onPause() {
         super.onPause();
-        if (mImgOffline!=null){
-            if (mImgOffline.getVisibility() == VISIBLE){
-                bNeedShow = true;
-                mImgOffline.setVisibility(GONE);
-            }else if (mImgOffline.getVisibility() == GONE  && bNeedShow == true){
-                mImgOffline.setVisibility(VISIBLE);
-            }
+        if (mDlOffLine!=null && mDlOffLine.getVisibility() == VISIBLE && mOfflineBean != null && mOfflineBean.getHasJoin() == 0){
+//            bNeedShow = true;
+            mDlOffLine.setVisibility(GONE);
+        }
+//        else if (mAdPopupView!=null && !mAdPopupView.isShowing() && mDlOffLine.getVisibility() == GONE  && bNeedShow == true){
+//            mDlOffLine.setVisibility(VISIBLE);
+//        }
+    }
+
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        if (mDlOffLine!=null && mDlOffLine.getVisibility() == VISIBLE && mOfflineBean != null && mOfflineBean.getHasJoin() == 0){
+//            bNeedShow = true;
+            mDlOffLine.setVisibility(GONE);
         }
     }
 
@@ -477,10 +483,10 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                     //还没参加过
                     if (checkActArrive(LocalActUltils.ACT_OFFLINE)) {
 //                        活动已经推送到
-                        if (mImgOffline.getVisibility() != VISIBLE
+                        if (mDlOffLine.getVisibility() != VISIBLE
                             && ( mAdPopupView == null || (mAdPopupView !=null && !mAdPopupView.isShowing()) ) ){
                             if (mSmallLoaded){
-                                mImgOffline.setVisibility(VISIBLE);
+                                mDlOffLine.setVisibility(VISIBLE);
                             }else{
                                 new OfflineTask().execute("1");
                             }
@@ -503,7 +509,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                         }
                     }
                 }else{
-                    mImgOffline.setVisibility(GONE);
+                    mDlOffLine.setVisibility(GONE);
                 }
 
             }
@@ -512,7 +518,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             public void onError(ApiException e) {
                 super.onError(e);
 //                showToast(e.getMessage());
-                mImgOffline.setVisibility(GONE);
+                mDlOffLine.setVisibility(GONE);
             }
         });
     }
@@ -537,52 +543,52 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }
         return false;
     }
-
-    private Animation getAnimToolBarOut() {
-        if (mAnimToolBarOut == null) {
-            mAnimToolBarOut = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_out);
-            mAnimToolBarOut.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mLlTopBar.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        }
-        return mAnimToolBarOut;
-    }
-
-    private Animation getAnimToolBarIn() {
-        if (mAnimToolBarIn == null) {
-            mAnimToolBarIn = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_in);
-            mAnimToolBarIn.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mLlTopBar.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        }
-        return mAnimToolBarIn;
-    }
+//
+//    private Animation getAnimToolBarOut() {
+//        if (mAnimToolBarOut == null) {
+//            mAnimToolBarOut = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_out);
+//            mAnimToolBarOut.setAnimationListener(new Animation.AnimationListener() {
+//                @Override
+//                public void onAnimationStart(Animation animation) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    mLlTopBar.setVisibility(View.INVISIBLE);
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animation animation) {
+//
+//                }
+//            });
+//        }
+//        return mAnimToolBarOut;
+//    }
+//
+//    private Animation getAnimToolBarIn() {
+//        if (mAnimToolBarIn == null) {
+//            mAnimToolBarIn = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_in);
+//            mAnimToolBarIn.setAnimationListener(new Animation.AnimationListener() {
+//                @Override
+//                public void onAnimationStart(Animation animation) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    mLlTopBar.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animation animation) {
+//
+//                }
+//            });
+//        }
+//        return mAnimToolBarIn;
+//    }
 
 
     private boolean mSmallLoaded = false;
@@ -612,14 +618,14 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
             if (result == null) {
                 return;
             }
-            mImgOffline.setVisibility(GONE);
+            mDlOffLine.setVisibility(GONE);
             if (mSmallOrBig){
                 boolean bGif = mOfflineBean.getFloatX().getImg().endsWith("gif");
                 if (bGif){
                     try{
                         GifDrawable gifDrawable = new GifDrawable(result);
                         mImgOffline.setImageDrawable(gifDrawable);
-                        mImgOffline.setVisibility(View.VISIBLE);
+                        mDlOffLine.setVisibility(View.VISIBLE);
                         gifDrawable.setLoopCount(0);
                         gifDrawable.start();
                     }catch (Exception e){
@@ -627,12 +633,12 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                     }
                 }else{
                     mImgOffline.setImageBitmap(BitmapFactory.decodeFile(result.getAbsolutePath()));
-                    mImgOffline.setVisibility(View.VISIBLE);
+                    mDlOffLine.setVisibility(View.VISIBLE);
                 }
                 mSmallLoaded = true;
-                mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
+                mDlOffLine.setTag(mOfflineBean.getFloatX().getLink());
             }else{
-                if ( (mAdPopupView ==null || !mAdPopupView.isShowing()) && mImgOffline.getVisibility()!= View.VISIBLE ){
+                if ( (mAdPopupView ==null || !mAdPopupView.isShowing()) && mDlOffLine.getVisibility()!= View.VISIBLE ){
                     mAdPopupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
                         @Override
                         public void dismissWithOutAnima() {
@@ -641,7 +647,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                                 new OfflineTask().execute("1");
                             }else{
                                 mImgOffline.setTag(mOfflineBean.getFloatX().getLink());
-                                mImgOffline.setVisibility(VISIBLE);
+                                mDlOffLine.setVisibility(VISIBLE);
                             }
                             super.dismissWithOutAnima();
                         }

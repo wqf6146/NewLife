@@ -507,7 +507,7 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

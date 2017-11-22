@@ -1087,7 +1087,7 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

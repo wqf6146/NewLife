@@ -212,7 +212,7 @@ public class ShareCodeActivity extends BaseActivity {
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
         }
     };
 

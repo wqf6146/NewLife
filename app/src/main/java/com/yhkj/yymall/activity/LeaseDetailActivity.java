@@ -515,7 +515,7 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

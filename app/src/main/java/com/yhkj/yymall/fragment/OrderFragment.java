@@ -341,7 +341,7 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

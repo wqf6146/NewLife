@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
@@ -24,11 +25,13 @@ import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
+import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.RegisterBean;
 import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.http.api.ApiService;
 
 import java.util.HashMap;
 
@@ -53,6 +56,9 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
 
     @Bind(R.id.bt_binding_next)
     Button bt_binding_next;
+
+    @Bind(R.id.tv_binding_fwxy)
+    TextView mTvFwxy;
 
     @Bind(R.id.rl_binding_gou1)
     LinearLayout rl_binding_gou1;
@@ -85,6 +91,20 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
     protected void initView() {
         super.initView();
         setNetWorkErrShow(GONE);
+    }
+
+    @Override
+    protected void bindEvent() {
+        super.bindEvent();
+        mTvFwxy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BindingPhoneActivity.this,WebActivity.class);
+                intent.putExtra("title","服务协议");
+                intent.putExtra(Constant.WEB_TAG.TAG, ApiService.YYWEB + Constant.WEB_TAG.FUWUXIEYI);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -264,6 +284,8 @@ public class BindingPhoneActivity extends BaseToolBarActivity implements View.On
         public void run() {
             int a = 60;
             while (-1 < a) {
+                if (BindingPhoneActivity.this.isFinishing())
+                    break;
                 try {
                     Thread.sleep(1000);
                     Message message = new Message();

@@ -2,16 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
+        android:id="@+id/fh_ll_container"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
             android:id="@+id/fh_ll_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/theme_bule"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <View
                 android:id="@+id/fh_view_status"
@@ -19,16 +22,18 @@
                 android:layout_height="25dp" />
 
             <include
+                android:id="@+id/fh_toolbar"
                 layout="@layout/view_search_toolbar"
-                android:layout_height="50dp"
                 android:layout_width="match_parent"
-                android:id="@+id/fh_toolbar" />
+                android:layout_height="50dp" />
         </LinearLayout>
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/fh_refreshlayout"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fh_recycleview"
                 android:layout_width="match_parent"
@@ -41,13 +46,13 @@
     <com.yhkj.yymall.view.DragLayout
         android:layout_width="match_parent"
         android:gravity="bottom|right"
+        android:visibility="gone"
         android:id="@+id/fh_dl_offline"
         android:layout_height="match_parent">
 
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="70dp"
             android:id="@+id/fh_img_offlineimg"
-            android:visibility="gone"
             android:layout_margin="15dp"
             android:layout_height="70dp" />
 

@@ -47,18 +47,6 @@ public class YYApp extends MultiDexApplication {
         this.mHotSearch = mHotSearch;
     }
 
-    //    private SparseArray<Boolean> mSpArrayUiUpdate = new SparseArray<>();
-//    public void setUiUpdateTag(int key,boolean value) {
-//        mSpArrayUiUpdate.put(key,value);
-//    }
-//    public Boolean getUiUpdateTag(int key) {
-//        Boolean res = mSpArrayUiUpdate.get(key);
-//        if (res!=null && res){
-//            mSpArrayUiUpdate.put(key,null);
-//        }
-//        return res;
-//    }
-
     public void setPhone(String phone) {
         mPhone = phone;
     }
@@ -101,48 +89,28 @@ public class YYApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        DbHelper.getInstance().init(this);
-
-        /**
-         * 初始化BeeCloud账户
-         */
-        BeeCloud.setAppIdAndSecret("d37ead18-00f5-4c53-96b6-1f7222b575dc", "5852fb24-e2ed-4a74-a44a-168a846e45b0");
-        /**
-         * 开启测试模式,默认false，正式开始的时候直接注释就行
-         */
-//        BeeCloud.setSandbox(true);
-
-
-        /**
-         * 友盟三方登录分享的各平台appkey value 新浪多出一个url
-         * 初始化sdk
-         */
-        PlatformConfig.setWeixin("wx1b4e339277365985", "0f4839759e9ef7a57ef8d0b4ffc1d259");
-        PlatformConfig.setQQZone("1106319912", "znVjPvZAwQQrxXaB");
-        PlatformConfig.setSinaWeibo("3789899951", "862a78fd0ff2dfad350a4fa02f9e9184", "http://www.yiyiyaya.cc");
-        UMShareAPI.get(this);
-//        Config.DEBUG = true;
-//        Config.isNeedAuth = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DbHelper.getInstance().init(mInstance);
+                /**
+                 * 初始化BeeCloud账户
+                 */
+                BeeCloud.setAppIdAndSecret("d37ead18-00f5-4c53-96b6-1f7222b575dc", "5852fb24-e2ed-4a74-a44a-168a846e45b0");
+                /**
+                 * 开启测试模式,默认false，正式开始的时候直接注释就行
+                 */
+                //BeeCloud.setSandbox(true);
 
 
-        NetStateReceiver.registerNetworkStateReceiver(this);
-
-        HxHelper.getInstance().init(this);
-
-//
-
-
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
-//            return;
-//        }
-//        LeakCanary.install(this);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        NetStateReceiver.unRegisterNetworkStateReceiver(this);
+                /**
+                 * 友盟三方登录分享的各平台appkey value 新浪多出一个url
+                 * 初始化sdk
+                 */
+                PlatformConfig.setWeixin("wx1b4e339277365985", "0f4839759e9ef7a57ef8d0b4ffc1d259");
+                PlatformConfig.setQQZone("1106319912", "znVjPvZAwQQrxXaB");
+                PlatformConfig.setSinaWeibo("3789899951", "862a78fd0ff2dfad350a4fa02f9e9184", "http://www.yiyiyaya.cc");
+            }
+        }).start();
     }
 }

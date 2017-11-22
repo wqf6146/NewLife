@@ -275,7 +275,7 @@ public class MineFragment extends BaseFragment {
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

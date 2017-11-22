@@ -267,7 +267,7 @@ public class WebActivity extends BaseAgentWebActivity {
                     hideProgressDialog();
                 }
             });
-            Toast.makeText(WebActivity.this,"取消分享",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(WebActivity.this,"取消分享",Toast.LENGTH_SHORT).show();
         }
     };
 }

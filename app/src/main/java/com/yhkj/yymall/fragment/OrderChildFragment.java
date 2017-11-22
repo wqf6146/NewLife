@@ -335,7 +335,7 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

@@ -10,7 +10,6 @@
     <ImageView
         android:layout_width="100dp"
         android:id="@+id/ics_img_shop"
-        android:src="@mipmap/test"
         android:layout_weight="1"
         android:layout_height="100dp" />
     <TextView

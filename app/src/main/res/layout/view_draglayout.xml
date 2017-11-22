@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.DragLayout
+    android:layout_width="match_parent"
+    android:gravity="bottom|right"
+    android:id="@+id/vd_dl_offline"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="70dp"
+        android:id="@+id/vd_img_offlineimg"
+        android:layout_margin="15dp"
+        android:layout_height="70dp" />
+
+</com.yhkj.yymall.view.DragLayout>

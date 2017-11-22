@@ -1028,7 +1028,7 @@ public class DailyDetailsActivity extends BaseToolBarActivity implements Comment
                     hideProgressDialog();
                 }
             });
-            showToast("取消分享");
+//            showToast("取消分享");
 
         }
     };

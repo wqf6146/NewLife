@@ -69,36 +69,27 @@ public class HxHelper {
      *
      * @param context application context
      */
-    public void init(final Context context) {
+    public Boolean init(final Context context) {
         appContext = context;
-        initSdk();
-//        if(AndPermission.hasPermission(context, Manifest.permission.CHANGE_NETWORK_STATE,Manifest.permission.WRITE_SETTINGS)) {
-            // 有权限，直接do anything.
-
-//        }
-    }
-
-    public void initSdk(){
         ChatClient.Options options = new ChatClient.Options();
         options.setAppkey(Constant.LYAppKey);
         options.setTenantId(Constant.LYTenanId);
         options.showAgentInputState().showVisitorWaitCount();
         options.setConsoleLog(false);
-        // 环信客服 SDK 初始化, 初始化成功后再调用环信下面的内容
-        if (ChatClient.getInstance().init(appContext, options)){
-            _uiProvider = UIProvider.getInstance();
-            //初始化EaseUI
-            _uiProvider.init(appContext);
-            //调用easeui的api设置providers
-            setEaseUIProvider(appContext);
-            //设置全局监听
-            setGlobalListeners();
-        }else{
-            setEaseUIProvider(appContext);
-        }
+        return ChatClient.getInstance().init(appContext, options);
     }
 
-    private void setEaseUIProvider(final Context context){
+    public void initUi(){
+        _uiProvider = UIProvider.getInstance();
+        //初始化EaseUI
+        _uiProvider.init(appContext);
+        //调用easeui的api设置providers
+        setEaseUIProvider(appContext);
+        //设置全局监听
+        setGlobalListeners();
+    }
+
+    public void setEaseUIProvider(final Context context){
         //设置头像和昵称 某些控件可能没有头像和昵称，需要注意
         UIProvider.getInstance().setUserProfileProvider(new UIProvider.UserProfileProvider() {
             @Override
