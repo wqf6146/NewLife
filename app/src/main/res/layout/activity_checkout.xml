@@ -105,20 +105,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@mipmap/ic_nor_graycicle" />
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_nor_graycicle" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    android:textColor="@color/blackfont_1"
-                    android:textSize="@dimen/content_text_s12"
                     android:layout_toRightOf="@+id/img_chekout_xz"
                     android:text="本人同意并接受租赁协议"
+                    android:textColor="@color/blackfont_1"
+                    android:textSize="@dimen/content_text_s12"
 
                     />
 

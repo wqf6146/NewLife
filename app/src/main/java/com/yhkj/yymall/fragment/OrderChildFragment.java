@@ -506,7 +506,7 @@ public class OrderChildFragment extends BaseFragment implements BaseOrderListPre
                                             .setShareboardclickCallback(new ShareBoardlistener() {
                                                 @Override
                                                 public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                                                    String url = SHARE_SHOP_URL + "#" + dataBean.getId();
+                                                    String url = SHARE_SHOP_URL + "#" + dataBean.getGoodses().get(0).getGoodsId();
                                                     if (share_media == SHARE_MEDIA.SINA){
                                                         UMImage image;
                                                         if (dataBean.getGoodses() !=null && dataBean.getGoodses().size() > 0)

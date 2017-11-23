@@ -550,7 +550,7 @@ public class OrderFragment extends BaseFragment implements BaseOrderListPresente
                                                     .setShareboardclickCallback(new ShareBoardlistener() {
                                                         @Override
                                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                                                            String url = SHARE_SHOP_URL + "#" + dataBean.getId();
+                                                            String url = SHARE_SHOP_URL + "#" + ordersBean.getGoodses().get(0).getGoodsId();
                                                             UMWeb web = new UMWeb(url);
                                                             if (ordersBean.getGoodses() !=null && ordersBean.getGoodses().size() > 0) {
                                                                 web.setTitle(ordersBean.getGoodses().get(0).getGoodsName());//标题

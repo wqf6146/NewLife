@@ -94,11 +94,13 @@
                 android:textSize="@dimen/content_text_s14"
                 android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:textSize="@dimen/content_text_s12"
                 android:textColor="@color/grayfont_1"
                 android:layout_toRightOf="@+id/ag_tv_shopnametag"
-                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
+                android:gravity="right"
+                android:layout_centerVertical="true"
                 android:id="@+id/ag_tv_shopname"
                 android:layout_height="wrap_content" />
         </RelativeLayout>

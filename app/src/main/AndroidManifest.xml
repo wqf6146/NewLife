@@ -101,6 +101,7 @@
 
         <activity
             android:name=".activity.LaunchActivity"
+            android:theme="@style/LauncherThenme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

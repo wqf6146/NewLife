@@ -201,7 +201,7 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
                     //已经参团
                     tv_offereddetails_offere.setText("邀请好友参团");
                     tv_offereddetails_offere.setOnClickListener(new View.OnClickListener() {
-                        @Override
+                                  @Override
                         public void onClick(View v) {
                             new ShareAction(OfferedDetailsActivity.this)
                                     .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,

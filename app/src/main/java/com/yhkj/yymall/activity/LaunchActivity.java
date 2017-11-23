@@ -60,6 +60,7 @@ public class LaunchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
             finish();
@@ -151,9 +152,10 @@ public class LaunchActivity extends AppCompatActivity {
         //初始化Hx
         if (HxHelper.getInstance().init(getApplication())){
             HxHelper.getInstance().initUi();
-        }else{
-            HxHelper.getInstance().setEaseUIProvider(getApplication());
         }
+//        else{
+//            HxHelper.getInstance().setEaseUIProvider(getApplication());
+//        }
     }
 //    public class HxInitTask extends AsyncTask<String, Void, Boolean> {
 //
