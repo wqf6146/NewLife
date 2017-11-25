@@ -42,9 +42,6 @@ import pl.droidsonroids.gif.GifDrawable;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-//import cn.bingoogolapple.update.BGADownloadProgressEvent;
-//import cn.bingoogolapple.update.BGAUpgradeUtil;
-//import rx.functions.Action1;
 
 /**
  * Created by Administrator on 2017/7/13.
@@ -60,7 +57,7 @@ public class LaunchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+//        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
             finish();

@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.util.CommonUtil;
-
 import butterknife.Bind;
-
 import static android.view.View.GONE;
 
 /**
