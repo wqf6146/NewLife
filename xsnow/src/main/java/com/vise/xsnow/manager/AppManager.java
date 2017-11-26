@@ -130,7 +130,7 @@ public class AppManager {
         }
     }
 
-    public void appExit(Context context) {
+    public void appExit() {
         try {
             finishAllActivity();
             android.os.Process.killProcess(android.os.Process.myPid());

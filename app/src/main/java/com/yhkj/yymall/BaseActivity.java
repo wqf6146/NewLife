@@ -274,13 +274,12 @@ public abstract class BaseActivity extends me.yokeyword.fragmentation.SupportAct
         return object == null;
     }
 
-    Toast mToast;
+    protected Toast mToast;
     public void showToast(String text) {
         if (mToast == null) {
-            mToast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(YYApp.getInstance(), text, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(text);
-            mToast.setDuration(Toast.LENGTH_SHORT);
         }
         mToast.show();
     }

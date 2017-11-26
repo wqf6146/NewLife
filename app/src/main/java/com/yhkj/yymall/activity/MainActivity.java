@@ -65,21 +65,34 @@ public class MainActivity extends BaseActivity {
 
     Boolean mPrepareExit = false;
     private final int BACK = 1;
+    private final int EXIT = -1;
     Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == BACK){
                 mPrepareExit = false;
+            }else if (msg.what == EXIT){
+                AppManager.getInstance().appExit();
             }
             return false;
         }
     });
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mToast!=null)
+            mToast.cancel();
+    }
+
     @Override
     public void onBackPressedSupport() {
 //        moveTaskToBack(false);
         if (mPrepareExit){
 //            onReceiverDeadSigned();
-            AppManager.getInstance().appExit(this);
+            if (mToast!=null)
+                mToast.cancel();
+            mHandler.sendEmptyMessageDelayed(EXIT,200l);
         }else{
             mPrepareExit = true;
             showToast("再按一次退出YiYiYaYa");
@@ -154,6 +167,13 @@ public class MainActivity extends BaseActivity {
                     .create()
                     .show();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mToast!=null)
+            mToast.cancel();
     }
 
     /**
@@ -592,6 +612,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mToast!=null)
+            mToast.cancel();
         UMShareAPI.get(this).release();
         NetStateReceiver.unRegisterNetworkStateReceiver(this);
     }

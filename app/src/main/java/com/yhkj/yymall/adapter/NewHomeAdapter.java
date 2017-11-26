@@ -111,6 +111,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                     final HomeRecommBean.DataBean.CategorysBean.GoodsBean goodsBean = goodsBeen.get(0);
                     holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     holder.mImgShop1.setWillNotDraw(false);
+                    holder.mImgTagShop1.setWillNotDraw(false);
                     Glide.with(mContext).load(goodsBean.getImg()).into(holder.mImgShop1);
                     holder.mImgTagShop1.setVisibility(View.GONE);
                     holder.mTvShopName1.setText(goodsBean.getName());
@@ -135,6 +136,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else{
                         holder.mTvPrice1.setText("¥"+mTwoPointFormat.format(goodsBean.getPrice()));
+                        holder.mImgTagShop1.setWillNotDraw(true);
                     }
                     holder.mLlShop1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -174,6 +176,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                 }else{
                     holder.mImgTagShop1.setVisibility(View.GONE);
                     holder.mImgShop1.setWillNotDraw(true);
+                    holder.mImgTagShop1.setWillNotDraw(true);
                     holder.mTvShopName1.setText("");
                     holder.mTvPrice1.setText("");
                     holder.mTvSaleTotal1.setText("");
@@ -187,6 +190,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                     final HomeRecommBean.DataBean.CategorysBean.GoodsBean bean1 = goodsBeen.get(1);
                     holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     holder.mImgShop2.setWillNotDraw(false);
+                    holder.mImgTagShop2.setWillNotDraw(false);
                     Glide.with(mContext).load(bean1.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(holder.mImgShop2);
                     holder.mTvShopName2.setText(bean1.getName());
                     holder.mTvSaleTotal2.setText(String.format(mContext.getString(R.string.sale), String.valueOf(bean1.getSale())));
@@ -210,6 +214,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else{
                         holder.mTvPrice2.setText("¥" + mTwoPointFormat.format(bean1.getPrice()));
+                        holder.mImgTagShop2.setWillNotDraw(true);
                     }
                     holder.mLlShop2.setOnClickListener(new View.OnClickListener() {
                         @Override

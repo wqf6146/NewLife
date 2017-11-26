@@ -331,14 +331,17 @@ public class UserDataActivity extends BaseToolBarActivity implements TakePhoto.T
 
                         @Override
                         public void onNext(UdSaveCallBack commonBean) {
-                            List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
-                            if (userConfigList !=null || userConfigList.size()>0){
-                                UserConfig userConfig = userConfigList.get(0);
-                                userConfig.setHeadIco(commonBean.getData().getHeadIco());
-                                DbHelper.getInstance().userConfigLongDBManager().deleteAll();
-                                DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
+                            if (commonBean.getData() != null){
+                                List<UserConfig> userConfigList = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+                                if (userConfigList !=null || userConfigList.size()>0){
+                                    UserConfig userConfig = userConfigList.get(0);
+                                    userConfig.setHeadIco(commonBean.getData().getHeadIco());
+                                    DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                                    DbHelper.getInstance().userConfigLongDBManager().insert(userConfig);
 //                                HxHelper.getInstance().initSdk();
+                                }
                             }
+
 
                             showToast("保存成功");
                             BusFactory.getBus().post(new AvatarUpdateEvent());
