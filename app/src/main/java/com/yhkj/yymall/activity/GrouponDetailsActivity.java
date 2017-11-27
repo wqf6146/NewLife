@@ -356,7 +356,7 @@ public class GrouponDetailsActivity extends BaseToolBarActivity implements Comme
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
-
+        if (web_groipondetails == null) return;
         WebSettings ws = web_groipondetails.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -630,7 +630,7 @@ public class GrouponDetailsActivity extends BaseToolBarActivity implements Comme
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupondetails);
-        setOnResumeRegisterBus(true);
+//        setOnResumeRegisterBus(true);
     }
 
     private ShopDetailsBean.DataBean mDataBean;
@@ -797,6 +797,8 @@ public class GrouponDetailsActivity extends BaseToolBarActivity implements Comme
 
             @Override
             public void onNext(final ShopDetailsBean.DataBean dataBean) {
+                if (GrouponDetailsActivity.this.isFinishing())
+                    return;
                 if (dataBean.getStatus() == 0){
                     replaceCustomView(new GoodsGoneLayout(GrouponDetailsActivity.this).setLoadLisiten(new GoodsGoneLayout.OnLoadDoneLisiten() {
                         @Override

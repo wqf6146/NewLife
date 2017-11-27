@@ -116,7 +116,7 @@ public class OfferedDetailsActivity extends BaseToolBarActivity implements Offer
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offereddetails);
-        setOnResumeRegisterBus(true);
+//        setOnResumeRegisterBus(true);
     }
 
     @Override

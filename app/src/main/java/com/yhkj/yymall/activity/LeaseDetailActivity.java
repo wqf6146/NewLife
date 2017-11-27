@@ -305,6 +305,7 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
     private MyWebChromeClient mWebChromeClient;
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
+        if (mWebView == null) return;
         WebSettings ws = mWebView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -963,6 +964,8 @@ public class LeaseDetailActivity extends BaseToolBarActivity implements LeaseSho
 
             @Override
             public void onNext(ShopDetailsBean.DataBean dataBean) {
+                if (LeaseDetailActivity.this.isFinishing())
+                    return;
                 if (dataBean.getStatus() == 0){
                     replaceCustomView(new GoodsGoneLayout(LeaseDetailActivity.this).setLoadLisiten(new GoodsGoneLayout.OnLoadDoneLisiten() {
                         @Override

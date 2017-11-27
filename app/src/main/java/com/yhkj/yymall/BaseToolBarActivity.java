@@ -420,7 +420,10 @@ public abstract class BaseToolBarActivity extends SupportActivity {
     protected void setStatusColor(@ColorInt int color) {
         mDeadStatusView.setBackgroundColor(color);
     }
-
+    protected void setStatusVisiable(int visibility) {
+        if (mDeadStatusView!=null)
+            mDeadStatusView.setVisibility(visibility);
+    }
     protected void setImgRightLisiten(View.OnClickListener onClickListener) {
         if (isNull(mImgRight)) return;
         mImgRight.setOnClickListener(onClickListener);

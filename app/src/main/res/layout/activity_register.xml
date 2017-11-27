@@ -6,8 +6,6 @@
     android:background="@color/theme_bule"
     android:orientation="vertical">
 
-
-
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

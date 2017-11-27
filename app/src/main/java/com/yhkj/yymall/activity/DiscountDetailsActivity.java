@@ -387,7 +387,7 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discountdetails);
-        setOnResumeRegisterBus(true);
+//        setOnResumeRegisterBus(true);
     }
 
     private ShopDetailsBean.DataBean mDataBean;
@@ -514,7 +514,7 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
-
+        if (web_commoditydetails == null) return;
         WebSettings ws = web_commoditydetails.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -688,6 +688,8 @@ public class DiscountDetailsActivity extends BaseToolBarActivity implements Comm
 
             @Override
             public void onNext(final ShopDetailsBean.DataBean dataBean) {
+                if (DiscountDetailsActivity.this.isFinishing())
+                    return;
                 setNetWorkErrShow(GONE);
                 mDataBean = dataBean;
                 storeVerify();

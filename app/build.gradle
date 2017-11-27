@@ -81,7 +81,7 @@ task javadoc(type: Javadoc) {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile('com.scwang.smartrefresh:SmartRefreshLayout:1.0.3', {
+    compile('com.scwang.smartrefresh:SmartRefreshLayout:1.0.4', {
         exclude group: 'com.android.support'
     })
     compile('cn.bingoogolapple:bga-qrcodecore:1.1.7@aar', {
@@ -115,11 +115,11 @@ dependencies {
     compile('com.alibaba.android:vlayout:1.0.7@aar') {
         transitive = true
     }
-    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+        debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 
-    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+        releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
-    //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+        testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
     compile project(':xsnow')
     compile project(':jcvideoplayer-lib')

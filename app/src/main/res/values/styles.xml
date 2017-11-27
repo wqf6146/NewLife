@@ -11,7 +11,13 @@
     <style name="LauncherThenme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/launch</item>
     </style>
-    
+
+    <style name="WhiteThenme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground" >@color/translucent</item>
         <item name="android:windowIsTranslucent">true</item>

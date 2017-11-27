@@ -456,7 +456,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-
+            android:theme="@style/WhiteThenme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
 
@@ -470,21 +470,21 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-
+            android:theme="@style/WhiteThenme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
 
         <activity
             android:name=".activity.ForgetPSWActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-
+            android:theme="@style/WhiteThenme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
             android:name=".activity.BindingPhoneActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-
+            android:theme="@style/WhiteThenme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity

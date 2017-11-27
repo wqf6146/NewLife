@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 //import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -89,6 +90,12 @@ public class YYApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
+//        LeakCanary.install(this);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -110,6 +117,29 @@ public class YYApp extends MultiDexApplication {
                 PlatformConfig.setWeixin("wx1b4e339277365985", "0f4839759e9ef7a57ef8d0b4ffc1d259");
                 PlatformConfig.setQQZone("1106319912", "znVjPvZAwQQrxXaB");
                 PlatformConfig.setSinaWeibo("3789899951", "862a78fd0ff2dfad350a4fa02f9e9184", "http://www.yiyiyaya.cc");
+
+                Cockroach.install(new Cockroach.ExceptionHandler() {
+
+                    // handlerException内部建议手动try{  你的异常处理逻辑  }catch(Throwable e){ } ，以防handlerException内部再次抛出异常，导致循环调用handlerException
+
+                    @Override
+                    public void handlerException(final Thread thread, final Throwable throwable) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    //写本地
+                                    AECHFileWriter.getInstance(mInstance).writeEx2File(throwable);
+                                    //写服务器
+                                    Toast.makeText(mInstance, "Exception Happend\n" + thread + "\n" + throwable.toString(), Toast.LENGTH_SHORT).show();
+                                } catch(Throwable e){
+                                    Toast.makeText(mInstance, "Exception Happend\n" + thread + "\n" + e.toString(), Toast.LENGTH_SHORT).show();
+                                    ViseLog.e(e);
+                                }
+                            }
+                        });
+                    }
+                });
             }
         }).start();
     }

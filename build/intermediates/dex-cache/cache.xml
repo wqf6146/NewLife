@@ -3,57 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\xsnow\build\intermediates\bundles\default\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="62a668d53c7a808a0b8230091f66d3dd4f22501a">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_3021bd04af46fa899c2bfbf4fb4cc5d01b90f2da\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_net.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="9a2fc3d30ce3cb03014a373b1d5c8b5795334271">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_net_79589e037bbf91bf30377c5ac7783bb55f46608e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_QQ_Full.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e2ae97492c5df69f97a9760a3558848821b525cc">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_QQ_Full_77c97d05cc86b74d25179cdfe780aa932c9ec244\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\BaiduLBS_Android.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="e34f4b68502d8390dc04d23541103c8ea95db8b4">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\BaiduLBS_Android_a180b2e538bbc7b034cb9b4a7d630a66594d2f6e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\sdk\build\intermediates\bundles\default\libs\UPPayAssistEx.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6aeafd196d118bc1ccb921b2221d3d32bd917073">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\UPPayAssistEx_9eb76848e41a1786e26b2ce2692614935a9022f9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_tool.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="87ef211d4ef0c257c7d040fbaa411832330eb9aa">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_tool_3e2c4651b43b37222c7d22ca3c4e9a2f8973b184\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,39 +30,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_WeiXin_Full.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="fb2f0934928d899d70eab7d83049c60183db7382">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_WeiXin_Full_9e575efdcf5817e18f46544bf27dc947a5e559f4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\sdk\build\intermediates\bundles\default\libs\alipaySdk-20160809.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="1b384e4f9c0f16ef8fe42faab392779a6352d6e7">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\alipaySdk-20160809_1129bbccd75ee6c7ca4f78bc78b5ee11ade468fd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\AppUpdate\build\intermediates\bundles\default\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="637d88d3730e7a6a19a918cede047e33503e79ba">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_c98c8e2d4a47790c18e47c6072f7818828c6a658\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\kefu-easeui\build\intermediates\bundles\default\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="7466c563140a4d4fa621e44fd487e2ec92b6b60e">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_f81601384d89cc1d6f10092c3a9e07ba965771b3\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -147,6 +75,105 @@
     </item>
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_shareview.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fd6e56a1bbd965cee6fda6021ee764c81b4723b6">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareview_916589be4e337d6aa23c6549bf5122389a00e2d0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\AppUpdate\build\intermediates\bundles\default\libs\patcher.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="26a860e68ef47fcc9cad29a54ffb0787c16a40bd">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\patcher_51988684f4660565731da3941c6ebaf1029e3c51\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\xsnow\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f4351f6f101fdeba76b92a85409f738698f1e3c0">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_3021bd04af46fa899c2bfbf4fb4cc5d01b90f2da\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_net.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9a2fc3d30ce3cb03014a373b1d5c8b5795334271">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_net_79589e037bbf91bf30377c5ac7783bb55f46608e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_QQ_Full.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2ae97492c5df69f97a9760a3558848821b525cc">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_QQ_Full_77c97d05cc86b74d25179cdfe780aa932c9ec244\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\sdk\build\intermediates\bundles\default\libs\UPPayAssistEx.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6aeafd196d118bc1ccb921b2221d3d32bd917073">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\UPPayAssistEx_9eb76848e41a1786e26b2ce2692614935a9022f9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Administrator\.android\build-cache\33a27709aebc72af80e9ced792d83928d1936fb4\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c53039fb0d10d4f4b2d2f66a559a313d284855f2">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6f269a2deb56c38d7327c08f0ef9cc91126d0d42\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_tool.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="87ef211d4ef0c257c7d040fbaa411832330eb9aa">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_tool_3e2c4651b43b37222c7d22ca3c4e9a2f8973b184\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\SocialSDK_WeiXin_Full.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fb2f0934928d899d70eab7d83049c60183db7382">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\SocialSDK_WeiXin_Full_9e575efdcf5817e18f46544bf27dc947a5e559f4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\AppUpdate\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="637d88d3730e7a6a19a918cede047e33503e79ba">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_c98c8e2d4a47790c18e47c6072f7818828c6a658\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\kefu-easeui\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b8bbea9b5121c71ab3d3989550bd689d6fbeb6e0">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_f81601384d89cc1d6f10092c3a9e07ba965771b3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_shareboard.jar"
         jumboMode="false"
         optimize="true"
@@ -171,24 +198,6 @@
         revision="25.0.2"
         sha1="2654f44e92142b82f1d6cd5a8613d8316b6b43bd">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\4\classes_c9f3742d08fc33c2f4bb2768a78d8f056eb6070c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_shareview.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="fd6e56a1bbd965cee6fda6021ee764c81b4723b6">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\umeng_social_shareview_916589be4e337d6aa23c6549bf5122389a00e2d0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="E:\WorkPlaces\NewLife-master\AppUpdate\build\intermediates\bundles\default\libs\patcher.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="26a860e68ef47fcc9cad29a54ffb0787c16a40bd">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\patcher_51988684f4660565731da3941c6ebaf1029e3c51\classes.dex" />
     </item>
 
 </items>

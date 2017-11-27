@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:background="#F4F4F4" />
 
-        <com.yhkj.yymall.view.ClassicsFooter
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlClassicsSpinnerStyle="FixedBehind"/>

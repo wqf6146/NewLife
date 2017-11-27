@@ -109,9 +109,8 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                 List<HomeRecommBean.DataBean.CategorysBean.GoodsBean> goodsBeen = bean.getGoods();
                 if (goodsBeen.size() > 0) {
                     final HomeRecommBean.DataBean.CategorysBean.GoodsBean goodsBean = goodsBeen.get(0);
-                    holder.mImgTagShop1.setVisibility(View.VISIBLE);
+                    holder.mImgTagShop1.setVisibility(View.GONE);
                     holder.mImgShop1.setWillNotDraw(false);
-                    holder.mImgTagShop1.setWillNotDraw(false);
                     Glide.with(mContext).load(goodsBean.getImg()).into(holder.mImgShop1);
                     holder.mImgTagShop1.setVisibility(View.GONE);
                     holder.mTvShopName1.setText(goodsBean.getName());
@@ -136,7 +135,6 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else{
                         holder.mTvPrice1.setText("¥"+mTwoPointFormat.format(goodsBean.getPrice()));
-                        holder.mImgTagShop1.setWillNotDraw(true);
                     }
                     holder.mLlShop1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -176,7 +174,6 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                 }else{
                     holder.mImgTagShop1.setVisibility(View.GONE);
                     holder.mImgShop1.setWillNotDraw(true);
-                    holder.mImgTagShop1.setWillNotDraw(true);
                     holder.mTvShopName1.setText("");
                     holder.mTvPrice1.setText("");
                     holder.mTvSaleTotal1.setText("");
@@ -188,7 +185,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                 }
                 if (goodsBeen.size() > 1) {
                     final HomeRecommBean.DataBean.CategorysBean.GoodsBean bean1 = goodsBeen.get(1);
-                    holder.mImgTagShop2.setVisibility(View.VISIBLE);
+                    holder.mImgTagShop2.setVisibility(View.GONE);
                     holder.mImgShop2.setWillNotDraw(false);
                     holder.mImgTagShop2.setWillNotDraw(false);
                     Glide.with(mContext).load(bean1.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(holder.mImgShop2);
@@ -214,7 +211,6 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else{
                         holder.mTvPrice2.setText("¥" + mTwoPointFormat.format(bean1.getPrice()));
-                        holder.mImgTagShop2.setWillNotDraw(true);
                     }
                     holder.mLlShop2.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -378,7 +374,6 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
 //                    mContext.startActivity(new Intent(mContext, LotteryActivity.class));
 //                }
 //            });
-
             holder.mLltimekill.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -386,7 +381,6 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         Toast.makeText(mContext,"当前暂无活动",Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     Intent intent = new Intent(mContext, SeckillingActivity.class);
                     mContext.startActivity(intent);
                 }
@@ -414,6 +408,9 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
         View view = holder.itemView;
 
         Glide.with(mContext).load(mActData.getActivity().getPic()).into((ImageView)view.findViewById(R.id.ihc_img_1));
+        Glide.with(mContext).load(mActData.getOtherPic().getOtherPic2()).into((ImageView)view.findViewById(R.id.ihc_img_2));
+        Glide.with(mContext).load(mActData.getOtherPic().getOtherPic3()).into((ImageView)view.findViewById(R.id.ihc_img_3));
+        Glide.with(mContext).load(mActData.getOtherPic().getOtherPic4()).into((ImageView)view.findViewById(R.id.ihc_img_4));
         ((TextView)view.findViewById(R.id.ihc_tv_1)).setText(mActData.getActivity().getName());
         view.findViewById(R.id.ll_home_act).setOnClickListener(new View.OnClickListener() {
             @Override

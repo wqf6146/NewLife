@@ -5,6 +5,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+import com.hyphenate.helpdesk.easeui.Notifier;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 
 
@@ -29,7 +30,9 @@ public class BaseActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         // onresume时，取消notification显示
-        UIProvider.getInstance().getNotifier().reset();
+        Notifier notifier = UIProvider.getInstance().getNotifier();
+        if (notifier!=null)
+            notifier.reset();
     }
 
     /**

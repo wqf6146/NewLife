@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -37,10 +36,7 @@ import com.yhkj.yymall.activity.DiscountDetailsActivity;
 import com.yhkj.yymall.activity.GrouponDetailsActivity;
 import com.yhkj.yymall.activity.IntegralDetailActivity;
 import com.yhkj.yymall.activity.LeaseDetailActivity;
-import com.yhkj.yymall.activity.ShopListActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
-import com.yhkj.yymall.adapter.GoodsLikeAdapter;
-import com.yhkj.yymall.adapter.NewGoodsLikeAdapter;
 import com.yhkj.yymall.adapter.ShopCarsAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.GoodsLikeBean;
@@ -106,7 +102,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
     private List<String> delshopList;
     private String[] collectid;
     private int type = 0;
-    private int page = 1;
+    private int mCurPage = 1;
 
     private CommonAdapter<GoodsLikeBean.DataBean.ListBean> shopNullEntiryAdapter;
     private HeaderAndFooterWrapper mShopNullAdapter;
@@ -180,7 +176,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
                 fsc_refreshlayout.setLoadmoreFinished(false);
                 fsc_refreshlayout.setEnableLoadmore(true);
                 if (shopNullEntiryAdapter == null)
-                    YYMallApi.getGoodsLike(getActivity(), page = 1, false, nulApiCallback);
+                    YYMallApi.getGoodsLike(getActivity(), mCurPage = 1, false, nulApiCallback);
                 aBoolean = true;
                 rl_shopcar_pay.setVisibility(GONE);
                 ll_shopcar.setVisibility(GONE);
@@ -592,7 +588,8 @@ public class ShopCarFragment extends BaseToolBarFragment {
             } else {
                 int start = mShopNullAdapter.getItemCount();
                 shopNullEntiryAdapter.addDatas(dataBean.getList());
-                mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount()+1);
+//                mShopNullAdapter.notifyDataSetChanged();
+                mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount());
             }
         }
     };
@@ -654,7 +651,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 type = 0;
-                page = 1;
+                mCurPage = 1;
                 refreshlayout.setLoadmoreFinished(false);
                 shopNullEntiryAdapter = null;
                 YYMallApi.getShopCar(_mActivity, YYApp.getInstance().getToken(),false, apiCallback);
@@ -663,8 +660,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
         fsc_refreshlayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(final RefreshLayout refreshlayout) {
-                page++;
-                YYMallApi.getGoodsLike(getActivity(), page, false, new ApiCallback<GoodsLikeBean.DataBean>() {
+                YYMallApi.getGoodsLike(getActivity(), mCurPage + 1, false, new ApiCallback<GoodsLikeBean.DataBean>() {
                     @Override
                     public void onStart() {
 
@@ -683,11 +679,13 @@ public class ShopCarFragment extends BaseToolBarFragment {
 
                     @Override
                     public void onNext(GoodsLikeBean.DataBean dataBean) {
+                        mCurPage++;
                         if (dataBean.getList() != null && dataBean.getList().size() > 0) {
                             refreshlayout.finishLoadmore();
                             int start = mShopNullAdapter.getItemCount();
                             shopNullEntiryAdapter.addDatas(dataBean.getList());
-                            mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount()+1);
+//                            mShopNullAdapter.notifyDataSetChanged();
+                            mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount());
                         } else {
                             refreshlayout.finishLoadmore();
                             refreshlayout.setLoadmoreFinished(true);

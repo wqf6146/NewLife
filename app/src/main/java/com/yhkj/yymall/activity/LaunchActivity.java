@@ -25,6 +25,7 @@ import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.LaunchInfoBean;
@@ -72,7 +73,7 @@ public class LaunchActivity extends AppCompatActivity {
     Bitmap mLaunchBitmap;
     private LaunchInfoBean.DataBean mDataBean;
     private void getLaunchPic() {
-        YYMallApi.getLaunchLogo(this, new ApiCallback<LaunchInfoBean.DataBean>() {
+        YYMallApi.getLaunchLogo(YYApp.getInstance(), new ApiCallback<LaunchInfoBean.DataBean>() {
             @Override
             public void onCompleted() {
 

@@ -169,7 +169,7 @@ public class ApplyWithdrawActivity extends BaseToolBarActivity implements IWebPa
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
-
+        if (mWebView == null) return;
         WebSettings ws = mWebView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);

@@ -51,11 +51,20 @@ public class HomeActBean {
          */
 
         private ActivityBean activity;
+        private OtherPicBean otherPic;
         private Activity2Bean activity2;
         private PrizeDrawBean prizeDraw;
         private List<GroupPurchaseBean> groupPurchase;
         private int roll;
         private String keyWords;
+
+        public void setOtherPic(OtherPicBean otherPic) {
+            this.otherPic = otherPic;
+        }
+
+        public OtherPicBean getOtherPic() {
+            return otherPic;
+        }
 
         public void setKeyWords(String keyWords) {
             this.keyWords = keyWords;
@@ -103,6 +112,36 @@ public class HomeActBean {
 
         public void setGroupPurchase(List<GroupPurchaseBean> groupPurchase) {
             this.groupPurchase = groupPurchase;
+        }
+
+        public static class OtherPicBean {
+            private String otherPic2;
+            private String otherPic3;
+            private String otherPic4;
+
+            public void setOtherPic2(String otherPic2) {
+                this.otherPic2 = otherPic2;
+            }
+
+            public void setOtherPic3(String otherPic3) {
+                this.otherPic3 = otherPic3;
+            }
+
+            public void setOtherPic4(String otherPic4) {
+                this.otherPic4 = otherPic4;
+            }
+
+            public String getOtherPic2() {
+                return otherPic2;
+            }
+
+            public String getOtherPic3() {
+                return otherPic3;
+            }
+
+            public String getOtherPic4() {
+                return otherPic4;
+            }
         }
 
         public static class ActivityBean {

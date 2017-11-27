@@ -28,6 +28,11 @@ public class DetailsLineHeadView extends RelativeLayout implements RefreshHeader
     }
 
     @Override
+    public void onRefreshReleased(RefreshLayout layout, int headerHeight, int extendHeight) {
+
+    }
+
+    @Override
     public boolean isSupportHorizontalDrag() {
         return false;
     }

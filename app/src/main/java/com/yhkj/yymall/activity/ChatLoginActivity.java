@@ -105,6 +105,8 @@ public class ChatLoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (progressDialog!=null && progressDialog.isShowing())
+            progressDialog.dismiss();
         UIProvider.getInstance().popActivity(this);
     }
 
@@ -132,9 +134,7 @@ public class ChatLoginActivity extends AppCompatActivity {
             public void onError(final int errorCode, final String error) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if(progressDialog != null && progressDialog.isShowing()){
-                            progressDialog.dismiss();
-                        }
+                        dimissDialog();
                         if (errorCode == Error.NETWORK_ERROR){
                             Toast.makeText(getApplicationContext(), "网络连接不可用，请检查网络", Toast.LENGTH_SHORT).show();
                         }else if (errorCode == Error.USER_ALREADY_EXIST){
@@ -196,7 +196,7 @@ public class ChatLoginActivity extends AppCompatActivity {
                 }
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        progressDialog.dismiss();
+                        dimissDialog();
                         Toast.makeText(ChatLoginActivity.this,
                                 "联系客服失败",
                                 Toast.LENGTH_SHORT).show();
@@ -212,12 +212,18 @@ public class ChatLoginActivity extends AppCompatActivity {
         });
     }
 
+    private void dimissDialog(){
+        if (progressDialog != null && progressDialog.isShowing() && !this.isFinishing()){
+            progressDialog.dismiss();
+        }
+    }
+
+
     private void toChatActivity() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (progressDialog!=null && progressDialog.isShowing())
-                    progressDialog.dismiss();
+                dimissDialog();
                 //此处演示设置技能组,如果后台设置的技能组名称为[shouqian|shouhou],这样指定即分配到技能组中.
                 //为null则不按照技能组分配,同理可以设置直接指定客服scheduleAgent
                 String queueName = null;
@@ -267,7 +273,6 @@ public class ChatLoginActivity extends AppCompatActivity {
                 }
                 startActivity(intent);
                 finish();
-
             }
         });
     }

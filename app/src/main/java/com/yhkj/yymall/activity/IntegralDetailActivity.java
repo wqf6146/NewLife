@@ -272,7 +272,7 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
-
+        if (mWebView == null) return;
         WebSettings ws = mWebView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -920,6 +920,8 @@ public class IntegralDetailActivity extends BaseToolBarActivity  implements Inte
 
             @Override
             public void onNext(ShopDetailsBean.DataBean dataBean) {
+                if (IntegralDetailActivity.this.isFinishing())
+                    return;
                 if (dataBean.getStatus() == 1){
                     replaceCustomView(new GoodsGoneLayout(IntegralDetailActivity.this).setLoadLisiten(new GoodsGoneLayout.OnLoadDoneLisiten() {
                         @Override

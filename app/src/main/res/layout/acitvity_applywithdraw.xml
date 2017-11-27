@@ -262,7 +262,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/tv_bg_circle_deepblue"
         android:gravity="center"
-        android:text="申请提现"
+        android:text="24小时内到账，申请提现"
         android:textColor="@color/white"
         android:textSize="@dimen/content_text_s14"
         app:layout_heightPercent="7%"

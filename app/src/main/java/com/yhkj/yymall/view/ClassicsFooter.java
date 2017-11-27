@@ -34,6 +34,11 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
     public static String REFRESH_FOOTER_FINISH = "加载完成";
     public static String REFRESH_FOOTER_ALLLOADED = "全部加载完成";
 
+    @Override
+    public void onLoadmoreReleased(RefreshLayout layout, int footerHeight, int extendHeight) {
+
+    }
+
     private TextView mBottomText;
     private ImageView mProgressView;
     private ProgressDrawable mProgressDrawable;

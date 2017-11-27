@@ -376,7 +376,7 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commoditydetails);
-        setOnResumeRegisterBus(true);
+//        setOnResumeRegisterBus(true);
     }
 
     private ShopDetailsBean.DataBean mDataBean;
@@ -529,7 +529,7 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
 
     private void initWebView() {
 //        mProgressBar.setVisibility(View.VISIBLE);
-
+        if (web_commoditydetails == null) return;
         WebSettings ws = web_commoditydetails.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -703,6 +703,8 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
 
             @Override
             public void onNext(final ShopDetailsBean.DataBean dataBean) {
+                if (CommodityDetailsActivity.this.isFinishing())
+                    return;
                 setNetWorkErrShow(GONE);
                 mDataBean = dataBean;
                 mIsSale = dataBean.getIsSale();
@@ -853,7 +855,7 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
                             showToast("请先登录");
                             return;
                         }
-                        if (mSelectSpecHashMap != null && mSelectSpecHashMap.size() > 0)
+                        if (mSelectSpecHashMap != null && mSelectSpecHashMap.size() > 0 && mCurSpecBean != null)
                             addShopCar();
                         else
                             showSelectCarPop(0);
@@ -881,7 +883,7 @@ public class CommodityDetailsActivity extends BaseToolBarActivity implements Com
                             showToast("请先登录");
                             return;
                         }
-                        if (mSelectSpecHashMap == null || mSelectSpecHashMap.size() == 0) {
+                        if (mSelectSpecHashMap == null || mSelectSpecHashMap.size() == 0 || mCurSpecBean == null) {
                             showSelectCarPop(1);
                             return;
                         }

@@ -32,6 +32,11 @@ public class YiYaHeaderView extends RelativeLayout implements RefreshHeader {
 
     private OnRefreshLisiten mOnRefreshLisiten;
 
+    @Override
+    public void onRefreshReleased(RefreshLayout layout, int headerHeight, int extendHeight) {
+
+    }
+
     public YiYaHeaderView(Context context) {
         super(context);
         this.initView(context, null, 0);

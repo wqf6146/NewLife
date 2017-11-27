@@ -76,6 +76,7 @@ public class CommonEvaAdapter extends RecyclerView.Adapter {
     public void addEvaListData( List<CommonEntiyBean.DataBean.CommentsBean> datas){
         int count = getItemCount();
         mDatas.addAll(datas);
+//        notifyDataSetChanged();
         notifyItemRangeInserted(count,getItemCount());
     }
 

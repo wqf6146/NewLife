@@ -163,6 +163,12 @@ public class YiYaMallFragment extends BaseFragment {
 //            }else{
 
 //            }
+            if (mWrapperAdapter!=null && mEntiryAdapter!=null){
+                mEntiryAdapter.setDatas(dataBean.getGoods());
+                mWrapperAdapter.notifyDataSetChanged();
+                return;
+            }
+
             View view = LayoutInflater.from(_mActivity).inflate( R.layout.item_yiyamall_top,rv_yiyamall,false);
             view.findViewById(R.id.img_yiyamall1).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -230,7 +236,8 @@ public class YiYaMallFragment extends BaseFragment {
                     holder.setVisible(R.id.is_vert_img_tagshop,false);
                     holder.setVisible(R.id.is_ll_vert,true);
                     holder.setVisible(R.id.fn_ll_hor,false);
-                    Glide.with(mContext).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into((ImageView)holder.getView(R.id.is_vert_img_shop));
+                    Glide.with(mContext).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic)
+                            .into((ImageView)holder.getView(R.id.is_vert_img_shop));
                     holder.setText(R.id.is_vert_shop_groupnumber,"已售" + String.valueOf(bean.getSale())+"件");
                     holder.setText(R.id.is_vert_shop_name,bean.getName());
                     holder.setText(R.id.is_vert_shop_price,"¥" + bean.getPrice());
@@ -367,20 +374,21 @@ public class YiYaMallFragment extends BaseFragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 mCurPager = 1;
+                fsc_refreshlayout.setLoadmoreFinished(false);
                 YYMallApi.getYiYaShop(_mActivity,apiCallback);
             }
         });
         fsc_refreshlayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                mCurPager++;
-                getPageData();
+                int nextpage = mCurPager + 1;
+                getPageData(nextpage);
             }
         });
     }
 
-    private void getPageData() {
-        YYMallApi.getYiYaShopList(_mActivity, mCurPager, new ApiCallback<YiyaListBean.DataBean>() {
+    private void getPageData(final int nextpage) {
+        YYMallApi.getYiYaShopList(_mActivity, nextpage, new ApiCallback<YiyaListBean.DataBean>() {
             @Override
             public void onStart() {
 
@@ -399,6 +407,7 @@ public class YiYaMallFragment extends BaseFragment {
 
             @Override
             public void onNext(YiyaListBean.DataBean dataBean) {
+                mCurPager = nextpage;
                 if (dataBean.getGoods() == null || dataBean.getGoods().size() == 0){
                     fsc_refreshlayout.finishLoadmore();
                     fsc_refreshlayout.setLoadmoreFinished(true);
@@ -407,6 +416,7 @@ public class YiYaMallFragment extends BaseFragment {
                 }
                 int start = mWrapperAdapter.getItemCount();
                 mEntiryAdapter.addDatas(dataBean.getGoods());
+//                mWrapperAdapter.notifyDataSetChanged();
                 mWrapperAdapter.notifyItemRangeInserted(start,mEntiryAdapter.getItemCount()+1);
             }
         });

@@ -115,7 +115,7 @@
             android:background="@color/graybg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <com.yhkj.yymall.view.ClassicsFooter
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlClassicsSpinnerStyle="FixedBehind"/>

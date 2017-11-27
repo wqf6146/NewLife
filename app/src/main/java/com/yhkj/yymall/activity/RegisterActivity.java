@@ -2,6 +2,7 @@ package com.yhkj.yymall.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -89,8 +91,14 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            StatusBarUtil.transparencyBar(this);
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -107,6 +115,7 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
     @Override
     protected void initView() {
         super.initView();
+        setStatusVisiable(GONE);
         setNetWorkErrShow(GONE);
     }
     private void createAccountThenLoginChatServer(final String phone) {
