@@ -53,8 +53,17 @@ public class OfflineBean {
         @SerializedName("float")
         private FloatBean floatX;
         private int hasJoin;
+        private String title;
 
         private int id;
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
 
         public int getId() {
             return id;

@@ -140,6 +140,7 @@
     <orderEntry type="library" exported="" name="viseutils-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_shareboard_widget" level="project" />
     <orderEntry type="library" exported="" name="vlayout-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="SmartRefreshLayout-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="multipleimageselect-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_net" level="project" />
     <orderEntry type="library" exported="" name="viselog-1.0.0" level="project" />
@@ -147,7 +148,6 @@
     <orderEntry type="library" exported="" name="umeng_social_api" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="android-sdk-5.3.0" level="project" />
-    <orderEntry type="library" exported="" name="SmartRefreshLayout-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="cockroach-0.0.5" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQ_Full" level="project" />

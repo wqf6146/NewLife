@@ -34,12 +34,12 @@ public class FullScreenPopupView extends BasePopupWindow  {
     @Bind(R.id.vpa_img_close)
     ImageView mImgClose;
 
-    public FullScreenPopupView(Activity context, File file, String url) {
+    public FullScreenPopupView(Activity context, File file, String url,String title) {
         super(context);
-        init(file,url);
+        init(file,url,title);
     }
 
-    private void init(File file,final String url){
+    private void init(File file,final String url,final String title){
         mImgAd.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
         mImgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class FullScreenPopupView extends BasePopupWindow  {
                 if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
                     getContext().startActivity(new Intent(getContext(),LoginActivity.class));
                 }else{
-                    WebActivity.loadUrl(getContext(),url,"报名资料");
+                    WebActivity.loadUrl(getContext(),url,title);
                 }
                 dismissWithOutAnima();
             }

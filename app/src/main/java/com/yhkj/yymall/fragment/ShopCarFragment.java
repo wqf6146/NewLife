@@ -684,7 +684,7 @@ public class ShopCarFragment extends BaseToolBarFragment {
                             refreshlayout.finishLoadmore();
                             int start = mShopNullAdapter.getItemCount();
                             shopNullEntiryAdapter.addDatas(dataBean.getList());
-//                            mShopNullAdapter.notifyDataSetChanged();
+                            mShopNullAdapter.notifyDataSetChanged();
                             mShopNullAdapter.notifyItemRangeInserted(start,shopNullEntiryAdapter.getItemCount());
                         } else {
                             refreshlayout.finishLoadmore();

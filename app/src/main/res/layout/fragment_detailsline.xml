@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlEnableAutoLoadmore="true"
+        app:srlDisableContentWhenLoading="true"
         app:srlEnablePreviewInEditMode="true">
 
         <ScrollView
@@ -421,5 +422,9 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+        <com.yhkj.yymall.view.BallPulseFooter
+            android:layout_width="match_parent"
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </RelativeLayout>

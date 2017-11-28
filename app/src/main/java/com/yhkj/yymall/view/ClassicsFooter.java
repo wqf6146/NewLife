@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,6 @@ import com.scwang.smartrefresh.layout.api.RefreshKernel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -33,15 +33,15 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
     public static String REFRESH_FOOTER_LOADING = "正在加载...";
     public static String REFRESH_FOOTER_FINISH = "加载完成";
     public static String REFRESH_FOOTER_ALLLOADED = "全部加载完成";
-
-    @Override
-    public void onLoadmoreReleased(RefreshLayout layout, int footerHeight, int extendHeight) {
-
-    }
+//
+//    @Override
+//    public void onLoadmoreReleased(RefreshLayout layout, int footerHeight, int extendHeight) {
+//
+//    }
 
     private TextView mBottomText;
     private ImageView mProgressView;
-    private ProgressDrawable mProgressDrawable;
+//    private ProgressDrawable mProgressDrawable;
     private SpinnerStyle mSpinnerStyle = SpinnerStyle.Translate;
     private boolean mLoadmoreFinished = false;
 
@@ -77,10 +77,11 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
         setGravity(Gravity.CENTER);
         setMinimumHeight(density.dip2px(60));
 
-        mProgressDrawable = new ProgressDrawable();
-        mProgressDrawable.setColor(0xff666666);
+//        mProgressDrawable = new ProgressDrawable();
+//        mProgressDrawable.setColor(0xff666666);
         mProgressView = new ImageView(context);
-        mProgressView.setImageDrawable(mProgressDrawable);
+        mProgressView.setImageResource(com.yhkj.yymall.R.mipmap.ic_nor_arrowleft);
+//        mProgressView.setImageDrawable(mProgressDrawable);
         LayoutParams lpPathView = new LayoutParams(density.dip2px(16), density.dip2px(16));
         lpPathView.rightMargin = density.dip2px(10);
         addView(mProgressView, lpPathView);
@@ -137,16 +138,20 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
 
     @Override
     public void onStartAnimator(RefreshLayout layout, int headHeight, int extendHeight) {
+        Log.e("loadmore","start in-------");
         if (!mLoadmoreFinished) {
+            Log.e("loadmore","start out-------");
             mProgressView.setVisibility(VISIBLE);
-            mProgressDrawable.start();
+//            mProgressDrawable.start();
         }
     }
 
     @Override
     public int onFinish(RefreshLayout layout, boolean success) {
+        Log.e("loadmore","finish in-------");
         if (!mLoadmoreFinished) {
-            mProgressDrawable.stop();
+            Log.e("loadmore","finish out-------");
+//            mProgressDrawable.stop();
             mProgressView.setVisibility(GONE);
             mBottomText.setText(REFRESH_FOOTER_FINISH);
             return 0;
@@ -164,15 +169,15 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
             if (colors.length > 1) {
                 setBackgroundColor(colors[0]);
                 mBottomText.setTextColor(colors[1]);
-                mProgressDrawable.setColor(colors[1]);
+//                mProgressDrawable.setColor(colors[1]);
             } else if (colors.length > 0) {
                 setBackgroundColor(colors[0]);
                 if (colors[0] == 0xffffffff) {
                     mBottomText.setTextColor(0xff666666);
-                    mProgressDrawable.setColor(0xff666666);
+//                    mProgressDrawable.setColor(0xff666666);
                 } else {
                     mBottomText.setTextColor(0xffffffff);
-                    mProgressDrawable.setColor(0xffffffff);
+//                    mProgressDrawable.setColor(0xffffffff);
                 }
             }
         }
@@ -190,7 +195,7 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
             } else {
                 mBottomText.setText(REFRESH_FOOTER_PULLUP);
             }
-            mProgressDrawable.stop();
+//            mProgressDrawable.stop();
             mProgressView.setVisibility(GONE);
         }
         return true;
@@ -257,7 +262,7 @@ public class ClassicsFooter extends LinearLayout implements RefreshFooter {
     }
     public ClassicsFooter setAccentColor(int accentColor) {
         mBottomText.setTextColor(accentColor);
-        mProgressDrawable.setColor(accentColor);
+//        mProgressDrawable.setColor(accentColor);
         return this;
     }
     //</editor-fold>

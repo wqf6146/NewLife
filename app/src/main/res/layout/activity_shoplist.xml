@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/as_layout_tab"
         app:srlEnableAutoLoadmore="true"
+        app:srlDisableContentWhenLoading="true"
         android:layout_height="match_parent">
         <!--app:srlEnablePreviewInEditMode="true"-->
         <android.support.v7.widget.RecyclerView
@@ -21,11 +22,10 @@
             android:id="@+id/as_recycleview"
             android:background="@color/graybg"
             android:layout_height="match_parent"/>
-
-        <com.yhkj.yymall.view.ClassicsFooter
+        <com.yhkj.yymall.view.BallPulseFooter
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlClassicsSpinnerStyle="FixedBehind"/>
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>>
 
     <FrameLayout

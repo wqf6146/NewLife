@@ -39,6 +39,7 @@ import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.activity.LotteryActivity;
 import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.ShopListActivity;
+import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.BannerBean;
 import com.yhkj.yymall.bean.DaySignBeab;
@@ -487,7 +488,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
             adapters.setOnItemCLickListener(new com.yhkj.yymall.adapter.UltraBannerPagerAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClickListener(ImageView imageView, int pos) {
-
+                    WebActivity.loadUrl(mContext,mBannerData.getSlides().get(pos).getUrl(),mBannerData.getSlides().get(pos).getTitle());
                 }
             });
             adapters.setDataBean(mBannerData);

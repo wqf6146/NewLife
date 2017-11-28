@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_above="@+id/ll_shopcar"
         app:srlEnableAutoLoadmore="true"
+        app:srlDisableContentWhenLoading="true"
         app:srlEnablePreviewInEditMode="true"
         android:layout_height="match_parent">
 
@@ -17,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F4F4F4" />
-        <com.yhkj.yymall.view.ClassicsFooter
+        <com.yhkj.yymall.view.BallPulseFooter
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlClassicsSpinnerStyle="FixedBehind"/>
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

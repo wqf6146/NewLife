@@ -129,15 +129,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\Administrator\.android\build-cache\33a27709aebc72af80e9ced792d83928d1936fb4\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c53039fb0d10d4f4b2d2f66a559a313d284855f2">
-        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6f269a2deb56c38d7327c08f0ef9cc91126d0d42\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_tool.jar"
         jumboMode="false"
         optimize="true"

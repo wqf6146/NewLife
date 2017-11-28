@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -387,8 +389,18 @@ public class YiYaMallFragment extends BaseFragment {
         });
     }
 
+    Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            mCurPager = msg.what;
+            fsc_refreshlayout.finishLoadmore();
+            return false;
+        }
+    });
+
     private void getPageData(final int nextpage) {
-        YYMallApi.getYiYaShopList(_mActivity, nextpage, new ApiCallback<YiyaListBean.DataBean>() {
+        mHandler.sendEmptyMessageDelayed(mCurPager + 1,1000l);
+        YYMallApi.getYiYaShopList(YYApp.getInstance(), nextpage, new ApiCallback<YiyaListBean.DataBean>() {
             @Override
             public void onStart() {
 

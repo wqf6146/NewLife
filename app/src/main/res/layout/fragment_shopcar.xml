@@ -108,16 +108,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_shopcar"
+        app:srlDisableContentWhenLoading="true"
         app:srlEnableAutoLoadmore="true">
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_shopcar_gid"
             android:background="@color/graybg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+
+        <com.yhkj.yymall.view.BallPulseFooter
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlClassicsSpinnerStyle="FixedBehind"/>
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content">
+        </com.yhkj.yymall.view.BallPulseFooter>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </RelativeLayout>

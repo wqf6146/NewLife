@@ -511,7 +511,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                 }else{
                     mDlOffLine.setVisibility(GONE);
                 }
-
             }
 
             @Override
@@ -639,7 +638,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                 mDlOffLine.setTag(mOfflineBean.getFloatX().getLink());
             }else{
                 if ( (mAdPopupView ==null || !mAdPopupView.isShowing()) && mDlOffLine.getVisibility()!= View.VISIBLE ){
-                    mAdPopupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink()){
+                    mAdPopupView = new FullScreenPopupView(_mActivity,result,mOfflineBean.getFloatX().getLink(),mOfflineBean.getTitle()){
                         @Override
                         public void dismissWithOutAnima() {
                             if (mSmallLoaded != true){

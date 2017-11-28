@@ -7,6 +7,7 @@
         android:id="@+id/vr_refreshview"
         android:layout_width="match_parent"
         app:srlEnableAutoLoadmore="true"
+        app:srlDisableContentWhenLoading="true"
         app:srlEnablePreviewInEditMode="true"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
@@ -15,6 +16,10 @@
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
+        <com.yhkj.yymall.view.BallPulseFooter
+            android:layout_width="match_parent"
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>>
     
     <!--<RelativeLayout-->
