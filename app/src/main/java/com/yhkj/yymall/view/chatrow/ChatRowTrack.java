@@ -24,6 +24,9 @@ import com.yhkj.yymall.activity.IntegralDetailActivity;
 import com.yhkj.yymall.activity.LeaseDetailActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ChatRowTrack extends ChatRow {
 
     ImageView mImageView;
@@ -49,6 +52,10 @@ public class ChatRowTrack extends ChatRow {
             mImageView = (ImageView) findViewById(R.id.iv_picture);
             mChatTextView = (TextView) findViewById(R.id.tv_chatcontent);
             mTrackTitle = (TextView) findViewById(R.id.tv_title);
+        }else{
+            mTextViewDes = (TextView) findViewById(R.id.tv_description);
+            mTextViewprice = (TextView) findViewById(R.id.tv_price);
+            mImageView = (ImageView) findViewById(R.id.iv_picture);
         }
     }
 
@@ -56,22 +63,34 @@ public class ChatRowTrack extends ChatRow {
     protected void onUpdateView() {
     }
 
+    int mGoodsType;
+    int mGoodsId;
+    int mPanicBuyItemId;
     @Override
     protected void onSetUpView() {
         EMTextMessageBody txtBody = (EMTextMessageBody) message.body();
         if (message.direct() == Message.Direct.RECEIVE) {
             //设置内容
-            mChatTextView.setText(txtBody.getMessage());
-            //设置长按事件监听
-            mChatTextView.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-//                    activity.startActivityForResult(new Intent(activity, ContextMenuActivity.class)
-//                            .putExtra("position", position)
-//                            .putExtra("type", Message.Type.TXT.ordinal()), CustomChatFragment.REQUEST_CODE_CONTEXT_MENU);
-                    return true;
+            try{
+                JSONObject articlesObject = (JSONObject)message.getJSONObjectAttribute("msgtype").get("news");
+                JSONArray arrayDate = (JSONArray)articlesObject.get("articles");
+                JSONObject entitry = (JSONObject)arrayDate.get(0);
+                mGoodsType = Integer.parseInt(String.valueOf(entitry.get("goodsType")));
+                String img = String.valueOf(entitry.get("image"));
+                mGoodsId = Integer.parseInt(String.valueOf(entitry.get("id")));
+                mPanicBuyItemId = Integer.parseInt(String.valueOf(entitry.get("panicBuyItemId")));
+                String name = String.valueOf(entitry.get("name"));
+                String price = String.valueOf(entitry.get("price"));
+//                mTrackTitle.setText(name);
+                mTextViewDes.setText(name);
+                mTextViewprice.setText(price);
+                if (!TextUtils.isEmpty(img)) {
+                    Glide.with(context).load(img).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(com.hyphenate.helpdesk.R.drawable.hd_default_image).into(mImageView);
                 }
-            });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             return;
         }
         VisitorTrack visitorTrack = MessageHelper.getVisitorTrack(message);
@@ -92,17 +111,23 @@ public class ChatRowTrack extends ChatRow {
         String id = "";
         String type = "";
         String panicBuyItemId = "";
-        try {
-            id = message.getStringAttribute("shopid");
-            type = message.getStringAttribute("type");
-            panicBuyItemId = message.getStringAttribute("panicBuyItemId");
-        }catch (Exception e){
-            e.printStackTrace();
+        int t = 0,pid = 0;
+        if (message.direct() == Message.Direct.SEND) {
+            try {
+                id = message.getStringAttribute("shopid");
+                type = message.getStringAttribute("type");
+                panicBuyItemId = message.getStringAttribute("panicBuyItemId");
+                t = Integer.parseInt(type);
+                pid = TextUtils.isEmpty(panicBuyItemId) ? 0 : Integer.parseInt(panicBuyItemId);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            t = mGoodsType;
+            id = String.valueOf(mGoodsId);
+            pid = mPanicBuyItemId;
         }
 
-
-        int t = Integer.parseInt(type);
-        int pid = TextUtils.isEmpty(panicBuyItemId) ? 0 : Integer.parseInt(panicBuyItemId);
         if (t == 2) {
             //租赁商品
             Intent intent = new Intent(getContext(), LeaseDetailActivity.class);

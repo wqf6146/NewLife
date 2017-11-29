@@ -130,11 +130,21 @@ public class AppManager {
         }
     }
 
+    boolean mAppExit = false;
+
+    public boolean appHasExit(){
+        return mAppExit;
+    }
+
     public void appExit() {
         try {
-            finishAllActivity();
-            System.exit(0);
-            android.os.Process.killProcess(android.os.Process.myPid());
+            if (activityStack.size() == 0){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }else{
+                finishAllActivity();
+                mAppExit = true;
+            }
+//            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
             ViseLog.e(e);

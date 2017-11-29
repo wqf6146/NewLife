@@ -389,17 +389,7 @@ public class YiYaMallFragment extends BaseFragment {
         });
     }
 
-    Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            mCurPager = msg.what;
-            fsc_refreshlayout.finishLoadmore();
-            return false;
-        }
-    });
-
     private void getPageData(final int nextpage) {
-        mHandler.sendEmptyMessageDelayed(mCurPager + 1,1000l);
         YYMallApi.getYiYaShopList(YYApp.getInstance(), nextpage, new ApiCallback<YiyaListBean.DataBean>() {
             @Override
             public void onStart() {
@@ -429,7 +419,7 @@ public class YiYaMallFragment extends BaseFragment {
                 int start = mWrapperAdapter.getItemCount();
                 mEntiryAdapter.addDatas(dataBean.getGoods());
 //                mWrapperAdapter.notifyDataSetChanged();
-                mWrapperAdapter.notifyItemRangeInserted(start,mEntiryAdapter.getItemCount()+1);
+                mWrapperAdapter.notifyItemRangeInserted(start,mEntiryAdapter.getItemCount());
             }
         });
     }

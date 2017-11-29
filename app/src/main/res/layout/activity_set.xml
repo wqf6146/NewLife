@@ -272,19 +272,19 @@
             android:textSize="@dimen/content_text_s14" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s12"
             android:id="@+id/as_tv_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/as_img_rightarrow"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s12" />
 
         <ImageView
+            android:id="@+id/as_img_rightarrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:id="@+id/as_img_rightarrow"
             android:layout_centerVertical="true"
             android:padding="10dp"
             android:src="@mipmap/ic_nor_gray_arrowright" />

@@ -56,6 +56,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
     public static final int MESSAGE_TYPE_RECV_TRACK = 8;
     public static final int MESSAGE_TYPE_SENT_FORM = 9;
     public static final int MESSAGE_TYPE_RECV_FORM = 10;
+    public static final int MESSAGE_TYPE_RECV_GOODS = 11;
     //message type 最大值
     public static final int MESSAGE_TYPE_COUNT = 11;
 
@@ -293,6 +294,8 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                         return message.direct() == Message.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TRACK : MESSAGE_TYPE_SENT_TRACK;
                     case FormMsg:
                         return message.direct() == Message.Direct.RECEIVE ? MESSAGE_TYPE_RECV_FORM : MESSAGE_TYPE_SENT_FORM;
+                    case GeneralMsg:
+                        return MESSAGE_TYPE_RECV_GOODS;
                 }
             }
 
@@ -313,6 +316,8 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                         return new ChatRowTrack(getActivity(), message, position, adapter);
                     case FormMsg:
                         return new ChatRowForm(getActivity(), message, position, adapter);
+                    case GeneralMsg:
+                        return new ChatRowTrack(getActivity(), message, position, adapter);
                 }
             }
             return null;

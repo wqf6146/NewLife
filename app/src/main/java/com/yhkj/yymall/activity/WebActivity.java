@@ -26,6 +26,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.BaseToolBarActivity;
@@ -48,11 +49,18 @@ public class WebActivity extends BaseAgentWebActivity {
     private TextView mTvTitle;
     private ImageView mImgBack;
     private View mDeadStatusView;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().finishActivity(this);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-
+        AppManager.getInstance().addActivity(this);
         mDeadStatusView = findViewById(R.id.aw_view_statusbar);
         if (Build.VERSION.SDK_INT >= KITKAT)
             mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);

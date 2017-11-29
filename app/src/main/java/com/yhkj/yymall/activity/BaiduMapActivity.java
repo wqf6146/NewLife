@@ -33,6 +33,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.hyphenate.helpdesk.easeui.ui.BaseActivity;
+import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.util.StatusBarUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
@@ -79,6 +80,7 @@ public class BaiduMapActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
+        AppManager.getInstance().addActivity(this);
         if(AndPermission.hasPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION)) {
             // 有权限，直接do anything.
@@ -210,6 +212,7 @@ public class BaiduMapActivity extends BaseActivity {
         mMapView.onDestroy();
         unregisterReceiver(mBaiduReceiver);
         super.onDestroy();
+        AppManager.getInstance().finishActivity(this);
     }
     private void initMapView() {
         mMapView.setLongClickable(true);

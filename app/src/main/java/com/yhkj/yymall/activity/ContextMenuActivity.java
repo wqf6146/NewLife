@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.hyphenate.chat.Message;
 import com.hyphenate.helpdesk.easeui.UIProvider;
+import com.vise.xsnow.manager.AppManager;
 import com.yhkj.yymall.R;
 
 /**
@@ -19,8 +20,15 @@ public class ContextMenuActivity extends AppCompatActivity {
     public static final int RESULT_CODE_DELETE = 2;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().finishActivity(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getInstance().addActivity(this);
         Message message = getIntent().getParcelableExtra("message");
 
         int type = message.getType().ordinal();

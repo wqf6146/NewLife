@@ -488,7 +488,10 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
             adapters.setOnItemCLickListener(new com.yhkj.yymall.adapter.UltraBannerPagerAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClickListener(ImageView imageView, int pos) {
-                    WebActivity.loadUrl(mContext,mBannerData.getSlides().get(pos).getUrl(),mBannerData.getSlides().get(pos).getTitle());
+                    String url = mBannerData.getSlides().get(pos).getUrl();
+                    if (!TextUtils.isEmpty(url)){
+                        WebActivity.loadUrl(mContext,url,mBannerData.getSlides().get(pos).getTitle());
+                    }
                 }
             });
             adapters.setDataBean(mBannerData);

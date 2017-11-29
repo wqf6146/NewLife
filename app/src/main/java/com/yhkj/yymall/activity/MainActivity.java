@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.google.archivepatcher.applier.ApplierListen;
 import com.umeng.socialize.UMShareAPI;
+import com.vise.log.ViseLog;
 import com.vise.xsnow.event.EventSubscribe;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
@@ -616,6 +617,14 @@ public class MainActivity extends BaseActivity {
             mToast.cancel();
         UMShareAPI.get(this).release();
         NetStateReceiver.unRegisterNetworkStateReceiver(this);
+
+        try {
+            if (AppManager.getInstance().appHasExit())
+                android.os.Process.killProcess(android.os.Process.myPid());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ViseLog.e(e);
+        }
     }
 
     @Override

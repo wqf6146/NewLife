@@ -20,6 +20,7 @@ import com.hyphenate.helpdesk.Error;
 import com.hyphenate.helpdesk.callback.Callback;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
+import com.vise.xsnow.manager.AppManager;
 import com.yanzhenjie.permission.AndPermission;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -39,8 +40,15 @@ public class ChatLoginActivity extends AppCompatActivity {
     private int messageToIndex = Constant.MESSAGE_TO_DEFAULT;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().finishActivity(this);
+    }
+
+    @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        AppManager.getInstance().addActivity(this);
         Intent intent = getIntent();
         selectedIndex = intent.getIntExtra(Constant.INTENT_CODE_IMG_SELECTED_KEY,
                 Constant.INTENT_CODE_IMG_SELECTED_DEFAULT);

@@ -19,6 +19,7 @@ import com.hyphenate.helpdesk.easeui.util.Config;
 import com.hyphenate.helpdesk.model.ContentFactory;
 import com.hyphenate.helpdesk.model.OrderInfo;
 import com.hyphenate.helpdesk.model.VisitorTrack;
+import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.base.Constant;
@@ -45,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.hd_activity_chat);
         StatusBarUtil.setStatusBarColor(this,R.color.theme_bule);
         instance = this;
+        AppManager.getInstance().addActivity(this);
 //        mDeadStatusView = findViewById(R.id.ftr_dead_statusbg);
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
 //            mDeadStatusView.setVisibility(GONE);
@@ -147,7 +149,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onDestroy();
         MediaManager.release();
         instance = null;
-
+        AppManager.getInstance().finishActivity(this);
     }
 
     @Override
