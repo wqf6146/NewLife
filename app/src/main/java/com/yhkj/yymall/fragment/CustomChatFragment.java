@@ -33,6 +33,8 @@ import com.yhkj.yymall.view.chatrow.ChatRowLocation;
 import com.yhkj.yymall.view.chatrow.ChatRowOrder;
 import com.yhkj.yymall.view.chatrow.ChatRowTrack;
 
+import org.json.JSONObject;
+
 import static com.hyphenate.helpdesk.model.MessageHelper.ExtMsgType.GeneralMsg;
 
 public class CustomChatFragment extends ChatFragment implements ChatFragment.EaseChatFragmentListener {
@@ -299,6 +301,15 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                 }
             }
             if (message.direct() == Message.Direct.RECEIVE && MessageHelper.getMessageExtType(message) == GeneralMsg){
+                JSONObject jsonObject = null;
+                try{
+                    jsonObject = message.getJSONObjectAttribute("msgtype");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                if (jsonObject == null){
+                    return -1;
+                }
                 return MESSAGE_TYPE_RECV_GOODS;
             }
 
@@ -322,6 +333,16 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                 }
             }
             if (message.direct() == Message.Direct.RECEIVE && MessageHelper.getMessageExtType(message) == GeneralMsg){
+                JSONObject jsonObject = null;
+                try{
+                    jsonObject = message.getJSONObjectAttribute("msgtype");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                if (jsonObject == null){
+                    return null;
+                }
+
                 return new ChatRowTrack(getActivity(), message, position, adapter);
             }
             return null;

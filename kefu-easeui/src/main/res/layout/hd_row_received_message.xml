@@ -38,7 +38,7 @@
             android:background="@drawable/hd_chatfrom_bg"
             >
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/content_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,8 +48,10 @@
                 android:padding="5dp">
 
                 <LinearLayout
+                    android:id="@+id/hrrm_ll_goods"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_picture"
@@ -85,7 +87,16 @@
                     </LinearLayout>
 
                 </LinearLayout>
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_chatcontent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="2dp"
+                    android:textColor="@color/gray_normal"
+                    android:textSize="16dp" />
+            </FrameLayout>
         </RelativeLayout>
 
         <TextView
@@ -94,8 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
-            android:textSize="@dimen/chat_nick_text_size"
             android:layout_toRightOf="@id/iv_userhead"
+            android:textSize="@dimen/chat_nick_text_size"
             android:visibility="gone" />
     </RelativeLayout>
 

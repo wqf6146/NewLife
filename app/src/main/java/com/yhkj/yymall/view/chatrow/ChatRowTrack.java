@@ -53,6 +53,7 @@ public class ChatRowTrack extends ChatRow {
             mChatTextView = (TextView) findViewById(R.id.tv_chatcontent);
             mTrackTitle = (TextView) findViewById(R.id.tv_title);
         }else{
+            findViewById(R.id.hrrm_ll_goods).setVisibility(VISIBLE);
             mTextViewDes = (TextView) findViewById(R.id.tv_description);
             mTextViewprice = (TextView) findViewById(R.id.tv_price);
             mImageView = (ImageView) findViewById(R.id.iv_picture);
