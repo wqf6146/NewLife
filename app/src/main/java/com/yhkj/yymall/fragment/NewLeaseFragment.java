@@ -26,6 +26,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.vlayout.VirtualLayoutManager;
@@ -83,6 +84,8 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
 
 /**
  * Created by Administrator on 2017/7/25.
@@ -456,7 +459,13 @@ public class NewLeaseFragment extends BaseFragment implements LeaseHeaderPagerBe
                         holder.setVisible(R.id.fn_ll_hor,false);
                         // VERT
                         Glide.with(mContext).load(bean.getImg()).into((ImageView)holder.getView(R.id.is_vert_img_shop));
-                        ((ImageView)holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+
+                        ImageView shopTag = holder.getView(R.id.is_vert_img_tagshop);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)shopTag.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                        shopTag.setImageResource(R.mipmap.ic_nor_tagfree);
+
                         holder.setText(R.id.is_vert_shop_groupnumber,String.format(mContext.getString(R.string.getpeoplecount),bean.getSale()));
                         holder.setText(R.id.is_vert_shop_name,bean.getName());
                         holder.setText(R.id.is_vert_shop_price,String.format(mContext.getString(R.string.leaseprice),bean.getPrice()));
@@ -470,7 +479,13 @@ public class NewLeaseFragment extends BaseFragment implements LeaseHeaderPagerBe
                         holder.setText(R.id.is_hor_shop_name,bean.getName());
                         holder.setText(R.id.is_hor_shop_price,String.format(mContext.getString(R.string.leaseprice),bean.getPrice()));
                         Glide.with(mContext).load(bean.getImg()).into((ImageView)holder.getView(R.id.is_img_shop));
-                        ((ImageView)holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+
+                        ImageView shopTag = holder.getView(R.id.is_img_tagshop);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)shopTag.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
+
+                        shopTag.setImageResource(R.mipmap.ic_nor_tagfree);
                     }
                 }
             };
@@ -950,8 +965,16 @@ public class NewLeaseFragment extends BaseFragment implements LeaseHeaderPagerBe
                         holder.setVisible(R.id.is_ll_vert,true);
                         holder.setVisible(R.id.fn_ll_hor,false);
                         // VERT
+
                         Glide.with(mContext).load(bean.getPic()).into((ImageView)holder.getView(R.id.is_vert_img_shop));
-                        ((ImageView)holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+
+                        ImageView shopTag = holder.getView(R.id.is_vert_img_tagshop);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)shopTag.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                        shopTag.setImageResource(R.mipmap.ic_nor_tagfree);
+
+
                         holder.setText(R.id.is_vert_shop_groupnumber,String.format(mContext.getString(R.string.getpeoplecount),String.valueOf(bean.getSale())));
                         holder.setText(R.id.is_vert_shop_name,bean.getName());
                         holder.setText(R.id.is_vert_shop_price,String.format(mContext.getString(R.string.leaseprice),bean.getPrice()));
@@ -964,8 +987,15 @@ public class NewLeaseFragment extends BaseFragment implements LeaseHeaderPagerBe
                         holder.setText(R.id.is_hor_groupnumber,String.format(mContext.getString(R.string.getpeoplecount),String.valueOf(bean.getSale())));
                         holder.setText(R.id.is_hor_shop_name,bean.getName());
                         holder.setText(R.id.is_hor_shop_price,String.format(mContext.getString(R.string.leaseprice),bean.getPrice()));
-                        Glide.with(mContext).load(bean.getPic()).into((ImageView)holder.getView(R.id.is_img_shop));
+
                         ((ImageView)holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+                        ImageView shopTag = holder.getView(R.id.is_img_tagshop);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)shopTag.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                        shopTag.setImageResource(R.mipmap.ic_nor_tagfree);
+
+
                     }
                 }
             };

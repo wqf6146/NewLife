@@ -54,6 +54,9 @@ import com.yhkj.yymall.view.viewpager.UltraViewPager;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
+
 /**
  * Created by Administrator on 2017/7/25.
  */
@@ -118,20 +121,32 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                     holder.mTvSaleTotal1.setText(String.format(mContext.getString(R.string.sale), String.valueOf(goodsBean.getSale())));
                     if (goodsBean.getType() == 1){
                         holder.mTvPrice1.setText("¥"+ mTwoPointFormat.format(goodsBean.getPrice()));
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop1.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop1.setImageResource(R.mipmap.ic_nor_taggroup);
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else if (goodsBean.getType() == 2){
                         holder.mTvPrice1.setText("¥"+ mTwoPointFormat.format(goodsBean.getPrice()));
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop1.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
                         holder.mImgTagShop1.setImageResource(R.mipmap.ic_nor_tagfree);
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else if (goodsBean.getType() == 3){
                         //折扣
                         holder.mTvPrice1.setText("¥"+mTwoPointFormat.format(goodsBean.getPrice()));
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop1.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop1.setImageResource(R.mipmap.ic_nor_tagdiscount);
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else if (goodsBean.getType() == 4){
                         //积分
                         holder.mTvPrice1.setText(Math.round(goodsBean.getPrice()) + "积分");
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop1.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop1.setImageResource(R.mipmap.ic_nor_tagintegral);
                         holder.mImgTagShop1.setVisibility(View.VISIBLE);
                     }else{
@@ -194,20 +209,36 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                     holder.mTvSaleTotal2.setText(String.format(mContext.getString(R.string.sale), String.valueOf(bean1.getSale())));
                     if (bean1.getType() == 1){
                         holder.mTvPrice2.setText("¥" + mTwoPointFormat.format(bean1.getPrice()));
+
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop2.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop2.setImageResource(R.mipmap.ic_nor_taggroup);
+
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else if (bean1.getType() == 2){
                         holder.mTvPrice2.setText("¥" + mTwoPointFormat.format(bean1.getPrice()));
+
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop2.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                        layoutParams.addRule(ALIGN_PARENT_RIGHT);
                         holder.mImgTagShop2.setImageResource(R.mipmap.ic_nor_tagfree);
+
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else if (bean1.getType() == 3){
                         //折扣
                         holder.mTvPrice2.setText("¥" + mTwoPointFormat.format(bean1.getPrice()));
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop2.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop2.setImageResource(R.mipmap.ic_nor_tagdiscount);
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else if (bean1.getType() == 4){
                         //积分
                         holder.mTvPrice2.setText(Math.round(bean1.getPrice()) + "积分");
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)holder.mImgTagShop2.getLayoutParams();
+                        layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                        layoutParams.addRule(ALIGN_PARENT_LEFT);
                         holder.mImgTagShop2.setImageResource(R.mipmap.ic_nor_tagintegral);
                         holder.mImgTagShop2.setVisibility(View.VISIBLE);
                     }else{

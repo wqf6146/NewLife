@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +45,8 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
 
 /**
  * Created by Administrator on 2017/8/24.
@@ -265,27 +268,55 @@ public class MineEvaActivity extends BaseToolBarActivity {
                             if (bean.getGoodsType() == 2) {
                                 //租赁商品
                                 holder.setText(R.id.ioc_tv_shopprice,"¥"  + bean.getRealPrice());
-                                holder.setImageResource(R.id.ioe_img_tagshop,R.mipmap.ic_nor_tagfree);
+                                ImageView tagShop = holder.getView(R.id.ioe_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                                layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagfree);
+
                                 holder.setVisible(R.id.ioe_img_tagshop,true);
                             }else if (bean.getGoodsType() == 1){
                                 //拼团商品
                                 holder.setText(R.id.ioc_tv_shopprice,"¥"  + bean.getRealPrice());
-                                holder.setImageResource(R.id.ioe_img_tagshop,R.mipmap.ic_nor_taggroup);
+                                ImageView tagShop = holder.getView(R.id.ioe_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_taggroup);
+
+
                                 holder.setVisible(R.id.ioe_img_tagshop,true);
                             }else if (bean.getGoodsType() == 3){
                                 //折扣
                                 holder.setText(R.id.ioc_tv_shopprice,"¥"  + bean.getRealPrice());
-                                holder.setImageResource(R.id.ioe_img_tagshop,R.mipmap.ic_nor_tagdiscount);
+                                ImageView tagShop = holder.getView(R.id.ioe_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagdiscount);
+
+
                                 holder.setVisible(R.id.ioe_img_tagshop,true);
                             }else if (bean.getGoodsType() == 4){
                                 //积分
                                 holder.setText(R.id.ioc_tv_shopprice,bean.getRealPrice() + "积分");
-                                holder.setImageResource(R.id.ioe_img_tagshop,R.mipmap.ic_nor_tagintegral);
+                                ImageView tagShop = holder.getView(R.id.ioe_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagintegral);
+
+
                                 holder.setVisible(R.id.ioe_img_tagshop,true);
                             }else if (bean.getGoodsType() == 0 && bean.getPanicBuyItemId() != 0){
                                 //限时抢购
                                 holder.setText(R.id.ioc_tv_shopprice,"¥"  + bean.getRealPrice());
-                                holder.setImageResource(R.id.ioe_img_tagshop,R.mipmap.ic_nor_tagtimekill);
+                                ImageView tagShop = holder.getView(R.id.ioe_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagtimekill);
+
                                 holder.setVisible(R.id.ioe_img_tagshop,true);
                             }else{
                                 holder.setText(R.id.ioc_tv_shopprice,"¥"  + bean.getRealPrice());

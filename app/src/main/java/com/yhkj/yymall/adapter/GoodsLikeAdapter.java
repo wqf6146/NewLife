@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
@@ -35,6 +36,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
 
 /**
  * Created by Administrator on 2017/7/3.
@@ -101,27 +104,49 @@ public abstract class GoodsLikeAdapter extends DelegateAdapter {
                 if (bean.getType() == 2) {
                     //租赁商品
                     holder.mTvVertShopPrice.setText("¥" + bean.getPrice());
+
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mImgTagShop.getLayoutParams();
+                    layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                    layoutParams.addRule(ALIGN_PARENT_RIGHT);
                     holder.mImgTagShop.setImageResource(R.mipmap.ic_nor_tagfree);
+
                     holder.mImgTagShop.setVisibility(View.VISIBLE);
                 }else if (bean.getType() == 1){
                     //拼团商品
                     holder.mTvVertShopPrice.setText("¥" + bean.getPrice());
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mImgTagShop.getLayoutParams();
+                    layoutParams.addRule(ALIGN_PARENT_LEFT);
                     holder.mImgTagShop.setImageResource(R.mipmap.ic_nor_taggroup);
+
                     holder.mImgTagShop.setVisibility(View.VISIBLE);
                 }else if (bean.getType() == 3){
                     //折扣
                     holder.mTvVertShopPrice.setText("¥" + bean.getPrice());
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mImgTagShop.getLayoutParams();
+                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                    layoutParams.addRule(ALIGN_PARENT_LEFT);
                     holder.mImgTagShop.setImageResource(R.mipmap.ic_nor_tagdiscount);
+
                     holder.mImgTagShop.setVisibility(View.VISIBLE);
                 }else if (bean.getType() == 4){
                     //积分
                     holder.mTvVertShopPrice.setText(bean.getPrice() + "积分");
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mImgTagShop.getLayoutParams();
+                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                    layoutParams.addRule(ALIGN_PARENT_LEFT);
                     holder.mImgTagShop.setImageResource(R.mipmap.ic_nor_tagintegral);
+
+
                     holder.mImgTagShop.setVisibility(View.VISIBLE);
                 }else if (bean.getType() == 0 && bean.getPanicBuyItemId() != 0){
                     //限时抢购
                     holder.mTvVertShopPrice.setText("¥" + bean.getPrice());
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mImgTagShop.getLayoutParams();
+                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                    layoutParams.addRule(ALIGN_PARENT_LEFT);
                     holder.mImgTagShop.setImageResource(R.mipmap.ic_nor_tagtimekill);
+
+
                     holder.mImgTagShop.setVisibility(View.VISIBLE);
                 }else{
                     holder.mTvVertShopPrice.setText("¥" + bean.getPrice());

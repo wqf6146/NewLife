@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -272,7 +273,11 @@ public class ChatLoginActivity extends AppCompatActivity {
                     intent.putExtra("orderimg",getIntent().getStringExtra("orderimg"));
                 }else if (selectedIndex == Constant.INTENT_CODE_IMG_SHOP){
                     intent.putExtra("shopid", getIntent().getStringExtra("shopid"));
-                    intent.putExtra("panicBuyItemId", getIntent().getStringExtra("panicBuyItemId"));
+                    if(TextUtils.isEmpty(getIntent().getStringExtra("panicBuyItemId"))){
+                        intent.putExtra("panicBuyItemId", "0");
+                    }else{
+                        intent.putExtra("panicBuyItemId", getIntent().getStringExtra("panicBuyItemId"));
+                    }
                     intent.putExtra("shoptype", getIntent().getStringExtra("shoptype"));
                     intent.putExtra("shopname",getIntent().getStringExtra("shopname"));
                     intent.putExtra("shopprice",getIntent().getStringExtra("shopprice"));

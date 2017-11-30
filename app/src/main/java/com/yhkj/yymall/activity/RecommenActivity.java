@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -33,6 +34,8 @@ import butterknife.Bind;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
 
 /**
  * Created by Administrator on 2017/8/18.
@@ -197,27 +200,52 @@ public class RecommenActivity extends BaseToolBarActivity {
                                 if (bean.getType() == 2) {
                                     //租赁商品
                                     holder.setText(R.id.is_vert_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+                                    ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                                    layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagfree);
+
                                     holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 }else if (bean.getType() == 1){
                                     //拼团商品
                                     holder.setText(R.id.is_vert_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_taggroup);
+                                    ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_taggroup);
+
                                     holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 }else if (bean.getType() == 3){
                                     //折扣
                                     holder.setText(R.id.is_vert_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagdiscount);
+                                    ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagdiscount);
+
                                     holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 }else if (bean.getType() == 4){
                                     //积分
                                     holder.setText(R.id.is_vert_shop_price, String.valueOf(bean.getPrice()) + "积分");
-                                    ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagintegral);
+                                    ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagintegral);
+
                                     holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 }else if (bean.getType() == 0 && bean.getPanicBuyItemId() != 0){
                                     //限时抢购
                                     holder.setText(R.id.is_vert_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagtimekill);
+                                    ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagtimekill);
+
                                     holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 }else{
                                     holder.setText(R.id.is_vert_shop_price, "¥" + String.valueOf(bean.getPrice()));
@@ -237,27 +265,53 @@ public class RecommenActivity extends BaseToolBarActivity {
                                 if (bean.getType() == 2) {
                                     //租赁商品
                                     holder.setText(R.id.is_hor_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+                                    ImageView tagShop = holder.getView(R.id.is_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                                    layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagfree);
+
+
                                     holder.setVisible(R.id.is_img_tagshop,true);
                                 }else if (bean.getType() == 1){
                                     //拼团商品
                                     holder.setText(R.id.is_hor_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_taggroup);
+                                    ImageView tagShop = holder.getView(R.id.is_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_taggroup);
+
                                     holder.setVisible(R.id.is_img_tagshop,true);
                                 }else if (bean.getType() == 3){
                                     //折扣
                                     holder.setText(R.id.is_hor_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagdiscount);
+                                    ImageView tagShop = holder.getView(R.id.is_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagdiscount);
+
                                     holder.setVisible(R.id.is_img_tagshop,true);
                                 }else if (bean.getType() == 4){
                                     //积分
                                     holder.setText(R.id.is_hor_shop_price,String.valueOf(bean.getPrice()) + "积分");
-                                    ((ImageView) holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagintegral);
+                                    ImageView tagShop = holder.getView(R.id.is_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagintegral);
+
                                     holder.setVisible(R.id.is_img_tagshop,true);
                                 }else if (bean.getType() == 0 && bean.getPanicBuyItemId() != 0){
                                     //限时抢购
                                     holder.setText(R.id.is_hor_shop_price, "¥" + String.valueOf(bean.getPrice()));
-                                    ((ImageView) holder.getView(R.id.is_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagtimekill);
+                                    ImageView tagShop = holder.getView(R.id.is_img_tagshop);
+                                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                    layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                    layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                    tagShop.setImageResource(R.mipmap.ic_nor_tagtimekill);
+
                                     holder.setVisible(R.id.is_img_tagshop,true);
                                 }else{
                                     holder.setText(R.id.is_hor_shop_price, "¥" + String.valueOf(bean.getPrice()));

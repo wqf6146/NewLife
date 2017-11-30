@@ -140,7 +140,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="100dp"
             android:layout_height="100dp">
             <ImageView
@@ -156,7 +156,7 @@
                 android:id="@+id/ioe_img_tagshop"
                 android:visibility="gone"
                 android:layout_height="wrap_content" />
-        </FrameLayout>
+        </RelativeLayout>
 
 
         <LinearLayout

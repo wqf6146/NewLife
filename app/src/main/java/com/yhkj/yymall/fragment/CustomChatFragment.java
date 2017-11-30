@@ -33,6 +33,8 @@ import com.yhkj.yymall.view.chatrow.ChatRowLocation;
 import com.yhkj.yymall.view.chatrow.ChatRowOrder;
 import com.yhkj.yymall.view.chatrow.ChatRowTrack;
 
+import static com.hyphenate.helpdesk.model.MessageHelper.ExtMsgType.GeneralMsg;
+
 public class CustomChatFragment extends ChatFragment implements ChatFragment.EaseChatFragmentListener {
 
     //避免和基类定义的常量可能发生冲突,常量从11开始定义
@@ -58,7 +60,7 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
     public static final int MESSAGE_TYPE_RECV_FORM = 10;
     public static final int MESSAGE_TYPE_RECV_GOODS = 11;
     //message type 最大值
-    public static final int MESSAGE_TYPE_COUNT = 11;
+    public static final int MESSAGE_TYPE_COUNT = 12;
 
 
     @Override
@@ -294,9 +296,10 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                         return message.direct() == Message.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TRACK : MESSAGE_TYPE_SENT_TRACK;
                     case FormMsg:
                         return message.direct() == Message.Direct.RECEIVE ? MESSAGE_TYPE_RECV_FORM : MESSAGE_TYPE_SENT_FORM;
-                    case GeneralMsg:
-                        return MESSAGE_TYPE_RECV_GOODS;
                 }
+            }
+            if (message.direct() == Message.Direct.RECEIVE && MessageHelper.getMessageExtType(message) == GeneralMsg){
+                return MESSAGE_TYPE_RECV_GOODS;
             }
 
             return -1;
@@ -316,9 +319,10 @@ public class CustomChatFragment extends ChatFragment implements ChatFragment.Eas
                         return new ChatRowTrack(getActivity(), message, position, adapter);
                     case FormMsg:
                         return new ChatRowForm(getActivity(), message, position, adapter);
-                    case GeneralMsg:
-                        return new ChatRowTrack(getActivity(), message, position, adapter);
                 }
+            }
+            if (message.direct() == Message.Direct.RECEIVE && MessageHelper.getMessageExtType(message) == GeneralMsg){
+                return new ChatRowTrack(getActivity(), message, position, adapter);
             }
             return null;
         }

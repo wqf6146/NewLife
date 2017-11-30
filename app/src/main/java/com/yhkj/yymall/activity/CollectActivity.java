@@ -42,6 +42,9 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
+import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
+
 /**
  * Created by Administrator on 2017/7/12.
  */
@@ -549,26 +552,52 @@ public class CollectActivity extends BaseToolBarActivity implements ListPopView.
                             if (bean.getType() == 2) {
                                 //租赁商品
                                 holder.setText(R.id.ioc_tv_shopprice, "¥" + String.valueOf(bean.getSell_price()));
-                                ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagfree);
+
+                                ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_LEFT);
+                                layoutParams.addRule(ALIGN_PARENT_RIGHT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagfree);
+
                                 holder.setVisible(R.id.is_vert_img_tagshop,true);
                             }else if (bean.getType() == 1){
                                 //拼团商品
                                 holder.setText(R.id.ioc_tv_shopprice, "¥" + String.valueOf(bean.getSell_price()));
-                                ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_taggroup);
+                                ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_taggroup);
+
                                 holder.setVisible(R.id.is_vert_img_tagshop,true);
                             }else if (bean.getType() == 3){
                                 //折扣
                                 holder.setText(R.id.ioc_tv_shopprice, "¥" + String.valueOf(bean.getSell_price()));
-                                ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagdiscount);
+                                ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagdiscount);
                                 holder.setVisible(R.id.is_vert_img_tagshop,true);
                             }else if (bean.getType() == 4){
                                 //积分
                                 holder.setText(R.id.ioc_tv_shopprice, String.valueOf(bean.getSell_price()) + "积分");
-                                ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagintegral);
+                                ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagintegral);
+
+
                                 holder.setVisible(R.id.is_vert_img_tagshop,true);
                             }else if (bean.getType() == 0 && bean.getPanicBuyItemId() != 0){
                                 //限时抢购
-                                ((ImageView) holder.getView(R.id.is_vert_img_tagshop)).setImageResource(R.mipmap.ic_nor_tagtimekill);
+                                ImageView tagShop = holder.getView(R.id.is_vert_img_tagshop);
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tagShop.getLayoutParams();
+                                layoutParams.removeRule(ALIGN_PARENT_RIGHT);
+                                layoutParams.addRule(ALIGN_PARENT_LEFT);
+                                tagShop.setImageResource(R.mipmap.ic_nor_tagtimekill);
+
                                 holder.setVisible(R.id.is_vert_img_tagshop,true);
                                 holder.setText(R.id.ioc_tv_shopprice, "¥" + String.valueOf(bean.getSell_price()));
                             }else{

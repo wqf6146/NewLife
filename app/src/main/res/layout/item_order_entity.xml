@@ -28,7 +28,7 @@
             android:src="@mipmap/ic_nor_graycicle"
             android:visibility="gone" />
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="100dp"
             android:layout_height="100dp">
             <ImageView
@@ -44,7 +44,7 @@
                 android:id="@+id/is_vert_img_tagshop"
                 android:visibility="gone"
                 android:layout_height="wrap_content" />
-        </FrameLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
