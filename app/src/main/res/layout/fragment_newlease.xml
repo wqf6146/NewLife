@@ -170,7 +170,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/fn_recycleview_content"
-                    android:background="@color/graybg"
+
                     android:layout_height="match_parent">
 
                 </android.support.v7.widget.RecyclerView>
