@@ -73,7 +73,6 @@ public abstract class BaseToolBarActivity extends SupportActivity {
 
     protected RelativeLayout mRlNoNetwork;
     protected ViewGroup mLlNoNetWorkEntity;
-
     protected Drawable[] mRightDrawable;
 
     @Override
@@ -84,7 +83,6 @@ public abstract class BaseToolBarActivity extends SupportActivity {
         mClassThis = this.getClass();
         AppManager.getInstance().addActivity(this);
     }
-
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -295,7 +293,6 @@ public abstract class BaseToolBarActivity extends SupportActivity {
      * 初始化数据
      */
     protected abstract void initData();
-
 
     protected void setNetWorkErrShow(int show){
         mProgressBar.setVisibility(GONE);

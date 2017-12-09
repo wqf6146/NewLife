@@ -91,11 +91,6 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            StatusBarUtil.transparencyBar(this);
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -115,7 +110,7 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
     @Override
     protected void initView() {
         super.initView();
-        setStatusVisiable(GONE);
+//        setStatusVisiable(GONE);
         setNetWorkErrShow(GONE);
     }
     private void createAccountThenLoginChatServer(final String phone) {

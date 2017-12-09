@@ -120,6 +120,7 @@
     <orderEntry type="library" exported="" name="recyclerview-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-watcher-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="alicloud-android-utdid-1.1.5.3" level="project" />
     <orderEntry type="library" exported="" name="paypal-android-sdk-2.13.3" level="project" />
     <orderEntry type="library" exported="" name="haha-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="jsr305-3.0.1" level="project" />
@@ -132,6 +133,7 @@
     <orderEntry type="library" exported="" name="library-1.2.4" level="project" />
     <orderEntry type="library" exported="" name="agentweb-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-analyzer-1.5.1" level="project" />
+    <orderEntry type="library" exported="" name="alicloud-android-utils-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="rxlifecycle-android-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_shareboard" level="project" />
     <orderEntry type="library" exported="" name="library-1.2.0" level="project" />
@@ -149,6 +151,7 @@
     <orderEntry type="library" exported="" name="circleimageview-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="android-sdk-5.3.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.2.1" level="project" />
+    <orderEntry type="library" exported="" name="alicloud-android-hotfix-3.1.7" level="project" />
     <orderEntry type="library" exported="" name="cockroach-0.0.5" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQ_Full" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_WeiXin_Full" level="project" />
@@ -181,6 +184,7 @@
     <orderEntry type="library" exported="" name="greendao-api-3.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-api-mockito-common-1.6.6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-common-1.6.6" level="project" />
+    <orderEntry type="library" exported="" name="alipaySdk-20170922" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javassist-3.21.0-GA" level="project" />
     <orderEntry type="library" exported="" name="UPPayAssistEx" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.6.6" level="project" />
@@ -188,7 +192,6 @@
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.19" level="project" />
     <orderEntry type="library" exported="" name="UPPayPluginExPro" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-2.1" level="project" />
-    <orderEntry type="library" exported="" name="alipaySdk-20160809" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-api-mockito-1.6.6" level="project" />
     <orderEntry type="library" exported="" name="wechat-sdk-android-with-mta-1.1.6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-1.6.6" level="project" />

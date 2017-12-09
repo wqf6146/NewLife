@@ -154,7 +154,7 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
                 }else{
                     for (int i=0 ;i<mShopListAdapter.getCount(); i++){
                         ShopListFragment fragment = (ShopListFragment) mShopListAdapter.getFragments().get(mShopListAdapter.getItemId(i));
-                        if (fragment.isRefresh()){
+                        if (fragment!=null && fragment.isRefresh()){
                             fragment.startRefresh();
                         }
                     }
@@ -208,7 +208,7 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
                     });
             mViewPager.setAdapter(mShopListAdapter);
             mViewPager.setFlolwViewPager(mUltraView.getViewPager());
-            mViewPager.setOffscreenPageLimit(4);
+            mViewPager.setOffscreenPageLimit(dataBean.getPaniclBuy().size());
             mUltraView.setCurrentItem(0, false);
         }else{
             mShopListAdapter.setPaniclBuyBean(dataBean.getPaniclBuy());

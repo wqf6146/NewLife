@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.taobao.sophix.SophixManager;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
@@ -316,7 +317,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         mImgOffline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mDL.setVisibility(GONE);
                 YYMallApi.getOfflineActIsValid(_mActivity,mOfflineBean.getId(),new YYMallApi.ApiResult<ValidBean.DataBean>(_mActivity){
                     @Override
                     public void onError(ApiException e) {

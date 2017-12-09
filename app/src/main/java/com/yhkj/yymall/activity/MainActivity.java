@@ -3,14 +3,19 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.archivepatcher.applier.ApplierListen;
+import com.taobao.sophix.SophixManager;
 import com.umeng.socialize.UMShareAPI;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.event.EventSubscribe;
@@ -51,17 +56,37 @@ public class MainActivity extends BaseActivity {
 
     SupportFragment[] mFragments = new SupportFragment[5];
 
-    private int mTabIndex = 0;
-
-    //网络观察者
     protected NetStateReceiver.NetChangeObserver mNetChangeObserver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        loadPatch();
         setOnResumeRegisterBus(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NetStateReceiver.registerNetworkStateReceiver(this);
+    }
+
+    private void loadPatch() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestExternalStoragePermission();
+        }else{
+            SophixManager.getInstance().queryAndLoadNewPatch();
+        }
+    }
+
+    /**
+     * 如果本地补丁放在了外部存储卡中, 6.0以上需要申请读外部存储卡权限才能够使用. 应用内部存储则不受影响
+     */
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 0;
+    private void requestExternalStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_EXTERNAL_STORAGE_PERMISSION);
+        }else{
+            SophixManager.getInstance().queryAndLoadNewPatch();
+        }
     }
 
     Boolean mPrepareExit = false;
@@ -483,9 +508,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100){
-            handleUpdate();
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION:
+                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Permission:","local external storage patch is invalid as not read external storage permission");
+                }else{
+                    SophixManager.getInstance().queryAndLoadNewPatch();
+                }
+                break;
+            case 100:
+                handleUpdate();
+            default:
         }
     }
 
@@ -635,7 +668,6 @@ public class MainActivity extends BaseActivity {
         mFragments[2] = YiYaMallFragment.getInstance();
         mFragments[3] = ShopCarFragment.getInstance();
         mFragments[4] = MineFragment.getInstance();
-
 
         loadMultipleRootFragment(R.id.am_contanier,0,mFragments);
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {

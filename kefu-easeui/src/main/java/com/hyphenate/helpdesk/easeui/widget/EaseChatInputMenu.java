@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.helpdesk.R;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.hyphenate.helpdesk.easeui.emojicon.DefaultEmojiconDatas;
 import com.hyphenate.helpdesk.emojicon.Emojicon;
 import com.hyphenate.helpdesk.easeui.emojicon.EmojiconGroupEntity;
@@ -71,8 +73,13 @@ public class EaseChatInputMenu extends LinearLayout {
         // 扩展按钮栏
         chatExtendMenu = (ExtendMenu) findViewById(R.id.extend_menu);
         emojiSendBtn = (Button) findViewById(R.id.emoji_send_button);
-        ChatClient.getInstance().emojiconManager().reflesh();
+
+        if (ChatClient.getInstance().isLoggedInBefore()) {
+            ChatClient.getInstance().emojiconManager().reflesh();
+        }
     }
+
+
 
     /**
      * init view 此方法需放在registerExtendMenuItem后面及setCustomEmojiconMenu，

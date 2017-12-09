@@ -49,6 +49,16 @@
         android:theme="@style/AppTheme">
 
         <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24722908-1" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="558dcce22adf14893f012610fcce50e9" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCli2URD74HnX9qJNlI0klp5NdDSKWTp3vQ+cl6mN5VqQ6cGX45mCtvK84QGPfKEiY0kY0aKf+FRTFgD1kqiV/7PBB3a6P2R0fc9jJ/75sZ4hyK4MjMkjO7BqHvY//wVUXpl0AF5bc6YNXOU4PtGSuNNxjK9oUeRqjtAi4T1NUk6RZAuRUz8M6/IaSHYJ+/4rpRZfDHwMS8sIlRgI3IJpFc9TmaPrg9vmpIapgncsbHZB7hiTQjnl5tsFBBi9f6JHnXZ96NkKiifB7nm0EP99ud8UMnGcbPmWbEhwfs/nTRSsHbfDtIO1JelTrtjnKNjoUgGRjqolUoDZ0rfki+NeQdAgMBAAECggEAFSrp1XCp39dnv27Oydz5viygyd20LlkwH9yQwrhhVZq0X4ly9nJau3BifPR0WsZPVFF4NWxBXA0o7xuHT0UZnMplYJ/G62rZ6YshkfJVZs3e0HNFucLIEpYahr3GsDh3JBNPAHILJ8/SBvvu1pZtVzVAWlODWge2+fdZZPfF+V4PumO5jteY3EsmbCdO36AxGXwGfHYuz8KkQt8Flan/RZUi/xMjd3PvkGisCIW0TN8jASWRurWGIPVxXvnN+JJmNlR9U5b3EUiOMeF7gMSrsV0KER7647fiEiN3BwNNd7SMKN9egSUgkOIksNglY100BoFXo2L7Ot/PlnjoYPSCEQKBgQDhNir3JQmkyzqWakxeNJdM+NRra94vSqGa+OU98XIhhi5IOJhuQDOpDDGtrIw7M3f6P5QXUR5cNGEUjjmhmxhAFkcBY1IT7eYy/L1ZnwLvnPLG9Bkr6rhYHP6bQX3NkfjaREuxLGtry4dRR53uzQriAhcwwGsf/bNs/MG+wMUxXwKBgQC8LQfyuPbQYvpmugw4iMHQB2VowBCsey25RFgXHnJM52IdHvzZH+Wyzj0t5UeqaiYRUSsoTNc7F1oo3pqF+GRdqFzAFHwWGmLcFGxXjFLBDRGv8bfGrgz+N+vbLmzXyhKchN/oy2sovjqWlgdMC7UlJHEpZSf5uL1V/lTzwSuwAwKBgBxf17/1oaZqmIIU+HQyChH/k7vJBmBM9dlxnGhWgDurDS+6ObJCUn/s8mFgSPa4gFg+JGlfpgSV8NlHJgmvYbnJVL7fBZtPMN6hqzWcbCFGU+wvGvDGjN1FIerrsG7zAjh1vFehMhONvAnIjSRmHwXkn4lb5ONN8oo7uilPXkjfAoGBAJcvXslmTfZS73eFVrg9N+oZZyJn3X2WYcAN5vB8J70d0bgv41nWxMeJ56FuKswCCJ+1JQV15x60vl1Dq8ajMJAG6q3wR1nCzVagmgMk3H/6LhG8FLjtsca1yysH+67LzXQvVW5FsMzFOXEvDKHObjVvN/PYL+v0vznN4xcMRjtdAoGAKfyD+OcTNP+xXpBSizaBLRbw7JveJBKMi3KwSs5tC5WPD3Q0DgXRj7HI2t/lj8Iv2IDRNfQF0T0BarQ2XlKnM6jlhFmPmqEghWQDNxcjb9R6IXn8GVacJ1CU/8G2yFDNKG4rKMJ+b256DDSEZJXGenJVy2GragwEQ5gloRStDro=" />
+
+        <meta-data
             android:name="com.yhkj.yymall.util.GlideConfiguration"
             android:value="GlideModule" />
 

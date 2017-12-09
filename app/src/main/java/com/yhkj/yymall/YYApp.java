@@ -1,7 +1,10 @@
 package com.yhkj.yymall;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.util.SparseArray;
@@ -9,6 +12,8 @@ import android.widget.Toast;
 
 //import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.LeakCanary;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -29,7 +34,7 @@ import cn.beecloud.BeeCloud;
  * Created by Administrator on 2017/6/19.
  */
 
-public class YYApp extends MultiDexApplication {
+public class YYApp extends Application {
     private static YYApp mInstance;
 
     public static YYApp getInstance() {
@@ -84,6 +89,38 @@ public class YYApp extends MultiDexApplication {
 
     public void setToken(String token) {
         this.mToken = token;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+        initHotfix();
+    }
+
+    private void initHotfix() {
+        String appVersion;
+        try {
+            appVersion = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            appVersion = "1.0.0";
+        }
+
+        SophixManager.getInstance().setContext(this)
+                .setAppVersion(appVersion)
+                .setAesKey(null)
+                //.setAesKey("0123456789123456")
+                .setEnableDebug(true)
+                .setPatchLoadStatusStub(new PatchLoadStatusListener() {
+                    @Override
+                    public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        String msg = new StringBuilder("").append("Mode:").append(mode)
+                                .append(" Code:").append(code)
+                                .append(" Info:").append(info)
+                                .append(" HandlePatchVersion:").append(handlePatchVersion).toString();
+                        Log.e("initHotfix",msg);
+                    }
+                }).initialize();
     }
 
     @Override
