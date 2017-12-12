@@ -277,6 +277,8 @@ public class MessageActivity extends BaseToolBarActivity {
                     } else {
                         Intent intent = new Intent(MessageActivity.this, MessageMinuteActivity.class);
                         intent.putExtra("content", mDatas.get(position).getContent());
+                        intent.putExtra("title", mDatas.get(position).getTitle());
+                        intent.putExtra("id", String.valueOf(mDatas.get(position).getId()));
                         intent.putExtra("time", mDatas.get(position).getTime());
                         startActivity(intent);
 

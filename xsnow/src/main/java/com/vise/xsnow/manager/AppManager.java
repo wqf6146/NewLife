@@ -33,15 +33,11 @@ public class AppManager {
 
     public void addActivity(Activity activity) {
         if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+            activityStack = new Stack<>();
         }
         activityStack.add(activity);
     }
 
-    public Activity currentActivity() {
-        Activity activity = activityStack.lastElement();
-        return activity;
-    }
 
     public boolean isActivityExist(Class<?> cls) {
         for (Activity activity : activityStack) {
@@ -82,16 +78,19 @@ public class AppManager {
     }
 
     public void finishActivity(Class<?> cls) {
-        Iterator<Activity> iterator = activityStack.iterator();
-        while (iterator.hasNext()){
-            Activity activity = iterator.next();
+        for (Activity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
-                if (activity != null) {
-                    iterator.remove();
-                    activity.finish();
-                }
+                finishActivity(activity);
             }
         }
+
+//        Iterator<Activity> iterator = activityStack.iterator();
+//        while (iterator.hasNext()){
+//            Activity activity = iterator.next();
+//            if (activity.getClass().equals(cls)) {
+//                finishActivity(activity);
+//            }
+//        }
     }
 
     public void finishActivityWithNoAnim(Class<?> cls) {
@@ -104,7 +103,7 @@ public class AppManager {
 
     public void finishAllActivity() {
         if (activityStack == null) return;
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
+        for (int i = 0, size = activityStack.size(); i<size; i++) {
             if (null != activityStack.get(i)) {
                 activityStack.get(i).finish();
             }
@@ -114,8 +113,8 @@ public class AppManager {
 
     public void finishExceptActivity(Class<?> cls) {
         while (!activityStack.isEmpty()) {
-            Activity act = (Activity) activityStack.pop();
-            if (act.getClass() != cls) {
+            Activity act = activityStack.pop();
+            if (act != null && act.getClass() != cls) {
                 act.finish();
             }
         }
@@ -123,8 +122,8 @@ public class AppManager {
 
     public void finishExceptActivity(BaseActivity exceptAct) {
         while (!activityStack.isEmpty()) {
-            Activity act = (Activity) activityStack.pop();
-            if (act != exceptAct) {
+            Activity act = activityStack.pop();
+            if (act != null && act != exceptAct) {
                 act.finish();
             }
         }

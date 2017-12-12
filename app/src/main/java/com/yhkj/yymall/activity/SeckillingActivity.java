@@ -2,6 +2,7 @@ package com.yhkj.yymall.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.vise.log.ViseLog;
@@ -209,24 +210,41 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
             mViewPager.setAdapter(mShopListAdapter);
             mViewPager.setFlolwViewPager(mUltraView.getViewPager());
             mViewPager.setOffscreenPageLimit(dataBean.getPaniclBuy().size());
-            mUltraView.setCurrentItem(0, false);
+//            mUltraView.setCurrentItem(0,false);
         }else{
             mShopListAdapter.setPaniclBuyBean(dataBean.getPaniclBuy());
             mViewPager.setAdapter(mShopListAdapter);
 
-            boolean bJumb = false;
-            for (int i=0;i<dataBean.getPaniclBuy().size();i++){
-                if (paniclbuyId == dataBean.getPaniclBuy().get(i).getId()){
-                    mViewPager.setCurrentItem(i);
-                    mUltraView.setCurrentItem(i);
-                    bJumb = true;
-                    break;
-                }
-            }
-            if (!bJumb){
+            if (paniclbuyId == null){
                 mUltraView.setCurrentItem(0);
                 mViewPager.setCurrentItem(0);
+            }else{
+                boolean bJumb = false;
+                for (int i=0;i<dataBean.getPaniclBuy().size();i++){
+                    if (paniclbuyId == dataBean.getPaniclBuy().get(i).getId()){
+                        mViewPager.setCurrentItem(i);
+                        mUltraView.setCurrentItem(i);
+                        bJumb = true;
+                        break;
+                    }
+                }
+                if (!bJumb){
+                    mUltraView.setCurrentItem(0);
+                    mViewPager.setCurrentItem(0);
+                }
             }
+
+        }
+
+        //推送跳转
+        if (!TextUtils.isEmpty(mShowIndex)){
+            int index = Integer.parseInt(mShowIndex);
+//            mViewPager.setCurrentItem(index,true);
+//            mUltraView.setCurrentItem(index,true);
+            mUltraView.setCurrentItem(0,false);
+            mShowIndex = null;
+        }else{
+            mUltraView.setCurrentItem(0, false);
         }
     }
 
@@ -255,11 +273,16 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
     }
 
     private SeckillFragmentAdapter mShopListAdapter;
+
+
+    //推送跳转
+    private String mShowIndex;
     @Override
     protected void initData() {
         setTvTitleText("限时抢购");
         setTitleWireVisiable(GONE);
         setToolBarColor(getResources().getColor(R.color.theme_bule));
+        mShowIndex = getIntent().getStringExtra("panicBuyId");
     }
 }
 

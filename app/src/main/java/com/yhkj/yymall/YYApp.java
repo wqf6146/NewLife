@@ -1,33 +1,21 @@
 package com.yhkj.yymall;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
-import android.util.SparseArray;
-import android.widget.Toast;
 
-//import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.LeakCanary;
 import com.taobao.sophix.SophixManager;
 import com.taobao.sophix.listener.PatchLoadStatusListener;
-import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
-import com.vise.log.ViseLog;
-import com.vise.log.common.LogConvert;
-import com.wanjian.cockroach.Cockroach;
-import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.UserConfig;
-import com.yhkj.yymall.util.AECHFileWriter;
-import com.yhkj.yymall.util.NetStateReceiver;
 
 import cn.beecloud.BeeCloud;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -36,7 +24,7 @@ import cn.beecloud.BeeCloud;
 
 public class YYApp extends Application {
     private static YYApp mInstance;
-
+    private static boolean isForeground = false;
     public static YYApp getInstance() {
         return mInstance;
     }
@@ -123,10 +111,16 @@ public class YYApp extends Application {
                 }).initialize();
     }
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        DbHelper.getInstance().init(mInstance);
+        if (HxHelper.getInstance().init(mInstance)){
+            HxHelper.getInstance().initUi();
+        }
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.
@@ -136,7 +130,9 @@ public class YYApp extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                DbHelper.getInstance().init(mInstance);
+                JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+                JPushInterface.init(mInstance);     		// 初始化 JPush
+
                 /**
                  * 初始化BeeCloud账户
                  */
@@ -179,5 +175,46 @@ public class YYApp extends Application {
 //                });
             }
         }).start();
+
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                isForeground = true;
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                isForeground = false;
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+    }
+    public boolean isForeground() {
+        return isForeground;
     }
 }

@@ -273,12 +273,12 @@ public class HxHelper {
         //注册消息事件监听
         registerEventListener();
 
-        IntentFilter callFilter = new IntentFilter(ChatClient.getInstance().callManager().getIncomingCallBroadcastAction());
-        if (callReceiver == null){
-            callReceiver = new CallReceiver();
-        }
-        // register incoming call receiver
-        appContext.registerReceiver(callReceiver, callFilter);
+//        IntentFilter callFilter = new IntentFilter(ChatClient.getInstance().callManager().getIncomingCallBroadcastAction());
+//        if (callReceiver == null){
+//            callReceiver = new CallReceiver();
+//        }
+//         register incoming call receiver
+//        appContext.registerReceiver(callReceiver, callFilter);
     }
 
     /**

@@ -85,14 +85,12 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform (1)" jdkType="Android SDK" />
@@ -108,21 +106,18 @@
     <orderEntry type="library" exported="" name="rxlifecycle-components-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.3.2" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="leakcanary-android-no-op-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="alertdialog-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="percent-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_tool" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-android-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.2.0" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-watcher-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="alicloud-android-utdid-1.1.5.3" level="project" />
+    <orderEntry type="library" exported="" name="jpush-android-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="paypal-android-sdk-2.13.3" level="project" />
-    <orderEntry type="library" exported="" name="haha-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="jsr305-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="bga-zxing-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="WheelPicker-1.5.5" level="project" />
@@ -132,7 +127,6 @@
     <orderEntry type="library" exported="" name="library-1.4.1" level="project" />
     <orderEntry type="library" exported="" name="library-1.2.4" level="project" />
     <orderEntry type="library" exported="" name="agentweb-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-analyzer-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="alicloud-android-utils-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="rxlifecycle-android-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_shareboard" level="project" />
@@ -154,6 +148,7 @@
     <orderEntry type="library" exported="" name="alicloud-android-hotfix-3.1.7" level="project" />
     <orderEntry type="library" exported="" name="cockroach-0.0.5" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQ_Full" level="project" />
+    <orderEntry type="library" exported="" name="jcore-android-1.1.8" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_WeiXin_Full" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.2.0" level="project" />
@@ -170,8 +165,8 @@
     <orderEntry type="module" module-name="xsnow" exported="" />
     <orderEntry type="module" module-name="sdk" exported="" />
     <orderEntry type="module" module-name="jcvideoplayer-lib" exported="" />
-    <orderEntry type="library" exported="" name="kefu-sdk_1.1.2" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="kefu-sdk_1.1.3" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.8.0" level="project" />
     <orderEntry type="library" exported="" name="patcher" level="project" />
     <orderEntry type="library" exported="" name="okio-1.13.0" level="project" />

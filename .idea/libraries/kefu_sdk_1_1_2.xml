@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="kefu-sdk_1.1.2">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/kefu-easeui/libs/kefu-sdk_1.1.2.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

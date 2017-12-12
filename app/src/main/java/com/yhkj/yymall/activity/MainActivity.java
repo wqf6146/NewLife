@@ -43,6 +43,7 @@ import java.io.File;
 import butterknife.Bind;
 import cn.bingoogolapple.update.BGADownloadProgressEvent;
 import cn.bingoogolapple.update.BGAUpgradeUtil;
+import cn.jpush.android.api.JPushInterface;
 import me.yokeyword.fragmentation.SupportFragment;
 import rx.Subscriber;
 import rx.functions.Action1;

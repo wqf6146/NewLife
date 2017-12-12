@@ -69,7 +69,6 @@ public class ChatRowTrack extends ChatRow {
     int mPanicBuyItemId;
     @Override
     protected void onSetUpView() {
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.body();
         if (message.direct() == Message.Direct.RECEIVE) {
             //设置内容
             try{
