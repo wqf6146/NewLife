@@ -17,9 +17,15 @@ import com.yhkj.yymall.activity.IntegralDetailActivity;
 import com.yhkj.yymall.activity.IntegralShopListActivity;
 import com.yhkj.yymall.activity.LeaseDetailActivity;
 import com.yhkj.yymall.activity.MainActivity;
+import com.yhkj.yymall.activity.MessageActivity;
+import com.yhkj.yymall.activity.MessageMinuteActivity;
+import com.yhkj.yymall.activity.NewMessageActivity;
 import com.yhkj.yymall.activity.OffPriceShopListActivity;
+import com.yhkj.yymall.activity.OrderDetailActivity;
 import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
+import com.yhkj.yymall.activity.WebActivity;
+import com.yhkj.yymall.base.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,13 +51,10 @@ public class PushReceiver extends BroadcastReceiver {
 //			Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
 			if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-				String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-//				Logger.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
-				//send the Registration Id to your server...
-
+				YYApp.getInstance().setRegistrationId(bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID));
 			} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
 //				Logger.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-				processCustomMessage(context, bundle);
+//				processCustomMessage(context, bundle);
 
 			} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 //				Logger.d(TAG, "[MyReceiver] 接收到推送下来的通知");
@@ -141,7 +144,7 @@ public class PushReceiver extends BroadcastReceiver {
 							context.startActivities(intents);
 						}else if (listName.equals("panicList")){
 							Intent seckIintent = new Intent(context, SeckillingActivity.class);
-							seckIintent.putExtra("panicBuyId",json.getString("panicBuyId"));
+//							seckIintent.putExtra("panicBuyId",json.getString("panicBuyId"));
 							Intent[] intents = {i, seckIintent};
 							context.startActivities(intents);
 						}else if (listName.equals("groupList")){
@@ -151,15 +154,19 @@ public class PushReceiver extends BroadcastReceiver {
 						}else if (listName.equals("rentList")){
 							YYApp.getInstance().setIndexShow(1);
 							context.startActivity(i);
-						}else if (listName.equals("dailyList")){
-							context.startActivity(i);
+						}else if (listName.equals("discountList")){
+							Intent offListIntent = new Intent(context, OffPriceShopListActivity.class);
+							Intent[] intents = {i, offListIntent};
+							context.startActivities(intents);
 						}else if (listName.equals("integralList")){
 							Intent integralListIntent = new Intent(context, IntegralShopListActivity.class);
 							Intent[] intents = {i, integralListIntent};
 							context.startActivities(intents);
 						}else if (listName.equals("offlineList")){
-							Intent offListIntent = new Intent(context, OffPriceShopListActivity.class);
-							Intent[] intents = {i, offListIntent};
+							Intent offLineIntent = new Intent(context, WebActivity.class);
+							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
+							offLineIntent.putExtra("title", json.getString("title"));
+							Intent[] intents = {i, offLineIntent};
 							context.startActivities(intents);
 						}
 						break;
@@ -173,7 +180,12 @@ public class PushReceiver extends BroadcastReceiver {
 							shopIntent = new Intent(context, LeaseDetailActivity.class);
 							shopIntent.putExtra("id", goodsId);
 						}else if (goodsType == 0){
-							String paniclBuyItemId = json.getString("paniclBuyItemId");
+							String paniclBuyItemId = null;
+							try{
+								paniclBuyItemId = json.getString("paniclBuyItemId");
+							}catch (Exception e){
+
+							}
 							if (!TextUtils.isEmpty(paniclBuyItemId)){
 								//限时抢购
 								shopIntent = new Intent(context, TimeKillDetailActivity.class);
@@ -205,9 +217,39 @@ public class PushReceiver extends BroadcastReceiver {
 						break;
 					case 3:
 						//拼团成功
+						String id = json.getString("id");
+						Intent intent = new Intent(context, OrderDetailActivity.class);
+						intent.putExtra("id", Integer.parseInt(id));
+						Intent[] groupintents = {i, intent};
+						context.startActivities(groupintents);
 						break;
 					case 4:
 						//文章
+						String mesId = null;
+						try{
+							mesId = json.getString("id");
+						}catch (Exception e){
+
+						}
+						if (TextUtils.isEmpty(mesId)){
+							//外链
+							Intent offLineIntent = new Intent(context, WebActivity.class);
+							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
+							offLineIntent.putExtra("title", json.getString("title"));
+							Intent[] webIntents = {i, offLineIntent};
+							context.startActivities(webIntents);
+						}else{
+							//站内信
+//							Intent newMesIntent = new Intent(context, NewMessageActivity.class);
+//							Intent mesIntent = new Intent(context, MessageActivity.class);
+//							Intent mesIntent = new Intent(context, MessageMinuteActivity.class);
+//							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
+//							offLineIntent.putExtra("title", json.getString("title"));
+//							Intent[] intents = {i, offLineIntent};
+//							context.startActivities(intents);
+						}
+
+
 						break;
 				}
 			}catch (Exception e){

@@ -16,6 +16,21 @@ public class UserConfig {
     Boolean state;
     String phone;
     String headIco;
+
+
+    @Generated(hash = 1715376617)
+    public UserConfig(Long id, String token, Boolean state, String phone,
+            String headIco) {
+        this.id = id;
+        this.token = token;
+        this.state = state;
+        this.phone = phone;
+        this.headIco = headIco;
+    }
+
+    @Generated(hash = 523434660)
+    public UserConfig() {
+    }
     
 
     public void setPhone(String phone) {
@@ -57,18 +72,5 @@ public class UserConfig {
     public void setHeadIco(String headIco) {
         this.headIco = headIco;
     }
-
-    @Generated(hash = 1715376617)
-    public UserConfig(Long id, String token, Boolean state, String phone,
-            String headIco) {
-        this.id = id;
-        this.token = token;
-        this.state = state;
-        this.phone = phone;
-        this.headIco = headIco;
-    }
-
-    @Generated(hash = 523434660)
-    public UserConfig() {
-    }
+    
 }

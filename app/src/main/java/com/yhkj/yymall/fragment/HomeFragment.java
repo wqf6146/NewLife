@@ -2,6 +2,7 @@ package com.yhkj.yymall.fragment;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -48,7 +50,9 @@ import com.yhkj.yymall.bean.UnReadBean;
 import com.yhkj.yymall.bean.ValidBean;
 import com.yhkj.yymall.config.LocalActUltils;
 import com.yhkj.yymall.http.YYMallApi;
+import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.view.DragLayout;
+import com.yhkj.yymall.view.VideoHeaderView;
 import com.yhkj.yymall.view.YiYaHeaderView;
 import com.yhkj.yymall.view.popwindows.FullScreenPopupView;
 
@@ -66,7 +70,7 @@ import static android.view.View.VISIBLE;
  * Created by Administrator on 2017/6/19.
  */
 
-public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefreshLisiten {
+public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefreshLisiten {
 
     @Bind(R.id.fh_recycleview)
     RecyclerView mRecycleView;
@@ -148,29 +152,29 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 //
 //            @Override
 //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //007cd1
+////                007cd1
 //                overallXScroll = overallXScroll + dy;// 累加y值 解决滑动一半y值为0
 //                if (overallXScroll <= 0) {   //设置标题的背景颜色
-//                    mLlTopBar.setBackgroundColor(Color.argb((int) 0, 0, 124, 209));
+////                    mLlTopBar.setBackgroundColor(Color.argb((int) 0, 0, 124, 209));
 //                } else if (overallXScroll > 0 && overallXScroll <= height) { //滑动距离小于banner图的高度时，设置背景和字体颜色颜色透明度渐变
 //                    float scale = (float) overallXScroll / height;
 //                    float alpha = (255 * scale);
-//                    if (overallXScroll >= height / 2) {
-//                        if (!mGraySet) {
-//                            mGraySet = true;
-//                            mImgLeft.setImageResource(R.mipmap.ic_nor_gray_message);
-//                            mBtnRight.setImageResource(R.mipmap.ic_nor_grayclassify);
-//                        }
-//                    } else {
-//                        if (mGraySet) {
-//                            mGraySet = false;
-//                            mImgLeft.setImageResource(R.mipmap.ic_nor_message);
-//                            mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
-//                        }
-//                    }
+////                    if (overallXScroll >= height / 2) {
+////                        if (!mGraySet) {
+////                            mGraySet = true;
+////                            mImgLeft.setImageResource(R.mipmap.ic_nor_gray_message);
+////                            mBtnRight.setImageResource(R.mipmap.ic_nor_grayclassify);
+////                        }
+////                    } else {
+////                        if (mGraySet) {
+////                            mGraySet = false;
+////                            mImgLeft.setImageResource(R.mipmap.ic_nor_message);
+////                            mBtnRight.setImageResource(R.mipmap.ic_nor_classily);
+////                        }
+////                    }
 //                    mLlTopBar.setBackgroundColor(Color.argb((int) alpha, 0, 124, 209));
 //                } else {
-//                    mLlTopBar.setBackgroundColor(Color.argb(255, 0, 124, 209));
+////                    mLlTopBar.setBackgroundColor(Color.argb(255, 0, 124, 209));
 //                }
 //            }
 //        });
@@ -276,8 +280,7 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
 
 
     private void initRefreshLayout() {
-        mRefreshLayout.setRefreshHeader(new YiYaHeaderView(_mActivity).setOnRefreshLisiten(this));
-//        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setRefreshHeader(new VideoHeaderView(_mActivity).setOnRefreshLisiten(this));
         mRefreshLayout.setLoadmoreFinished(true);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -285,30 +288,62 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                 getData(true);
             }
         });
-//        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-//            @Override
-//            public void onLoadmore(RefreshLayout refreshlayout) {
-//                refreshlayout.finishLoadmore(2000);
-//            }
-//        });
     }
 
     private int mToolbarStatus = 0;
 
+//    @Bind(R.id.fh_view_bar)
+//    View mViewBar;
+
     @Override
-    public void onStartPull() {
-//        if (mToolbarStatus == 0) {
-//            mToolbarStatus = 1;
-//            mLlTopBar.startAnimation(getAnimToolBarOut());
+    public void onPullDowning(Float percent,int offset) {
+        Log.e("onPullDowning",percent + "");
+//        if (percent != null){
+//            float alpha = 255 - (255 * percent);
+//            mLlTopBar.getLayoutParams().height = mBarViewHeight + offset ;
+////            mViewBar.getLayoutParams().height = mBarViewHeight - offset;
+//            if (mLlTopBar.getVisibility() != VISIBLE)
+//                mLlTopBar.setVisibility(VISIBLE);
+////            int color = Color.argb((int) alpha, 0, 124, 209);
+////            mLlTopBar.setBackgroundColor(color);
+//            mLlTopBar.setBackgroundColor(Color.argb((int) alpha, 0, 124, 209));
+//        }else{
+//            if (mLlTopBar.getVisibility() != GONE)
+//                mLlTopBar.setVisibility(GONE);
 //        }
     }
 
     @Override
-    public void onBackTop() {
-//        if (mToolbarStatus == 1) {
-//            mToolbarStatus = 0;
-//            mLlTopBar.startAnimation(getAnimToolBarIn());
+    public void onPullReleasing(Float percent,int offset) {
+//        if (percent != null){
+//            float alpha = 255 - (255 * percent);
+//            mLlTopBar.getLayoutParams().height = mBarViewHeight - offset;
+////            mViewBar.getLayoutParams().height = mBarViewHeight - offset;
+//            if (mLlTopBar.getVisibility() != VISIBLE)
+//                mLlTopBar.setVisibility(VISIBLE);
+////            int color = Color.argb((int) alpha, 0, 124, 209);
+////            mLlTopBar.setBackgroundColor(color);
+//            mLlTopBar.setBackgroundColor(Color.argb((int) alpha, 0, 124, 209));
+//        }else{
+//            if (mLlTopBar.getVisibility() != GONE)
+//                mLlTopBar.setVisibility(GONE);
 //        }
+    }
+
+    @Override
+    public void onStartPull() {
+        if (mToolbarStatus == 0) {
+            mToolbarStatus = 1;
+//            mLlTopBar.startAnimation(getAnimToolBarOut());
+        }
+    }
+
+    @Override
+    public void onBackTop() {
+        if (mToolbarStatus == 1) {
+            mToolbarStatus = 0;
+//            mLlTopBar.startAnimation(getAnimToolBarIn());
+        }
     }
 
     @Override
@@ -350,7 +385,6 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
                         super.onStart();
                     }
                 });
-
             }
         });
         mTvSerach.setOnClickListener(new View.OnClickListener() {
@@ -384,12 +418,15 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         });
     }
 
+    private int mBarViewHeight;
+
     @Override
     protected void initData() {
         mImgLeft.setImageResource(R.mipmap.ic_nor_message);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             mViewStatus.setVisibility(GONE);
         }
+        mBarViewHeight = CommonUtil.dipToPx(_mActivity,75);
     }
 
 //    private boolean mLightStatus = false;
@@ -542,52 +579,52 @@ public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefre
         }
         return false;
     }
-//
-//    private Animation getAnimToolBarOut() {
-//        if (mAnimToolBarOut == null) {
-//            mAnimToolBarOut = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_out);
-//            mAnimToolBarOut.setAnimationListener(new Animation.AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    mLlTopBar.setVisibility(View.INVISIBLE);
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//
-//                }
-//            });
-//        }
-//        return mAnimToolBarOut;
-//    }
-//
-//    private Animation getAnimToolBarIn() {
-//        if (mAnimToolBarIn == null) {
-//            mAnimToolBarIn = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_in);
-//            mAnimToolBarIn.setAnimationListener(new Animation.AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    mLlTopBar.setVisibility(View.VISIBLE);
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//
-//                }
-//            });
-//        }
-//        return mAnimToolBarIn;
-//    }
+
+    private Animation getAnimToolBarOut() {
+        if (mAnimToolBarOut == null) {
+            mAnimToolBarOut = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_out);
+            mAnimToolBarOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mLlTopBar.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        return mAnimToolBarOut;
+    }
+
+    private Animation getAnimToolBarIn() {
+        if (mAnimToolBarIn == null) {
+            mAnimToolBarIn = AnimationUtils.loadAnimation(_mActivity, R.anim.fade_in);
+            mAnimToolBarIn.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mLlTopBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        return mAnimToolBarIn;
+    }
 
 
     private boolean mSmallLoaded = false;

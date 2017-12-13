@@ -2380,7 +2380,7 @@ public class ViewPager extends ViewGroup {
         //add by cwb
         final float pageOffset = scrollX / width * multiScrRatio;
         if(mFollowViewPager!=null){
-            mFollowViewPager.scrollTo( (int)(pageOffset*mFollowViewPager.getWidth()), mFollowViewPager.getScrollY());
+            mFollowViewPager.scrollTo( (int)(pageOffset*mFollowViewPager.getWidth()), mFollowViewPager.getScrollY() );
         }
 
         return needsInvalidate;

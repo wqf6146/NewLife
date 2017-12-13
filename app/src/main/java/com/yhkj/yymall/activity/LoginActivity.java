@@ -307,6 +307,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     hashMap = new HashMap<>();
                     hashMap.put("phone", phone);
                     hashMap.put("password", psw);
+                    String rid =  YYApp.getInstance().getRegistrationId();
+                    if (!TextUtils.isEmpty(rid))
+                        hashMap.put("registration_id", rid);
                     YYMallApi.getLogin(LoginActivity.this, hashMap, new ApiCallback<RegisterBean.DataBean>() {
                         @Override
                         public void onStart() {

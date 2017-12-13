@@ -172,6 +172,7 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
 
     private TimeKillDateBean.DataBean mDateBean;
     private void setData(TimeKillDateBean.DataBean dataBean,final Integer paniclbuyId){
+        mUltraView.disableAutoScroll();
         mUltraView.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         mHeadAdapter = new TtimeLimitPagerAdapter(this,dataBean.getPaniclBuy());
         mHeadAdapter.setOnItemClickLisiten(new TtimeLimitPagerAdapter.OnItemClickListen(){
@@ -191,7 +192,7 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
             @Override
             public void onPageSelected(int position) {
                 mViewPager.setCurrentItem(position,true);
-                mUltraView.setCurrentItem(position,true);
+//                mUltraView.setCurrentItem(position,true);
             }
 
             @Override
@@ -210,7 +211,6 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
             mViewPager.setAdapter(mShopListAdapter);
             mViewPager.setFlolwViewPager(mUltraView.getViewPager());
             mViewPager.setOffscreenPageLimit(dataBean.getPaniclBuy().size());
-//            mUltraView.setCurrentItem(0,false);
         }else{
             mShopListAdapter.setPaniclBuyBean(dataBean.getPaniclBuy());
             mViewPager.setAdapter(mShopListAdapter);
@@ -233,19 +233,19 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
                     mViewPager.setCurrentItem(0);
                 }
             }
-
         }
 
-        //推送跳转
-        if (!TextUtils.isEmpty(mShowIndex)){
-            int index = Integer.parseInt(mShowIndex);
-//            mViewPager.setCurrentItem(index,true);
-//            mUltraView.setCurrentItem(index,true);
-            mUltraView.setCurrentItem(0,false);
-            mShowIndex = null;
-        }else{
-            mUltraView.setCurrentItem(0, false);
-        }
+//        mUltraView.setCurrentItem(1,true);
+//        mViewPager.setCurrentItem(1,true);
+//        //推送跳转
+//        if (!TextUtils.isEmpty(mShowIndex)){
+//            int index = Integer.parseInt(mShowIndex);
+////            mViewPager.setCurrentItem(1,true);
+////            mUltraView.setCurrentItem(1,true);
+//            mShowIndex = null;
+//        }else{
+////            mUltraView.setCurrentItem(0, false);
+//        }
     }
 
     private void updateFragment(Integer category){
@@ -276,13 +276,13 @@ public class SeckillingActivity extends BaseToolBarActivity implements ShopClass
 
 
     //推送跳转
-    private String mShowIndex;
+//    private String mShowIndex;
     @Override
     protected void initData() {
         setTvTitleText("限时抢购");
         setTitleWireVisiable(GONE);
         setToolBarColor(getResources().getColor(R.color.theme_bule));
-        mShowIndex = getIntent().getStringExtra("panicBuyId");
+//        mShowIndex = getIntent().getStringExtra("panicBuyId");
     }
 }
 

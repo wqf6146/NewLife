@@ -32,6 +32,15 @@ public class YYApp extends Application {
     private String mToken;
     private String mHotSearch;
     private String mPhone;
+    private String mRegistrationId;
+
+    public void setRegistrationId(String registrationId) {
+        this.mRegistrationId = registrationId;
+    }
+
+    public String getRegistrationId() {
+        return mRegistrationId;
+    }
 
     public String getmHotSearch() {
         return mHotSearch;
@@ -131,7 +140,8 @@ public class YYApp extends Application {
             @Override
             public void run() {
                 JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-                JPushInterface.init(mInstance);     		// 初始化 JPush
+                JPushInterface.init(mInstance);     // 初始化 JPush
+                mRegistrationId = JPushInterface.getRegistrationID(mInstance);
 
                 /**
                  * 初始化BeeCloud账户

@@ -17,8 +17,7 @@
         app:layout_widthPercent="100%"
         app:layout_heightPercent="10%"
         android:id="@+id/ft_ultraviewViewpager"
-        android:layout_height="0dp">
-    </com.yhkj.yymall.view.viewpager.UltraViewPager>
+        android:layout_height="0dp"/>
     <View
         android:layout_width="20dp"
         android:background="@mipmap/ic_nor_redtrig"
