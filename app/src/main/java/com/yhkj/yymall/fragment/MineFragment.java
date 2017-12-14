@@ -993,41 +993,9 @@ public class MineFragment extends BaseFragment {
     /******
      *
      */
-
-    static class PagerAdapter extends com.yhkj.yymall.adapter.RecyclablePagerAdapter<MainViewHolder> {
-        public PagerAdapter(SubAdapter adapter, RecyclerView.RecycledViewPool pool) {
-            super(adapter, pool);
-        }
-
-        @Override
-        public int getCount() {
-            return 6;
-        }
-
-        @Override
-        public void onBindViewHolder(MainViewHolder viewHolder, int position) {
-            switch (position) {
-                case 0:
-                    ((ImageView) viewHolder.itemView.findViewById(R.id.vb_img)).setImageResource(R.mipmap.ic_nor_banner_1);
-                    break;
-                case 1:
-                    ((ImageView) viewHolder.itemView.findViewById(R.id.vb_img)).setImageResource(R.mipmap.test_banner_2);
-                    break;
-                case 2:
-                    ((ImageView) viewHolder.itemView.findViewById(R.id.vb_img)).setImageResource(R.mipmap.test_banner_1);
-                    break;
-            }
-
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return 2;
-        }
-    }
+//
 
     static class SubAdapter<T> extends DelegateAdapter.Adapter<MainViewHolder> {
-        private Context mContext;
         private LayoutHelper mLayoutHelper;
         private VirtualLayoutManager.LayoutParams mLayoutParams;
         private int mCount = 0;
@@ -1043,7 +1011,6 @@ public class MineFragment extends BaseFragment {
         }
 
         public SubAdapter(Context context, LayoutHelper layoutHelper, int count, @NonNull VirtualLayoutManager.LayoutParams layoutParams) {
-            this.mContext = context;
             this.mLayoutHelper = layoutHelper;
             this.mCount = count;
             this.mLayoutParams = layoutParams;

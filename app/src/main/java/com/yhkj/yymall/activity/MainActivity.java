@@ -653,8 +653,10 @@ public class MainActivity extends BaseActivity {
         NetStateReceiver.unRegisterNetworkStateReceiver(this);
 
         try {
-            if (AppManager.getInstance().appHasExit())
+            if (AppManager.getInstance().appHasExit()) {
                 android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             ViseLog.e(e);

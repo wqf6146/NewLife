@@ -183,6 +183,16 @@ public class YYMallApi {
     }
 
     /**
+     * 获取消息
+     */
+    public static <T> void getMesById(Context context,String id,ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        HashMap hashMap = new HashMap<>();
+        hashMap.put("id",id);
+        api.apiPost(ApiService.GETMES,YYApp.getInstance().getToken(),hashMap, false, callback);
+    }
+
+    /**
      * 获取积分商品列表
      */
     public static <T> void getIntegralShopList(Context context,int page,Integer categoryId,boolean bShow,ApiCallback<T> callback){
@@ -280,6 +290,11 @@ public class YYMallApi {
         HashMap hashMap = new HashMap();
         hashMap.put("phone", phone);
         api.apiPost(ApiService.SENDMSG, hashMap, true, callback);
+    }
+
+    public static <T> void getVideoDesc(Context context,ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        api.apiPost(ApiService.VIDEODESC, new HashMap(), false, callback);
     }
 
     /**

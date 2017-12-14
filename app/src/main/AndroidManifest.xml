@@ -304,6 +304,7 @@
         <activity
             android:name=".activity.WebActivity"
             android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop">
         </activity>
 
@@ -313,6 +314,11 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <activity android:name=".activity.BackPladgeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity android:name=".activity.VideoDescActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"/>

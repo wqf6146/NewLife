@@ -18,6 +18,10 @@ public interface ApiService {
 
     String HOST = "https://api.yiyiyaya.cc";
 
+    String GETMES = HOST + "/article/jPushInfo";
+
+    String VIDEODESC = HOST + "/video/baseData";
+
     String BANNER = HOST + "/homepage/slides";  //轮播图
     String HOMEACT = HOST + "/homepage/acitvity"; //首页活动相关
 

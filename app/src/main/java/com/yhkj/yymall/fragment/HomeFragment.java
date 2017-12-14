@@ -2,7 +2,6 @@ package com.yhkj.yymall.fragment;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,11 +23,9 @@ import com.bumptech.glide.request.target.Target;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.taobao.sophix.SophixManager;
 import com.vise.log.ViseLog;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
-import com.vise.xsnow.util.StatusBarUtil;
 import com.yhkj.yymall.BaseFragment;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -37,7 +34,6 @@ import com.yhkj.yymall.activity.NewMessageActivity;
 import com.yhkj.yymall.activity.ScanActivity;
 import com.yhkj.yymall.activity.SearchActivity;
 import com.yhkj.yymall.activity.ShopClassifyActivity;
-import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.adapter.NewHomeAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
@@ -70,7 +66,7 @@ import static android.view.View.VISIBLE;
  * Created by Administrator on 2017/6/19.
  */
 
-public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefreshLisiten {
+public class HomeFragment extends BaseFragment implements YiYaHeaderView.OnRefreshLisiten {
 
     @Bind(R.id.fh_recycleview)
     RecyclerView mRecycleView;
@@ -280,7 +276,7 @@ public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefr
 
 
     private void initRefreshLayout() {
-        mRefreshLayout.setRefreshHeader(new VideoHeaderView(_mActivity).setOnRefreshLisiten(this));
+        mRefreshLayout.setRefreshHeader(new YiYaHeaderView(_mActivity).setOnRefreshLisiten(this));
         mRefreshLayout.setLoadmoreFinished(true);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -295,9 +291,9 @@ public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefr
 //    @Bind(R.id.fh_view_bar)
 //    View mViewBar;
 
-    @Override
-    public void onPullDowning(Float percent,int offset) {
-        Log.e("onPullDowning",percent + "");
+//    @Override
+//    public void onPullDowning(Float percent,int offset) {
+//        Log.e("onPullDowning",percent + "");
 //        if (percent != null){
 //            float alpha = 255 - (255 * percent);
 //            mLlTopBar.getLayoutParams().height = mBarViewHeight + offset ;
@@ -311,10 +307,10 @@ public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefr
 //            if (mLlTopBar.getVisibility() != GONE)
 //                mLlTopBar.setVisibility(GONE);
 //        }
-    }
-
-    @Override
-    public void onPullReleasing(Float percent,int offset) {
+//    }
+//
+//    @Override
+//    public void onPullReleasing(Float percent,int offset) {
 //        if (percent != null){
 //            float alpha = 255 - (255 * percent);
 //            mLlTopBar.getLayoutParams().height = mBarViewHeight - offset;
@@ -328,7 +324,7 @@ public class HomeFragment extends BaseFragment implements VideoHeaderView.OnRefr
 //            if (mLlTopBar.getVisibility() != GONE)
 //                mLlTopBar.setVisibility(GONE);
 //        }
-    }
+//    }
 
     @Override
     public void onStartPull() {

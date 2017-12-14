@@ -17,15 +17,13 @@ import com.yhkj.yymall.activity.IntegralDetailActivity;
 import com.yhkj.yymall.activity.IntegralShopListActivity;
 import com.yhkj.yymall.activity.LeaseDetailActivity;
 import com.yhkj.yymall.activity.MainActivity;
-import com.yhkj.yymall.activity.MessageActivity;
-import com.yhkj.yymall.activity.MessageMinuteActivity;
-import com.yhkj.yymall.activity.NewMessageActivity;
 import com.yhkj.yymall.activity.OffPriceShopListActivity;
 import com.yhkj.yymall.activity.OrderDetailActivity;
 import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
 import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.base.Constant;
+import com.yhkj.yymall.http.api.ApiService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,11 +170,11 @@ public class PushReceiver extends BroadcastReceiver {
 						break;
 					case 2:
 						//商品详情
-						String goodsId = json.getString("goodsId");
 						Intent shopIntent = null;
 						int goodsType = Integer.parseInt(json.getString("goodsType"));
 						if (goodsType == 2) {
 							//租赁商品
+							String goodsId = json.getString("goodsId");
 							shopIntent = new Intent(context, LeaseDetailActivity.class);
 							shopIntent.putExtra("id", goodsId);
 						}else if (goodsType == 0){
@@ -192,23 +190,28 @@ public class PushReceiver extends BroadcastReceiver {
 								shopIntent.putExtra("id", paniclBuyItemId);
 							}else{
 								//普通商品
+								String goodsId = json.getString("goodsId");
 								shopIntent = new Intent(context, CommodityDetailsActivity.class);
 								shopIntent.putExtra("goodsId", goodsId);
 							}
 						}else if (goodsType == 1){
 							//拼团商品
+							String goodsId = json.getString("goodsId");
 							shopIntent = new Intent(context, GrouponDetailsActivity.class);
 							shopIntent.putExtra("goodsId", goodsId);
 						}else if (goodsType == 3){
 							//折扣
+							String goodsId = json.getString("goodsId");
 							shopIntent = new Intent(context, DiscountDetailsActivity.class);
 							shopIntent.putExtra("goodsId", goodsId);
 						}else if (goodsType == 4){
 							//积分
+							String goodsId = json.getString("goodsId");
 							shopIntent = new Intent(context, IntegralDetailActivity.class);
 							shopIntent.putExtra("id", goodsId);
 						}else if (goodsType == 6){
 							//日常活动
+							String goodsId = json.getString("goodsId");
 							shopIntent = new Intent(context, DailyDetailsActivity.class);
 							shopIntent.putExtra("goodsId", goodsId);
 						}
@@ -239,14 +242,13 @@ public class PushReceiver extends BroadcastReceiver {
 							Intent[] webIntents = {i, offLineIntent};
 							context.startActivities(webIntents);
 						}else{
-							//站内信
-//							Intent newMesIntent = new Intent(context, NewMessageActivity.class);
-//							Intent mesIntent = new Intent(context, MessageActivity.class);
-//							Intent mesIntent = new Intent(context, MessageMinuteActivity.class);
-//							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
-//							offLineIntent.putExtra("title", json.getString("title"));
-//							Intent[] intents = {i, offLineIntent};
-//							context.startActivities(intents);
+							//文章
+							//ApiService.SERVER_URL + childArray.get(groupPosition).get(childPosition).get("articleId")
+							Intent newMesIntent = new Intent(context, WebActivity.class);
+							newMesIntent.putExtra(Constant.WEB_TAG.TAG, ApiService.SERVER_URL + mesId);
+							newMesIntent.putExtra("title", json.getString("title"));
+							Intent[] artIntents = {i, newMesIntent};
+							context.startActivities(artIntents);
 						}
 
 

@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="安全座椅"
+            android:text="积分商城"
             android:textColor="@color/blackfont_1"
             android:textSize="@dimen/content_text_s12" />
     </LinearLayout>

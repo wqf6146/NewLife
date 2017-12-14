@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vise.xsnow.event.BusFactory;
-import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
@@ -39,6 +38,7 @@ import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.activity.LotteryActivity;
 import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.ShopListActivity;
+import com.yhkj.yymall.activity.VideoDescActivity;
 import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.BannerBean;
@@ -47,7 +47,6 @@ import com.yhkj.yymall.bean.HomeActBean;
 import com.yhkj.yymall.bean.HomeRecommBean;
 import com.yhkj.yymall.event.MainTabSelectEvent;
 import com.yhkj.yymall.http.YYMallApi;
-import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.view.CountView;
 import com.yhkj.yymall.view.viewpager.UltraViewPager;
 
@@ -85,11 +84,15 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
     }
     private void bindIntegral(HomeViewHolder holder) {
         ImageView img = (ImageView)holder.itemView.findViewById(R.id.ii_img);
-        img.setImageResource(R.mipmap.ic_nor_blueintengral);
+        DisplayMetrics metric = new DisplayMetrics();
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        img.getLayoutParams().height = (int) Math.round(metric.widthPixels / 3.75);
+        img.setImageResource(R.drawable.ic_nor_videobar);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, IntegralShopListActivity.class));
+                mContext.startActivity(new Intent(mContext,VideoDescActivity.class));
+//                mContext.startActivity(new Intent(mContext, IntegralShopListActivity.class));
             }
         });
     }
@@ -324,7 +327,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
                         mContext.startActivityForResult(intent,1);
                     }
                 });
-                if (mActData.getGroupPurchase().size() > 1) {
+                if (mActData.getGroupPurchase().size() > 1){
                     final HomeActBean.DataBean.GroupPurchaseBean bean1 = mActData.getGroupPurchase().get(1);
                     holder.mImgShop2.setWillNotDraw(false);
                     Glide.with(mContext).load(bean1.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(holder.mImgShop2);
@@ -459,7 +462,8 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
         view.findViewById(R.id.ihc_ll_chart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BusFactory.getBus().post(new MainTabSelectEvent(1));
+//                BusFactory.getBus().post(new MainTabSelectEvent(1));
+                mContext.startActivity(new Intent(mContext,IntegralShopListActivity.class));
             }
         });
 

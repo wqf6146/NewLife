@@ -4,20 +4,26 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.just.library.BaseAgentWebActivity;
+import com.just.library.AgentWeb;
+import com.just.library.AgentWebSettings;
+import com.just.library.ChromeClientCallbackManager;
+import com.just.library.DownLoadResultListener;
+import com.just.library.IWebLayout;
+import com.just.library.PermissionInterceptor;
+import com.just.library.WebDefaultSettingsManager;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -34,26 +40,120 @@ import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.CommonBean;
+import com.yhkj.yymall.bean.MesBean;
 import com.yhkj.yymall.config.JSInterface;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.http.api.ApiService;
-import com.yhkj.yymall.util.CommonUtil;
-import static android.os.Build.VERSION_CODES.KITKAT;
-import static com.yhkj.yymall.http.api.ApiService.SHARE_CODE_URL;
-import static com.yhkj.yymall.http.api.ApiService.SHARE_SHOP_URL;
 
 /**
  */
-public class WebActivity extends BaseAgentWebActivity {
+public class WebActivity extends BaseToolBarActivity {
 
-    private TextView mTvTitle;
-    private ImageView mImgBack;
-    private View mDeadStatusView;
+    private AgentWeb mAgentWeb;
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+//        buildAgentWeb();
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+//        buildAgentWeb();
+    }
+
+    protected void buildAgentWeb(boolean goUrl) {
+        mAgentWeb = AgentWeb.with(this)//
+                .setAgentWebParent(getAgentWebParent(), new ViewGroup.LayoutParams(-1, -1))//
+                .closeProgressBar()
+                .setReceivedTitleCallback(getReceivedTitleCallback())
+                .setWebChromeClient(getWebChromeClient())
+                .setWebViewClient(getWebViewClient())
+                .setWebView(getWebView())
+                .setPermissionInterceptor(getPermissionInterceptor())
+                .setWebLayout(getWebLayout())
+                .addDownLoadResultListener(getDownLoadResultListener())
+                .setAgentWebSettings(getAgentWebSettings())
+                .setSecutityType(AgentWeb.SecurityType.strict)
+                .createAgentWeb()//
+                .ready()
+                .go(goUrl ? getUrl() : "");
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        setToolBarColor(getResources().getColor(R.color.theme_bule));
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAgentWeb != null)
+            mAgentWeb.getWebLifeCycle().onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (mAgentWeb != null)
+            mAgentWeb.getWebLifeCycle().onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mAgentWeb != null)
+            mAgentWeb.uploadFileResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     protected void onDestroy() {
+        if (mAgentWeb != null)
+            mAgentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
         AppManager.getInstance().finishActivity(this);
+    }
+
+
+    protected @Nullable
+    DownLoadResultListener getDownLoadResultListener() {
+        return null;
+    }
+
+    private @Nullable ChromeClientCallbackManager.ReceivedTitleCallback getReceivedTitleCallback() {
+        return new ChromeClientCallbackManager.ReceivedTitleCallback() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+            }
+        };
+    }
+
+    public @Nullable
+    AgentWebSettings getAgentWebSettings() {
+        return WebDefaultSettingsManager.getInstance();
+    }
+
+
+    protected @Nullable
+    WebChromeClient getWebChromeClient() {
+        return null;
+    }
+
+
+    protected @Nullable WebView getWebView() {
+        return null;
+    }
+
+    protected  @Nullable
+    IWebLayout getWebLayout() {
+        return null;
+    }
+    protected PermissionInterceptor getPermissionInterceptor() {
+        return null;
     }
 
     @Override
@@ -61,11 +161,6 @@ public class WebActivity extends BaseAgentWebActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         AppManager.getInstance().addActivity(this);
-        mDeadStatusView = findViewById(R.id.aw_view_statusbar);
-        if (Build.VERSION.SDK_INT >= KITKAT)
-            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
-        mImgBack = (ImageView)findViewById(R.id.aw_img_back);
-        mTvTitle = (TextView)findViewById(R.id.aw_tv_title);
 
         mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +169,55 @@ public class WebActivity extends BaseAgentWebActivity {
                     finish();
             }
         });
+
         mTvTitle.setText(getIntent().getStringExtra("title"));
 
+        initData();
+    }
+
+    @Override
+    protected void onReLoadClickLisiten() {
+        super.onReLoadClickLisiten();
+
+    }
+
+    @Override
+    protected void initData() {
+        String id = getIntent().getStringExtra("id");
+        if (TextUtils.isEmpty(id)){
+            initWeb(true);
+        }else{
+            YYMallApi.getMesById(this, id, new ApiCallback<MesBean.DataBean>() {
+                @Override
+                public void onError(ApiException e) {
+                    super.onError(e);
+                    showToast(e.getMessage());
+                    setNetWorkErrShow(View.VISIBLE);
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onNext(MesBean.DataBean mesBean) {
+                    setNetWorkErrShow(View.GONE);
+                    initWeb(false);
+                    mTvTitle.setText(mesBean.getTitle());
+                    mAgentWeb.getLoader().loadData(mesBean.getContent(),"text/html; charset=UTF-8", null);
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+            });
+        }
+    }
+
+    private void initWeb(boolean goUrl){
+        buildAgentWeb(goUrl);
         mAgentWeb.getJsInterfaceHolder().addJavaObject("aosObject",new JSInterface(new JSInterface.JsCallBack() {
             @Override
             public void callBack(final String... args) {
@@ -98,23 +240,6 @@ public class WebActivity extends BaseAgentWebActivity {
                                         .setPlatform(share_media)
                                         .setCallback(shareListener)
                                         .share();
-
-//                                if (share_media == SHARE_MEDIA.SINA){
-//                                    if (CommonUtil.isWeiboClientAvailable(WebActivity.this)){
-//                                        UMImage image = new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya);  //缩略图
-//                                        new ShareAction(WebActivity.this).setPlatform(SHARE_MEDIA.SINA).withText(args[1]+url)
-//                                                .withMedia(image).setCallback(shareListener).share();
-//                                    }else{
-//                                        Toast.makeText(WebActivity.this,"请先安装新浪微博",Toast.LENGTH_SHORT).show();
-//                                    }
-//
-//                                }else{
-//                                    UMWeb web = new UMWeb(url);
-//                                    web.setTitle(args[0]);//标题
-//                                    web.setThumb( new UMImage(WebActivity.this, R.mipmap.ic_nor_whiteyiyiyaya));  //缩略图
-//                                    web.setDescription(args[1]);//描述
-//                                    new ShareAction(WebActivity.this).withText(args[1]).setPlatform(share_media).withMedia(web).setCallback(shareListener).share();
-//                                }
                             }
                         })
                         .open();
@@ -122,14 +247,8 @@ public class WebActivity extends BaseAgentWebActivity {
         }));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
 
     @NonNull
-    @Override
     protected ViewGroup getAgentWebParent() {
         return (ViewGroup) this.findViewById(R.id.container);
     }
@@ -142,23 +261,8 @@ public class WebActivity extends BaseAgentWebActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void setTitle(WebView view, String title) {
-
-    }
-
-    @Override
-    protected int getIndicatorColor() {
-        return Color.parseColor("#00ffffff");
-    }
-
-    @Override
-    protected int getIndicatorHeight() {
-        return 3;
-    }
 
     @Nullable
-    @Override
     protected String getUrl() {
         return getIntent().getStringExtra(Constant.WEB_TAG.TAG) + "#" + YYApp.getInstance().getToken();
     }
@@ -169,6 +273,24 @@ public class WebActivity extends BaseAgentWebActivity {
         intent.putExtra("title", title);
         mContext.startActivity(intent);
     }
+
+    public static void loadUrl(Context mContext, String id) {
+        Intent intent = new Intent(mContext, WebActivity.class);
+        intent.putExtra("id", id);
+        mContext.startActivity(intent);
+    }
+
+    @Nullable
+    protected WebViewClient getWebViewClient() {
+        return new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                setNetWorkErrShow(View.GONE);
+            }
+        };
+    }
+
     private ProgressDialog getProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(WebActivity.this);

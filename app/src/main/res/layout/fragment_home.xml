@@ -3,75 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/fh_refreshlayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlFixedHeaderViewId="@+id/fh_ll_topbar"
-        app:srlEnablePreviewInEditMode="false">
-
-        <com.yhkj.yymall.view.VideoHeaderView
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/fh_ll_topbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlClassicsSpinnerStyle="FixedBehind"/>
+            android:layout_height="75dp"
+            android:background="@color/theme_bule"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/fh_ll_topbar"
+            <View
+                android:id="@+id/fh_view_status"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:background="@color/theme_bule"
-                android:orientation="vertical">
+                android:layout_height="25dp" />
 
-                <View
-                    android:id="@+id/fh_view_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-
-                <include
-                    android:id="@+id/fh_toolbar"
-                    layout="@layout/view_search_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp" />
-            </LinearLayout>
+            <include
+                android:id="@+id/fh_toolbar"
+                layout="@layout/view_search_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+        </LinearLayout>
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/fh_refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlFixedHeaderViewId="@+id/fh_ll_topbar"
+            app:srlEnablePreviewInEditMode="false">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fh_recycleview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="75dp"
                 android:clipToPadding="false"
                 android:background="@color/graybg" />
-        </FrameLayout>
 
-
-        <com.yhkj.yymall.view.BallPulseFooter
-            android:layout_width="match_parent"
-            app:srlAccentColor="@color/theme_bule"
-            android:layout_height="wrap_content"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/fh_ll_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:id="@+id/fh_view_bar"-->
-            <!--android:layout_height="75dp"/>-->
-
-
-    <!--</LinearLayout>-->
-
-
+            <com.yhkj.yymall.view.BallPulseFooter
+                android:layout_width="match_parent"
+                app:srlAccentColor="@color/theme_bule"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
 
     <com.yhkj.yymall.view.DragLayout
         android:layout_width="match_parent"
