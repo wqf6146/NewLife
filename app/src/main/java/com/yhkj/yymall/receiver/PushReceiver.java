@@ -23,6 +23,7 @@ import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
 import com.yhkj.yymall.activity.WebActivity;
 import com.yhkj.yymall.base.Constant;
+import com.yhkj.yymall.base.RouteHelper;
 import com.yhkj.yymall.http.api.ApiService;
 
 import org.json.JSONException;
@@ -32,13 +33,6 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 
-/**
- * 自定义接收器
- * 
- * 如果不定义这个 Receiver，则：
- * 1) 默认用户会打开主界面
- * 2) 接收不到自定义消息
- */
 public class PushReceiver extends BroadcastReceiver {
 
 
@@ -124,161 +118,173 @@ public class PushReceiver extends BroadcastReceiver {
 		String jsonData = bundle.getString(JPushInterface.EXTRA_EXTRA);
 		if (TextUtils.isEmpty(jsonData) || jsonData.equals("{}")){
 			return;
-		}else {
+		}else{
 			try{
 				JSONObject json = new JSONObject(jsonData);
-				String type = json.getString("type");
-				Intent i = new Intent(context, MainActivity.class);
-				i.putExtras(bundle);
-				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-				switch (Integer.parseInt(type)){
-					case 1:
-						// 活动列表
-						String listName = json.getString("name");
+				String type = null,listName = null,goodsType = null,goodsId = null,paniclBuyItemId = null,id = null,title = null,href = null;
+				try {
+					type = json.getString("type");
+				}catch (Exception e){}
 
-						if (listName.equals("dailyList")){
-							Intent dailyIntent = new Intent(context, DailyActActivity.class);
-							Intent[] intents = {i, dailyIntent};
-							context.startActivities(intents);
-						}else if (listName.equals("panicList")){
-							Intent seckIintent = new Intent(context, SeckillingActivity.class);
-//							seckIintent.putExtra("panicBuyId",json.getString("panicBuyId"));
-							Intent[] intents = {i, seckIintent};
-							context.startActivities(intents);
-						}else if (listName.equals("groupList")){
-							Intent groupListIntent = new Intent(context, GrouponListActivity.class);
-							Intent[] intents = {i, groupListIntent};
-							context.startActivities(intents);
-						}else if (listName.equals("rentList")){
-							YYApp.getInstance().setIndexShow(1);
-							context.startActivity(i);
-						}else if (listName.equals("discountList")){
-							Intent offListIntent = new Intent(context, OffPriceShopListActivity.class);
-							Intent[] intents = {i, offListIntent};
-							context.startActivities(intents);
-						}else if (listName.equals("integralList")){
-							Intent integralListIntent = new Intent(context, IntegralShopListActivity.class);
-							Intent[] intents = {i, integralListIntent};
-							context.startActivities(intents);
-						}else if (listName.equals("offlineList")){
-							Intent offLineIntent = new Intent(context, WebActivity.class);
-							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
-							offLineIntent.putExtra("title", json.getString("title"));
-							Intent[] intents = {i, offLineIntent};
-							context.startActivities(intents);
-						}
-						break;
-					case 2:
-						//商品详情
-						Intent shopIntent = null;
-						int goodsType = Integer.parseInt(json.getString("goodsType"));
-						if (goodsType == 2) {
-							//租赁商品
-							String goodsId = json.getString("goodsId");
-							shopIntent = new Intent(context, LeaseDetailActivity.class);
-							shopIntent.putExtra("id", goodsId);
-						}else if (goodsType == 0){
-							String paniclBuyItemId = null;
-							try{
-								paniclBuyItemId = json.getString("paniclBuyItemId");
-							}catch (Exception e){
+				try {
+					listName = json.getString("name");
+				}catch (Exception e){}
 
-							}
-							if (!TextUtils.isEmpty(paniclBuyItemId)){
-								//限时抢购
-								shopIntent = new Intent(context, TimeKillDetailActivity.class);
-								shopIntent.putExtra("id", paniclBuyItemId);
-							}else{
-								//普通商品
-								String goodsId = json.getString("goodsId");
-								shopIntent = new Intent(context, CommodityDetailsActivity.class);
-								shopIntent.putExtra("goodsId", goodsId);
-							}
-						}else if (goodsType == 1){
-							//拼团商品
-							String goodsId = json.getString("goodsId");
-							shopIntent = new Intent(context, GrouponDetailsActivity.class);
-							shopIntent.putExtra("goodsId", goodsId);
-						}else if (goodsType == 3){
-							//折扣
-							String goodsId = json.getString("goodsId");
-							shopIntent = new Intent(context, DiscountDetailsActivity.class);
-							shopIntent.putExtra("goodsId", goodsId);
-						}else if (goodsType == 4){
-							//积分
-							String goodsId = json.getString("goodsId");
-							shopIntent = new Intent(context, IntegralDetailActivity.class);
-							shopIntent.putExtra("id", goodsId);
-						}else if (goodsType == 6){
-							//日常活动
-							String goodsId = json.getString("goodsId");
-							shopIntent = new Intent(context, DailyDetailsActivity.class);
-							shopIntent.putExtra("goodsId", goodsId);
-						}
-						Intent[] intents = {i, shopIntent};
-						context.startActivities(intents);
-						break;
-					case 3:
-						//拼团成功
-						String id = json.getString("id");
-						Intent intent = new Intent(context, OrderDetailActivity.class);
-						intent.putExtra("id", Integer.parseInt(id));
-						Intent[] groupintents = {i, intent};
-						context.startActivities(groupintents);
-						break;
-					case 4:
-						//文章
-						String mesId = null;
-						try{
-							mesId = json.getString("id");
-						}catch (Exception e){
+				try {
+					goodsType = json.getString("goodsType");
+				}catch (Exception e){}
 
-						}
-						if (TextUtils.isEmpty(mesId)){
-							//外链
-							Intent offLineIntent = new Intent(context, WebActivity.class);
-							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
-							offLineIntent.putExtra("title", json.getString("title"));
-							Intent[] webIntents = {i, offLineIntent};
-							context.startActivities(webIntents);
-						}else{
-							//文章
-							//ApiService.SERVER_URL + childArray.get(groupPosition).get(childPosition).get("articleId")
-							Intent newMesIntent = new Intent(context, WebActivity.class);
-							newMesIntent.putExtra(Constant.WEB_TAG.TAG, ApiService.SERVER_URL + mesId);
-							newMesIntent.putExtra("title", json.getString("title"));
-							Intent[] artIntents = {i, newMesIntent};
-							context.startActivities(artIntents);
-						}
+				try {
+					goodsId = json.getString("goodsId");
+				}catch (Exception e){}
 
+				try {
+					paniclBuyItemId = json.getString("paniclBuyItemId");
+				}catch (Exception e){}
 
-						break;
-				}
-			}catch (Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
+				try {
+					id = json.getString("id");
+				}catch (Exception e){}
 
-	//send msg to MainActivity
-	private void processCustomMessage(Context context, Bundle bundle) {
-		if (YYApp.getInstance().isForeground()) {
-//			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-//			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//			Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-//			msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
-//			if (!ExampleUtil.isEmpty(extras)) {
-//				try {
-//					JSONObject extraJson = new JSONObject(extras);
-//					if (extraJson.length() > 0) {
-//						msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-//					}
-//				} catch (JSONException e) {
+				try {
+					title = json.getString("title");
+				}catch (Exception e){}
+
+				try {
+					href = json.getString("href");
+				}catch (Exception e){}
+
+				RouteHelper.skip(context,type,listName,goodsType != null ? Integer.parseInt(goodsType) : null,goodsId,paniclBuyItemId,id, title, href);
+			}catch (Exception e){}
+//			try{
+//				JSONObject json = new JSONObject(jsonData);
+//				String type = json.getString("type");
+//				Intent i = new Intent(context, MainActivity.class);
+//				i.putExtras(bundle);
+//				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+//				switch (Integer.parseInt(type)){
+//					case 1:
+//						// 活动列表
+//						String listName = json.getString("name");
+//						if (listName.equals("dailyList")){
+//							Intent dailyIntent = new Intent(context, DailyActActivity.class);
+//							Intent[] intents = {i, dailyIntent};
+//							context.startActivities(intents);
+//						}else if (listName.equals("panicList")){
+//							Intent seckIintent = new Intent(context, SeckillingActivity.class);
+////							seckIintent.putExtra("panicBuyId",json.getString("panicBuyId"));
+//							Intent[] intents = {i, seckIintent};
+//							context.startActivities(intents);
+//						}else if (listName.equals("groupList")){
+//							Intent groupListIntent = new Intent(context, GrouponListActivity.class);
+//							Intent[] intents = {i, groupListIntent};
+//							context.startActivities(intents);
+//						}else if (listName.equals("rentList")){
+//							YYApp.getInstance().setIndexShow(1);
+//							context.startActivity(i);
+//						}else if (listName.equals("discountList")){
+//							Intent offListIntent = new Intent(context, OffPriceShopListActivity.class);
+//							Intent[] intents = {i, offListIntent};
+//							context.startActivities(intents);
+//						}else if (listName.equals("integralList")){
+//							Intent integralListIntent = new Intent(context, IntegralShopListActivity.class);
+//							Intent[] intents = {i, integralListIntent};
+//							context.startActivities(intents);
+//						}else if (listName.equals("offlineList")){
+//							Intent offLineIntent = new Intent(context, WebActivity.class);
+//							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
+//							offLineIntent.putExtra("title", json.getString("title"));
+//							Intent[] intents = {i, offLineIntent};
+//							context.startActivities(intents);
+//						}
+//						break;
+//					case 2:
+//						//商品详情
+//						Intent shopIntent = null;
+//						int goodsType = Integer.parseInt(json.getString("goodsType"));
+//						if (goodsType == 2) {
+//							//租赁商品
+//							String goodsId = json.getString("goodsId");
+//							shopIntent = new Intent(context, LeaseDetailActivity.class);
+//							shopIntent.putExtra("id", goodsId);
+//						}else if (goodsType == 0){
+//							String paniclBuyItemId = null;
+//							try{
+//								paniclBuyItemId = json.getString("paniclBuyItemId");
+//							}catch (Exception e){
 //
+//							}
+//							if (!TextUtils.isEmpty(paniclBuyItemId)){
+//								//限时抢购
+//								shopIntent = new Intent(context, TimeKillDetailActivity.class);
+//								shopIntent.putExtra("id", paniclBuyItemId);
+//							}else{
+//								//普通商品
+//								String goodsId = json.getString("goodsId");
+//								shopIntent = new Intent(context, CommodityDetailsActivity.class);
+//								shopIntent.putExtra("goodsId", goodsId);
+//							}
+//						}else if (goodsType == 1){
+//							//拼团商品
+//							String goodsId = json.getString("goodsId");
+//							shopIntent = new Intent(context, GrouponDetailsActivity.class);
+//							shopIntent.putExtra("goodsId", goodsId);
+//						}else if (goodsType == 3){
+//							//折扣
+//							String goodsId = json.getString("goodsId");
+//							shopIntent = new Intent(context, DiscountDetailsActivity.class);
+//							shopIntent.putExtra("goodsId", goodsId);
+//						}else if (goodsType == 4){
+//							//积分
+//							String goodsId = json.getString("goodsId");
+//							shopIntent = new Intent(context, IntegralDetailActivity.class);
+//							shopIntent.putExtra("id", goodsId);
+//						}else if (goodsType == 6){
+//							//日常活动
+//							String goodsId = json.getString("goodsId");
+//							shopIntent = new Intent(context, DailyDetailsActivity.class);
+//							shopIntent.putExtra("goodsId", goodsId);
+//						}
+//						Intent[] intents = {i, shopIntent};
+//						context.startActivities(intents);
+//						break;
+//					case 3:
+//						//拼团成功
+//						String id = json.getString("id");
+//						Intent intent = new Intent(context, OrderDetailActivity.class);
+//						intent.putExtra("id", Integer.parseInt(id));
+//						Intent[] groupintents = {i, intent};
+//						context.startActivities(groupintents);
+//						break;
+//					case 4:
+//						//文章
+//						String mesId = null;
+//						try{
+//							mesId = json.getString("id");
+//						}catch(Exception e){
+//
+//						}
+//						if (TextUtils.isEmpty(mesId)){
+//							//外链
+//							Intent offLineIntent = new Intent(context, WebActivity.class);
+//							offLineIntent.putExtra(Constant.WEB_TAG.TAG, json.getString("href"));
+//							offLineIntent.putExtra("title", json.getString("title"));
+//							Intent[] webIntents = {i, offLineIntent};
+//							context.startActivities(webIntents);
+//						}else{
+//							//文章
+//							//ApiService.SERVER_URL + childArray.get(groupPosition).get(childPosition).get("articleId")
+//							Intent newMesIntent = new Intent(context, WebActivity.class);
+//							newMesIntent.putExtra(Constant.WEB_TAG.TAG, ApiService.SERVER_URL + mesId);
+//							newMesIntent.putExtra("title", json.getString("title"));
+//							Intent[] artIntents = {i, newMesIntent};
+//							context.startActivities(artIntents);
+//						}
+//						break;
 //				}
-//
+//			}catch (Exception e){
+//				e.printStackTrace();
 //			}
-//			LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
 		}
 	}
 }

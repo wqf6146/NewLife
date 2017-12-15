@@ -20,6 +20,8 @@ public interface ApiService {
 
     String GETMES = HOST + "/article/jPushInfo";
 
+    String GETVIDEOLIST = HOST + "/video/videoList";
+
     String VIDEODESC = HOST + "/video/baseData";
 
     String BANNER = HOST + "/homepage/slides";  //轮播图

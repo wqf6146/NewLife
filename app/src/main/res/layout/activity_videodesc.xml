@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,11 +11,33 @@
         android:layout_height="200dp"/>
 
 
-    <TextView
+    <ScrollView
+        android:layout_above="@+id/av_tv_nextstep"
+        android:layout_below="@+id/av_ultraviewpager"
         android:layout_width="match_parent"
-        android:id="@+id/av_tv_desc"
-        android:padding="10dp"
-        android:textSize="@dimen/content_text_s14"
-        android:textColor="@color/grayfont"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/av_tv_desc"
+            android:padding="10dp"
+            android:textSize="@dimen/content_text_s14"
+            android:background="@color/white"
+            android:textColor="@color/grayfont"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
+
+    <TextView
+        android:id="@+id/av_tv_nextstep"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="7%"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/theme_bule"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="@dimen/content_text_s16" />
+</android.support.percent.PercentRelativeLayout>

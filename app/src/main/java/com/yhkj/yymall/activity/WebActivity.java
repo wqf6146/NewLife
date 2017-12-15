@@ -50,7 +50,7 @@ import com.yhkj.yymall.http.api.ApiService;
 public class WebActivity extends BaseToolBarActivity {
 
     private AgentWeb mAgentWeb;
-
+    private String mUrl;
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
@@ -78,7 +78,7 @@ public class WebActivity extends BaseToolBarActivity {
                 .setSecutityType(AgentWeb.SecurityType.strict)
                 .createAgentWeb()//
                 .ready()
-                .go(goUrl ? getUrl() : "");
+                .go(goUrl ? mUrl = getUrl() : "");
     }
 
     @Override
@@ -162,14 +162,6 @@ public class WebActivity extends BaseToolBarActivity {
         setContentView(R.layout.activity_web);
         AppManager.getInstance().addActivity(this);
 
-        mImgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mAgentWeb.back())
-                    finish();
-            }
-        });
-
         mTvTitle.setText(getIntent().getStringExtra("title"));
 
         initData();
@@ -182,8 +174,27 @@ public class WebActivity extends BaseToolBarActivity {
     }
 
     @Override
+    protected void bindEvent() {
+        super.bindEvent();
+        setImgBackLisiten(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAgentWeb.getWebCreator().get().getUrl().equals(mUrl)) {
+                    AppManager.getInstance().finishActivity(WebActivity.this);
+                    return;
+                }
+                if (mAgentWeb.getWebCreator().get().canGoBack()){
+                    mAgentWeb.getWebCreator().get().goBack();
+                }else{
+                    AppManager.getInstance().finishActivity(WebActivity.this);
+                }
+            }
+        });
+    }
+
+    @Override
     protected void initData() {
-        String id = getIntent().getStringExtra("id");
+        final String id = getIntent().getStringExtra("id");
         if (TextUtils.isEmpty(id)){
             initWeb(true);
         }else{
@@ -205,7 +216,8 @@ public class WebActivity extends BaseToolBarActivity {
                     setNetWorkErrShow(View.GONE);
                     initWeb(false);
                     mTvTitle.setText(mesBean.getTitle());
-                    mAgentWeb.getLoader().loadData(mesBean.getContent(),"text/html; charset=UTF-8", null);
+                    //newMesIntent.putExtra(Constant.WEB_TAG.TAG, ApiService.SERVER_URL + id);
+                    mAgentWeb.getLoader().loadUrl(mUrl = ApiService.SERVER_URL + id);
                 }
 
                 @Override
@@ -256,6 +268,9 @@ public class WebActivity extends BaseToolBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (mAgentWeb != null && mAgentWeb.handleKeyEvent(keyCode, event)) {
+            if (mAgentWeb.getWebCreator().get().getUrl().equals(mUrl))
+                return super.onKeyDown(keyCode, event);
+
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -364,7 +379,7 @@ public class WebActivity extends BaseToolBarActivity {
                         }
                     });
                     Toast.makeText(WebActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
-                    finish();
+                    AppManager.getInstance().finishActivity(WebActivity.this);
                 }
             });
         }

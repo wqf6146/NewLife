@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/av_refreshview"
+        android:layout_above="@+id/av_tv_nextstep"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/av_recycleview"
+            android:background="@color/graybg"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+        <com.yhkj.yymall.view.BallPulseFooter
+            android:layout_width="match_parent"
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/av_tv_nextstep"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="7%"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/theme_bule"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="@dimen/content_text_s16" />
+
+</android.support.percent.PercentRelativeLayout>

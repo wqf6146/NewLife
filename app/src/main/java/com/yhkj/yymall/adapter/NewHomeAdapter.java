@@ -662,7 +662,7 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
         public Object instantiateItem(ViewGroup container, final int position) {
             FrameLayout frameLayout = (FrameLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.view_banner_item, null);
             final ImageView imageView = (ImageView) frameLayout.findViewById(R.id.vb_img);
-            Glide.with(mContext).load(mBannerData.getSlides().get(position).getImg()).into(imageView);
+            Glide.with(mContext).load(mBannerData.getSlides().get(position).getImg()).placeholder(R.drawable.ic_nor_nobanner).into(imageView);
             frameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

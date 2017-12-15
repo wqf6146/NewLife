@@ -192,6 +192,11 @@ public class YYMallApi {
         api.apiPost(ApiService.GETMES,YYApp.getInstance().getToken(),hashMap, false, callback);
     }
 
+    public static <T> void getVideoList(Context context,ApiCallback<T> callback){
+        ViseApi api = new ViseApi.Builder(context).build();
+        api.apiPost(ApiService.GETVIDEOLIST,YYApp.getInstance().getToken(),new HashMap(), false, callback);
+    }
+
     /**
      * 获取积分商品列表
      */

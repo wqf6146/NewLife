@@ -41,19 +41,7 @@ public class MesBean {
     }
 
     public static class DataBean {
-        /**
-         * info : {"title":"发货消息","content":"您的订单由已由第三方卖家发货，运单号为[88881474]，请您保持电话通畅。","time":"2017-12-08 10:04:46"}
-         */
-
-        /**
-         * title : 发货消息
-         * content : 您的订单由已由第三方卖家发货，运单号为[88881474]，请您保持电话通畅。
-         * time : 2017-12-08 10:04:46
-         */
-
         private String title;
-        private String content;
-        private String time;
 
         public String getTitle() {
             return title;
@@ -61,22 +49,6 @@ public class MesBean {
 
         public void setTitle(String title) {
             this.title = title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
         }
     }
 }

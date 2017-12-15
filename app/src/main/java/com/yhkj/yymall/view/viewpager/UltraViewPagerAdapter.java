@@ -41,7 +41,6 @@ import android.widget.RelativeLayout;
 public class UltraViewPagerAdapter extends PagerAdapter {
     interface UltraViewPagerCenterListener {
         void center();
-
         void resetPosition();
     }
 

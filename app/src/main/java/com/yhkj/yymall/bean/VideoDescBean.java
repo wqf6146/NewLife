@@ -1,5 +1,9 @@
 package com.yhkj.yymall.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +53,7 @@ public class VideoDescBean {
          */
 
         private String explain;
-        private List<BannerBean> banner;
+        private ArrayList<BannerBean> banner;
 
         public String getExplain() {
             return explain;
@@ -59,15 +63,15 @@ public class VideoDescBean {
             this.explain = explain;
         }
 
-        public List<BannerBean> getBanner() {
+        public ArrayList<BannerBean> getBanner() {
             return banner;
         }
 
-        public void setBanner(List<BannerBean> banner) {
+        public void setBanner(ArrayList<BannerBean> banner) {
             this.banner = banner;
         }
 
-        public static class BannerBean {
+        public static class BannerBean implements Parcelable {
             /**
              * src : http://oss.yiyiyaya.cc/upload/2017/12/09/20171209024734787.jpg
              */
@@ -81,6 +85,35 @@ public class VideoDescBean {
             public void setSrc(String src) {
                 this.src = src;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.src);
+            }
+
+            public BannerBean() {
+            }
+
+            protected BannerBean(Parcel in) {
+                this.src = in.readString();
+            }
+
+            public static final Parcelable.Creator<BannerBean> CREATOR = new Parcelable.Creator<BannerBean>() {
+                @Override
+                public BannerBean createFromParcel(Parcel source) {
+                    return new BannerBean(source);
+                }
+
+                @Override
+                public BannerBean[] newArray(int size) {
+                    return new BannerBean[size];
+                }
+            };
         }
     }
 }
