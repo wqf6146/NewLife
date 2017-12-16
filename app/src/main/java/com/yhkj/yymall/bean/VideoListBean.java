@@ -1,5 +1,9 @@
 package com.yhkj.yymall.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +53,7 @@ public class VideoListBean {
          */
 
         private String token;
-        private List<ListBean> list;
+        private ArrayList<ListBean> list;
 
         public String getToken() {
             return token;
@@ -59,15 +63,15 @@ public class VideoListBean {
             this.token = token;
         }
 
-        public List<ListBean> getList() {
+        public ArrayList<ListBean> getList() {
             return list;
         }
 
-        public void setList(List<ListBean> list) {
+        public void setList(ArrayList<ListBean> list) {
             this.list = list;
         }
 
-        public static class ListBean {
+        public static class ListBean implements Parcelable {
             /**
              * deviceSerial : 104084559
              * deviceName : 食堂摄像头1
@@ -200,6 +204,59 @@ public class VideoListBean {
             public void setImg(String img) {
                 this.img = img;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.deviceSerial);
+                dest.writeString(this.deviceName);
+                dest.writeString(this.model);
+                dest.writeInt(this.status);
+                dest.writeInt(this.defence);
+                dest.writeInt(this.isEncrypt);
+                dest.writeInt(this.alarmSoundMode);
+                dest.writeInt(this.offlineNotify);
+                dest.writeInt(this.id);
+                dest.writeString(this.validate_code);
+                dest.writeString(this.title);
+                dest.writeString(this.school_name);
+                dest.writeString(this.img);
+            }
+
+            public ListBean() {
+            }
+
+            protected ListBean(Parcel in) {
+                this.deviceSerial = in.readString();
+                this.deviceName = in.readString();
+                this.model = in.readString();
+                this.status = in.readInt();
+                this.defence = in.readInt();
+                this.isEncrypt = in.readInt();
+                this.alarmSoundMode = in.readInt();
+                this.offlineNotify = in.readInt();
+                this.id = in.readInt();
+                this.validate_code = in.readString();
+                this.title = in.readString();
+                this.school_name = in.readString();
+                this.img = in.readString();
+            }
+
+            public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+                @Override
+                public ListBean createFromParcel(Parcel source) {
+                    return new ListBean(source);
+                }
+
+                @Override
+                public ListBean[] newArray(int size) {
+                    return new ListBean[size];
+                }
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.yhkj.yymall.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
+import com.vise.xsnow.ui.adapter.recycleview.MultiItemTypeAdapter;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.vise.xsnow.ui.adapter.recycleview.wrapper.HeaderAndFooterWrapper;
 import com.yhkj.yymall.BaseToolBarActivity;
@@ -133,7 +135,7 @@ public class VideoListActivity extends BaseToolBarActivity {
         });
     }
 
-    private void initUi(final List<VideoDescBean.DataBean.BannerBean> bannerData, VideoListBean.DataBean dataBean) {
+    private void initUi(final List<VideoDescBean.DataBean.BannerBean> bannerData, final VideoListBean.DataBean dataBean) {
         UltraBannerPagerAdapter ultraViewPagerAdapter = new UltraBannerPagerAdapter<VideoDescBean.DataBean.BannerBean>(this,
                 bannerData,true){
             @Override
@@ -169,10 +171,25 @@ public class VideoListActivity extends BaseToolBarActivity {
 
         mCommonAdapter = new CommonAdapter<VideoListBean.DataBean.ListBean>(this,R.layout.item_video,dataBean.getList()) {
             @Override
-            protected void convert(ViewHolder holder, VideoListBean.DataBean.ListBean bean, int position) {
+            protected void convert(ViewHolder holder, final VideoListBean.DataBean.ListBean bean, int position) {
                 Glide.with(VideoListActivity.this).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into((ImageView)holder.getView(R.id.iv_img));
                 holder.setText(R.id.iv_tv_title,bean.getTitle());
                 holder.setText(R.id.iv_tv_content,bean.getSchool_name());
+                setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                        Intent intent = new Intent(mContext,VideoPlayActivity.class);
+                        intent.putExtra("title",bean.getTitle());
+                        intent.putExtra("token",dataBean.getToken());
+                        intent.putParcelableArrayListExtra("list",dataBean.getList());
+                        mContext.startActivity(intent);
+                    }
+
+                    @Override
+                    public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                        return false;
+                    }
+                });
             }
         };
 

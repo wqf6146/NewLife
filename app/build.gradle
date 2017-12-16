@@ -38,7 +38,9 @@ android {
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
 //        renderscriptTargetApi 25
 //        renderscriptSupportModeEnabled true    // Enable RS support
 //        jackOptions {
@@ -149,4 +151,6 @@ dependencies {
     compile files('libs/SocialSDK_QQ_Full.jar')
     compile files('libs/jcore-android-1.1.8.jar')
     compile files('libs/jpush-android-3.1.0.jar')
+    compile files('libs/EZOpenSDK_V4.7.1.20171109.jar')
+    compile files('libs/EZUIKit_1.4.jar')
 }

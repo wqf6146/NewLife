@@ -66,6 +66,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\EZOpenSDK_V4.7.1.20171109.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="17b78dd2dff2a3d8b23d1833478c084a46beaee7">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\EZOpenSDK_V4.7.1.20171109_a9b72f31126ccf7c59c8b7a8ba2ddaccfae71f1c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="E:\WorkPlaces\NewLife-master\app\libs\umeng_social_api.jar"
         jumboMode="false"
         optimize="true"
@@ -144,6 +153,15 @@
         revision="25.0.2"
         sha1="6aeafd196d118bc1ccb921b2221d3d32bd917073">
         <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\8\UPPayAssistEx_9eb76848e41a1786e26b2ce2692614935a9022f9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\WorkPlaces\NewLife-master\app\libs\EZUIKit_1.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30fde0555175e2e8d24edc0cbd5944c2e8f319d5">
+        <dex dex="E:\WorkPlaces\NewLife-master\app\build\intermediates\transforms\dex\debug\folders\1000\2\EZUIKit_1.4_10fe9f733b6cfb0892b085e93649afcb4e012886\classes.dex" />
     </item>
     <item
         is-multidex="true"

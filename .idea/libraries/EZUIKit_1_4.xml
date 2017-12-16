@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="EZUIKit_1.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/EZUIKit_1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

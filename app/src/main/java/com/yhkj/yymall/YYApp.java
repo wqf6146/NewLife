@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.ezvizuikit.open.EZUIKit;
 import com.taobao.sophix.SophixManager;
 import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.umeng.socialize.PlatformConfig;
+import com.videogo.openapi.EZOpenSDK;
+import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.base.HxHelper;
 import com.yhkj.yymall.bean.UserConfig;
@@ -139,6 +142,8 @@ public class YYApp extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                EZUIKit.setDebug(true);
+                EZUIKit.initWithAppKey(mInstance, Constant.HK_AppKey);
                 JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
                 JPushInterface.init(mInstance);     // 初始化 JPush
                 mRegistrationId = JPushInterface.getRegistrationID(mInstance);

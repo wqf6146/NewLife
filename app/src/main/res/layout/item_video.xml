@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_width="match_parent"
         android:id="@+id/iv_img"
-        android:layout_height="200dp" />
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerInside" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:textSize="@dimen/content_text_s14"
-        android:textColor="@color/blackfont_1"
         android:id="@+id/iv_tv_title"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:textColor="@color/blackfont_1"
+        android:textSize="@dimen/content_text_s14" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:textColor="@color/grayfont"
-        android:textSize="@dimen/content_text_s12"
-        android:padding="5dp"
         android:id="@+id/iv_tv_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/grayfont"
+        android:textSize="@dimen/content_text_s12" />
 
 </LinearLayout>

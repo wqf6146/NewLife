@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yhkj.yymall.view.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="35%"
+        android:id="@+id/av_fl_videoplay"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/av_viewpager_single"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/av_viewpager_mult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/vr_refreshview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/vr_recycleview"
+            android:background="@color/graybg"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+        <com.yhkj.yymall.view.BallPulseFooter
+            android:layout_width="match_parent"
+            app:srlAccentColor="@color/theme_bule"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</com.yhkj.yymall.view.PercentLinearLayout>

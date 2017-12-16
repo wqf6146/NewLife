@@ -264,4 +264,9 @@ public interface Constant {
     String LyImServiceNum = "kefuchannelimid_834817";
     String LYAppKey = "1499171118068027#kefuchannelapp49922";
     String LYTenanId = "70013";
+
+    /**
+     * 海康
+     */
+    String HK_AppKey = "0f74e3ed04794788a1b2ac9e45109031";
 }
