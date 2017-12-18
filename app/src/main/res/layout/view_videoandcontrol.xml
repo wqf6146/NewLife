@@ -12,13 +12,15 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/vv_rl_startvideo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/vv_rl_startvideo"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="gone">
 
             <ImageView
+                android:id="@+id/vv_img_startvideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -34,6 +36,7 @@
             android:padding="10dp">
 
             <ImageView
+                android:id="@+id/vv_img_voicecontrol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -49,6 +52,7 @@
             android:padding="10dp">
 
             <ImageView
+                android:id="@+id/vv_img_multscreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -64,12 +68,13 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/vv_tv_videoqa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/content_text_s14"
-                android:textColor="@color/theme_bule"
+                android:layout_centerInParent="true"
                 android:text="流畅"
-                android:layout_centerInParent="true" />
+                android:textColor="@color/theme_bule"
+                android:textSize="@dimen/content_text_s14" />
 
         </RelativeLayout>
 

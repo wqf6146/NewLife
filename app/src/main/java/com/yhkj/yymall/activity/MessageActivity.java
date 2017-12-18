@@ -105,6 +105,7 @@ public class MessageActivity extends BaseToolBarActivity {
             @Override
             public void onNext(MessageListBean.DataBean dataBean) {
                 setNetWorkErrShow(GONE);
+
                 if (readAllOrDel != null){
                     if (dataBean.getList().size() == 0){
                         setImgRightVisiable(GONE);
@@ -115,6 +116,7 @@ public class MessageActivity extends BaseToolBarActivity {
                     mAdapter.notifyDataSetChanged();
                     return;
                 }
+
                 if (mRefreshView.getState() == RefreshState.Loading){
                     mRefreshView.finishLoadmore();
                     if (dataBean.getList().size() == 0){
@@ -130,22 +132,42 @@ public class MessageActivity extends BaseToolBarActivity {
                     mAdapter.notifyDataSetChanged();
                     return;
                 }
+
                 if (dataBean.getList().size() == 0){
-                    setImgRightVisiable(GONE);
-                    setNoDataView(R.mipmap.ic_nor_orderbg,"暂无消息");
+                    if (mCurPage == 1){
+                        setImgRightVisiable(GONE);
+                        setNoDataView(R.mipmap.ic_nor_orderbg,"暂无消息");
+                    }
                     return;
                 }
+
                 setImgRightVisiable(VISIBLE);
                 if (mAdapter == null){
                     mAdapter = new MessageAdapter(dataBean.getList());
                     mListView.setAdapter(mAdapter);
                 }else{
+//                    diffNewData(dataBean.getList());
                     mAdapter.setData(dataBean.getList());
                     mAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
+
+//    private void diffNewData(List<MessageListBean.DataBean.ListBean> listBeen){
+//        List<MessageListBean.DataBean.ListBean> srcListBean = mAdapter.getSrcData();
+//        if (srcListBean == null || srcListBean.size() == 0 || listBeen.size() == 0) return;
+//        for (int i=0;i<listBeen.size();i++){
+//            MessageListBean.DataBean.ListBean targetBean = listBeen.get(i);
+//            for (int j=0;j<mAdapter.getSrcData().size();j++){
+//                MessageListBean.DataBean.ListBean bean = srcListBean.get(j);
+//                if (targetBean.getId() == bean.getId()){
+//                    bean.setStatus(targetBean.getStatus());
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,6 +185,12 @@ public class MessageActivity extends BaseToolBarActivity {
     protected void initView() {
         super.initView();
         initRefreshLayout();
+    }
+
+    @Override
+    protected void onActivityLoadFinish() {
+        super.onActivityLoadFinish();
+        getData(null);
     }
 
     @Override
@@ -189,12 +217,18 @@ public class MessageActivity extends BaseToolBarActivity {
             mDatas = datas;
         }
 
+
+
         public void setData(List<MessageListBean.DataBean.ListBean> datas) {
             mDatas = datas;
         }
 
         public void addData(List<MessageListBean.DataBean.ListBean> data){
             mDatas.addAll(data);
+        }
+
+        private List<MessageListBean.DataBean.ListBean> getSrcData(){
+            return mDatas;
         }
 
         @Override
@@ -248,6 +282,7 @@ public class MessageActivity extends BaseToolBarActivity {
                 @Override
                 public void onClick(View v) {
                     if (mDatas.get(position).getStatus().equals("0")) {
+                        mDatas.get(position).setStatus("1");
                         YYMallApi.readMessage(MessageActivity.this, mDatas.get(position).getId() + "",
                                 new YYMallApi.ApiResult<CommonBean>(MessageActivity.this) {
                             @Override
@@ -322,6 +357,7 @@ public class MessageActivity extends BaseToolBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getData(null);
+        if (mAdapter!=null)
+            mAdapter.notifyDataSetChanged();
     }
 }

@@ -1,33 +1,26 @@
 package com.yhkj.yymall.fragment;
 
-import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ezvizuikit.open.EZUIError;
 import com.ezvizuikit.open.EZUIKit;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.activity.VideoPlayActivity;
 import com.yhkj.yymall.bean.VideoListBean;
 import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
-
 import java.util.Calendar;
-
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -35,6 +28,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class VideoFragment extends SupportFragment {
+
     public static VideoFragment getInstance(String token,int pos,VideoListBean.DataBean.ListBean bean) {
         VideoFragment fragment = new VideoFragment();
         Bundle bundle = new Bundle();
@@ -47,6 +41,15 @@ public class VideoFragment extends SupportFragment {
 
     private EZUIPlayer mEzUiPlayer;
     private RelativeLayout mRlContainer;
+    private TextView mTvTip;
+    private VideoPlayActivity.OnVideoSelect mVideoParent;
+
+    private boolean mInTop = false;
+
+    public VideoFragment setVideoParent(VideoPlayActivity.OnVideoSelect videoParent) {
+        this.mVideoParent = videoParent;
+        return this;
+    }
 
     @Nullable
     @Override
@@ -54,12 +57,13 @@ public class VideoFragment extends SupportFragment {
         View view = inflater.inflate(R.layout.view_video,container,false);
         mRlContainer = (RelativeLayout)view;
         mEzUiPlayer = (EZUIPlayer) view.findViewById(R.id.vv_ezuiplayer);
+        mTvTip = (TextView)view.findViewById(R.id.vv_tv_tip);
         return view;
     }
 
-    private String mToken,mUrl;
+    private String mToken,mUrl,mErrStr;
     private VideoListBean.DataBean.ListBean mDataBean;
-    private MyOrientationDetector mOrientationDetector;
+
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
@@ -67,20 +71,17 @@ public class VideoFragment extends SupportFragment {
         mDataBean = getArguments().getParcelable("data");
         //设置授权token
         EZUIKit.setAccessToken(mToken);
-        mOrientationDetector = new MyOrientationDetector(_mActivity);
         initUi();
     }
 
     private void initUi() {
         if (mDataBean.getStatus() != 1){
-            TextView errTip = new TextView(_mActivity);
-            errTip.setText("设备不在线");
-            errTip.setTextColor(getResources().getColor(R.color.white));
-            errTip.setTextSize(12);
-            mRlContainer.addView(errTip);
+            mRlContainer.removeView(mEzUiPlayer);
+            mErrStr = "设备不在线";
+            mTvTip.setText(mErrStr);
+            mTvTip.setVisibility(View.VISIBLE);
             return;
         }
-
         final View laodingView = LayoutInflater.from(_mActivity).inflate(R.layout.view_video_loading,mRlContainer,false);
         mRlContainer.addView(laodingView);
         DisplayMetrics dm = new DisplayMetrics();
@@ -100,16 +101,19 @@ public class VideoFragment extends SupportFragment {
                 Log.e("ezuiplayer","onPlaySuccess");
 //                            ezUIPlayer.setZOrderOnTop(true);
                 laodingView.setVisibility(View.INVISIBLE);
+                if (mInTop && mVideoParent!=null)
+                    mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_PLAY);
+                mErrStr = null;
             }
 
             @Override
             public void onPlayFail(EZUIError ezuiError) {
-                if (ezuiError.getErrorString().equals(EZUIError.UE_ERROR_INNER_VERIFYCODE_ERROR)){
-
-                }else if(ezuiError.getErrorString().equalsIgnoreCase(EZUIError.UE_ERROR_NOT_FOUND_RECORD_FILES)){
-                    // TODO: 2017/5/12
-                    //未发现录像文件
-                }
+                if (mInTop && mVideoParent!=null)
+                    mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_INIT);
+                mErrStr = ezuiError.getErrorString();
+                Toast.makeText(_mActivity, mErrStr, Toast.LENGTH_SHORT).show();
+                mTvTip.setText(mErrStr);
+                mTvTip.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -118,7 +122,7 @@ public class VideoFragment extends SupportFragment {
 
             @Override
             public void onPrepared() {
-//                mEzUiPlayer.startPlay();
+
             }
 
             @Override
@@ -135,50 +139,33 @@ public class VideoFragment extends SupportFragment {
         mEzUiPlayer.setUrl(mUrl);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        onOrientationChanged();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    private void onOrientationChanged() {
-        setSurfaceSize();
-    }
-
-    private void setSurfaceSize(){
-        DisplayMetrics dm = new DisplayMetrics();
-        _mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        boolean isWideScrren = mOrientationDetector.isWideScrren();
-        //竖屏
-        if (!isWideScrren) {
-            mFlVideoPlay.setLayoutParams(mVCLayouyParams);
-            //竖屏调整播放区域大小，宽全屏，高根据视频分辨率自适应
-            mEzUiPlayer.setSurfaceSize(dm.widthPixels, 0);
-        } else {
-            LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
-            realPlayPlayRlLp.gravity = Gravity.CENTER;
-            mFlVideoPlay.setLayoutParams(realPlayPlayRlLp);
-
-            //横屏屏调整播放区域大小，宽、高均全屏，播放区域根据视频分辨率自适应
-            mEzUiPlayer.setSurfaceSize(dm.widthPixels,dm.heightPixels);
-        }
+    public void setSurfaceSize(int width){
+        if (mEzUiPlayer!=null)
+            mEzUiPlayer.setSurfaceSize(width, 0);
     }
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        startPlay();
+        mInTop = true;
+        if (mVideoParent!=null)
+            mVideoParent.onVideoSelect(mDataBean.getTitle());
+        if (mDataBean.getStatus() == 1)
+            startRealPlay();
+        else
+            mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_INIT);
     }
 
-    private void startPlay() {
+    private void startRealPlay() {
         mEzUiPlayer.startPlay();
     }
 
     @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
-        stopPlay();
+        mInTop = false;
+        if (mDataBean.getStatus() == 1)
+            stopPlay();
     }
 
     private void stopPlay() {
@@ -195,7 +182,6 @@ public class VideoFragment extends SupportFragment {
     @Override
     public void onPause() {
         super.onPause();
-        mOrientationDetector.disable();
     }
 
     @Override
@@ -208,58 +194,39 @@ public class VideoFragment extends SupportFragment {
         mEzUiPlayer.releasePlayer();
     }
 
-    public class MyOrientationDetector extends OrientationEventListener {
+    public boolean isInTop(){
+        return mInTop;
+    }
 
-        private WindowManager mWindowManager;
-        private int mLastOrientation = 0;
+    private boolean isVideoNormal(){
+        if (!mInTop) return false;
 
-        public MyOrientationDetector(Context context) {
-            super(context);
-            mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (!TextUtils.isEmpty(mErrStr)){
+            Toast.makeText(_mActivity, mErrStr, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean startPlay(){
+        if (!isVideoNormal()){
+            return null;
         }
 
-        public boolean isWideScrren() {
-            Display display = mWindowManager.getDefaultDisplay();
-            Point pt = new Point();
-            display.getSize(pt);
-            return pt.x > pt.y;
-        }
-        @Override
-        public void onOrientationChanged(int orientation) {
-            int value = getCurentOrientationEx(orientation);
-            if (value != mLastOrientation) {
-                mLastOrientation = value;
-                int current = _mActivity.getRequestedOrientation();
-                if (current == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                        || current == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    _mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-                }
-            }
+        if (mEzUiPlayer.getStatus() == EZUIPlayer.STATUS_PLAY) {
+            //播放状态，点击停止播放
+            mEzUiPlayer.pausePlay();
+            return false;
+        } else if (mEzUiPlayer.getStatus() == EZUIPlayer.STATUS_PAUSE) {
+            //停止状态，点击播放
+            mEzUiPlayer.resumePlay();
+            return true;
+        } else if (mEzUiPlayer.getStatus() == EZUIPlayer.STATUS_STOP
+                || mEzUiPlayer.getStatus() == EZUIPlayer.STATUS_INIT) {
+            mEzUiPlayer.startPlay();
+            return true;
         }
 
-        private int getCurentOrientationEx(int orientation) {
-            int value = 0;
-            if (orientation >= 315 || orientation < 45) {
-                // 0度
-                value = 0;
-                return value;
-            }
-            if (orientation >= 45 && orientation < 135) {
-                // 90度
-                value = 90;
-                return value;
-            }
-            if (orientation >= 135 && orientation < 225) {
-                // 180度
-                value = 180;
-                return value;
-            }
-            if (orientation >= 225 && orientation < 315) {
-                // 270度
-                value = 270;
-                return value;
-            }
-            return value;
-        }
+        return null;
     }
 }

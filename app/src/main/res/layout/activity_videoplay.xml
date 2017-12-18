@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         app:layout_widthPercent="100%"
         app:layout_heightPercent="35%"
-        android:id="@+id/av_fl_videoplay"
+        android:id="@+id/av_Rl_videoplay"
         android:layout_width="0dp"
         android:layout_height="0dp">
 
@@ -22,7 +22,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
-    </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/av_rl_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:background="#88000000"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/av_tv_places"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/content_text_s12" />
+
+            <ImageView
+                android:id="@+id/av_img_fullscreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_nor_whitefullscreen" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/vr_refreshview"

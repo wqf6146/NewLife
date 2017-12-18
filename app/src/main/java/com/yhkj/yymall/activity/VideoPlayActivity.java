@@ -1,25 +1,36 @@
 package com.yhkj.yymall.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.videogo.openapi.EZConstants;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
@@ -33,11 +44,13 @@ import com.yhkj.yymall.bean.VideoListBean;
 import com.yhkj.yymall.fragment.VideoFragment;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.CommonUtil;
+import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
 import com.yhkj.yymall.view.ItemOffsetDecoration;
 import android.support.v4.view.ViewPager;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -62,20 +75,98 @@ public class VideoPlayActivity extends BaseToolBarActivity {
     @Bind(R.id.av_viewpager_single)
     ViewPager mViewPagerSingle;
 
-    @Bind(R.id.av_fl_videoplay)
-    FrameLayout mFlVideoPlay;
+    @Bind(R.id.av_Rl_videoplay)
+    RelativeLayout mRlVideoPlay;
+
+    @Bind(R.id.av_tv_places)
+    TextView mTvPlaces;
+
+    @Bind(R.id.av_img_fullscreen)
+    ImageView mImgFullScreen;
+
+    @Bind(R.id.av_rl_place)
+    RelativeLayout mRlPlace;
 
     private ViewGroup.LayoutParams mVCLayouyParams;
+
+    private MyOrientationDetector mOrientationDetector;
+
+    private int mOrientation = Configuration.ORIENTATION_PORTRAIT;
+
+    private Boolean m4BoxMode = false; //四分屏
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.)
+        mOrientation = newConfig.orientation;
+        updateOperatorUI();
+        setSurfaceSize();
+    }
+    private void updateOrientation() {
+        if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+    private void setSurfaceSize() {
+        if (m4BoxMode == false){
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            for (int i=0; i<mVideoFragments.length;i++)
+                mVideoFragments[i].setSurfaceSize(dm.widthPixels);
+        }
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mOrientationDetector!=null)
+            mOrientationDetector.enable();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mOrientationDetector!=null)
+            mOrientationDetector.disable();
+    }
+
+    private void updateOperatorUI() {
+        if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 显示状态栏
+            fullScreen(false);
+            setStatusVisiable(VISIBLE);
+            setToolbarVisiable(true);
+            mRlPlace.setVisibility(GONE);
+            mRlVideoPlay.setLayoutParams(mVCLayouyParams);
+        } else {
+            // 隐藏状态栏
+            fullScreen(true);
+            setStatusVisiable(GONE);
+            setToolbarVisiable(false);
+            mRlPlace.setVisibility(VISIBLE);
+            LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            realPlayPlayRlLp.gravity = Gravity.CENTER;
+            mRlVideoPlay.setLayoutParams(realPlayPlayRlLp);
+        }
+    }
+    private void fullScreen(boolean enable) {
+        if (enable) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getWindow().setAttributes(lp);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            WindowManager.LayoutParams attr = getWindow().getAttributes();
+            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attr);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
@@ -102,6 +193,12 @@ public class VideoPlayActivity extends BaseToolBarActivity {
     @Override
     protected void bindEvent() {
         super.bindEvent();
+        mImgFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateOrientation();
+            }
+        });
     }
 
     private List<VideoListBean.DataBean.ListBean> mListData;
@@ -111,12 +208,13 @@ public class VideoPlayActivity extends BaseToolBarActivity {
     protected void initData() {
         mListData = getIntent().getParcelableArrayListExtra("list");
         mToken = getIntent().getStringExtra("token");
+        mOrientationDetector = new MyOrientationDetector(this);
     }
 
     @Override
     protected void onActivityLoadFinish() {
         super.onActivityLoadFinish();
-        mVCLayouyParams = mFlVideoPlay.getLayoutParams();
+        mVCLayouyParams = mRlVideoPlay.getLayoutParams();
         getGoodsData(null);
     }
 
@@ -126,9 +224,11 @@ public class VideoPlayActivity extends BaseToolBarActivity {
         getGoodsData(null);
     }
 
+    private VideoFragment[] mVideoFragments;
     private int mCurPage = 1;
     private CommonAdapter mAdapter;
     private HeaderAndFooterWrapper mWrapperAdapter;
+    private View mControlView;
     private void getGoodsData(final Boolean bLoadmore) {
         YYMallApi.getGoodsLike(this, bLoadmore == null ? 1 : mCurPage, false, new ApiCallback<GoodsLikeBean.DataBean>() {
             @Override
@@ -175,25 +275,134 @@ public class VideoPlayActivity extends BaseToolBarActivity {
                     };
 
                     mWrapperAdapter = new HeaderAndFooterWrapper(mAdapter);
-                    View view = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
-
+                    mControlView = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
+                    bindControlView(mControlView);
 //                    ViewPager singleViewPager = (ViewPager)view.findViewById(R.id.vv_viewpager_single);
 
-                    VideoFragment[] videoFragments = new VideoFragment[mListData.size()];
+                    mVideoFragments = new VideoFragment[mListData.size()];
                     for (int i=0; i<mListData.size();i++){
-                        videoFragments[i] = VideoFragment.getInstance(mToken,i,mListData.get(i));
+                        mVideoFragments[i] = VideoFragment.getInstance(mToken,i,mListData.get(i)).setVideoParent(new OnVideoSelect() {
+                            @Override
+                            public void onVideoSelect(String placeStr) {
+                                mTvPlaces.setText(placeStr);
+                            }
+
+                            @Override
+                            public void onVideoPlayState(int state) {
+//                                if (state == EZUIPlayer.STATUS_PLAY){
+//                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+//                                }else{
+//                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+//                                }
+                            }
+                        });
                     }
-                    NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),videoFragments);
+                    NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mVideoFragments);
                     mViewPagerSingle.setAdapter(fragmentAdapter);
 
-                    mWrapperAdapter.addHeaderView(view);
+                    mWrapperAdapter.addHeaderView(mControlView);
                     mRecycleView.setAdapter(mWrapperAdapter);
                 }
             }
         });
     }
 
+    private View mRlFullScreen,mRlMultScreen,mRlVideoQa;
+    private ImageView mImgMultScreen;
+    private TextView mTvVideoQa;
+    private void bindControlView(final View view) {
+        mRlMultScreen = view.findViewById(R.id.vv_rl_multscreen);
+        mImgMultScreen = (ImageView)mRlMultScreen.findViewById(R.id.vv_img_multscreen);
+        mRlMultScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //分屏
+                if (m4BoxMode != null){
+                    showToast("请选择具体设备");
+                    return;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+                builder.setTitle("选择码流");
+                builder.setItems(   new String[]{"高清","标清","流畅", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mEZPlayer == null) {
+                            return;
+                        }
+                        int tag = -1;
+                        // 视频质量，2-高清，1-标清，0-流畅
+                        if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_FLUNET) {
+                            tag = 2;
+                        } else if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_BALANCED) {
+                            tag = 1;
+                        } else if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_HD) {
+                            tag = 0;
+                        }
+                        if (tag == position)
+                            return;
+                        switch (position){
+                            case 0:
+                                //高清
+                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_HD);
+                                break;
+                            case 1:
+                                //标清
+                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_BALANCED);
+                                break;
+                            case 2:
+                                //流畅
+                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_FLUNET);
+                                break;
+                        }
+                    }
+                    }
+                });
+                builder.setPositiveButton("取消", null);
+                builder.show();
+            }
+        });
 
+        mRlVideoQa = view.findViewById(R.id.vv_rl_videoqa);
+        mTvVideoQa = (TextView) findViewById(R.id.vv_tv_videoqa);
+
+
+
+        mRlFullScreen = view.findViewById(R.id.vv_rl_fullscreen);
+        mRlFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateOrientation();
+            }
+        });
+//        mRlStartVideo = view.findViewById(R.id.vv_rl_startvideo);
+//        mImgStartVideo = (ImageView)mRlStartVideo.findViewById(R.id.vv_img_startvideo);
+//        mRlStartVideo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //播放与暂停
+//                VideoFragment fragment = getInTopVideo();
+//                if (fragment!=null){
+//                    Boolean res = fragment.startPlay();
+//                    if (res!=null){
+//                        if (res){
+//                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+//                        }else{
+//                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+//                        }
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    private VideoFragment getInTopVideo(){
+        for (int i=0; i<mVideoFragments.length;i++){
+            VideoFragment fragment = mVideoFragments[i];
+            if (fragment.isInTop())
+                return fragment;
+        }
+        return null;
+    }
 
     private void initGoodsUi(ViewHolder holder,final GoodsLikeBean.DataBean.ListBean bean, int position) {
         holder.setVisible(R.id.is_vert_img_tagshop,false);
@@ -291,5 +500,65 @@ public class VideoPlayActivity extends BaseToolBarActivity {
                 }
             }
         });
+    }
+
+    public class MyOrientationDetector extends OrientationEventListener {
+
+        private WindowManager mWindowManager;
+        private int mLastOrientation = 0;
+
+        public MyOrientationDetector(Context context) {
+            super(context);
+            mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        }
+
+        public boolean isWideScrren() {
+            Display display = mWindowManager.getDefaultDisplay();
+            Point pt = new Point();
+            display.getSize(pt);
+            return pt.x > pt.y;
+        }
+        @Override
+        public void onOrientationChanged(int orientation) {
+            int value = getCurentOrientationEx(orientation);
+            if (value != mLastOrientation) {
+                mLastOrientation = value;
+                int current = getRequestedOrientation();
+                if (current == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                        || current == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                }
+            }
+        }
+
+        private int getCurentOrientationEx(int orientation) {
+            int value = 0;
+            if (orientation >= 315 || orientation < 45) {
+                // 0度
+                value = 0;
+                return value;
+            }
+            if (orientation >= 45 && orientation < 135) {
+                // 90度
+                value = 90;
+                return value;
+            }
+            if (orientation >= 135 && orientation < 225) {
+                // 180度
+                value = 180;
+                return value;
+            }
+            if (orientation >= 225 && orientation < 315) {
+                // 270度
+                value = 270;
+                return value;
+            }
+            return value;
+        }
+    }
+
+    public interface OnVideoSelect {
+        void onVideoSelect(String placeStr);
+        void onVideoPlayState(int state);
     }
 }
