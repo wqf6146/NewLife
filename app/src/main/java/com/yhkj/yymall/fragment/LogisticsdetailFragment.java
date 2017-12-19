@@ -109,7 +109,7 @@ public class LogisticsdetailFragment extends BaseFragment {
         mTvStatus.setText(getStatusString(dataBean.getStatus()));
         Glide.with(this).load(dataBean.getImg()).into(mImgShop);
         mTvLogisticName.setText(String.format(getString(R.string.logisticssrc),dataBean.getFreightCompany()));
-        mTvLogisticsNumb.setText(String.format(getString(R.string.ordernumber),dataBean.getDeliveryCode()));
+        mTvLogisticsNumb.setText(String.format("运单编号：%s",dataBean.getDeliveryCode()));
         mTvLogisticPhone.setText(dataBean.getOfficialCall());
         mTvShopNumb.setText(dataBean.getTotal() + "件商品");
 //        Collections.reverse(dataBean.getTraces());

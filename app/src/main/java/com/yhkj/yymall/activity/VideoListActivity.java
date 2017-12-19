@@ -179,6 +179,7 @@ public class VideoListActivity extends BaseToolBarActivity {
                     @Override
                     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                         Intent intent = new Intent(mContext,VideoPlayActivity.class);
+                        intent.putExtra("pos",position-1);
                         intent.putExtra("title",bean.getTitle());
                         intent.putExtra("token",dataBean.getToken());
                         intent.putParcelableArrayListExtra("list",dataBean.getList());

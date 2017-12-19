@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -270,6 +271,10 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
         }
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public EZPlayer getEZUIPlayer(){
+        return mEZPlayer;
     }
 
     public void setCallBack(EZUIPlayer.EZUIPlayerCallBack callBack) {
@@ -721,10 +726,19 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
 
         if(this.mErrorTextView == null) {
             this.mErrorTextView = new TextView(this.mContext);
-            this.mErrorTextView.setText(errorInfo);
+            this.mErrorTextView.setText(errorInfo + "\n" + "点击重新加载" );
             this.mErrorTextView.setTextColor(Color.rgb(255, 255, 255));
+            mErrorTextView.setGravity(Gravity.CENTER);
+            this.mErrorTextView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                       if (mEzUIPlayerCallBack!=null)
+                           mEzUIPlayerCallBack.onRetryLoad();
+                }
+            });
             LayoutParams lp = new LayoutParams(-2, -2);
             lp.addRule(13);
+
             this.mErrorTextView.setLayoutParams(lp);
             this.addView(this.mErrorTextView);
         }
@@ -852,6 +866,8 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
         void onPlayTime(Calendar var1);
 
         void onPlayFinish();
+
+        void onRetryLoad();
     }
 
     public static enum EZUIKitPlayMode {

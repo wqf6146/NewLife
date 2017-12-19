@@ -7,9 +7,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_height="wrap_content">
+        android:padding="10dp">
 
         <RelativeLayout
             android:id="@+id/vv_rl_startvideo"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/vv_img_startvideo"
@@ -29,10 +29,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/vv_rl_voicecontrol"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/vv_rl_voicecontrol"
             android:padding="10dp">
 
             <ImageView
@@ -45,10 +45,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/vv_rl_multscreen"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/vv_rl_multscreen"
             android:padding="10dp">
 
             <ImageView
@@ -56,15 +56,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_nor_multscreen" />
+                android:src="@mipmap/ic_nor_singlescreen" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/vv_rl_videoqa"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/vv_rl_videoqa"
             android:padding="10dp">
 
             <TextView
@@ -72,16 +72,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="流畅"
+                android:text="标清"
                 android:textColor="@color/theme_bule"
                 android:textSize="@dimen/content_text_s14" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/vv_rl_fullscreen"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/vv_rl_fullscreen"
             android:layout_weight="1"
             android:padding="10dp">
 
@@ -107,47 +107,68 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/vv_rl_takephoto"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:layout_height="match_parent">
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_nor_videotakephoto"
-                android:layout_height="wrap_content" />
+                android:src="@mipmap/ic_nor_videotakephoto" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/vv_rl_record"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:layout_height="match_parent">
+            android:padding="10dp">
 
-            <ImageView
+
+
+            <FrameLayout
+                android:id="@+id/vv_fl_videocontainer"
                 android:layout_width="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_nor_recordvideo"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/vv_img_videostart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_nor_recordvideo" />
+
+                <ImageView
+                    android:id="@+id/vv_img_videostop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_nor_videostop"
+                    android:visibility="gone" />
+            </FrameLayout>
 
         </RelativeLayout>
 
 
         <RelativeLayout
+            android:id="@+id/vv_rl_control"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:layout_height="match_parent">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="控制"
-                android:textSize="@dimen/content_text_s14"
                 android:textColor="@color/theme_bule"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/content_text_s14" />
 
         </RelativeLayout>
 

@@ -13,6 +13,12 @@
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/vv_img_pic"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent" />
+
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/vv_tv_tip"
@@ -21,5 +27,36 @@
         android:textSize="@dimen/content_text_s14"
         android:visibility="gone"
         android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:id="@+id/vv_ll_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/circle_graybg"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/vv_img_realplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/play_video_record" />
+
+        <TextView
+            android:id="@+id/vv_tv_realplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="00:25"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_s12" />
+    </LinearLayout>
 
 </RelativeLayout>

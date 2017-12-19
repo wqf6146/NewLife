@@ -5,13 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,18 +23,18 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.videogo.openapi.EZConstants;
+import com.videogo.openapi.bean.EZDeviceInfo;
+import com.videogo.util.RotateViewUtil;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
@@ -41,17 +45,18 @@ import com.yhkj.yymall.R;
 import com.yhkj.yymall.adapter.NormalFragmentAdapter;
 import com.yhkj.yymall.bean.GoodsLikeBean;
 import com.yhkj.yymall.bean.VideoListBean;
+import com.yhkj.yymall.fragment.SpitVideoFragment;
 import com.yhkj.yymall.fragment.VideoFragment;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
 import com.yhkj.yymall.view.ItemOffsetDecoration;
 import android.support.v4.view.ViewPager;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
@@ -61,7 +66,7 @@ import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
  * Created by Administrator on 2017/12/16.
  */
 
-public class VideoPlayActivity extends BaseToolBarActivity {
+public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoFragment.OnSpitVideoSelect {
 
     @Bind(R.id.vr_refreshview)
     SmartRefreshLayout mRefreshView;
@@ -93,7 +98,7 @@ public class VideoPlayActivity extends BaseToolBarActivity {
 
     private int mOrientation = Configuration.ORIENTATION_PORTRAIT;
 
-    private Boolean m4BoxMode = false; //四分屏
+    private boolean m4BoxMode = false; //四分屏
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -115,6 +120,11 @@ public class VideoPlayActivity extends BaseToolBarActivity {
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             for (int i=0; i<mVideoFragments.length;i++)
                 mVideoFragments[i].setSurfaceSize(dm.widthPixels);
+        }else{
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            for (int i=0; i<mSpitFragments.length;i++)
+                mSpitFragments[i].setSurfaceSize(dm.widthPixels/2);
         }
     }
 
@@ -138,14 +148,16 @@ public class VideoPlayActivity extends BaseToolBarActivity {
             fullScreen(false);
             setStatusVisiable(VISIBLE);
             setToolbarVisiable(true);
-            mRlPlace.setVisibility(GONE);
+            if (!m4BoxMode)
+                mRlPlace.setVisibility(GONE);
             mRlVideoPlay.setLayoutParams(mVCLayouyParams);
         } else {
             // 隐藏状态栏
             fullScreen(true);
             setStatusVisiable(GONE);
             setToolbarVisiable(false);
-            mRlPlace.setVisibility(VISIBLE);
+            if (!m4BoxMode)
+                mRlPlace.setVisibility(VISIBLE);
             LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
             realPlayPlayRlLp.gravity = Gravity.CENTER;
@@ -209,6 +221,7 @@ public class VideoPlayActivity extends BaseToolBarActivity {
         mListData = getIntent().getParcelableArrayListExtra("list");
         mToken = getIntent().getStringExtra("token");
         mOrientationDetector = new MyOrientationDetector(this);
+        mRecordRotateViewUtil = new RotateViewUtil();
     }
 
     @Override
@@ -277,95 +290,318 @@ public class VideoPlayActivity extends BaseToolBarActivity {
                     mWrapperAdapter = new HeaderAndFooterWrapper(mAdapter);
                     mControlView = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
                     bindControlView(mControlView);
-//                    ViewPager singleViewPager = (ViewPager)view.findViewById(R.id.vv_viewpager_single);
-
-                    mVideoFragments = new VideoFragment[mListData.size()];
-                    for (int i=0; i<mListData.size();i++){
-                        mVideoFragments[i] = VideoFragment.getInstance(mToken,i,mListData.get(i)).setVideoParent(new OnVideoSelect() {
-                            @Override
-                            public void onVideoSelect(String placeStr) {
-                                mTvPlaces.setText(placeStr);
-                            }
-
-                            @Override
-                            public void onVideoPlayState(int state) {
-//                                if (state == EZUIPlayer.STATUS_PLAY){
-//                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
-//                                }else{
-//                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-//                                }
-                            }
-                        });
-                    }
-                    NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mVideoFragments);
-                    mViewPagerSingle.setAdapter(fragmentAdapter);
-
-                    mWrapperAdapter.addHeaderView(mControlView);
-                    mRecycleView.setAdapter(mWrapperAdapter);
+                    buildSingleViewPager();
                 }
             }
         });
     }
 
-    private View mRlFullScreen,mRlMultScreen,mRlVideoQa;
-    private ImageView mImgMultScreen;
+
+    private NormalFragmentAdapter mSpitAdapter;
+    private SpitVideoFragment[] mSpitFragments;
+
+    private void removeSpitPlayer(){
+        if (mSpitFragments==null) return;
+        for (int i=0; i<mSpitFragments.length; i++){
+            mSpitFragments[i].releasePlay();
+        }
+        mSpitFragments = null;
+    }
+
+    private void buildMultViewPager(){
+        int tag = 4;
+        int pagerSize = (int)Math.ceil(mListData.size() / (tag+0.0f));
+        mSpitFragments = new SpitVideoFragment[pagerSize];
+        for (int i=0; i < pagerSize; i++){
+            mSpitFragments[i] = SpitVideoFragment.getInstance();
+            int type;
+            boolean autoPlay = false;
+            if (i == 0){
+                autoPlay = true;
+            }
+            if (tag == 4)
+                type = 0;
+            else
+                type = 1;
+            // 4*i+1     4*(i+1)
+            int left = tag * (i);
+            int right = tag * (i+1) - 1;
+            int max = right > mListData.size()-1 ? mListData.size()-1 : right;
+            ArrayList<VideoListBean.DataBean.ListBean> deviceList = new ArrayList<>();
+            for ( int j=left; j<= max ;j++){
+                deviceList.add(mListData.get(j));
+            }
+            mSpitFragments[i].setData(type,autoPlay,deviceList);
+            mSpitFragments[i].setOnSpitVideoSelect(this);
+        }
+        mViewPagerMult.setOffscreenPageLimit(mSpitFragments.length);
+        mSpitAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mSpitFragments);
+        mViewPagerMult.setAdapter(mSpitAdapter);
+        mSpitAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onVideoSelect(VideoListBean.DataBean.ListBean deviceInfo, int pos) {
+        m4BoxMode = false;
+        removeSpitPlayer();
+        mRlVideoPlay.removeView(mViewPagerMult);
+        mRlVideoPlay.addView(mViewPagerSingle);
+        int i=0;
+        for (;i<mVideoFragments.length;i++){
+            if (mVideoFragments[i].getDataBean().getDeviceSerial().equals(deviceInfo.getDeviceSerial())){
+                mViewPagerSingle.setCurrentItem(i);
+                mVideoFragments[i].onSupportVisible();
+                break;
+            }
+        }
+    }
+
+    private void buildSingleViewPager() {
+        mVideoFragments = new VideoFragment[mListData.size()];
+        for (int i=0; i<mListData.size();i++){
+            mVideoFragments[i] = VideoFragment.getInstance(mToken,i,mListData.get(i)).setVideoParent(new OnVideoSelect() {
+                @Override
+                public void onVideoSelect(String placeStr) {
+                    mTvPlaces.setText(placeStr);
+                }
+
+                @Override
+                public void onVideoPlayState(int state) {
+                    if (state == EZUIPlayer.STATUS_PLAY){
+                        mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+                    }else{
+                        mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                    }
+                }
+
+                @Override
+                public void onVideoVoiceControl(boolean bOpen) {
+                    if (bOpen){
+                        mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
+                    }else{
+                        mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                    }
+                }
+
+                @Override
+                public void onVideoRecordState(boolean bStart) {
+                    if (bStart){
+                        mRecordRotateViewUtil.applyRotation(mFlRecordContainer, mImgRecordStart,
+                                mImgRecordStop, 0, 90);
+                    }else{
+                        mRecordRotateViewUtil.applyRotation(mFlRecordContainer, mImgRecordStop,
+                                mImgRecordStart, 0, 90);
+                    }
+                }
+            });
+        }
+        NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mVideoFragments);
+        mViewPagerSingle.setAdapter(fragmentAdapter);
+        mWrapperAdapter.addHeaderView(mControlView);
+        mRecycleView.setAdapter(mWrapperAdapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mViewPagerSingle.setCurrentItem(getIntent().getIntExtra("pos",0),false);
+            }
+        },300);
+    }
+
+    @Override
+    public void onBackPressedSupport() {
+
+        if (mOrientation != Configuration.ORIENTATION_PORTRAIT){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            return;
+        }
+//        if (mLocalInfo!=null)
+//            mLocalInfo.setSoundOpen(false);
+
+//        if (mIsRecording) {
+//            stopRealPlayRecord();
+//        }
+
+        super.onBackPressedSupport();
+    }
+
+    private View mRlFullScreen,mRlStartVideo,mRlMultScreen,mRlVideoQa,mRLVoiceControl,mRlTakePhoto,mRlRecord,mRlControl,mFlRecordContainer;
+    private ImageView mImgMultScreen,mImgStartVideo,mImgVoiceControl,mImgRecordStart,mImgRecordStop;
     private TextView mTvVideoQa;
+    private RotateViewUtil mRecordRotateViewUtil;
     private void bindControlView(final View view) {
+
+        mRlRecord = view.findViewById(R.id.vv_rl_record);
+        mFlRecordContainer = view.findViewById(R.id.vv_fl_videocontainer);
+        mImgRecordStart = (ImageView)mRlRecord.findViewById(R.id.vv_img_videostart);
+        mImgRecordStop = (ImageView)mRlRecord.findViewById(R.id.vv_img_videostop);
+        mRlRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+
+                VideoFragment fragment = getInTopVideo();
+                if (fragment!=null){
+                    fragment.onRecordBtnClick();
+                }
+            }
+        });
+
+        mRlControl = view.findViewById(R.id.vv_rl_control);
+        mRlControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+            }
+        });
+
+        mRlTakePhoto = view.findViewById(R.id.vv_rl_takephoto);
+        mRlTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+
+                VideoFragment fragment = getInTopVideo();
+                if (fragment!=null){
+                    fragment.onCapturePicBtnClick();
+                }
+            }
+        });
+
+        mRLVoiceControl = view.findViewById(R.id.vv_rl_voicecontrol);
+        mImgVoiceControl = (ImageView)mRLVoiceControl.findViewById(R.id.vv_img_voicecontrol);
+        mRLVoiceControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+
+                //声音控制
+                VideoFragment fragment = getInTopVideo();
+                if (fragment!=null){
+                    Boolean res = fragment.onSoundBtnClick();
+                    if (res!=null){
+                        if (res){
+                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
+                        }else{
+                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                        }
+                    }
+                }
+            }
+        });
+
         mRlMultScreen = view.findViewById(R.id.vv_rl_multscreen);
         mImgMultScreen = (ImageView)mRlMultScreen.findViewById(R.id.vv_img_multscreen);
         mRlMultScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //分屏
-                if (m4BoxMode != null){
+                if (m4BoxMode == false){
+
+                    final VideoFragment fragment = getInTopVideo();
+                    if (fragment!=null){
+                        if (fragment.getIsRecord()){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+                            builder.setTitle("提示");
+                            builder.setMessage("暂停观看直播会终止录像，是否暂停观看？");
+                            builder.setPositiveButton("取消", null);
+                            builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    fragment.stopRealPlayRecord();
+                                    stopCurPlayer();
+                                    removeSpitPlayer();
+                                    mRlVideoPlay.removeView(mViewPagerSingle);
+                                    if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
+                                        mRlVideoPlay.addView(mViewPagerMult);
+                                    showSpitWindow();
+                                    m4BoxMode = true;
+                                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+                                }
+                            });
+                            builder.show();
+                            return;
+                        }
+                    }
+
+
+
+                    stopCurPlayer();
+                    removeSpitPlayer();
+                    mRlVideoPlay.removeView(mViewPagerSingle);
+                    if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
+                        mRlVideoPlay.addView(mViewPagerMult);
+                    showSpitWindow();
+                    m4BoxMode = true;
+                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+                }else{
+                    removeSpitPlayer();
+                    mRlVideoPlay.removeView(mViewPagerMult);
+                    mRlVideoPlay.addView(mViewPagerSingle);
+                    int curpage = mViewPagerSingle.getCurrentItem();
+                    if (mVideoFragments.length > curpage)
+                        mVideoFragments[curpage].onSupportVisible();
+                    m4BoxMode = false;
+                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
+                }
+            }
+        });
+
+        mRlVideoQa = view.findViewById(R.id.vv_rl_videoqa);
+        mTvVideoQa = (TextView) mRlVideoQa.findViewById(R.id.vv_tv_videoqa);
+        mRlVideoQa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
                     showToast("请选择具体设备");
                     return;
                 }
+
+                final VideoFragment fragment = getInTopVideo();
+                if (!fragment.isVideoNormal())
+                    return;
                 AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
                 builder.setTitle("选择码流");
-                builder.setItems(   new String[]{"高清","标清","流畅", new DialogInterface.OnClickListener() {
+                builder.setItems( new String[]{"高清","标清"}, new DialogInterface.OnClickListener(){
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mEZPlayer == null) {
-                            return;
+                    public void onClick(DialogInterface dialog, int position) {
+                        if (fragment != null) {
+                            switch (position) {
+                                case 0:
+                                    //高清
+                                    fragment.setVideoQa(VideoFragment.QA_HD);
+                                    mTvVideoQa.setText("高清");
+                                    dialog.dismiss();
+                                    break;
+                                case 1:
+                                    //标清
+                                    fragment.setVideoQa(VideoFragment.QA_BA);
+                                    mTvVideoQa.setText("标清");
+                                    dialog.dismiss();
+                                    break;
+                            }
                         }
-                        int tag = -1;
-                        // 视频质量，2-高清，1-标清，0-流畅
-                        if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_FLUNET) {
-                            tag = 2;
-                        } else if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_BALANCED) {
-                            tag = 1;
-                        } else if (mCameraInfo.getVideoLevel() == EZConstants.EZVideoLevel.VIDEO_LEVEL_HD) {
-                            tag = 0;
-                        }
-                        if (tag == position)
-                            return;
-                        switch (position){
-                            case 0:
-                                //高清
-                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_HD);
-                                break;
-                            case 1:
-                                //标清
-                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_BALANCED);
-                                break;
-                            case 2:
-                                //流畅
-                                setQualityMode(EZConstants.EZVideoLevel.VIDEO_LEVEL_FLUNET);
-                                break;
-                        }
-                    }
                     }
                 });
                 builder.setPositiveButton("取消", null);
                 builder.show();
             }
         });
-
-        mRlVideoQa = view.findViewById(R.id.vv_rl_videoqa);
-        mTvVideoQa = (TextView) findViewById(R.id.vv_tv_videoqa);
-
-
 
         mRlFullScreen = view.findViewById(R.id.vv_rl_fullscreen);
         mRlFullScreen.setOnClickListener(new View.OnClickListener() {
@@ -374,25 +610,42 @@ public class VideoPlayActivity extends BaseToolBarActivity {
                 updateOrientation();
             }
         });
-//        mRlStartVideo = view.findViewById(R.id.vv_rl_startvideo);
-//        mImgStartVideo = (ImageView)mRlStartVideo.findViewById(R.id.vv_img_startvideo);
-//        mRlStartVideo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //播放与暂停
-//                VideoFragment fragment = getInTopVideo();
-//                if (fragment!=null){
-//                    Boolean res = fragment.startPlay();
-//                    if (res!=null){
-//                        if (res){
-//                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
-//                        }else{
-//                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-//                        }
-//                    }
-//                }
-//            }
-//        });
+        mRlStartVideo = view.findViewById(R.id.vv_rl_startvideo);
+        mImgStartVideo = (ImageView)mRlStartVideo.findViewById(R.id.vv_img_startvideo);
+        mRlStartVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+
+                //播放与暂停
+                VideoFragment fragment = getInTopVideo();
+                if (fragment!=null){
+                    Boolean res = fragment.startPlay();
+                    if (res!=null){
+                        if (res){
+                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+                        }else{
+                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void showSpitWindow() {
+        buildMultViewPager();
+        mViewPagerMult.setVisibility(View.VISIBLE);
+    }
+
+    private void stopCurPlayer() {
+        VideoFragment fragment = getInTopVideo();
+        if (fragment!=null){
+            fragment.onSupportInvisible();
+        }
     }
 
     private VideoFragment getInTopVideo(){
@@ -560,5 +813,7 @@ public class VideoPlayActivity extends BaseToolBarActivity {
     public interface OnVideoSelect {
         void onVideoSelect(String placeStr);
         void onVideoPlayState(int state);
+        void onVideoVoiceControl(boolean bOpen);
+        void onVideoRecordState(boolean bStart);
     }
 }
