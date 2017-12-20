@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.SparseArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +20,8 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,15 +31,14 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.videogo.openapi.EZConstants;
-import com.videogo.openapi.bean.EZDeviceInfo;
 import com.videogo.util.RotateViewUtil;
+import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.vise.xsnow.ui.adapter.recycleview.CommonAdapter;
 import com.vise.xsnow.ui.adapter.recycleview.base.ViewHolder;
 import com.vise.xsnow.ui.adapter.recycleview.wrapper.HeaderAndFooterWrapper;
-import com.yhkj.yymall.BaseToolBarActivity;
+import com.yhkj.yymall.BaseActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.adapter.NormalFragmentAdapter;
 import com.yhkj.yymall.bean.GoodsLikeBean;
@@ -53,7 +51,6 @@ import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
 import com.yhkj.yymall.view.ItemOffsetDecoration;
 import android.support.v4.view.ViewPager;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
@@ -66,7 +63,7 @@ import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
  * Created by Administrator on 2017/12/16.
  */
 
-public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoFragment.OnSpitVideoSelect {
+public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment.OnSpitVideoSelect {
 
     @Bind(R.id.vr_refreshview)
     SmartRefreshLayout mRefreshView;
@@ -80,7 +77,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
     @Bind(R.id.av_viewpager_single)
     ViewPager mViewPagerSingle;
 
-    @Bind(R.id.av_Rl_videoplay)
+    @Bind(R.id.av_rl_videoplay)
     RelativeLayout mRlVideoPlay;
 
     @Bind(R.id.av_tv_places)
@@ -91,6 +88,18 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
 
     @Bind(R.id.av_rl_place)
     RelativeLayout mRlPlace;
+
+    @Bind(R.id.av_img_back)
+    ImageView mImgBack;
+
+    @Bind(R.id.av_tv_title)
+    TextView mTvTitle;
+
+    @Bind(R.id.av_rl_toolbar)
+    RelativeLayout mRlToolbar;
+
+    @Bind(R.id.av_rl_loading)
+    RelativeLayout mRlLoading;
 
     private ViewGroup.LayoutParams mVCLayouyParams;
 
@@ -146,16 +155,16 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
         if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
             // 显示状态栏
             fullScreen(false);
-            setStatusVisiable(VISIBLE);
-            setToolbarVisiable(true);
+            setStatusViewVisiable(true);
+            mRlToolbar.setVisibility(VISIBLE);
             if (!m4BoxMode)
                 mRlPlace.setVisibility(GONE);
             mRlVideoPlay.setLayoutParams(mVCLayouyParams);
         } else {
             // 隐藏状态栏
             fullScreen(true);
-            setStatusVisiable(GONE);
-            setToolbarVisiable(false);
+            setStatusViewVisiable(false);
+            mRlToolbar.setVisibility(GONE);
             if (!m4BoxMode)
                 mRlPlace.setVisibility(VISIBLE);
             LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -187,9 +196,10 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
 
     @Override
     protected void initView() {
-        super.initView();
-        setToolBarColor(getResources().getColor(R.color.theme_bule));
-        setTvTitleText(getIntent().getStringExtra("title"));
+//        setToolBarColor(getResources().getColor(R.color.theme_bule));
+//        setTvTitleText(getIntent().getStringExtra("title"));
+        setStatusColor(getResources().getColor(R.color.halfblackbar));
+        mTvTitle.setText(getIntent().getStringExtra("title"));
         mRecycleView.setLayoutManager(new GridLayoutManager(this,2));
         mRecycleView.addItemDecoration(new ItemOffsetDecoration(CommonUtil.dip2px(this,1)));
         mRefreshView.setEnableRefresh(false);
@@ -204,11 +214,21 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
 
     @Override
     protected void bindEvent() {
-        super.bindEvent();
+
         mImgFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateOrientation();
+            }
+        });
+        mImgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (mOrientation != Configuration.ORIENTATION_PORTRAIT){
+//                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                    return;
+//                }
+                AppManager.getInstance().finishActivity(VideoPlayActivity.this);
             }
         });
     }
@@ -266,7 +286,6 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
 
             @Override
             public void onNext(GoodsLikeBean.DataBean dataBean) {
-                setNetWorkErrShow(GONE);
                 if (bLoadmore != null && mAdapter !=null) {
                     mRefreshView.finishLoadmore();
                     if (dataBean!=null && dataBean.getList() != null && dataBean.getList().size() > 0){
@@ -290,8 +309,10 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                     mWrapperAdapter = new HeaderAndFooterWrapper(mAdapter);
                     mControlView = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
                     bindControlView(mControlView);
+
                     buildSingleViewPager();
                 }
+                mRlLoading.setVisibility(GONE);
             }
         });
     }
@@ -345,21 +366,78 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
         m4BoxMode = false;
         removeSpitPlayer();
         mRlVideoPlay.removeView(mViewPagerMult);
-        mRlVideoPlay.addView(mViewPagerSingle);
+        mRlVideoPlay.addView(mViewPagerSingle,0);
         int i=0;
         for (;i<mVideoFragments.length;i++){
             if (mVideoFragments[i].getDataBean().getDeviceSerial().equals(deviceInfo.getDeviceSerial())){
                 mViewPagerSingle.setCurrentItem(i);
                 mVideoFragments[i].onSupportVisible();
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                mVideoFragments[i].setSurfaceSize(m4BoxMode == false ? dm.widthPixels : dm.widthPixels/2);
                 break;
             }
+        }
+    }
+
+    private Animation mToolBarInAnimation,mToolBarOutAnimation;
+    private void toolBarAnimation(boolean show){
+        if (!show){
+            if (mToolBarOutAnimation==null){
+                mToolBarOutAnimation = AnimationUtils.loadAnimation(VideoPlayActivity.this, R.anim.fade_out);
+                mToolBarOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mRlToolbar.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
+            mRlToolbar.startAnimation(mToolBarOutAnimation);
+        }else{
+            if (mToolBarInAnimation==null){
+                mToolBarInAnimation = AnimationUtils.loadAnimation(VideoPlayActivity.this, R.anim.fade_in);
+                mToolBarInAnimation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mRlToolbar.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
+            mRlToolbar.startAnimation(mToolBarInAnimation);
         }
     }
 
     private void buildSingleViewPager() {
         mVideoFragments = new VideoFragment[mListData.size()];
         for (int i=0; i<mListData.size();i++){
-            mVideoFragments[i] = VideoFragment.getInstance(mToken,i,mListData.get(i)).setVideoParent(new OnVideoSelect() {
+            mVideoFragments[i] = VideoFragment.getInstance(mToken,i,
+                    i == getIntent().getIntExtra("pos",-1),
+                    mListData.get(i)).setVideoParent(new OnVideoSelect() {
+                @Override
+                public void onVideoClick() {
+                    toolBarAnimation(mRlToolbar.getVisibility() != VISIBLE);
+                }
+
                 @Override
                 public void onVideoSelect(String placeStr) {
                     mTvPlaces.setText(placeStr);
@@ -368,7 +446,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                 @Override
                 public void onVideoPlayState(int state) {
                     if (state == EZUIPlayer.STATUS_PLAY){
-                        mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+                        mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
                     }else{
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
                     }
@@ -377,9 +455,9 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                 @Override
                 public void onVideoVoiceControl(boolean bOpen) {
                     if (bOpen){
-                        mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
-                    }else{
                         mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                    }else{
+                        mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
                     }
                 }
 
@@ -397,14 +475,12 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
         }
         NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mVideoFragments);
         mViewPagerSingle.setAdapter(fragmentAdapter);
-        mWrapperAdapter.addHeaderView(mControlView);
-        mRecycleView.setAdapter(mWrapperAdapter);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mViewPagerSingle.setCurrentItem(getIntent().getIntExtra("pos",0),false);
             }
-        },300);
+        },100);
     }
 
     @Override
@@ -492,9 +568,9 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                     Boolean res = fragment.onSoundBtnClick();
                     if (res!=null){
                         if (res){
-                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
-                        }else{
                             mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                        }else{
+                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
                         }
                     }
                 }
@@ -514,7 +590,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                         if (fragment.getIsRecord()){
                             AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
                             builder.setTitle("提示");
-                            builder.setMessage("暂停观看直播会终止录像，是否暂停观看？");
+                            builder.setMessage("进入分屏界面会终止录像，是否进入分屏？");
                             builder.setPositiveButton("取消", null);
                             builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
@@ -524,7 +600,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                                     removeSpitPlayer();
                                     mRlVideoPlay.removeView(mViewPagerSingle);
                                     if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
-                                        mRlVideoPlay.addView(mViewPagerMult);
+                                        mRlVideoPlay.addView(mViewPagerMult,0);
                                     showSpitWindow();
                                     m4BoxMode = true;
                                     mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
@@ -543,7 +619,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                     removeSpitPlayer();
                     mRlVideoPlay.removeView(mViewPagerSingle);
                     if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
-                        mRlVideoPlay.addView(mViewPagerMult);
+                        mRlVideoPlay.addView(mViewPagerMult,0);
                     showSpitWindow();
                     m4BoxMode = true;
                     mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
@@ -552,7 +628,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                 }else{
                     removeSpitPlayer();
                     mRlVideoPlay.removeView(mViewPagerMult);
-                    mRlVideoPlay.addView(mViewPagerSingle);
+                    mRlVideoPlay.addView(mViewPagerSingle,0);
                     int curpage = mViewPagerSingle.getCurrentItem();
                     if (mVideoFragments.length > curpage)
                         mVideoFragments[curpage].onSupportVisible();
@@ -626,7 +702,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                     Boolean res = fragment.startPlay();
                     if (res!=null){
                         if (res){
-                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_videostop);
+                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
                         }else{
                             mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
                         }
@@ -634,6 +710,8 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
                 }
             }
         });
+        mWrapperAdapter.addHeaderView(mControlView);
+        mRecycleView.setAdapter(mWrapperAdapter);
     }
 
     private void showSpitWindow() {
@@ -811,6 +889,7 @@ public class VideoPlayActivity extends BaseToolBarActivity implements SpitVideoF
     }
 
     public interface OnVideoSelect {
+        void onVideoClick();
         void onVideoSelect(String placeStr);
         void onVideoPlayState(int state);
         void onVideoVoiceControl(boolean bOpen);

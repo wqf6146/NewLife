@@ -53,11 +53,12 @@ import static android.view.View.GONE;
 
 public class VideoFragment extends SupportFragment {
 
-    public static VideoFragment getInstance(String token,int pos,VideoListBean.DataBean.ListBean bean) {
+    public static VideoFragment getInstance(String token,int pos,boolean bShow,VideoListBean.DataBean.ListBean bean) {
         VideoFragment fragment = new VideoFragment();
         Bundle bundle = new Bundle();
         bundle.putString("token",token);
         bundle.putInt("pos",pos);
+        bundle.putBoolean("bshow",bShow);
         bundle.putParcelable("data",bean);
         fragment.setArguments(bundle);
         return fragment;
@@ -84,20 +85,26 @@ public class VideoFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_video,container,false);
         mRlContainer = (RelativeLayout)view;
-
         init(view);
-
         return view;
     }
 
     private void init(View view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mVideoParent!=null)
+                    mVideoParent.onVideoClick();
+            }
+        });
+
+
         mEzUiPlayer = (EZUIPlayer) view.findViewById(R.id.vv_ezuiplayer);
         mTvTip = (TextView)view.findViewById(R.id.vv_tv_tip);
         mImgPic = (ImageView)view.findViewById(R.id.vv_img_pic);
         mLLRecordView = (LinearLayout)view.findViewById(R.id.vv_ll_record);
         mImgRecordTag = (ImageView)view.findViewById(R.id.vv_img_realplay);
         mTvRecordSec = (TextView)view.findViewById(R.id.vv_tv_realplay);
-
         mToken = getArguments().getString("token");
         mDataBean = getArguments().getParcelable("data");
     }
@@ -117,7 +124,7 @@ public class VideoFragment extends SupportFragment {
         initUi();
     }
     private LocalInfo mLocalInfo;
-    private void initUi() {
+    private void initUi(){
         if (mDataBean.getStatus() != 1){
             mRlContainer.removeView(mEzUiPlayer);
             mErrStr = "设备不在线";
@@ -133,7 +140,8 @@ public class VideoFragment extends SupportFragment {
         _mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         mEzUiPlayer.setSurfaceSize(dm.widthPixels, 0);
         mEzUiPlayer.setOpenSound(false);
-        mEzUiPlayer.setAutoPlay(getArguments().getInt("pos",0) == 0 ? true : false);
+        //getArguments().getInt("pos",0) == 0 ? true : false
+        mEzUiPlayer.setAutoPlay(getArguments().getBoolean("bshow"));
         mEzUiPlayer.setCallBack(new EZUIPlayer.EZUIPlayerCallBack() {
 
             @Override
@@ -143,6 +151,7 @@ public class VideoFragment extends SupportFragment {
 
             @Override
             public void onShowLoading() {
+                mImgPic.setVisibility(GONE);
                 laodingView.setVisibility(View.VISIBLE);
             }
 
@@ -150,6 +159,7 @@ public class VideoFragment extends SupportFragment {
             public void onPlaySuccess() {
                 Log.e("ezuiplayer","onPlaySuccess");
 //                            ezUIPlayer.setZOrderOnTop(true);
+                mImgPic.setVisibility(GONE);
                 laodingView.setVisibility(View.INVISIBLE);
                 if (mInTop && mVideoParent!=null) {
                     mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_PLAY);
@@ -211,6 +221,7 @@ public class VideoFragment extends SupportFragment {
             mVideoParent.onVideoSelect(mDataBean.getTitle());
 
         if (mDataBean.getStatus() == 1 && mEzUiPlayer.getStatus() != EZUIPlayer.STATUS_PLAY){
+            mImgPic.setVisibility(GONE);
             mEzUiPlayer.startPlay();
         }else {
             if (mVideoParent!=null){

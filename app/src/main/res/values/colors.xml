@@ -25,6 +25,7 @@
     <color name="translucent">#00000000</color>
     <color name="ic_default_bg_color">#33000000</color>
     <color name="ttbalck_bg">#88151515</color>
+    <color name="halfblackbar">#252525</color>
     <!--popview-->
     <color name="divider">#999</color>
     <color name="pop_bg_content">#F9F9F9</color>

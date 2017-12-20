@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
+import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.view.View.GONE;
 import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_ERROR;
 import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_EXPIRED;
@@ -214,8 +215,8 @@ public abstract class BaseActivity extends me.yokeyword.fragmentation.SupportAct
         mRlNoNetwork = (RelativeLayout)findViewById(R.id.ftr_rl_nodata);
         mLlNoNetWorkEntity = (ViewGroup)mRootView.findViewById(R.id.ftr_ll_nonetwork);
         mRlNoNetwork.setVisibility(GONE);
-
-        mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
+        if (Build.VERSION.SDK_INT >= KITKAT)
+            mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
 
         mLlNoNetWorkEntity.setOnClickListener(new View.OnClickListener() {
             @Override

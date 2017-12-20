@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="false"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/circle_graybg"
         android:gravity="center"
         android:visibility="gone">

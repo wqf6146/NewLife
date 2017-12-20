@@ -119,6 +119,19 @@ public class YYMallApi {
     }
 
     /**
+     * 直播页面
+     *
+     * @param context
+     * @param callback
+     * @param <T>
+     */
+    public static <T> void getVideoIo(Context context, ApiCallback<T> callback) {
+        ViseApi api = new ViseApi.Builder(context).build();
+        api.apiPost(ApiService.HOMEACT, new HashMap<String, String>(), false, callback);
+    }
+
+
+    /**
      * 线下活动接口回调
      *
      * @param context

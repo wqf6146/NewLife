@@ -18,6 +18,8 @@ public interface ApiService {
 
     String HOST = "https://api.yiyiyaya.cc";
 
+    String GETCARMERPAGEINFO = "/video/carmerInfo";
+
     String GETMES = HOST + "/article/jPushInfo";
 
     String GETVIDEOLIST = HOST + "/video/videoList";

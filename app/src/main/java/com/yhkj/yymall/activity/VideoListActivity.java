@@ -27,6 +27,7 @@ import com.vise.xsnow.ui.adapter.recycleview.wrapper.HeaderAndFooterWrapper;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.adapter.UltraBannerPagerAdapter;
+import com.yhkj.yymall.bean.ShopDetailsBean;
 import com.yhkj.yymall.bean.VideoDescBean;
 import com.yhkj.yymall.bean.VideoListBean;
 import com.yhkj.yymall.http.YYMallApi;
@@ -50,9 +51,6 @@ public class VideoListActivity extends BaseToolBarActivity {
 
     @Bind(R.id.av_recycleview)
     RecyclerView mRecycleView;
-
-    @Bind(R.id.av_tv_nextstep)
-    TextView mTvNextStep;
 
     HeaderAndFooterWrapper mWrapperAdapter;
     CommonAdapter mCommonAdapter;
@@ -175,24 +173,24 @@ public class VideoListActivity extends BaseToolBarActivity {
                 Glide.with(VideoListActivity.this).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into((ImageView)holder.getView(R.id.iv_img));
                 holder.setText(R.id.iv_tv_title,bean.getTitle());
                 holder.setText(R.id.iv_tv_content,bean.getSchool_name());
-                setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                        Intent intent = new Intent(mContext,VideoPlayActivity.class);
-                        intent.putExtra("pos",position-1);
-                        intent.putExtra("title",bean.getTitle());
-                        intent.putExtra("token",dataBean.getToken());
-                        intent.putParcelableArrayListExtra("list",dataBean.getList());
-                        mContext.startActivity(intent);
-                    }
-
-                    @Override
-                    public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                        return false;
-                    }
-                });
             }
         };
+        mCommonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener<VideoListBean.DataBean.ListBean>() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, VideoListBean.DataBean.ListBean bean, int position) {
+                Intent intent = new Intent(mContext,VideoPlayActivity.class);
+                intent.putExtra("pos",position-1);
+                intent.putExtra("title",bean.getTitle());
+                intent.putExtra("token",dataBean.getToken());
+                intent.putParcelableArrayListExtra("list",dataBean.getList());
+                mContext.startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
 
         mWrapperAdapter = new HeaderAndFooterWrapper(mCommonAdapter);
         mWrapperAdapter.addHeaderView(ultraViewPager);

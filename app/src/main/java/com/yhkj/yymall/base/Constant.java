@@ -268,5 +268,5 @@ public interface Constant {
     /**
      * 海康
      */
-    String HK_AppKey = "0f74e3ed04794788a1b2ac9e45109031";
+    String HK_AppKey = "f8f94e113e7f4116a11bf5723e015c82";
 }
