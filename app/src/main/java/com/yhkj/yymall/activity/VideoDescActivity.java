@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -106,7 +108,8 @@ public class VideoDescActivity extends BaseToolBarActivity {
                 setNetWorkErrShow(View.GONE);
                 mDataBean = dataBean;
                 initUi(dataBean);
-                mTvDesc.setText(dataBean.getExplain());
+                mTvDesc.setMovementMethod(ScrollingMovementMethod.getInstance());//滚动
+                mTvDesc.setText(Html.fromHtml(dataBean.getExplain()));
             }
 
             @Override

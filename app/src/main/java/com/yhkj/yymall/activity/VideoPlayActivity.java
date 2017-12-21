@@ -5,20 +5,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,6 +35,8 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.videogo.openapi.EZConstants;
+import com.videogo.realplay.RealPlayStatus;
 import com.videogo.util.RotateViewUtil;
 import com.vise.xsnow.manager.AppManager;
 import com.vise.xsnow.net.callback.ApiCallback;
@@ -42,6 +48,7 @@ import com.yhkj.yymall.BaseActivity;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.adapter.NormalFragmentAdapter;
 import com.yhkj.yymall.bean.GoodsLikeBean;
+import com.yhkj.yymall.bean.VideoIoBean;
 import com.yhkj.yymall.bean.VideoListBean;
 import com.yhkj.yymall.fragment.SpitVideoFragment;
 import com.yhkj.yymall.fragment.VideoFragment;
@@ -49,6 +56,8 @@ import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.CommonUtil;
 import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
 import com.yhkj.yymall.view.ItemOffsetDecoration;
+import com.yhkj.yymall.view.popwindows.VideoControlPopupView;
+
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
@@ -113,6 +122,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mOrientation = newConfig.orientation;
+        if (mVideoFragments == null) return;
+        if (mControlPopupView!=null && mControlPopupView.isShowing())
+            mControlPopupView.dismiss();
         updateOperatorUI();
         setSurfaceSize();
     }
@@ -159,7 +171,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             mRlToolbar.setVisibility(VISIBLE);
             if (!m4BoxMode)
                 mRlPlace.setVisibility(GONE);
-            mRlVideoPlay.setLayoutParams(mVCLayouyParams);
+            mRlVideoPlay.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mRlVideoPlay.setLayoutParams(mVCLayouyParams);
+                }
+            },200);
         } else {
             // 隐藏状态栏
             fullScreen(true);
@@ -167,10 +184,15 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             mRlToolbar.setVisibility(GONE);
             if (!m4BoxMode)
                 mRlPlace.setVisibility(VISIBLE);
-            LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
-            realPlayPlayRlLp.gravity = Gravity.CENTER;
-            mRlVideoPlay.setLayoutParams(realPlayPlayRlLp);
+            mRlVideoPlay.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    LinearLayout.LayoutParams realPlayPlayRlLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    realPlayPlayRlLp.gravity = Gravity.CENTER;
+                    mRlVideoPlay.setLayoutParams(realPlayPlayRlLp);
+                }
+            },200);
         }
     }
     private void fullScreen(boolean enable) {
@@ -199,7 +221,6 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 //        setToolBarColor(getResources().getColor(R.color.theme_bule));
 //        setTvTitleText(getIntent().getStringExtra("title"));
         setStatusColor(getResources().getColor(R.color.halfblackbar));
-        mTvTitle.setText(getIntent().getStringExtra("title"));
         mRecycleView.setLayoutManager(new GridLayoutManager(this,2));
         mRecycleView.addItemDecoration(new ItemOffsetDecoration(CommonUtil.dip2px(this,1)));
         mRefreshView.setEnableRefresh(false);
@@ -214,7 +235,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
     @Override
     protected void bindEvent() {
-
+        mRlVideoPlay.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mRlVideoPlay.getLayoutParams().height = (int) (mRlVideoPlay.getWidth() / 1.77);
+            }
+        });
         mImgFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,21 +250,25 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mOrientation != Configuration.ORIENTATION_PORTRAIT){
-//                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//                    return;
-//                }
+                if (mOrientation != Configuration.ORIENTATION_PORTRAIT){
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    return;
+                }
                 AppManager.getInstance().finishActivity(VideoPlayActivity.this);
             }
         });
     }
 
     private List<VideoListBean.DataBean.ListBean> mListData;
-    private String mToken;
+    private String mToken,mTitle;
+
+    private int mCurVideoId;
 
     @Override
     protected void initData() {
         mListData = getIntent().getParcelableArrayListExtra("list");
+        mTitle = mListData.get(getIntent().getIntExtra("pos",0)).getTitle();
+        mTvTitle.setText(mTitle);
         mToken = getIntent().getStringExtra("token");
         mOrientationDetector = new MyOrientationDetector(this);
         mRecordRotateViewUtil = new RotateViewUtil();
@@ -249,6 +279,56 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         super.onActivityLoadFinish();
         mVCLayouyParams = mRlVideoPlay.getLayoutParams();
         getGoodsData(null);
+        mControlView = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
+        bindControlView(mControlView);
+        buildSingleViewPager();
+    }
+    private VideoIoBean.DataBean mVideoIoBean;
+    private void getIoPageData(final int id){
+        YYMallApi.getVideoIoInfo(this, id, false,new ApiCallback<VideoIoBean.DataBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onNext(VideoIoBean.DataBean dataBean) {
+                if (mCurVideoId == id){
+                    mVideoIoBean = dataBean;
+                    setControlBtnState();
+                    if (dataBean.getImg_valid() == 0){
+                        VideoFragment fragment = getInTopVideo();
+                        if (fragment!=null)
+                            fragment.uploadCurFrame();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ApiException e){
+                super.onError(e);
+                showToast(e.getMessage());
+            }
+        });
+    }
+
+    private void setControlBtnState() {
+        mRlControl.setEnabled(true);
+        if (mVideoIoBean.getRestHandleSecond() > 0 ) {
+            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+            mTvControl.setTag(true);//表示控制中
+        }else if (mVideoIoBean.getNextHandleSecond() > 0){
+            mHandler.removeMessages(1);
+            mHandler.removeMessages(0);
+            mRankSec = mVideoIoBean.getNextHandleSecond();
+            mHandler.sendMessage(buildMessage(true));
+            mTvControl.setTag(false);//表示排队中
+        }
     }
 
     @Override
@@ -307,10 +387,8 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     };
 
                     mWrapperAdapter = new HeaderAndFooterWrapper(mAdapter);
-                    mControlView = LayoutInflater.from(VideoPlayActivity.this).inflate(R.layout.view_videoandcontrol,mRecycleView,false);
-                    bindControlView(mControlView);
-
-                    buildSingleViewPager();
+                    mWrapperAdapter.addHeaderView(mControlView);
+                    mRecycleView.setAdapter(mWrapperAdapter);
                 }
                 mRlLoading.setVisibility(GONE);
             }
@@ -380,6 +458,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         }
     }
 
+    private int mBlueColor = Color.argb(255,00,124,209);
     private Animation mToolBarInAnimation,mToolBarOutAnimation;
     private void toolBarAnimation(boolean show){
         if (!show){
@@ -427,6 +506,8 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         }
     }
 
+    private Boolean mNeedUpdate = null;
+
     private void buildSingleViewPager() {
         mVideoFragments = new VideoFragment[mListData.size()];
         for (int i=0; i<mListData.size();i++){
@@ -439,14 +520,23 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 }
 
                 @Override
-                public void onVideoSelect(String placeStr) {
-                    mTvPlaces.setText(placeStr);
+                public void onVideoSelect(VideoListBean.DataBean.ListBean bean) {
+                    mTvPlaces.setText(bean.getTitle());
+                    mTvTitle.setText(bean.getTitle());
+                    mRlControl.setEnabled(false);
+                    mTvControl.setText("控制");
+                    mTvControl.setTextColor(mBlueColor);
+                    mTvControl.setTag(null);
+                    mHandler.removeMessages(0);
+                    mHandler.removeMessages(1);
+                    mCurVideoId = bean.getId();
                 }
 
                 @Override
                 public void onVideoPlayState(int state) {
                     if (state == EZUIPlayer.STATUS_PLAY){
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
+                        getIoPageData(mCurVideoId);
                     }else{
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
                     }
@@ -502,7 +592,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
     private View mRlFullScreen,mRlStartVideo,mRlMultScreen,mRlVideoQa,mRLVoiceControl,mRlTakePhoto,mRlRecord,mRlControl,mFlRecordContainer;
     private ImageView mImgMultScreen,mImgStartVideo,mImgVoiceControl,mImgRecordStart,mImgRecordStop;
-    private TextView mTvVideoQa;
+    private TextView mTvVideoQa,mTvControl;
     private RotateViewUtil mRecordRotateViewUtil;
     private void bindControlView(final View view) {
 
@@ -526,6 +616,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         });
 
         mRlControl = view.findViewById(R.id.vv_rl_control);
+        mTvControl = (TextView) mRlControl.findViewById(R.id.vv_tv_control);
         mRlControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -533,6 +624,85 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     showToast("请选择具体设备");
                     return;
                 }
+
+//                if (canControlVideo()){
+//                    openVideoControlWindow(mVideoIoBean.getRestHandleSecond());
+//                    return;
+//                }
+                Boolean res = mTvControl.getTag() == null ? null : (Boolean) mTvControl.getTag();
+                if (res!=null){
+                    if (res){
+                        //控制中
+                        YYMallApi.getVideoIoInfo(VideoPlayActivity.this, mCurVideoId, true,new ApiCallback<VideoIoBean.DataBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onNext(VideoIoBean.DataBean dataBean) {
+                                if (dataBean.getRestHandleSecond() > 0)
+                                    openVideoControlWindow(dataBean.getRestHandleSecond());
+                                else {
+                                    mTvControl.setTag(null);
+                                    mTvControl.setTextColor(mBlueColor);
+                                    showToast("您当前控制已过期，点击重新申请控制。");
+                                }
+                            }
+
+                            @Override
+                            public void onError(ApiException e) {
+                                showToast(e.getMessage());
+                            }
+                        });
+                    }else{
+                        //排队中
+                        showToast("处于队列中，还需等待 " + mRankSec + "秒哦");
+                    }
+                    return;
+                }
+
+
+                YYMallApi.applyVideoControl(VideoPlayActivity.this, mCurVideoId, new ApiCallback<VideoIoBean.DataBean>() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(VideoIoBean.DataBean dataBean) {
+                        mVideoIoBean = dataBean;
+                        if (dataBean.getNextHandleSecond() == 0){
+                            //立即控制
+                            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+                            mTvControl.setTag(true);
+                            openVideoControlWindow(dataBean.getRestHandleSecond());
+                        }else{
+                            //排队  true排队 false开始
+                            mHandler.removeMessages(1);
+                            mHandler.removeMessages(0);
+                            mTvControl.setTag(false);
+                            mRankSec = dataBean.getNextHandleSecond();
+                            mHandler.sendMessage(buildMessage(true));
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        super.onError(e);
+                        showToast(e.getMessage());
+                    }
+                });
             }
         });
 
@@ -710,8 +880,142 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 }
             }
         });
-        mWrapperAdapter.addHeaderView(mControlView);
-        mRecycleView.setAdapter(mWrapperAdapter);
+    }
+
+    private Message buildMessage(boolean bOpen){
+        Message message = new Message();
+        message.obj = bOpen;
+        message.what = bOpen ? 0 : 1;
+        return message;
+    }
+
+//    private boolean bCanControl = false;
+//    private boolean canControlVideo(){
+//        if (mVideoIoBean!=null){
+//            return bCanControl || mVideoIoBean.getNextHandleSecond() == 0 || mVideoIoBean.getRestHandleSecond() > 0 ;
+//
+//        }
+//        return false;
+//    }
+//    private boolean mRanking = false;
+    private int mRankSec;
+    Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (VideoPlayActivity.this.isFinishing()){
+                return false;
+            }
+            Boolean res = (Boolean) msg.obj;
+            if (res){
+                //排队
+                mTvControl.setText("等待控制：" + CommonUtil.secToMills(mRankSec));
+                if (mRankSec > 0){
+                    mRankSec--;
+                    mHandler.sendMessageDelayed(buildMessage(true),1000l);
+                }else{
+                    //去控制
+                    allowControlVideo(mVideoIoBean.getHandleTime());
+                }
+            }
+//            else{
+//                mTvControl.setText("控制：" + sec + "s");
+//                if (sec > 0){
+//                    mHandler.sendMessageDelayed(buildMessage(false,sec-1),1000l);
+//                }else{
+//                    clear
+//                    realseControlVideo();
+//                }
+//            }
+
+            return false;
+        }
+    });
+
+//    private void realseControlVideo() {
+//        mTvControl.setText("控制");
+//    }
+
+    private void allowControlVideo(int time) {
+//        mHandler.sendMessage(buildMessage(false,time));
+        mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+        mTvControl.setText("控制");
+        mTvControl.setTag(true);
+        showToast("现在可以控制摄像头啦");
+        openVideoControlWindow(mVideoIoBean.getHandleTime());
+    }
+
+    private VideoControlPopupView mControlPopupView;
+    private void openVideoControlWindow(int resTime) {
+        if (mControlPopupView == null){
+            mControlPopupView = new VideoControlPopupView(VideoPlayActivity.this);
+            mControlPopupView.setLastTime(resTime);
+            mControlPopupView.setOnVideoControl(new VideoControlPopupView.OnVideoControl() {
+
+                @Override
+                public void onControlEnd() {
+                    mTvControl.setTag(null);
+                    mTvControl.setTextColor(mBlueColor);
+                }
+
+                @Override
+                public void onActionTop(boolean bDownOrUp) {
+                    VideoFragment fragment = getInTopVideo();
+                    if (fragment!=null){
+                        if (bDownOrUp){
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_UP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTART);
+                        }else{
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                        }
+                    }
+                }
+
+                @Override
+                public void onActionLeft(boolean bDownOrUp) {
+                    VideoFragment fragment = getInTopVideo();
+                    if (fragment!=null){
+                        if (bDownOrUp){
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_LEFT);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTART);
+                        }else{
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                        }
+                    }
+                }
+
+                @Override
+                public void onActionRight(boolean bDownOrUp) {
+                    VideoFragment fragment = getInTopVideo();
+                    if (fragment!=null){
+                        if (bDownOrUp){
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_RIGHT);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTART);
+                        }else{
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                        }
+                    }
+                }
+
+                @Override
+                public void onActionBottom(boolean bDownOrUp) {
+                    VideoFragment fragment = getInTopVideo();
+                    if (fragment!=null){
+                        if (bDownOrUp){
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_DOWN);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTART);
+                        }else{
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                        }
+                    }
+                }
+            });
+        }
+        mControlPopupView.setLastTime(resTime);
+        mControlPopupView.showPopupWindow();
     }
 
     private void showSpitWindow() {
@@ -890,7 +1194,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
     public interface OnVideoSelect {
         void onVideoClick();
-        void onVideoSelect(String placeStr);
+        void onVideoSelect(VideoListBean.DataBean.ListBean bean);
         void onVideoPlayState(int state);
         void onVideoVoiceControl(boolean bOpen);
         void onVideoRecordState(boolean bStart);

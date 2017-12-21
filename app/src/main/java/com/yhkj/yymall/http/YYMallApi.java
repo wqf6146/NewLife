@@ -118,16 +118,33 @@ public class YYMallApi {
         api.apiPost(ApiService.HOMEACT, new HashMap<String, String>(), false, callback);
     }
 
+
     /**
      * 直播页面
      *
      * @param context
+
+     * @param <T>
+     */
+    public static <T> void getVideoIoInfo(Context context,int id, Boolean bShow,ApiCallback<T> callback) {
+        ViseApi api = new ViseApi.Builder(context).build();
+        HashMap hashMap = new HashMap();
+        hashMap.put("id",id);
+        api.apiPost(ApiService.GETCARMERPAGEINFO,YYApp.getInstance().getToken(),hashMap, bShow, callback);
+    }
+
+    /**
+     * 申请控制
+     * @param context
+     * @param id
      * @param callback
      * @param <T>
      */
-    public static <T> void getVideoIo(Context context, ApiCallback<T> callback) {
+    public static <T> void applyVideoControl(Context context,int id, ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
-        api.apiPost(ApiService.HOMEACT, new HashMap<String, String>(), false, callback);
+        HashMap hashMap = new HashMap();
+        hashMap.put("id",id);
+        api.apiPost(ApiService.VIDEOCONTROL,YYApp.getInstance().getToken(),hashMap, true, callback);
     }
 
 
@@ -1290,6 +1307,15 @@ public class YYMallApi {
         RequestBody requestName = RequestBody.create(okhttp3.MultipartBody.FORM, name);
         RequestBody requestSex = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(sex));
         api.uploadImage(ApiService.UPDATEUSERINFO, YYApp.getInstance().getToken(), avatar, requestName, requestSex, true, callback);
+    }
+
+    /**
+     * UPDATEVIDEOFRAME
+     */
+    public static <T> void updateCurFragme(Context context, File avatar, String id,ApiCallback<T> callback) {
+        ViseApi api = new ViseApi.Builder(context).build();
+        RequestBody pid = RequestBody.create(okhttp3.MultipartBody.FORM, id);
+        api.uploadImage(ApiService.UPLOADVIDEOIMG, YYApp.getInstance().getToken(), avatar, pid, false, callback);
     }
 
     /**

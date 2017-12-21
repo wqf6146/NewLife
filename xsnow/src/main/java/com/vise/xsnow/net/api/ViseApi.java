@@ -351,6 +351,14 @@ public class ViseApi {
         return apiService.uploadImage(url, requestBody).compose(this.norTransformer(clazz));
     }
 
+    public <T> Observable<T> uploadImage(String url, final String token, File file,RequestBody id, Class<T> clazz) {
+        return apiService.uploadImage(url,token, RequestBody.create(okhttp3.MediaType.parse("image/jpg;"), file),  id).compose(this.norTransformer(clazz));
+    }
+    public <T> Subscription uploadImage(final String url,final String token,final File file, RequestBody id,
+                                        boolean showLoad,ApiCallback<T> callback){
+        return this.uploadImage(url, token, file,id,ClassUtil.getTClass(callback)).subscribe(new ApiCallbackSubscriber(context,showLoad,callback));
+    }
+
     public <T> Observable<T> uploadImage(String url, final String token, File file,RequestBody name,RequestBody sex, Class<T> clazz) {
         return apiService.uploadImage(url,token, RequestBody.create(okhttp3.MediaType.parse("image/jpg;"), file),  name , sex).compose(this.norTransformer(clazz));
     }

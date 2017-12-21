@@ -294,6 +294,20 @@ public class CommonUtil {
         }
         return timeStr.split(":");
     }
+    public static String secToMills(long time) {
+        String timeStr = null;
+        long minute = 0;
+        long second = 0;
+        if (time <= 0) {
+            timeStr = "00:00";
+            return timeStr;
+        }else {
+            minute = time / 60;
+            second = time % 60;
+            timeStr = unitFormat(minute) + ":" + unitFormat(second);
+        }
+        return timeStr;
+    }
     public static String unitFormat(long i) {
         String retStr = null;
         if (i >= 0 && i < 10)

@@ -59,4 +59,14 @@
             android:textSize="@dimen/title_text_s12" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/vv_img_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/vv_ezuiplayer"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/left_twinkle"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
+
 </RelativeLayout>

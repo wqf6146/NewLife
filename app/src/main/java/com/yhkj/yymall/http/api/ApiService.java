@@ -20,6 +20,10 @@ public interface ApiService {
 
     String GETCARMERPAGEINFO = "/video/carmerInfo";
 
+    String UPLOADVIDEOIMG = "/video/updateScanImg";
+
+    String VIDEOCONTROL = "/video/handleCarmer";
+
     String GETMES = HOST + "/article/jPushInfo";
 
     String GETVIDEOLIST = HOST + "/video/videoList";

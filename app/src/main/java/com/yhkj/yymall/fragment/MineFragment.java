@@ -68,6 +68,7 @@ import com.yhkj.yymall.activity.RegisterActivity;
 import com.yhkj.yymall.activity.SetActivity;
 import com.yhkj.yymall.activity.ShareCodeActivity;
 import com.yhkj.yymall.activity.UserDataActivity;
+import com.yhkj.yymall.activity.VideoDescActivity;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.MineBean;
 import com.yhkj.yymall.bean.UnReadBean;
@@ -758,6 +759,14 @@ public class MineFragment extends BaseFragment {
                 });
 
                 if (mbLogin != Constant.LOGIN_STATUS.LOGIN) {
+                    holder.itemView.findViewById(R.id.imo_rl_video).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showToast("请先登录");
+                            startActivity(LoginActivity.class);
+                        }
+                    });
+
                     holder.itemView.findViewById(R.id.imo_rl_collect).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -815,6 +824,13 @@ public class MineFragment extends BaseFragment {
                         }
                     });
                 } else {
+                    holder.itemView.findViewById(R.id.imo_rl_video).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           startActivity(VideoDescActivity.class);
+                        }
+                    });
+
                     holder.itemView.findViewById(R.id.imo_rl_collect).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -77,6 +77,13 @@ public interface ApiService {
                                          @Part("headImg\"; filename=\"image" + ".jpg") RequestBody requestBody,
                                          @Part("name") RequestBody name,
                                          @Part("sex") RequestBody sex);
+
+    @Multipart
+    @POST()
+    Observable<ResponseBody> uploadImage(@Url() String url,@Header("token")String token,
+                                         @Part("img\"; filename=\"image" + ".jpg") RequestBody requestBody,
+                                         @Part("id") RequestBody id);
+
     @Multipart
     @POST()
     Observable<ResponseBody> uploadFile(@Url String fileUrl,@Header("token")String token,

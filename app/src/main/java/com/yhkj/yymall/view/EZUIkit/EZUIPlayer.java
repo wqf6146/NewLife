@@ -67,6 +67,13 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
     private boolean isPlayBack;
     private static final int MSG_UPDATE_OSD = 8888;
     private Calendar mSeekCalendar;
+
+    public int getCameraId(){
+        if (ezPlayURLParams!=null)
+            return ezPlayURLParams.cameraNo;
+        return -1;
+    }
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             String e;

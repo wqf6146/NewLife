@@ -8,6 +8,41 @@
         android:layout_width="match_parent"
         android:padding="10dp"
         android:background="@color/white"
+        android:id="@+id/imo_rl_video"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:src="@mipmap/ic_nor_video"
+            android:id="@+id/imo_img_vieo"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/grayfont"
+            android:textSize="@dimen/content_text_s14"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imo_img_vieo"
+            android:text="我的视频"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="15dp"
+            android:src="@mipmap/ic_nor_gray_rightarrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="15dp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@mipmap/suggestion_line"
+        android:layout_height="0.1dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:background="@color/white"
         android:id="@+id/imo_rl_group"
         android:layout_height="wrap_content">
 

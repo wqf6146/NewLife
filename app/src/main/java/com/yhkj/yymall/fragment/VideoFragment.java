@@ -23,22 +23,33 @@ import android.widget.Toast;
 import com.ezvizuikit.open.EZUIError;
 import com.ezvizuikit.open.EZUIKit;
 import com.hyphenate.chat.ChatClient;
+import com.videogo.exception.BaseException;
+import com.videogo.exception.ErrorCode;
 import com.videogo.exception.InnerException;
+import com.videogo.openapi.EZConstants;
+import com.videogo.openapi.EZOpenSDK;
+import com.videogo.realplay.RealPlayStatus;
 import com.videogo.util.LocalInfo;
+import com.videogo.util.LogUtil;
 import com.videogo.util.MediaScanner;
 import com.videogo.util.SDCardUtil;
 import com.videogo.util.Utils;
-import com.vise.xsnow.manager.AppManager;
+import com.vise.xsnow.net.callback.ApiCallback;
+import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.R;
 import com.yhkj.yymall.YYApp;
-import com.yhkj.yymall.activity.SetActivity;
 import com.yhkj.yymall.activity.VideoPlayActivity;
-import com.yhkj.yymall.base.DbHelper;
+import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.VideoListBean;
+import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.AudioPlayUtil;
 import com.yhkj.yymall.util.EZUtils;
 import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Timer;
@@ -67,11 +78,17 @@ public class VideoFragment extends SupportFragment {
     private EZUIPlayer mEzUiPlayer;
     private RelativeLayout mRlContainer;
     private TextView mTvTip;
-    private ImageView mImgPic;
+    private ImageView mImgPic,mImgDirection;
     private LinearLayout mLLRecordView;
     private ImageView mImgRecordTag;
     private TextView mTvRecordSec;
     private VideoPlayActivity.OnVideoSelect mVideoParent;
+
+    public int getVideoStatus(){
+        if (mEzUiPlayer==null)
+            return -1;
+        return mEzUiPlayer.getStatus();
+    }
 
     private boolean mInTop = false;
 
@@ -105,6 +122,7 @@ public class VideoFragment extends SupportFragment {
         mLLRecordView = (LinearLayout)view.findViewById(R.id.vv_ll_record);
         mImgRecordTag = (ImageView)view.findViewById(R.id.vv_img_realplay);
         mTvRecordSec = (TextView)view.findViewById(R.id.vv_tv_realplay);
+        mImgDirection = (ImageView)view.findViewById(R.id.vv_img_direction);
         mToken = getArguments().getString("token");
         mDataBean = getArguments().getParcelable("data");
     }
@@ -218,7 +236,7 @@ public class VideoFragment extends SupportFragment {
         super.onSupportVisible();
         mInTop = true;
         if (mVideoParent!=null)
-            mVideoParent.onVideoSelect(mDataBean.getTitle());
+            mVideoParent.onVideoSelect(mDataBean);
 
         if (mDataBean.getStatus() == 1 && mEzUiPlayer.getStatus() != EZUIPlayer.STATUS_PLAY){
             mImgPic.setVisibility(GONE);
@@ -247,6 +265,8 @@ public class VideoFragment extends SupportFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHandler.removeMessages(MSG_HIDE_PTZ_DIRECTION);
+        mHandler = null;
         releasePlay();
     }
 
@@ -422,6 +442,9 @@ public class VideoFragment extends SupportFragment {
             switch (msg.what){
                 case MSG_PLAY_UI_UPDATE:
                     updateRealPlayUI();
+                    break;
+                case MSG_HIDE_PTZ_DIRECTION:
+                    handleHidePtzDirection(msg);
                     break;
             }
             return false;
@@ -619,6 +642,54 @@ public class VideoFragment extends SupportFragment {
         }
     }
 
+    public void uploadCurFrame(){
+        if (mEzUiPlayer.getEZUIPlayer() != null && mEzUiPlayer.getStatus() == EZUIPlayer.STATUS_PLAY) {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    Bitmap bmp = mEzUiPlayer.getEZUIPlayer().capturePicture();
+                    if (bmp==null)return;
+                    File file = new File(Environment.getExternalStorageDirectory(), "a.jpg");
+                    try {
+                        BufferedOutputStream bos = new BufferedOutputStream(
+                                new FileOutputStream(file));
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        bos.flush();
+                        bos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    YYMallApi.updateCurFragme(_mActivity, file, String.valueOf(mDataBean.getId()), new ApiCallback<CommonBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(CommonBean commonBean) {
+                            Log.e("VideoFragment","updaload img suc!");
+                        }
+
+                        @Override
+                        public void onError(ApiException e) {
+                            super.onError(e);
+                            Log.e("VideoFragment",e.getMessage());
+                        }
+                    });
+
+                }
+            }.start();
+        }
+    }
+
+
     public Boolean startPlay(){
         if (!isVideoNormal()){
             return null;
@@ -700,7 +771,91 @@ public class VideoFragment extends SupportFragment {
             mEzUiPlayer.startPlay();
             return true;
         }
-
         return null;
+    }
+
+
+    /**
+     * 云台操作
+     *
+     * @param command ptz控制命令
+     * @param action  控制启动/停止
+     */
+    public void ptzOption(final EZConstants.EZPTZCommand command, final EZConstants.EZPTZAction action) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean ptz_result = false;
+                try {
+                    ptz_result = EZOpenSDK.getInstance().controlPTZ(mDataBean.getDeviceSerial(), mEzUiPlayer.getCameraId(), command,
+                            action, EZConstants.PTZ_SPEED_DEFAULT);
+                } catch (BaseException e) {
+                    e.printStackTrace();
+                }
+                LogUtil.i("VideoFragment", "controlPTZ ptzCtrl result: " + ptz_result);
+            }
+        }).start();
+    }
+
+    public static final int MSG_HIDE_PTZ_DIRECTION = 204;
+    private void handleHidePtzDirection(Message msg) {
+        if (mHandler == null) {
+            return;
+        }
+        mHandler.removeMessages(MSG_HIDE_PTZ_DIRECTION);
+        if (msg.arg1 > 2) {
+            mImgDirection.setVisibility(GONE);
+        } else {
+            mImgDirection.setVisibility(msg.arg1 == 1 ? GONE : View.VISIBLE);
+            Message message = new Message();
+            message.what = MSG_HIDE_PTZ_DIRECTION;
+            message.arg1 = msg.arg1 + 1;
+            mHandler.sendMessageDelayed(message, 500);
+        }
+    }
+
+
+    public void setPtzDirectionIv(int command) {
+        if (command != -1 ) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            switch (command) {
+                case RealPlayStatus.PTZ_LEFT:
+                    mImgDirection.setBackgroundResource(R.drawable.left_twinkle);
+                    params.addRule(RelativeLayout.CENTER_VERTICAL);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                    mImgDirection.setLayoutParams(params);
+                    break;
+                case RealPlayStatus.PTZ_RIGHT:
+                    mImgDirection.setBackgroundResource(R.drawable.right_twinkle);
+                    params.addRule(RelativeLayout.CENTER_VERTICAL);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    mImgDirection.setLayoutParams(params);
+                    break;
+                case RealPlayStatus.PTZ_UP:
+                    mImgDirection.setBackgroundResource(R.drawable.up_twinkle);
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    mImgDirection.setLayoutParams(params);
+                    break;
+                case RealPlayStatus.PTZ_DOWN:
+                    mImgDirection.setBackgroundResource(R.drawable.down_twinkle);
+                    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.vv_ezuiplayer);
+                    mImgDirection.setLayoutParams(params);
+                    break;
+                default:
+                    break;
+            }
+            mImgDirection.setVisibility(View.VISIBLE);
+            mHandler.removeMessages(MSG_HIDE_PTZ_DIRECTION);
+            Message msg = new Message();
+            msg.what = MSG_HIDE_PTZ_DIRECTION;
+            msg.arg1 = 1;
+            mHandler.sendMessageDelayed(msg, 500);
+        } else {
+            mImgDirection.setVisibility(GONE);
+            mHandler.removeMessages(MSG_HIDE_PTZ_DIRECTION);
+        }
     }
 }

@@ -49,7 +49,16 @@ public class VideoIoBean {
 
         private int restHandleSecond;
         private int nextHandleSecond;
-        private int img_valid;
+        private int handleTime;
+        private int img_valid = -1;
+
+        public void setHandleTime(int handleTime) {
+            this.handleTime = handleTime;
+        }
+
+        public int getHandleTime() {
+            return handleTime;
+        }
 
         public int getRestHandleSecond() {
             return restHandleSecond;

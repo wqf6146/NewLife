@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -93,12 +95,18 @@ public class VideoListActivity extends BaseToolBarActivity {
     @Override
     protected void onReLoadClickLisiten() {
         super.onReLoadClickLisiten();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getData(null);
     }
 
     private void getData(final Boolean bRefresh) {
         YYMallApi.getVideoList(this, new ApiCallback<VideoListBean.DataBean>() {
             @Override
+
             public void onStart() {
 
             }
@@ -110,15 +118,19 @@ public class VideoListActivity extends BaseToolBarActivity {
 
             @Override
             public void onNext(VideoListBean.DataBean dataBean) {
-                setNetWorkErrShow(View.GONE);
-
-                if (bRefresh !=null && bRefresh){
+                if(bRefresh !=null && bRefresh){
                     mRefreshLayout.finishRefresh();
                 }
 
-                if (mCommonAdapter == null)
-                    initUi(mBannerData,dataBean);
-                else {
+                if (dataBean == null || dataBean.getList().size() == 0){
+                    setNoDataView(R.mipmap.ic_nor_novideo,"暂无直播视频");
+                    return;
+                }
+
+                setNetWorkErrShow(View.GONE);
+                if(mCommonAdapter == null){
+                    initUi(mBannerData, dataBean);
+                }else{
                     mCommonAdapter.setDatas(dataBean.getList());
                     mWrapperAdapter.notifyDataSetChanged();
                 }
@@ -170,7 +182,15 @@ public class VideoListActivity extends BaseToolBarActivity {
         mCommonAdapter = new CommonAdapter<VideoListBean.DataBean.ListBean>(this,R.layout.item_video,dataBean.getList()) {
             @Override
             protected void convert(ViewHolder holder, final VideoListBean.DataBean.ListBean bean, int position) {
-                Glide.with(VideoListActivity.this).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into((ImageView)holder.getView(R.id.iv_img));
+                final ImageView img = (ImageView)holder.getView(R.id.iv_img);
+                img.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ViewGroup.LayoutParams lp = img.getLayoutParams();
+                        lp.height = (int) (img.getWidth()/1.77);
+                    }
+                });
+                Glide.with(VideoListActivity.this).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(img);
                 holder.setText(R.id.iv_tv_title,bean.getTitle());
                 holder.setText(R.id.iv_tv_content,bean.getSchool_name());
             }
@@ -180,7 +200,6 @@ public class VideoListActivity extends BaseToolBarActivity {
             public void onItemClick(View view, RecyclerView.ViewHolder holder, VideoListBean.DataBean.ListBean bean, int position) {
                 Intent intent = new Intent(mContext,VideoPlayActivity.class);
                 intent.putExtra("pos",position-1);
-                intent.putExtra("title",bean.getTitle());
                 intent.putExtra("token",dataBean.getToken());
                 intent.putParcelableArrayListExtra("list",dataBean.getList());
                 mContext.startActivity(intent);
