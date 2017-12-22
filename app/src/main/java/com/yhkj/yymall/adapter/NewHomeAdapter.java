@@ -91,6 +91,10 @@ public class NewHomeAdapter extends RecyclerView.Adapter<NewHomeAdapter.HomeView
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    mContext.startActivity(new Intent(mContext,LoginActivity.class));
+                    return;
+                }
                 mContext.startActivity(new Intent(mContext,VideoDescActivity.class));
 //                mContext.startActivity(new Intent(mContext, IntegralShopListActivity.class));
             }

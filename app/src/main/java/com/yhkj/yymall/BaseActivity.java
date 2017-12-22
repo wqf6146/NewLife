@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import rx.subjects.BehaviorSubject;
 
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_ERROR;
 import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_EXPIRED;
 import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_FAILD;
@@ -206,6 +208,7 @@ public abstract class BaseActivity extends me.yokeyword.fragmentation.SupportAct
      */
     private View mViewLine;
     private View mDeadStatusView;
+    private ProgressBar mProgress;
     protected RelativeLayout mRlNoNetwork;
     protected ViewGroup mLlNoNetWorkEntity;
     @CallSuper
@@ -215,6 +218,7 @@ public abstract class BaseActivity extends me.yokeyword.fragmentation.SupportAct
         mRlNoNetwork = (RelativeLayout)findViewById(R.id.ftr_rl_nodata);
         mLlNoNetWorkEntity = (ViewGroup)mRootView.findViewById(R.id.ftr_ll_nonetwork);
         mRlNoNetwork.setVisibility(GONE);
+        mProgress = (ProgressBar)mRlNoNetwork.findViewById(R.id.ar_progress);
         if (Build.VERSION.SDK_INT >= KITKAT)
             mDeadStatusView.getLayoutParams().height = CommonUtil.getStatusBarHeight(this);
 
@@ -227,8 +231,16 @@ public abstract class BaseActivity extends me.yokeyword.fragmentation.SupportAct
 
     }
     //重新加载
-    protected void onReLoadClickLisiten() {}
+    protected void onReLoadClickLisiten() {
+        setLoadViewShow(VISIBLE);
+    }
 
+    //默认此状态
+    protected void setLoadViewShow(int show){
+        mRlNoNetwork.setVisibility(show);
+        mLlNoNetWorkEntity.setVisibility(GONE);
+        mProgress.setVisibility(show);
+    }
     //获取数据成功显示内容
     protected void setUserContentView(@LayoutRes int layoutResID){
         mOriginDataStatus = false;

@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_nor_singlescreen" />
+                android:src="@mipmap/ic_nor_multscreen" />
 
         </RelativeLayout>
 
@@ -159,14 +159,21 @@
             android:id="@+id/vv_rl_control"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp">
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_nor_control"
+                android:layout_centerInParent="true"
+                android:id="@+id/vv_img_control"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:id="@+id/vv_tv_control"
+                android:visibility="gone"
                 android:text="控制"
                 android:gravity="center"
                 android:textColor="@color/theme_bule"

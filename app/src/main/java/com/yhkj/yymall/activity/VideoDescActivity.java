@@ -108,7 +108,6 @@ public class VideoDescActivity extends BaseToolBarActivity {
                 setNetWorkErrShow(View.GONE);
                 mDataBean = dataBean;
                 initUi(dataBean);
-                mTvDesc.setMovementMethod(ScrollingMovementMethod.getInstance());//滚动
                 mTvDesc.setText(Html.fromHtml(dataBean.getExplain()));
             }
 

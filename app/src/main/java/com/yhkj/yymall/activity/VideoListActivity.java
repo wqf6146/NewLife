@@ -2,6 +2,7 @@ package com.yhkj.yymall.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -42,6 +47,9 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Created by Administrator on 2017/12/15.
  */
@@ -54,8 +62,20 @@ public class VideoListActivity extends BaseToolBarActivity {
     @Bind(R.id.av_recycleview)
     RecyclerView mRecycleView;
 
-    HeaderAndFooterWrapper mWrapperAdapter;
     CommonAdapter mCommonAdapter;
+
+    @Bind(R.id.av_ultraviewpager)
+    UltraViewPager mUltraViewPager;
+
+    @Bind(R.id.av_rl_nodata)
+    RelativeLayout mRLNoData;
+
+    @Bind(R.id.av_ll_nonetwork)
+    LinearLayout mLlNoNetWork;
+
+    @Bind(R.id.av_progress)
+    ProgressBar mProgress;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +87,7 @@ public class VideoListActivity extends BaseToolBarActivity {
         super.initView();
         setTvTitleText("视频监控列表");
         setToolBarColor(getResources().getColor(R.color.theme_bule));
-
+        setTitleWireVisiable(GONE);
         mRecycleView.setLayoutManager(new GridLayoutManager(this,2));
         mRecycleView.addItemDecoration(new ItemOffsetDecoration(CommonUtil.dip2px(this,1)));
         mRefreshLayout.setRefreshHeader(new YiYaHeaderView(this));
@@ -83,19 +103,35 @@ public class VideoListActivity extends BaseToolBarActivity {
                 getData(true);
             }
         });
+        mLlNoNetWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onReLoadClickLisiten();
+            }
+        });
     }
-
     private List mBannerData;
-    @Override
-    protected void initData() {
-        mBannerData = (List)getIntent().getParcelableArrayListExtra("banner");
-        getData(null);
-    }
 
     @Override
     protected void onReLoadClickLisiten() {
-        super.onReLoadClickLisiten();
+        setLoadViewShow(VISIBLE);
+        getData(null);
     }
+
+    //默认此状态
+    protected void setLoadViewShow(int show){
+        mRLNoData.setVisibility(show);
+        mLlNoNetWork.setVisibility(GONE);
+        mProgress.setVisibility(show);
+    }
+
+    @Override
+    protected void initData() {
+        mBannerData = (List)getIntent().getParcelableArrayListExtra("banner");
+        super.setNetWorkErrShow(GONE);
+        initBanner();
+    }
+
 
     @Override
     protected void onResume() {
@@ -127,12 +163,13 @@ public class VideoListActivity extends BaseToolBarActivity {
                     return;
                 }
 
-                setNetWorkErrShow(View.GONE);
+                setNetWorkErrShow(GONE);
+
                 if(mCommonAdapter == null){
-                    initUi(mBannerData, dataBean);
+                    initUi(dataBean);
                 }else{
                     mCommonAdapter.setDatas(dataBean.getList());
-                    mWrapperAdapter.notifyDataSetChanged();
+                    mCommonAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -145,9 +182,39 @@ public class VideoListActivity extends BaseToolBarActivity {
         });
     }
 
-    private void initUi(final List<VideoDescBean.DataBean.BannerBean> bannerData, final VideoListBean.DataBean dataBean) {
+    @Bind(R.id.av_img_nodata)
+    ImageView mImgNoData;
+
+    @Bind(R.id.av_tv_tip)
+    TextView mTvTip;
+
+    @Bind(R.id.av_tv_btn)
+    TextView mTvNoDataBtn;
+
+    protected void setNoDataView(@DrawableRes int mipmap, String tiptext){
+        mLlNoNetWorkEntity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mProgress.setVisibility(GONE);
+        mRLNoData.setVisibility(View.VISIBLE);
+        mLlNoNetWork.setVisibility(View.VISIBLE);
+        mImgNoData.setImageResource(mipmap);
+        mTvNoDataBtn.setVisibility(GONE);
+        mTvTip.setText(tiptext);
+    }
+
+    protected void setNetWorkErrShow(int visiable){
+        mRLNoData.setVisibility(visiable);
+        mLlNoNetWork.setVisibility(visiable);
+        mProgress.setVisibility(GONE);
+    }
+
+    private void initBanner(){
         UltraBannerPagerAdapter ultraViewPagerAdapter = new UltraBannerPagerAdapter<VideoDescBean.DataBean.BannerBean>(this,
-                bannerData,true){
+                mBannerData,true){
             @Override
             protected void bind(ViewGroup container, VideoDescBean.DataBean.BannerBean bannerBean, int position) {
                 final ImageView imageView = (ImageView) container.findViewById(R.id.vb_img);
@@ -166,18 +233,21 @@ public class VideoListActivity extends BaseToolBarActivity {
         };
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
-        UltraViewPager ultraViewPager = (UltraViewPager)LayoutInflater.from(this).inflate(R.layout.view_banner_pager,mRecycleView,false);
-        ultraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 2.42);
-        ultraViewPager.setAdapter(ultraViewPagerAdapter);
-        ultraViewPager.setAutoScroll(2000);
-        ultraViewPager.initIndicator();
-        ultraViewPager.getIndicator().setMargin(0,0,0,20);
-        ultraViewPager.getIndicator().setOrientation(UltraViewPager.Orientation.HORIZONTAL);
-        ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-        ultraViewPager.getIndicator().setFocusResId(0).setNormalResId(0);
-        ultraViewPager.getIndicator().setFocusColor(mContext.getResources().getColor(R.color.theme_bule)).setNormalColor(mContext.getResources().getColor(R.color.halfgraybg))
+//        UltraViewPager ultraViewPager = (UltraViewPager)LayoutInflater.from(this).inflate(R.layout.view_banner_pager,mRecycleView,false);
+        mUltraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 2.42);
+        mUltraViewPager.setAdapter(ultraViewPagerAdapter);
+        mUltraViewPager.setAutoScroll(2000);
+        mUltraViewPager.initIndicator();
+        mUltraViewPager.getIndicator().setMargin(0,0,0,20);
+        mUltraViewPager.getIndicator().setOrientation(UltraViewPager.Orientation.HORIZONTAL);
+        mUltraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+        mUltraViewPager.getIndicator().setFocusResId(0).setNormalResId(0);
+        mUltraViewPager.getIndicator().setFocusColor(mContext.getResources().getColor(R.color.theme_bule)).setNormalColor(mContext.getResources().getColor(R.color.halfgraybg))
                 .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, mContext.getResources().getDisplayMetrics()));
-        ultraViewPager.getIndicator().build();
+        mUltraViewPager.getIndicator().build();
+    }
+
+    private void initUi(final VideoListBean.DataBean dataBean) {
 
         mCommonAdapter = new CommonAdapter<VideoListBean.DataBean.ListBean>(this,R.layout.item_video,dataBean.getList()) {
             @Override
@@ -190,7 +260,7 @@ public class VideoListActivity extends BaseToolBarActivity {
                         lp.height = (int) (img.getWidth()/1.77);
                     }
                 });
-                Glide.with(VideoListActivity.this).load(bean.getImg()).placeholder(R.mipmap.ic_nor_srcpic).into(img);
+                Glide.with(VideoListActivity.this).load(bean.getImg()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).placeholder(R.mipmap.ic_nor_srcpic).into(img);
                 holder.setText(R.id.iv_tv_title,bean.getTitle());
                 holder.setText(R.id.iv_tv_content,bean.getSchool_name());
             }
@@ -199,7 +269,7 @@ public class VideoListActivity extends BaseToolBarActivity {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, VideoListBean.DataBean.ListBean bean, int position) {
                 Intent intent = new Intent(mContext,VideoPlayActivity.class);
-                intent.putExtra("pos",position-1);
+                intent.putExtra("pos",position);
                 intent.putExtra("token",dataBean.getToken());
                 intent.putParcelableArrayListExtra("list",dataBean.getList());
                 mContext.startActivity(intent);
@@ -211,8 +281,8 @@ public class VideoListActivity extends BaseToolBarActivity {
             }
         });
 
-        mWrapperAdapter = new HeaderAndFooterWrapper(mCommonAdapter);
-        mWrapperAdapter.addHeaderView(ultraViewPager);
-        mRecycleView.setAdapter(mWrapperAdapter);
+//        mWrapperAdapter = new HeaderAndFooterWrapper(mCommonAdapter);
+//        mWrapperAdapter.addHeaderView(ultraViewPager);
+        mRecycleView.setAdapter(mCommonAdapter);
     }
 }

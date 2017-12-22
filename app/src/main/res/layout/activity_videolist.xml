@@ -1,26 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/av_refreshview"
-        android:layout_above="@+id/av_tv_nextstep"
+
+    <com.yhkj.yymall.view.viewpager.UltraViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/av_ultraviewpager"
+        android:layout_height="200dp"/>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/av_refreshview"
+            android:layout_above="@+id/av_tv_nextstep"
             android:layout_width="match_parent"
-            android:id="@+id/av_recycleview"
-            android:background="@color/graybg"
             android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/av_recycleview"
+                android:background="@color/graybg"
+                android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
-        <com.yhkj.yymall.view.BallPulseFooter
+            </android.support.v7.widget.RecyclerView>
+            <com.yhkj.yymall.view.BallPulseFooter
+                android:layout_width="match_parent"
+                app:srlAccentColor="@color/theme_bule"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/av_rl_nodata"
             android:layout_width="match_parent"
-            app:srlAccentColor="@color/theme_bule"
-            android:layout_height="wrap_content"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-</RelativeLayout>
+            <LinearLayout
+                android:id="@+id/av_ll_nonetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/av_img_nodata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_nor_nonetwork" />
+
+                <TextView
+                    android:id="@+id/av_tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="连接失败"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <TextView
+                    android:id="@+id/av_tv_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/stroke_circle_blue"
+                    android:padding="10dp"
+                    android:text="重新加载"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/av_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

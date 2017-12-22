@@ -51,6 +51,15 @@ public class VideoIoBean {
         private int nextHandleSecond;
         private int handleTime;
         private int img_valid = -1;
+        private int num;
+
+        public void setNum(int num) {
+            this.num = num;
+        }
+
+        public int getNum() {
+            return num;
+        }
 
         public void setHandleTime(int handleTime) {
             this.handleTime = handleTime;

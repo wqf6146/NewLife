@@ -163,6 +163,15 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             mOrientationDetector.disable();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mHandler!=null){
+            mHandler.removeMessages(1);
+            mHandler.removeMessages(0);
+        }
+    }
+
     private void updateOperatorUI() {
         if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
             // 显示状态栏
@@ -259,6 +268,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler = null;
+    }
+
     private List<VideoListBean.DataBean.ListBean> mListData;
     private String mToken,mTitle;
 
@@ -320,7 +335,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
     private void setControlBtnState() {
         mRlControl.setEnabled(true);
         if (mVideoIoBean.getRestHandleSecond() > 0 ) {
-            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+//            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+            mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+            mTvControl.setVisibility(View.INVISIBLE);
             mTvControl.setTag(true);//表示控制中
         }else if (mVideoIoBean.getNextHandleSecond() > 0){
             mHandler.removeMessages(1);
@@ -366,6 +383,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
             @Override
             public void onNext(GoodsLikeBean.DataBean dataBean) {
+                setNetWorkErrShow(GONE);
                 if (bLoadmore != null && mAdapter !=null) {
                     mRefreshView.finishLoadmore();
                     if (dataBean!=null && dataBean.getList() != null && dataBean.getList().size() > 0){
@@ -445,6 +463,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         removeSpitPlayer();
         mRlVideoPlay.removeView(mViewPagerMult);
         mRlVideoPlay.addView(mViewPagerSingle,0);
+        mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
         int i=0;
         for (;i<mVideoFragments.length;i++){
             if (mVideoFragments[i].getDataBean().getDeviceSerial().equals(deviceInfo.getDeviceSerial())){
@@ -523,9 +542,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 public void onVideoSelect(VideoListBean.DataBean.ListBean bean) {
                     mTvPlaces.setText(bean.getTitle());
                     mTvTitle.setText(bean.getTitle());
+                    setControlBtnEnable(false);
                     mRlControl.setEnabled(false);
+                    mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                    mImgControl.setVisibility(VISIBLE);
+                    mTvControl.setVisibility(View.INVISIBLE);
                     mTvControl.setText("控制");
-                    mTvControl.setTextColor(mBlueColor);
                     mTvControl.setTag(null);
                     mHandler.removeMessages(0);
                     mHandler.removeMessages(1);
@@ -537,6 +559,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (state == EZUIPlayer.STATUS_PLAY){
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
                         getIoPageData(mCurVideoId);
+                        setControlBtnEnable(true);
                     }else{
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
                     }
@@ -573,6 +596,14 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         },100);
     }
 
+    private void setControlBtnEnable(boolean enable){
+        mRlVideoPlay.setEnabled(enable);
+        mRLVoiceControl.setEnabled(enable);
+        mRlVideoQa.setEnabled(enable);
+        mRlTakePhoto.setEnabled(enable);
+        mRlRecord.setEnabled(enable);
+    }
+
     @Override
     public void onBackPressedSupport() {
 
@@ -591,7 +622,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
     }
 
     private View mRlFullScreen,mRlStartVideo,mRlMultScreen,mRlVideoQa,mRLVoiceControl,mRlTakePhoto,mRlRecord,mRlControl,mFlRecordContainer;
-    private ImageView mImgMultScreen,mImgStartVideo,mImgVoiceControl,mImgRecordStart,mImgRecordStop;
+    private ImageView mImgMultScreen,mImgStartVideo,mImgVoiceControl,mImgRecordStart,mImgRecordStop,mImgControl;
     private TextView mTvVideoQa,mTvControl;
     private RotateViewUtil mRecordRotateViewUtil;
     private void bindControlView(final View view) {
@@ -617,6 +648,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
         mRlControl = view.findViewById(R.id.vv_rl_control);
         mTvControl = (TextView) mRlControl.findViewById(R.id.vv_tv_control);
+        mImgControl = (ImageView)mRlControl.findViewById(R.id.vv_img_control);
         mRlControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -650,7 +682,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                                     openVideoControlWindow(dataBean.getRestHandleSecond());
                                 else {
                                     mTvControl.setTag(null);
-                                    mTvControl.setTextColor(mBlueColor);
+//                                    mTvControl.setTextColor(mBlueColor);
                                     showToast("您当前控制已过期，点击重新申请控制。");
                                 }
                             }
@@ -662,7 +694,15 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                         });
                     }else{
                         //排队中
-                        showToast("处于队列中，还需等待 " + mRankSec + "秒哦");
+//                        String[] secArr = CommonUtil.secToMillsArr(mRankSec);
+//                        if (secArr !=null && secArr.length  >1) {
+//                            if (secArr[0].equals("00"))
+//                                showToast("处于队列中，还需等待 " + secArr[1] + "秒。");
+//                            else
+//                                showToast("处于队列中，还需等待 " + secArr[0] + "分钟。");
+//                        }else{
+//                            showToast("处于队列中，请等待");
+//                        }
                     }
                     return;
                 }
@@ -684,7 +724,8 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                         mVideoIoBean = dataBean;
                         if (dataBean.getNextHandleSecond() == 0){
                             //立即控制
-                            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+//                            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+                            mImgControl.setImageResource(R.mipmap.ic_nor_controling);
                             mTvControl.setTag(true);
                             openVideoControlWindow(dataBean.getRestHandleSecond());
                         }else{
@@ -693,6 +734,15 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                             mHandler.removeMessages(0);
                             mTvControl.setTag(false);
                             mRankSec = dataBean.getNextHandleSecond();
+                            String[] secArr = CommonUtil.secToMillsArr(mRankSec);
+                            if (secArr !=null && secArr.length  >1) {
+                                if (secArr[0].equals("00"))
+                                    showToast("您需等待"+ mVideoIoBean.getNum() + "人，预计 " + secArr[1] + "秒。");
+                                else
+                                    showToast("您需等待 " + mVideoIoBean.getNum() +"人，预计 "+ secArr[0] + "分钟。");
+                            }else{
+                                showToast("处于队列中，请等待");
+                            }
                             mHandler.sendMessage(buildMessage(true));
                         }
                     }
@@ -765,6 +815,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                             builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if (mRlToolbar.getVisibility() == VISIBLE){
+                                        toolBarAnimation(false);
+                                    }
                                     fragment.stopRealPlayRecord();
                                     stopCurPlayer();
                                     removeSpitPlayer();
@@ -775,7 +828,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                                     m4BoxMode = true;
                                     mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
                                     mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-                                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+                                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
                                 }
                             });
                             builder.show();
@@ -784,7 +837,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     }
 
 
-
+                    if (mRlToolbar.getVisibility() == VISIBLE){
+                        toolBarAnimation(false);
+                    }
                     stopCurPlayer();
                     removeSpitPlayer();
                     mRlVideoPlay.removeView(mViewPagerSingle);
@@ -794,8 +849,11 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     m4BoxMode = true;
                     mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
                     mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
                 }else{
+                    if (mRlToolbar.getVisibility() != VISIBLE){
+                        toolBarAnimation(true);
+                    }
                     removeSpitPlayer();
                     mRlVideoPlay.removeView(mViewPagerMult);
                     mRlVideoPlay.addView(mViewPagerSingle,0);
@@ -803,7 +861,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (mVideoFragments.length > curpage)
                         mVideoFragments[curpage].onSupportVisible();
                     m4BoxMode = false;
-                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
+                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
                 }
             }
         });
@@ -817,35 +875,27 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     showToast("请选择具体设备");
                     return;
                 }
-
                 final VideoFragment fragment = getInTopVideo();
                 if (!fragment.isVideoNormal())
                     return;
-                AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
-                builder.setTitle("选择码流");
-                builder.setItems( new String[]{"高清","标清"}, new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int position) {
-                        if (fragment != null) {
-                            switch (position) {
-                                case 0:
-                                    //高清
-                                    fragment.setVideoQa(VideoFragment.QA_HD);
-                                    mTvVideoQa.setText("高清");
-                                    dialog.dismiss();
-                                    break;
-                                case 1:
-                                    //标清
-                                    fragment.setVideoQa(VideoFragment.QA_BA);
-                                    mTvVideoQa.setText("标清");
-                                    dialog.dismiss();
-                                    break;
-                            }
+                if (fragment.getIsRecord()){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+                    builder.setTitle("提示");
+                    builder.setMessage("选择码流会终止录像，是否选择码流？");
+                    builder.setPositiveButton("取消", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            fragment.stopRealPlayRecord();
+                            dialog.dismiss();
+                            openQaWindows();
                         }
-                    }
-                });
-                builder.setPositiveButton("取消", null);
-                builder.show();
+                    });
+                    builder.show();
+                    return;
+                }
+                openQaWindows();
+
             }
         });
 
@@ -882,6 +932,35 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         });
     }
 
+    private void openQaWindows(){
+        final VideoFragment fragment = getInTopVideo();
+        AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+        builder.setTitle("选择码流");
+        builder.setItems( new String[]{"高清","标清"}, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                if (fragment != null) {
+                    switch (position) {
+                        case 0:
+                            //高清
+                            fragment.setVideoQa(VideoFragment.QA_HD);
+                            mTvVideoQa.setText("高清");
+                            dialog.dismiss();
+                            break;
+                        case 1:
+                            //标清
+                            fragment.setVideoQa(VideoFragment.QA_BA);
+                            mTvVideoQa.setText("标清");
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            }
+        });
+        builder.setPositiveButton("取消", null);
+        builder.show();
+    }
+
     private Message buildMessage(boolean bOpen){
         Message message = new Message();
         message.obj = bOpen;
@@ -909,6 +988,8 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             if (res){
                 //排队
                 mTvControl.setText("等待控制：" + CommonUtil.secToMills(mRankSec));
+                mTvControl.setVisibility(VISIBLE);
+                mImgControl.setVisibility(View.INVISIBLE);
                 if (mRankSec > 0){
                     mRankSec--;
                     mHandler.sendMessageDelayed(buildMessage(true),1000l);
@@ -917,29 +998,18 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     allowControlVideo(mVideoIoBean.getHandleTime());
                 }
             }
-//            else{
-//                mTvControl.setText("控制：" + sec + "s");
-//                if (sec > 0){
-//                    mHandler.sendMessageDelayed(buildMessage(false,sec-1),1000l);
-//                }else{
-//                    clear
-//                    realseControlVideo();
-//                }
-//            }
 
             return false;
         }
     });
 
-//    private void realseControlVideo() {
-//        mTvControl.setText("控制");
-//    }
-
     private void allowControlVideo(int time) {
-//        mHandler.sendMessage(buildMessage(false,time));
-        mTvControl.setTextColor(getResources().getColor(R.color.redfont));
+        mTvControl.setVisibility(View.INVISIBLE);
         mTvControl.setText("控制");
         mTvControl.setTag(true);
+        mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+        mImgControl.setVisibility(VISIBLE);
+//        mTvControl.setTextColor(getResources().getColor(R.color.redfont));
         showToast("现在可以控制摄像头啦");
         openVideoControlWindow(mVideoIoBean.getHandleTime());
     }
@@ -953,8 +1023,11 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
                 @Override
                 public void onControlEnd() {
+                    mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                    mImgControl.setVisibility(VISIBLE);
+                    mTvControl.setVisibility(View.INVISIBLE);
                     mTvControl.setTag(null);
-                    mTvControl.setTextColor(mBlueColor);
+//                    mTvControl.setTextColor(mBlueColor);
                 }
 
                 @Override

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:id="@+id/ii_img"
     android:layout_height="wrap_content">
-</ImageView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ii_img"
+        android:src="@drawable/ic_nor_videobar"
+        android:layout_height="wrap_content">
+    </ImageView>
+</FrameLayout>

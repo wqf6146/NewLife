@@ -188,6 +188,9 @@ public class VideoFragment extends SupportFragment {
 
             @Override
             public void onPlayFail(EZUIError ezuiError) {
+                if (mIsRecording){
+                    stopRealPlayRecord();
+                }
                 if (mInTop && mVideoParent!=null) {
                     mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_INIT);
                     mVideoParent.onVideoVoiceControl(false);
@@ -253,6 +256,9 @@ public class VideoFragment extends SupportFragment {
     public void onSupportInvisible() {
         super.onSupportInvisible();
         mInTop = false;
+        if (mIsRecording){
+            stopRealPlayRecord();
+        }
         if (mDataBean.getStatus() == 1)
             stopPlay();
     }

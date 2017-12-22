@@ -12,8 +12,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -245,7 +247,10 @@ public class DailyActActivity extends BaseToolBarActivity {
                         }
                     };
                     mHheaderAndFooterWrapper = new HeaderAndFooterWrapper(mShopListAdapter);
-                    ImageView img = (ImageView) LayoutInflater.from(DailyActActivity.this).inflate(R.layout.item_img,mRecycleView,false);
+                    ImageView img = new ImageView(DailyActActivity.this);
+                    img.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                    FrameLayout frameLayout = (FrameLayout)LayoutInflater.from(DailyActActivity.this).inflate(R.layout.item_img,mRecycleView,false);
+//                    ImageView img = (ImageView) frameLayout.findViewById(R.id.ii_img);
 
                     WindowManager wm = (WindowManager) DailyActActivity.this
                             .getSystemService(Context.WINDOW_SERVICE);

@@ -71,7 +71,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = viewHolder.getAdapterPosition();
-                    mOnItemClickListener.onItemClick(v, viewHolder,mDatas.get(position-1), position);
+                    mOnItemClickListener.onItemClick(v, viewHolder,mDatas.get(position), position);
                 }
             }
         });
