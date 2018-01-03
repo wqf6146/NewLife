@@ -154,6 +154,10 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
                 LogUtil.d("EZUIPlayer", "MSG_VIDEO_SIZE_CHANGED");
                 EZUIPlayer.this.dismissomLoading();
 
+
+                if (bPlayBackUse)
+                    return;
+
                 try {
                     e = (String)msg.obj;
                     String[] strings = e.split(":");
@@ -180,7 +184,6 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
                     this.sendEmptyMessageDelayed(8888, 1000L);
                 }
             }
-
         }
     };
 
@@ -188,6 +191,13 @@ public class EZUIPlayer extends RelativeLayout implements EZUIPlayerInterface {
     public void setAutoPlay(boolean autoPlay){
         mAutoPlay = autoPlay;
     }
+
+    private boolean bPlayBackUse = false;
+
+    public void setbPlayBackUse(boolean bPlayBackUse) {
+        this.bPlayBackUse = bPlayBackUse;
+    }
+
 
     public void setOpenSound(boolean openSound) {
         this.isOpenSound = openSound;

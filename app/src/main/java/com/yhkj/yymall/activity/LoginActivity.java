@@ -166,7 +166,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
-
+        String tip = getIntent().getStringExtra("msg");
+        if (!TextUtils.isEmpty(tip)){
+            showToast(tip);
+        }
     }
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
@@ -181,6 +184,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             uid = map.get("uid");
             iconurl = map.get("iconurl");
             name = map.get("name");
+
             YYMallApi.getAuthThdsignIn(LoginActivity.this, uid, type, new ApiCallback<RegisterBean.DataBean>() {
                 @Override
                 public void onStart() {

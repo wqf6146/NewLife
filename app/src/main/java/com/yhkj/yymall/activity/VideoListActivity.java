@@ -252,7 +252,7 @@ public class VideoListActivity extends BaseToolBarActivity {
         mCommonAdapter = new CommonAdapter<VideoListBean.DataBean.ListBean>(this,R.layout.item_video,dataBean.getList()) {
             @Override
             protected void convert(ViewHolder holder, final VideoListBean.DataBean.ListBean bean, int position) {
-                final ImageView img = (ImageView)holder.getView(R.id.iv_img);
+                final ImageView img = holder.getView(R.id.iv_img);
                 img.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {

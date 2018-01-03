@@ -15,7 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.SparseArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -465,16 +464,18 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlVideoPlay.addView(mViewPagerSingle,0);
         mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
         int i=0;
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
         for (;i<mVideoFragments.length;i++){
             if (mVideoFragments[i].getDataBean().getDeviceSerial().equals(deviceInfo.getDeviceSerial())){
                 mViewPagerSingle.setCurrentItem(i);
                 mVideoFragments[i].onSupportVisible();
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
                 mVideoFragments[i].setSurfaceSize(m4BoxMode == false ? dm.widthPixels : dm.widthPixels/2);
-                break;
+            }else {
+                mVideoFragments[i].setSurfaceSize(m4BoxMode == false ? dm.widthPixels : dm.widthPixels/2);
             }
         }
+        mRlToolbar.setVisibility(VISIBLE);
     }
 
     private int mBlueColor = Color.argb(255,00,124,209);

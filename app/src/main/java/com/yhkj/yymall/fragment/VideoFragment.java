@@ -1,6 +1,7 @@
 package com.yhkj.yymall.fragment;
 
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,6 +46,7 @@ import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.util.AudioPlayUtil;
 import com.yhkj.yymall.util.EZUtils;
 import com.yhkj.yymall.view.EZUIkit.EZUIPlayer;
+import com.yhkj.yymall.view.pageindicatorview.draw.data.Orientation;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -56,6 +58,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import me.yokeyword.fragmentation.SupportFragment;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.view.View.GONE;
 
 /**
@@ -129,7 +132,6 @@ public class VideoFragment extends SupportFragment {
 
     private String mToken,mPreUrl,mErrStr;
     private VideoListBean.DataBean.ListBean mDataBean;
-
     public VideoListBean.DataBean.ListBean getDataBean(){
         return mDataBean;
     }
@@ -153,7 +155,8 @@ public class VideoFragment extends SupportFragment {
         mLocalInfo = LocalInfo.getInstance();
         mAudioPlayUtil = AudioPlayUtil.getInstance(YYApp.getInstance());
         final View laodingView = LayoutInflater.from(_mActivity).inflate(R.layout.view_video_loading,mRlContainer,false);
-        mRlContainer.addView(laodingView);
+//        mRlContainer.addView(laodingView);
+        mEzUiPlayer.setLoadingView(laodingView);
         DisplayMetrics dm = new DisplayMetrics();
         _mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         mEzUiPlayer.setSurfaceSize(dm.widthPixels, 0);
@@ -170,7 +173,7 @@ public class VideoFragment extends SupportFragment {
             @Override
             public void onShowLoading() {
                 mImgPic.setVisibility(GONE);
-                laodingView.setVisibility(View.VISIBLE);
+//                laodingView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -178,7 +181,7 @@ public class VideoFragment extends SupportFragment {
                 Log.e("ezuiplayer","onPlaySuccess");
 //                            ezUIPlayer.setZOrderOnTop(true);
                 mImgPic.setVisibility(GONE);
-                laodingView.setVisibility(View.INVISIBLE);
+//                laodingView.setVisibility(View.INVISIBLE);
                 if (mInTop && mVideoParent!=null) {
                     mVideoParent.onVideoPlayState(EZUIPlayer.STATUS_PLAY);
                     mVideoParent.onVideoVoiceControl(true);
@@ -355,8 +358,7 @@ public class VideoFragment extends SupportFragment {
                     + String.format("%tm", date) + String.format("%td", date) + "/"
                     + String.format("%tH", date) + String.format("%tM", date) + String.format("%tS", date) + String.format("%tL", date) + ".mp4";
 
-            if (mEzUiPlayer.getEZUIPlayer().startLocalRecordWithFile(strRecordFile))
-            {
+            if (mEzUiPlayer.getEZUIPlayer().startLocalRecordWithFile(strRecordFile)) {
                 handleRecordSuccess(strRecordFile);
             } else {
                 handleRecordFail();

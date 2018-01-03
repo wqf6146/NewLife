@@ -1909,13 +1909,16 @@ public class YYMallApi {
         HashMap hashMap = new HashMap();
         hashMap.put("thdId", thdId);
         hashMap.put("type", type);
+        String rid =  YYApp.getInstance().getRegistrationId();
+        if (!TextUtils.isEmpty(rid))
+            hashMap.put("registration_id", rid);
         api.apiPost(ApiService.AUTH_THDSIGNIN, hashMap, true, callback);
     }
 
     /**
      * 第三方绑定
      */
-    public static <T> void getAuthThdBind(Context context, String phone, String thdId, String nickname, String headImg, String type, String msgcode, ApiCallback<T> callback) {
+    public static <T> void getAuthThdBind(Context context, String phone, String thdId, String nickname, String headImg, String type, String msgcode,ApiCallback<T> callback) {
         ViseApi api = new ViseApi.Builder(context).build();
         HashMap hashMap = new HashMap();
         hashMap.put("phone", phone);
@@ -1924,6 +1927,9 @@ public class YYMallApi {
         hashMap.put("headImg", headImg);
         hashMap.put("type", type);
         hashMap.put("msgcode", msgcode);
+        String rid =  YYApp.getInstance().getRegistrationId();
+        if (!TextUtils.isEmpty(rid))
+            hashMap.put("registration_id", rid);
         api.apiPost(ApiService.AUTH_THDBIND, hashMap, true, callback);
     }
 

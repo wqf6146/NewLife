@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.vise.log.ViseLog;
+import com.vise.xsnow.net.callback.ApiCallback;
+import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.activity.CommodityDetailsActivity;
 import com.yhkj.yymall.activity.DailyActActivity;
@@ -14,12 +17,22 @@ import com.yhkj.yymall.activity.GrouponListActivity;
 import com.yhkj.yymall.activity.IntegralDetailActivity;
 import com.yhkj.yymall.activity.IntegralShopListActivity;
 import com.yhkj.yymall.activity.LeaseDetailActivity;
+import com.yhkj.yymall.activity.LoginActivity;
 import com.yhkj.yymall.activity.MainActivity;
 import com.yhkj.yymall.activity.OffPriceShopListActivity;
 import com.yhkj.yymall.activity.OrderDetailActivity;
 import com.yhkj.yymall.activity.SeckillingActivity;
 import com.yhkj.yymall.activity.TimeKillDetailActivity;
 import com.yhkj.yymall.activity.WebActivity;
+import com.yhkj.yymall.bean.MineBean;
+import com.yhkj.yymall.bean.UserConfig;
+import com.yhkj.yymall.http.YYMallApi;
+
+import java.util.List;
+
+import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_ERROR;
+import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_EXPIRED;
+import static com.vise.xsnow.net.mode.ApiCode.Response.ACCESS_TOKEN_FAILD;
 
 /**
  * Created by Administrator on 2017/12/15.
@@ -29,9 +42,9 @@ public class RouteHelper {
 
     // type ==3 的时候 id - 拼团id
     // type ==4 的时候 id - 文章id
-    public static void skip(Context context,String type,String listName,Integer goodsType,String goodsId,String paniclBuyItemId,String id,
-                            String title,String href){
-        Intent i = new Intent(context, MainActivity.class);
+    public static void skip(final Context context,String type,String listName,Integer goodsType,String goodsId,String paniclBuyItemId,String id,
+                            final String title,final String href){
+        final Intent i = new Intent(context, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
         try{
             switch (Integer.parseInt(type)){
@@ -62,11 +75,45 @@ public class RouteHelper {
                         Intent[] intents = {i, integralListIntent};
                         context.startActivities(intents);
                     }else if (listName.equals("offlineList")){
-                        Intent offLineIntent = new Intent(context, WebActivity.class);
-                        offLineIntent.putExtra(Constant.WEB_TAG.TAG, href);
-                        offLineIntent.putExtra("title", TextUtils.isEmpty(title) ? "YiYa精选" : title);
-                        Intent[] intents = {i, offLineIntent};
-                        context.startActivities(intents);
+
+                        YYMallApi.getMyInfo(context,new ApiCallback<MineBean.DataBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onError(ApiException e) {
+                                switch (e.getCode()){
+                                    //授权失败 需重新登录
+                                    case ACCESS_TOKEN_ERROR :
+                                    case ACCESS_TOKEN_FAILD :
+                                    case ACCESS_TOKEN_EXPIRED :
+                                        List<UserConfig> list = DbHelper.getInstance().userConfigLongDBManager().loadAll();
+                                        if (list!=null && list.size() > 0) {
+                                            DbHelper.getInstance().userConfigLongDBManager().deleteAll();
+                                        }
+                                        Intent loginIntent = new Intent(context, LoginActivity.class);
+                                        loginIntent.putExtra("msg","请先登录");
+                                        Intent[] intents = {i, loginIntent};
+                                        context.startActivities(intents);
+                                }
+                            }
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onNext(MineBean.DataBean dataBean) {
+                                Intent offLineIntent = new Intent(context, WebActivity.class);
+                                offLineIntent.putExtra(Constant.WEB_TAG.TAG, href);
+                                offLineIntent.putExtra("title", TextUtils.isEmpty(title) ? "YiYa精选" : title);
+                                Intent[] intents = {i, offLineIntent};
+                                context.startActivities(intents);
+                            }
+                        });
                     }else{
                         context.startActivity(i);
                     }

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -184,6 +185,9 @@ public class ForgetPSWActivity extends BaseToolBarActivity implements View.OnCli
                             HashMap hashMap = new HashMap<>();
                             hashMap.put("phone", ed_forget_phone.getText().toString());
                             hashMap.put("password", ed_forget_psw.getText().toString());
+                            String rid =  YYApp.getInstance().getRegistrationId();
+                            if (!TextUtils.isEmpty(rid))
+                                hashMap.put("registration_id", rid);
                             YYMallApi.getLogin(ForgetPSWActivity.this, hashMap, new ApiCallback<RegisterBean.DataBean>() {
                                 @Override
                                 public void onStart() {

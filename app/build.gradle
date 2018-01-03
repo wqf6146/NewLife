@@ -121,7 +121,7 @@ dependencies {
     compile('com.daimajia.swipelayout:library:1.2.0', {
         exclude group: 'com.android.support'
     })
-    compile('cn.qqtheme.framework:WheelPicker:latest.integration', {
+    compile('cn.qqtheme.framework:WheelPicker:1.5.5', {
         exclude group: 'com.android.support'
     })
     compile('com.alibaba.android:vlayout:1.0.7@aar') {
