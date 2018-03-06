@@ -29,54 +29,251 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:id="@+id/av_rl_toolbar"
-            android:background="@mipmap/ic_nor_halfblackbar"
-            android:layout_height="50dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:src="@mipmap/ic_nor_arrowleft"
-                android:padding="10dp"
-                android:id="@+id/av_img_back"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/content_text_s16"
-                android:textColor="@color/white"
-                android:layout_centerInParent="true"
-                android:id="@+id/av_tv_title"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/av_rl_place"
+            android:id="@+id/av_rl_fullcontrolbg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#88000000"
-            android:padding="5dp"
-            android:visibility="gone">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
-            <TextView
-                android:id="@+id/av_tv_places"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/content_text_s12" />
+            <RelativeLayout
+                android:id="@+id/av_rl_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@mipmap/ic_nor_halfblackbar">
 
-            <ImageView
-                android:id="@+id/av_img_fullscreen"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/av_img_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_nor_arrowleft" />
+
+                <TextView
+                    android:id="@+id/av_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/content_text_s16" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/av_ll_full_normalcontrol"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_nor_whitefullscreen" />
+                android:layout_alignParentBottom="true"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/av_img_fullstart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_start" />
+
+                <ImageView
+                    android:id="@+id/av_img_fullvoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_voice" />
+
+                <ImageView
+                    android:id="@+id/av_img_full_split"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_split2" />
+
+                <ImageView
+                    android:id="@+id/av_img_fullcontrol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_control" />
+
+                <ImageView
+                    android:id="@+id/av_img_fullvideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_record" />
+
+                <ImageView
+                    android:id="@+id/av_img_fulltakephoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_takephoto" />
+
+
+                <TextView
+                    android:id="@+id/av_tv_full_qa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/ic_nor_full_circle"
+                    android:gravity="center"
+                    android:text="高清"
+                    android:textColor="@color/theme_bule"
+                    android:textSize="@dimen/content_text_s12" />
+
+                <ImageView
+                    android:id="@+id/av_img_full_fullscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_nor_full_fullscreen" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/av_ll_full_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="right|bottom"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/av_tv_waittime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/theme_bule"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/av_img_fullcontrolplay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:src="@mipmap/ic_nor_full_stop" />
+
+                        <ImageView
+                            android:id="@+id/av_img_fullcontrolvoice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:src="@mipmap/ic_nor_full_voiceclose" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/av_full_controlentitry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/ic_nor_full_controlbg"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/av_ll_fulltopclick"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/av_img_fulltopclick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ic_nor_full_top" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/av_ll_fullleftclick"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/av_img_fullleftclick"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/ic_nor_full_left" />
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="1px"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:id="@+id/av_ll_fullrightclick"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/av_img_fullrightclick"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/ic_nor_full_right" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/av_ll_fullbottomclick"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/av_img_fullbottomclick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ic_nor_full_bottom" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/av_img_fullcontrolclose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/av_full_controlentitry"
+                        android:padding="5dp"
+                        android:src="@mipmap/ic_nor_full_fullclose" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
         </RelativeLayout>
     </RelativeLayout>
 

@@ -33,6 +33,7 @@ import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.base.DbHelper;
 import com.yhkj.yymall.bean.CommonBean;
 import com.yhkj.yymall.bean.RegisterBean;
+import com.yhkj.yymall.bean.TestRegisterBean;
 import com.yhkj.yymall.bean.UserConfig;
 import com.yhkj.yymall.http.YYMallApi;
 import com.yhkj.yymall.http.api.ApiService;
@@ -189,6 +190,7 @@ public class RegisterActivity extends BaseToolBarActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.bt_register_next:
                 //完成注册
+
                 String pwd = ed_register_psw.getText().toString();
                 String pwd2 = mEditPwdComfim.getText().toString();
                 final String phone = ed_register_phone.getText().toString();

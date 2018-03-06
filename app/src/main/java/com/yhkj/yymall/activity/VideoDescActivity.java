@@ -20,6 +20,7 @@ import com.vise.xsnow.net.callback.ApiCallback;
 import com.vise.xsnow.net.exception.ApiException;
 import com.yhkj.yymall.BaseToolBarActivity;
 import com.yhkj.yymall.R;
+import com.yhkj.yymall.YYApp;
 import com.yhkj.yymall.adapter.UltraBannerPagerAdapter;
 import com.yhkj.yymall.base.Constant;
 import com.yhkj.yymall.bean.VideoDescBean;
@@ -66,6 +67,12 @@ public class VideoDescActivity extends BaseToolBarActivity {
         mTvNextStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(TextUtils.isEmpty(YYApp.getInstance().getToken())){
+                    showToast("请先登录");
+                    startActivity(LoginActivity.class);
+                    return;
+                }
+
                 Intent intent = new Intent(VideoDescActivity.this,VideoListActivity.class);
                 intent.putParcelableArrayListExtra("banner",mDataBean.getBanner());
                 startActivity(intent);
@@ -140,7 +147,7 @@ public class VideoDescActivity extends BaseToolBarActivity {
         };
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mUltraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 2.42);
+        mUltraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 3);
         mUltraViewPager.setAdapter(ultraViewPagerAdapter);
         mUltraViewPager.setAutoScroll(2000);
         mUltraViewPager.initIndicator();

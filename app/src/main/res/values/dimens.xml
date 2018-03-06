@@ -21,7 +21,8 @@
     <dimen name="content_text_s4">4dp</dimen>
     <dimen name="content_text_s6">6dp</dimen>
     <dimen name="content_text_s8">8dp</dimen>
-    <dimen name="content_text_s10">10dp</dimen>
+    <dimen name="content_text_s10">9dp</dimen>
+    <dimen name="content_text_s11">10dp</dimen>
     <dimen name="content_text_s12">12dp</dimen>
     <dimen name="content_text_s14">14dp</dimen>
     <dimen name="content_text_s16">16dp</dimen>

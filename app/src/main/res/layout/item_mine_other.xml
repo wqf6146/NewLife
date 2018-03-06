@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_vieo"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_grop"
@@ -91,7 +91,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_collect"
@@ -127,7 +127,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_eva"
@@ -161,7 +161,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_ownshopplace"
@@ -196,7 +196,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_service"
@@ -231,7 +231,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_advance"
@@ -267,7 +267,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_invitefriend"
@@ -302,7 +302,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textColor="@color/grayfont"
-            android:textSize="@dimen/content_text_s14"
+            android:textSize="@dimen/content_text_s12"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imo_img_Invitationcode"

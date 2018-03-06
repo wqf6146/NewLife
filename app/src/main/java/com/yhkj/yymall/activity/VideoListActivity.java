@@ -234,7 +234,7 @@ public class VideoListActivity extends BaseToolBarActivity {
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
 //        UltraViewPager ultraViewPager = (UltraViewPager)LayoutInflater.from(this).inflate(R.layout.view_banner_pager,mRecycleView,false);
-        mUltraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 2.42);
+        mUltraViewPager.getLayoutParams().height = (int) Math.round(metric.widthPixels / 3);
         mUltraViewPager.setAdapter(ultraViewPagerAdapter);
         mUltraViewPager.setAutoScroll(2000);
         mUltraViewPager.initIndicator();

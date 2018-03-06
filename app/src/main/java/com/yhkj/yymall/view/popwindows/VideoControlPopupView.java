@@ -71,16 +71,19 @@ public class VideoControlPopupView extends BasePopupWindow {
 
     public void setLastTime(int time){
         mTvLastTime.setText("剩余控制时间：" + CommonUtil.secToMills(time));
-        mHandler.sendEmptyMessage(time-1);
+        mCurSec = time-1;
+        mHandler.sendEmptyMessage(mCurSec);
     }
 
+    private int mCurSec;
     Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (!isShowing()) return false;
             if (msg.what > 0){
-                mTvLastTime.setText("剩余控制时间 " + CommonUtil.secToMills(msg.what - 1));
-                mHandler.sendEmptyMessageDelayed(msg.what-1,1000l);
+                mCurSec =  msg.what - 1;
+                mTvLastTime.setText("剩余控制时间 " + CommonUtil.secToMills(mCurSec));
+                mHandler.sendEmptyMessageDelayed(mCurSec,1000l);
             }else{
                 //超过控制时间
                 Toast.makeText(getContext(),"控制时间已结束，请重新申请。",Toast.LENGTH_SHORT).show();
@@ -119,6 +122,12 @@ public class VideoControlPopupView extends BasePopupWindow {
         View view = createPopupById(R.layout.view_video_control);
         ButterKnife.bind(this,view);
         return view;
+    }
+
+    @Override
+    public void dismiss() {
+        mOnVideoControl.onCloseWindow(mCurSec);
+        super.dismiss();
     }
 
     private OnVideoControl mOnVideoControl;
@@ -212,5 +221,6 @@ public class VideoControlPopupView extends BasePopupWindow {
         void onActionRight(boolean bDownOrUp);
         void onActionBottom(boolean bDownOrUp);
         void onControlEnd();
+        void onCloseWindow(int sec);
     }
 }

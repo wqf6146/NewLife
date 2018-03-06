@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,11 +59,13 @@ import com.yhkj.yymall.view.ItemOffsetDecoration;
 import com.yhkj.yymall.view.popwindows.VideoControlPopupView;
 
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static android.widget.RelativeLayout.ALIGN_PARENT_LEFT;
 import static android.widget.RelativeLayout.ALIGN_PARENT_RIGHT;
@@ -88,14 +91,14 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
     @Bind(R.id.av_rl_videoplay)
     RelativeLayout mRlVideoPlay;
 
-    @Bind(R.id.av_tv_places)
-    TextView mTvPlaces;
+//    @Bind(R.id.av_tv_places)
+//    TextView mTvPlaces;
 
-    @Bind(R.id.av_img_fullscreen)
-    ImageView mImgFullScreen;
+//    @Bind(R.id.av_img_fullscreen)
+//    ImageView mImgFullScreen;
 
-    @Bind(R.id.av_rl_place)
-    RelativeLayout mRlPlace;
+//    @Bind(R.id.av_rl_place)
+//    RelativeLayout mRlPlace;
 
     @Bind(R.id.av_img_back)
     ImageView mImgBack;
@@ -108,6 +111,75 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
     @Bind(R.id.av_rl_loading)
     RelativeLayout mRlLoading;
+
+    @Bind(R.id.av_rl_fullcontrolbg)
+    RelativeLayout mRlFullControlBg;
+
+    @Bind(R.id.av_ll_full_normalcontrol)
+    LinearLayout mLlFullNormalControl;
+
+    @Bind(R.id.av_ll_full_control)
+    LinearLayout mLlFullControl;
+
+    @Bind(R.id.av_img_fullstart)
+    ImageView mImgFullStart;
+
+    @Bind(R.id.av_img_fullvoice)
+    ImageView mImgFullVoice;
+
+    @Bind(R.id.av_img_full_split)
+    ImageView mImgFullSplit;
+
+    @Bind(R.id.av_img_fullcontrol)
+    ImageView mImgFullControl;
+
+    @Bind(R.id.av_img_fullvideo)
+    ImageView mImgFullVideo;
+
+    @Bind(R.id.av_img_fulltakephoto)
+    ImageView mImgFullTakePhoto;
+
+    @Bind(R.id.av_tv_full_qa)
+    TextView mTvFullQa;
+
+    @Bind(R.id.av_img_full_fullscreen)
+    ImageView mImgFullFullScreen;
+
+    @Bind(R.id.av_img_fullcontrolplay)
+    ImageView mImgFullControlPlay;
+
+    @Bind(R.id.av_img_fullcontrolvoice)
+    ImageView mImgFullControlVoice;
+
+    @Bind(R.id.av_ll_fulltopclick)
+    LinearLayout mLlFullTopClick;
+
+    @Bind(R.id.av_ll_fullleftclick)
+    LinearLayout mLlFullLeftClick;
+
+    @Bind(R.id.av_ll_fullrightclick)
+    LinearLayout mLlFullRightClick;
+
+    @Bind(R.id.av_ll_fullbottomclick)
+    LinearLayout mLlFullBottomClick;
+
+    @Bind(R.id.av_img_fulltopclick)
+    ImageView mImgFullTopclick;
+
+    @Bind(R.id.av_img_fullleftclick)
+    ImageView mImgFullLeftclick;
+
+    @Bind(R.id.av_img_fullrightclick)
+    ImageView mImgFullRightclick;
+
+    @Bind(R.id.av_img_fullbottomclick)
+    ImageView mImgFullBottomclick;
+
+    @Bind(R.id.av_img_fullcontrolclose)
+    ImageView mImgFullControlClose;
+
+    @Bind(R.id.av_tv_waittime)
+    TextView mTvWaittime;
 
     private ViewGroup.LayoutParams mVCLayouyParams;
 
@@ -169,6 +241,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             mHandler.removeMessages(1);
             mHandler.removeMessages(0);
         }
+        if (mFullScreenHandler != null) {
+            mFullScreenHandler.removeMessages(1);
+        }
     }
 
     private void updateOperatorUI() {
@@ -176,9 +251,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             // 显示状态栏
             fullScreen(false);
             setStatusViewVisiable(true);
+            mRlFullControlBg.setVisibility(VISIBLE);
             mRlToolbar.setVisibility(VISIBLE);
-            if (!m4BoxMode)
-                mRlPlace.setVisibility(GONE);
+            mLlFullNormalControl.setVisibility(GONE);
+            mLlFullControl.setVisibility(GONE);
+//            if (!m4BoxMode)
+//                mRlPlace.setVisibility(VISIBLE);
             mRlVideoPlay.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -189,9 +267,14 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             // 隐藏状态栏
             fullScreen(true);
             setStatusViewVisiable(false);
-            mRlToolbar.setVisibility(GONE);
-            if (!m4BoxMode)
-                mRlPlace.setVisibility(VISIBLE);
+            mRlFullControlBg.setVisibility(VISIBLE);
+            mRlToolbar.setVisibility(VISIBLE);
+            mLlFullNormalControl.setVisibility(VISIBLE);
+            mLlFullControl.setVisibility(GONE);
+
+//            mRlPlace.setVisibility(GONE);
+//            if (!m4BoxMode)
+//
             mRlVideoPlay.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -240,21 +323,24 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             }
         });
     }
-
+    private int m16to9Height = 0;
     @Override
     protected void bindEvent() {
         mRlVideoPlay.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mRlVideoPlay.getLayoutParams().height = (int) (mRlVideoPlay.getWidth() / 1.77);
+                if (m16to9Height == 0) {
+                    m16to9Height = (int) Math.round(mRlVideoPlay.getWidth() / 1.77);
+                    mRlVideoPlay.getLayoutParams().height = m16to9Height;
+                }
             }
         });
-        mImgFullScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateOrientation();
-            }
-        });
+//        mImgFullScreen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateOrientation();
+//            }
+//        });
         mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,6 +351,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 AppManager.getInstance().finishActivity(VideoPlayActivity.this);
             }
         });
+
     }
 
     @Override
@@ -298,6 +385,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         buildSingleViewPager();
     }
     private VideoIoBean.DataBean mVideoIoBean;
+    private boolean mCanControl = false;
     private void getIoPageData(final int id){
         YYMallApi.getVideoIoInfo(this, id, false,new ApiCallback<VideoIoBean.DataBean>() {
             @Override
@@ -314,6 +402,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             public void onNext(VideoIoBean.DataBean dataBean) {
                 if (mCurVideoId == id){
                     mVideoIoBean = dataBean;
+                    mCanControl = dataBean.getHandle() == 0 ? false : true;
                     setControlBtnState();
                     if (dataBean.getImg_valid() == 0){
                         VideoFragment fragment = getInTopVideo();
@@ -336,13 +425,15 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         if (mVideoIoBean.getRestHandleSecond() > 0 ) {
 //            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
             mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+            mImgFullControl.setImageResource(R.mipmap.ic_nor_fullcontrol);
             mTvControl.setVisibility(View.INVISIBLE);
             mTvControl.setTag(true);//表示控制中
+            mHandler.sendMessage(buildMessage(false,mVideoIoBean.getRestHandleSecond())); //没打开控制窗口前的定时
         }else if (mVideoIoBean.getNextHandleSecond() > 0){
             mHandler.removeMessages(1);
             mHandler.removeMessages(0);
             mRankSec = mVideoIoBean.getNextHandleSecond();
-            mHandler.sendMessage(buildMessage(true));
+            mHandler.sendMessage(buildMessage(true,0));
             mTvControl.setTag(false);//表示排队中
         }
     }
@@ -463,6 +554,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlVideoPlay.removeView(mViewPagerMult);
         mRlVideoPlay.addView(mViewPagerSingle,0);
         mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+        mImgFullSplit.setImageResource(R.mipmap.ic_nor_full_split2);
         int i=0;
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -475,7 +567,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 mVideoFragments[i].setSurfaceSize(m4BoxMode == false ? dm.widthPixels : dm.widthPixels/2);
             }
         }
-        mRlToolbar.setVisibility(VISIBLE);
+        mRlFullControlBg.setVisibility(VISIBLE);
     }
 
     private int mBlueColor = Color.argb(255,00,124,209);
@@ -492,7 +584,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        mRlToolbar.setVisibility(View.INVISIBLE);
+                        mRlFullControlBg.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -501,7 +593,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     }
                 });
             }
-            mRlToolbar.startAnimation(mToolBarOutAnimation);
+            mRlFullControlBg.startAnimation(mToolBarOutAnimation);
         }else{
             if (mToolBarInAnimation==null){
                 mToolBarInAnimation = AnimationUtils.loadAnimation(VideoPlayActivity.this, R.anim.fade_in);
@@ -513,7 +605,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        mRlToolbar.setVisibility(View.VISIBLE);
+                        mRlFullControlBg.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -522,7 +614,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     }
                 });
             }
-            mRlToolbar.startAnimation(mToolBarInAnimation);
+            mRlFullControlBg.startAnimation(mToolBarInAnimation);
         }
     }
 
@@ -536,22 +628,30 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     mListData.get(i)).setVideoParent(new OnVideoSelect() {
                 @Override
                 public void onVideoClick() {
-                    toolBarAnimation(mRlToolbar.getVisibility() != VISIBLE);
+                    toolBarAnimation(mRlFullControlBg.getVisibility() != VISIBLE);
                 }
 
                 @Override
                 public void onVideoSelect(VideoListBean.DataBean.ListBean bean) {
-                    mTvPlaces.setText(bean.getTitle());
+//                    mTvPlaces.setText(bean.getTitle());
+                    if (mOrientation != Configuration.ORIENTATION_PORTRAIT){
+                        if(mLlFullControl.getVisibility() == VISIBLE){
+                            mLlFullControl.setVisibility(GONE);
+                            mLlFullNormalControl.setVisibility(VISIBLE);
+                        }
+                    }
                     mTvTitle.setText(bean.getTitle());
                     setControlBtnEnable(false);
                     mRlControl.setEnabled(false);
                     mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                    mImgFullControl.setImageResource(R.mipmap.ic_nor_full_control);
                     mImgControl.setVisibility(VISIBLE);
                     mTvControl.setVisibility(View.INVISIBLE);
                     mTvControl.setText("控制");
                     mTvControl.setTag(null);
                     mHandler.removeMessages(0);
                     mHandler.removeMessages(1);
+                    mFullScreenHandler.removeMessages(1);
                     mCurVideoId = bean.getId();
                 }
 
@@ -559,10 +659,14 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 public void onVideoPlayState(int state) {
                     if (state == EZUIPlayer.STATUS_PLAY){
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
+                        mImgFullStart.setImageResource(R.mipmap.ic_nor_full_stop);
+                        mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_stop);
                         getIoPageData(mCurVideoId);
                         setControlBtnEnable(true);
                     }else{
                         mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                        mImgFullStart.setImageResource(R.mipmap.ic_nor_full_start);
+                        mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_start);
                     }
                 }
 
@@ -570,8 +674,12 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                 public void onVideoVoiceControl(boolean bOpen) {
                     if (bOpen){
                         mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                        mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voice);
+                        mImgFullControlVoice.setImageResource(R.mipmap.ic_nor_full_voice);
                     }else{
                         mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
+                        mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voiceclose);
+                        mImgFullControlVoice.setImageResource(R.mipmap.ic_nor_full_voiceclose);
                     }
                 }
 
@@ -580,15 +688,18 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (bStart){
                         mRecordRotateViewUtil.applyRotation(mFlRecordContainer, mImgRecordStart,
                                 mImgRecordStop, 0, 90);
+                        mImgFullVideo.setImageResource(R.mipmap.ic_nor_full_stopplay);
                     }else{
                         mRecordRotateViewUtil.applyRotation(mFlRecordContainer, mImgRecordStop,
                                 mImgRecordStart, 0, 90);
+                        mImgFullVideo.setImageResource(R.mipmap.ic_nor_full_record);
                     }
                 }
             });
         }
         NormalFragmentAdapter fragmentAdapter = new NormalFragmentAdapter(getSupportFragmentManager(),mVideoFragments);
         mViewPagerSingle.setAdapter(fragmentAdapter);
+        mViewPagerSingle.setOffscreenPageLimit(mVideoFragments.length);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -603,6 +714,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlVideoQa.setEnabled(enable);
         mRlTakePhoto.setEnabled(enable);
         mRlRecord.setEnabled(enable);
+        mImgFullControl.setEnabled(enable);
     }
 
     @Override
@@ -653,107 +765,8 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (m4BoxMode){
-                    showToast("请选择具体设备");
-                    return;
-                }
-
-//                if (canControlVideo()){
-//                    openVideoControlWindow(mVideoIoBean.getRestHandleSecond());
-//                    return;
-//                }
-                Boolean res = mTvControl.getTag() == null ? null : (Boolean) mTvControl.getTag();
-                if (res!=null){
-                    if (res){
-                        //控制中
-                        YYMallApi.getVideoIoInfo(VideoPlayActivity.this, mCurVideoId, true,new ApiCallback<VideoIoBean.DataBean>() {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onNext(VideoIoBean.DataBean dataBean) {
-                                if (dataBean.getRestHandleSecond() > 0)
-                                    openVideoControlWindow(dataBean.getRestHandleSecond());
-                                else {
-                                    mTvControl.setTag(null);
-//                                    mTvControl.setTextColor(mBlueColor);
-                                    showToast("您当前控制已过期，点击重新申请控制。");
-                                }
-                            }
-
-                            @Override
-                            public void onError(ApiException e) {
-                                showToast(e.getMessage());
-                            }
-                        });
-                    }else{
-                        //排队中
-//                        String[] secArr = CommonUtil.secToMillsArr(mRankSec);
-//                        if (secArr !=null && secArr.length  >1) {
-//                            if (secArr[0].equals("00"))
-//                                showToast("处于队列中，还需等待 " + secArr[1] + "秒。");
-//                            else
-//                                showToast("处于队列中，还需等待 " + secArr[0] + "分钟。");
-//                        }else{
-//                            showToast("处于队列中，请等待");
-//                        }
-                    }
-                    return;
-                }
-
-
-                YYMallApi.applyVideoControl(VideoPlayActivity.this, mCurVideoId, new ApiCallback<VideoIoBean.DataBean>() {
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(VideoIoBean.DataBean dataBean) {
-                        mVideoIoBean = dataBean;
-                        if (dataBean.getNextHandleSecond() == 0){
-                            //立即控制
-//                            mTvControl.setTextColor(getResources().getColor(R.color.redfont));
-                            mImgControl.setImageResource(R.mipmap.ic_nor_controling);
-                            mTvControl.setTag(true);
-                            openVideoControlWindow(dataBean.getRestHandleSecond());
-                        }else{
-                            //排队  true排队 false开始
-                            mHandler.removeMessages(1);
-                            mHandler.removeMessages(0);
-                            mTvControl.setTag(false);
-                            mRankSec = dataBean.getNextHandleSecond();
-                            String[] secArr = CommonUtil.secToMillsArr(mRankSec);
-                            if (secArr !=null && secArr.length  >1) {
-                                if (secArr[0].equals("00"))
-                                    showToast("您需等待"+ mVideoIoBean.getNum() + "人，预计 " + secArr[1] + "秒。");
-                                else
-                                    showToast("您需等待 " + mVideoIoBean.getNum() +"人，预计 "+ secArr[0] + "分钟。");
-                            }else{
-                                showToast("处于队列中，请等待");
-                            }
-                            mHandler.sendMessage(buildMessage(true));
-                        }
-                    }
-
-                    @Override
-                    public void onError(ApiException e) {
-                        super.onError(e);
-                        showToast(e.getMessage());
-                    }
-                });
+                if (mImgControl.getVisibility() == VISIBLE)
+                    tryControl(false);
             }
         });
 
@@ -778,23 +791,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRLVoiceControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (m4BoxMode){
-                    showToast("请选择具体设备");
-                    return;
-                }
-
-                //声音控制
-                VideoFragment fragment = getInTopVideo();
-                if (fragment!=null){
-                    Boolean res = fragment.onSoundBtnClick();
-                    if (res!=null){
-                        if (res){
-                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
-                        }else{
-                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
-                        }
-                    }
-                }
+                doVoiceControl();
             }
         });
 
@@ -803,67 +800,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlMultScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //分屏
-                if (m4BoxMode == false){
-
-                    final VideoFragment fragment = getInTopVideo();
-                    if (fragment!=null){
-                        if (fragment.getIsRecord()){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
-                            builder.setTitle("提示");
-                            builder.setMessage("进入分屏界面会终止录像，是否进入分屏？");
-                            builder.setPositiveButton("取消", null);
-                            builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (mRlToolbar.getVisibility() == VISIBLE){
-                                        toolBarAnimation(false);
-                                    }
-                                    fragment.stopRealPlayRecord();
-                                    stopCurPlayer();
-                                    removeSpitPlayer();
-                                    mRlVideoPlay.removeView(mViewPagerSingle);
-                                    if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
-                                        mRlVideoPlay.addView(mViewPagerMult,0);
-                                    showSpitWindow();
-                                    m4BoxMode = true;
-                                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
-                                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-                                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
-                                }
-                            });
-                            builder.show();
-                            return;
-                        }
-                    }
-
-
-                    if (mRlToolbar.getVisibility() == VISIBLE){
-                        toolBarAnimation(false);
-                    }
-                    stopCurPlayer();
-                    removeSpitPlayer();
-                    mRlVideoPlay.removeView(mViewPagerSingle);
-                    if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
-                        mRlVideoPlay.addView(mViewPagerMult,0);
-                    showSpitWindow();
-                    m4BoxMode = true;
-                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
-                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
-                }else{
-                    if (mRlToolbar.getVisibility() != VISIBLE){
-                        toolBarAnimation(true);
-                    }
-                    removeSpitPlayer();
-                    mRlVideoPlay.removeView(mViewPagerMult);
-                    mRlVideoPlay.addView(mViewPagerSingle,0);
-                    int curpage = mViewPagerSingle.getCurrentItem();
-                    if (mVideoFragments.length > curpage)
-                        mVideoFragments[curpage].onSupportVisible();
-                    m4BoxMode = false;
-                    mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
-                }
+                doMultScreen();
             }
         });
 
@@ -912,25 +849,477 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mRlStartVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doStartPlar();
+            }
+        });
+
+        mImgFullFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateOrientation();
+            }
+        });
+
+        mImgFullTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (m4BoxMode){
                     showToast("请选择具体设备");
                     return;
                 }
 
-                //播放与暂停
                 VideoFragment fragment = getInTopVideo();
                 if (fragment!=null){
-                    Boolean res = fragment.startPlay();
-                    if (res!=null){
-                        if (res){
-                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
-                        }else{
-                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
-                        }
-                    }
+                    fragment.onCapturePicBtnClick();
                 }
             }
         });
+
+        mImgFullVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+
+                VideoFragment fragment = getInTopVideo();
+                if (fragment!=null){
+                    fragment.onRecordBtnClick();
+                }
+            }
+        });
+
+        mImgFullSplit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doMultScreen();
+            }
+        });
+
+//        mImgFullControlSplit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                doMultScreen();
+//            }
+//        });
+
+        mImgFullVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doVoiceControl();
+            }
+        });
+
+        mImgFullControlVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doVoiceControl();
+            }
+        });
+
+        mImgFullStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doStartPlar();
+            }
+        });
+        mImgFullControlPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doStartPlar();
+            }
+        });
+        mTvFullQa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (m4BoxMode){
+                    showToast("请选择具体设备");
+                    return;
+                }
+                final VideoFragment fragment = getInTopVideo();
+                if (!fragment.isVideoNormal())
+                    return;
+                if (fragment.getIsRecord()){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+                    builder.setTitle("提示");
+                    builder.setMessage("选择码流会终止录像，是否选择码流？");
+                    builder.setPositiveButton("取消", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            fragment.stopRealPlayRecord();
+                            dialog.dismiss();
+                            openQaWindows();
+                        }
+                    });
+                    builder.show();
+                    return;
+                }
+                openQaWindows();
+            }
+        });
+
+        mImgFullControlClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLlFullNormalControl.setVisibility(VISIBLE);
+                mLlFullControl.setVisibility(GONE);
+            }
+        });
+
+        mImgFullControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mLlFullControl.setVisibility(VISIBLE);
+//                mLlFullNormalControl.setVisibility(GONE);
+                tryControl(true);
+            }
+        });
+
+
+        mLlFullTopClick.setOnTouchListener(mOnTouchListener);
+        mLlFullLeftClick.setOnTouchListener(mOnTouchListener);
+        mLlFullRightClick.setOnTouchListener(mOnTouchListener);
+        mLlFullBottomClick.setOnTouchListener(mOnTouchListener);
+    }
+
+    Handler mFullScreenHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (mLlFullControl.getVisibility() == INVISIBLE) return false;
+            if (msg.arg1 > 0){
+                mTvWaittime.setText("剩余控制 " + CommonUtil.secToMills(msg.arg1 - 1));
+                Message message = new Message();
+                message.what = 1;
+                message.arg1 = msg.arg1 - 1;
+                mFullScreenHandler.sendMessageDelayed(message,1000l);
+            }else{
+                //超过控制时间
+                showToast("控制时间已结束，请重新申请。");
+                mTvControl.setTag(null);
+                mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                mImgFullControl.setImageResource(R.mipmap.ic_nor_full_control);
+                if (mLlFullControl.getVisibility() == VISIBLE){
+                    mLlFullControl.setVisibility(GONE);
+                    mLlFullNormalControl.setVisibility(VISIBLE);
+                }
+            }
+            return false;
+        }
+    });
+
+    private void tryControl(final boolean bFullScreen) {
+        if (!mCanControl){
+            showToast("此设备暂不可控制");
+            return;
+        }
+
+        if (m4BoxMode){
+            showToast("请选择具体设备");
+            return;
+        }
+//                if (canControlVideo()){
+//                    openVideoControlWindow(mVideoIoBean.getRestHandleSecond());
+//                    return;
+//                }
+        Boolean res = mTvControl.getTag() == null ? null : (Boolean) mTvControl.getTag();
+        if (res!=null){
+            //控制中
+            YYMallApi.getVideoIoInfo(VideoPlayActivity.this, mCurVideoId, true,new ApiCallback<VideoIoBean.DataBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onNext(VideoIoBean.DataBean dataBean) {
+                    handlerControlStatue(dataBean,bFullScreen);
+                }
+
+                @Override
+                public void onError(ApiException e) {
+                    showToast(e.getMessage());
+                }
+            });
+            return;
+        }
+
+        YYMallApi.applyVideoControl(VideoPlayActivity.this, mCurVideoId, new ApiCallback<VideoIoBean.DataBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onNext(VideoIoBean.DataBean dataBean) {
+                handlerControlStatue(dataBean,bFullScreen);
+            }
+
+            @Override
+            public void onError(ApiException e) {
+                super.onError(e);
+                showToast(e.getMessage());
+            }
+        });
+    }
+
+    private boolean bCanControl = true;
+    private void handlerControlStatue(VideoIoBean.DataBean dataBean,boolean bFullScreen){
+        mVideoIoBean = dataBean;
+        if (dataBean.getRestHandleSecond() > 0){
+            //立即控制
+            mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+            mImgFullControl.setImageResource(R.mipmap.ic_nor_fullcontrol);
+            mTvControl.setTag(true);
+
+            if (bFullScreen){
+                mLlFullControl.setVisibility(VISIBLE);
+                mLlFullNormalControl.setVisibility(GONE);
+                bCanControl = true;
+//                mLlFullTopClick.setEnabled(true);
+//                mLlFullLeftClick.setEnabled(true);
+//                mLlFullRightClick.setEnabled(true);
+//                mLlFullBottomClick.setEnabled(true);
+                int time = dataBean.getRestHandleSecond()-1;
+                mTvWaittime.setText("剩余控制 " + CommonUtil.secToMills(time));
+                mFullScreenHandler.removeMessages(1);
+                Message message = new Message();
+                message.what=1;
+                message.arg1 = time-1;
+                mFullScreenHandler.sendMessage(message);
+            }else {
+                mHandler.removeMessages(0);
+                mHandler.removeMessages(1);
+                openVideoControlWindow(dataBean.getRestHandleSecond());
+            }
+        }else{
+            //排队  true排队 false开始
+            mHandler.removeMessages(1);
+            mHandler.removeMessages(0);
+            mTvControl.setTag(false);
+            bCanControl = false;
+//            mLlFullTopClick.setEnabled(false);
+//            mLlFullLeftClick.setEnabled(false);
+//            mLlFullRightClick.setEnabled(false);
+//            mLlFullBottomClick.setEnabled(false);
+            mRankSec = dataBean.getNextHandleSecond();
+            if (bFullScreen){
+                mLlFullControl.setVisibility(VISIBLE);
+                mLlFullNormalControl.setVisibility(GONE);
+            }
+            String[] secArr = CommonUtil.secToMillsArr(mRankSec);
+            if (secArr !=null && secArr.length  >1) {
+                int people = mVideoIoBean.getNum() > 0 ? mVideoIoBean.getNum() : 1;
+                if (secArr[0].equals("00"))
+                    showToast("您需等待"+ people + "人，预计 " + secArr[1] + "秒。");
+                else
+                    showToast("您需等待 " + people +"人，预计 "+ secArr[0] + "分钟。");
+            }else{
+                showToast("处于队列中，请等待");
+            }
+
+            mHandler.sendMessage(buildMessage(true,0));
+        }
+    }
+
+    private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionevent) {
+            int action = motionevent.getAction();
+            VideoFragment fragment = getInTopVideo();
+            if (fragment == null)
+                return false;
+            if (!bCanControl)
+                return true;
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    switch (view.getId()) {
+                        case R.id.av_ll_fulltopclick:
+                            mImgFullTopclick.setImageResource(R.mipmap.ic_nor_full_clicktop);
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_UP);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTART);
+                            break;
+                        case R.id.av_ll_fullleftclick:
+                            mImgFullLeftclick.setImageResource(R.mipmap.ic_nor_full_clickleft);
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_LEFT);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTART);
+                            break;
+                        case R.id.av_ll_fullrightclick:
+                            mImgFullRightclick.setImageResource(R.mipmap.ic_nor_full_clickright);
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_RIGHT);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTART);
+                            break;
+                        case R.id.av_ll_fullbottomclick:
+                            mImgFullBottomclick.setImageResource(R.mipmap.ic_nor_full_clickbottom);
+                            fragment.setPtzDirectionIv(RealPlayStatus.PTZ_DOWN);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTART);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    switch (view.getId()) {
+                        case R.id.av_ll_fulltopclick:
+                            mImgFullTopclick.setImageResource(R.mipmap.ic_nor_full_top);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            break;
+                        case R.id.av_ll_fullleftclick:
+                            mImgFullLeftclick.setImageResource(R.mipmap.ic_nor_full_left);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            break;
+                        case R.id.av_ll_fullrightclick:
+                            mImgFullRightclick.setImageResource(R.mipmap.ic_nor_full_right);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            break;
+                        case R.id.av_ll_fullbottomclick:
+                            mImgFullBottomclick.setImageResource(R.mipmap.ic_nor_full_bottom);
+                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+    };
+
+    private void doStartPlar() {
+        if (m4BoxMode){
+            showToast("请选择具体设备");
+            return;
+        }
+
+        //播放与暂停
+        VideoFragment fragment = getInTopVideo();
+        if (fragment!=null){
+            Boolean res = fragment.startPlay();
+            if (res!=null){
+                if (res){
+                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_stopvideo);
+                    mImgFullStart.setImageResource(R.mipmap.ic_nor_full_stop);
+                    mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_stop);
+                }else{
+                    mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                    mImgFullStart.setImageResource(R.mipmap.ic_nor_full_start);
+                    mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_start);
+                }
+            }
+        }
+    }
+
+    private void doVoiceControl() {
+        if (m4BoxMode){
+            showToast("请选择具体设备");
+            return;
+        }
+
+        //声音控制
+        VideoFragment fragment = getInTopVideo();
+        if (fragment!=null){
+            Boolean res = fragment.onSoundBtnClick();
+            if (res!=null){
+                if (res){
+                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                    mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voice);
+                    mImgFullControlVoice.setImageResource(R.mipmap.ic_nor_full_voice);
+                }else{
+                    mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceclose);
+                    mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voiceclose);
+                    mImgFullControlVoice.setImageResource(R.mipmap.ic_nor_full_voiceclose);
+                }
+            }
+        }
+    }
+
+    private void doMultScreen() {
+        //分屏
+        if (m4BoxMode == false){
+
+            final VideoFragment fragment = getInTopVideo();
+            if (fragment!=null){
+                if (fragment.getIsRecord()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayActivity.this);
+                    builder.setTitle("提示");
+                    builder.setMessage("进入分屏界面会终止录像，是否进入分屏？");
+                    builder.setPositiveButton("取消", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (mRlToolbar.getVisibility() == VISIBLE){
+                                toolBarAnimation(false);
+                            }
+                            fragment.stopRealPlayRecord();
+                            stopCurPlayer();
+                            removeSpitPlayer();
+                            mRlVideoPlay.removeView(mViewPagerSingle);
+                            if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
+                                mRlVideoPlay.addView(mViewPagerMult,0);
+                            showSpitWindow();
+                            m4BoxMode = true;
+                            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+                            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+                            mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
+                            mImgFullSplit.setImageResource(R.mipmap.ic_nor_full_split);
+                            mImgFullStart.setImageResource(R.mipmap.ic_nor_full_start);
+                            mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voice);
+                            mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_start);
+                        }
+                    });
+                    builder.show();
+                    return;
+                }
+            }
+
+
+            if (mRlToolbar.getVisibility() == VISIBLE){
+                toolBarAnimation(false);
+            }
+            stopCurPlayer();
+            removeSpitPlayer();
+            mRlVideoPlay.removeView(mViewPagerSingle);
+            if (mRlVideoPlay.findViewById(R.id.av_viewpager_mult) == null)
+                mRlVideoPlay.addView(mViewPagerMult,0);
+            showSpitWindow();
+            m4BoxMode = true;
+            mImgVoiceControl.setImageResource(R.mipmap.ic_nor_voiceopen);
+            mImgStartVideo.setImageResource(R.mipmap.ic_nor_startvideo);
+            mImgMultScreen.setImageResource(R.mipmap.ic_nor_singlescreen);
+
+            mImgFullSplit.setImageResource(R.mipmap.ic_nor_full_split);
+            mImgFullStart.setImageResource(R.mipmap.ic_nor_full_start);
+            mImgFullVoice.setImageResource(R.mipmap.ic_nor_full_voice);
+            mImgFullControlPlay.setImageResource(R.mipmap.ic_nor_full_start);
+        }else{
+            if (mRlToolbar.getVisibility() != VISIBLE){
+                toolBarAnimation(true);
+            }
+            removeSpitPlayer();
+            mRlVideoPlay.removeView(mViewPagerMult);
+            mRlVideoPlay.addView(mViewPagerSingle,0);
+            int curpage = mViewPagerSingle.getCurrentItem();
+            if (mVideoFragments.length > curpage)
+                mVideoFragments[curpage].onSupportVisible();
+            m4BoxMode = false;
+            mImgMultScreen.setImageResource(R.mipmap.ic_nor_multscreen);
+
+            mImgFullSplit.setImageResource(R.mipmap.ic_nor_full_split2);
+        }
     }
 
     private void openQaWindows(){
@@ -946,12 +1335,14 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                             //高清
                             fragment.setVideoQa(VideoFragment.QA_HD);
                             mTvVideoQa.setText("高清");
+                            mTvFullQa.setText("高清");
                             dialog.dismiss();
                             break;
                         case 1:
                             //标清
                             fragment.setVideoQa(VideoFragment.QA_BA);
                             mTvVideoQa.setText("标清");
+                            mTvFullQa.setText("标清");
                             dialog.dismiss();
                             break;
                     }
@@ -962,9 +1353,10 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         builder.show();
     }
 
-    private Message buildMessage(boolean bOpen){
+    private Message buildMessage(boolean bOpen,int sec){
         Message message = new Message();
         message.obj = bOpen;
+        message.arg1 = sec;
         message.what = bOpen ? 0 : 1;
         return message;
     }
@@ -989,14 +1381,49 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             if (res){
                 //排队
                 mTvControl.setText("等待控制：" + CommonUtil.secToMills(mRankSec));
+                mTvWaittime.setText("等待控制：" + CommonUtil.secToMills(mRankSec));
                 mTvControl.setVisibility(VISIBLE);
                 mImgControl.setVisibility(View.INVISIBLE);
                 if (mRankSec > 0){
                     mRankSec--;
-                    mHandler.sendMessageDelayed(buildMessage(true),1000l);
+                    mHandler.sendMessageDelayed(buildMessage(true,0),1000l);
                 }else{
                     //去控制
-                    allowControlVideo(mVideoIoBean.getHandleTime());
+                    mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+                    mImgFullControl.setImageResource(R.mipmap.ic_nor_fullcontrol);
+                    mTvControl.setVisibility(INVISIBLE);
+                    mImgControl.setVisibility(View.VISIBLE);
+                    bCanControl = true;
+//                    mLlFullTopClick.setEnabled(true);
+//                    mLlFullLeftClick.setEnabled(true);
+//                    mLlFullRightClick.setEnabled(true);
+//                    mLlFullBottomClick.setEnabled(true);
+                    if (mOrientation == Configuration.ORIENTATION_PORTRAIT)
+                        allowControlVideo(mVideoIoBean.getHandleTime());
+                    else{
+                        if (mLlFullControl.getVisibility() != View.VISIBLE){
+                            mLlFullControl.setVisibility(VISIBLE);
+                            mLlFullNormalControl.setVisibility(GONE);
+                        }
+                        int time = mVideoIoBean.getHandleTime()-1;
+                        mTvWaittime.setText("剩余控制 " + CommonUtil.secToMills(time));
+                        mFullScreenHandler.removeMessages(1);
+                        Message message = new Message();
+                        message.what=1;
+                        message.arg1 = time-1;
+                        mFullScreenHandler.sendMessage(message);
+                    }
+                    showToast("现在可以控制摄像头啦");
+                }
+            }else{
+                //控制中
+                int sec = msg.arg1;
+                if (sec > 0){
+                    mHandler.sendMessageDelayed(buildMessage(false,sec - 1),1000);
+                }else{
+                    mTvControl.setTag(null);
+                    mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                    mImgFullControl.setImageResource(R.mipmap.ic_nor_full_control);
                 }
             }
 
@@ -1009,9 +1436,9 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
         mTvControl.setText("控制");
         mTvControl.setTag(true);
         mImgControl.setImageResource(R.mipmap.ic_nor_controling);
+        mImgFullControl.setImageResource(R.mipmap.ic_nor_fullcontrol);
         mImgControl.setVisibility(VISIBLE);
 //        mTvControl.setTextColor(getResources().getColor(R.color.redfont));
-        showToast("现在可以控制摄像头啦");
         openVideoControlWindow(mVideoIoBean.getHandleTime());
     }
 
@@ -1023,8 +1450,22 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
             mControlPopupView.setOnVideoControl(new VideoControlPopupView.OnVideoControl() {
 
                 @Override
+                public void onCloseWindow(int sec) {
+                    if (sec > 2){
+                        mHandler.sendMessage(buildMessage(false,sec));
+                    }else{
+                        mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                        mImgFullControl.setImageResource(R.mipmap.ic_nor_full_control);
+                        mImgControl.setVisibility(VISIBLE);
+                        mTvControl.setVisibility(View.INVISIBLE);
+                        mTvControl.setTag(null);
+                    }
+                }
+
+                @Override
                 public void onControlEnd() {
                     mImgControl.setImageResource(R.mipmap.ic_nor_control);
+                    mImgFullControl.setImageResource(R.mipmap.ic_nor_full_control);
                     mImgControl.setVisibility(VISIBLE);
                     mTvControl.setVisibility(View.INVISIBLE);
                     mTvControl.setTag(null);
@@ -1037,7 +1478,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (fragment!=null){
                         if (bDownOrUp){
                             fragment.setPtzDirectionIv(RealPlayStatus.PTZ_UP);
-                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
+//                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTART);
                         }else{
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandUp, EZConstants.EZPTZAction.EZPTZActionSTOP);
@@ -1051,7 +1492,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (fragment!=null){
                         if (bDownOrUp){
                             fragment.setPtzDirectionIv(RealPlayStatus.PTZ_LEFT);
-                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
+//                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTART);
                         }else{
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandLeft, EZConstants.EZPTZAction.EZPTZActionSTOP);
@@ -1065,7 +1506,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (fragment!=null){
                         if (bDownOrUp){
                             fragment.setPtzDirectionIv(RealPlayStatus.PTZ_RIGHT);
-                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
+//                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTART);
                         }else{
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandRight, EZConstants.EZPTZAction.EZPTZActionSTOP);
@@ -1079,7 +1520,7 @@ public class VideoPlayActivity extends BaseActivity implements SpitVideoFragment
                     if (fragment!=null){
                         if (bDownOrUp){
                             fragment.setPtzDirectionIv(RealPlayStatus.PTZ_DOWN);
-                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);
+//                            fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTART);
                         }else{
                             fragment.ptzOption(EZConstants.EZPTZCommand.EZPTZCommandDown, EZConstants.EZPTZAction.EZPTZActionSTOP);

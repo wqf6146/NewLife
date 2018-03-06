@@ -207,14 +207,14 @@ public class DailyActActivity extends BaseToolBarActivity {
                     if (refreshOrLoadmore){
                         refreshlayout.finishRefresh();
                         mShopListAdapter.setDatas(dataBean.getList());
-                        mShopListAdapter.notifyDataSetChanged();
+                        mHheaderAndFooterWrapper.notifyDataSetChanged();
                     }else{
                         refreshlayout.finishLoadmore();
                         if (dataBean.getList() == null || dataBean.getList().size() == 0){
                             refreshlayout.setLoadmoreFinished(true);
                         }
                         mShopListAdapter.addDatas(dataBean.getList());
-                        mShopListAdapter.notifyDataSetChanged();
+                        mHheaderAndFooterWrapper.notifyDataSetChanged();
                     }
                     return;
                 }

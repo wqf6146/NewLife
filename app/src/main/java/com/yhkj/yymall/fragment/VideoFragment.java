@@ -532,6 +532,7 @@ public class VideoFragment extends SupportFragment {
             return null;
         }
         if (mEzUiPlayer.getStatus() != EZUIPlayer.STATUS_PLAY) {
+            Utils.showToast(_mActivity,"请先获取直播");
             return null;
         }
         if (mLocalInfo.isSoundOpen()) {
@@ -590,7 +591,10 @@ public class VideoFragment extends SupportFragment {
         if (!isVideoNormal()){
             return;
         }
-
+        if (mEzUiPlayer.getStatus() != EZUIPlayer.STATUS_PLAY) {
+            Utils.showToast(_mActivity,"请先获取直播");
+            return ;
+        }
         if (!SDCardUtil.isSDCardUseable()) {
             // 提示SD卡不可用
             Utils.showToast(_mActivity, "存储卡不可用");

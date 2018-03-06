@@ -17,6 +17,7 @@ public interface ApiService {
     String SERVER_URL = "https://api.yiyiyaya.cc/article/getArticleInfo?articleId=";
 
     String HOST = "https://api.yiyiyaya.cc";
+//    String HOST = "http://192.168.6.182:8080";
 
     String GETCARMERPAGEINFO = "/video/carmerInfo";
 
